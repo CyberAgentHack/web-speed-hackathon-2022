@@ -114,7 +114,7 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch(`/api/races?since=${date.startOf('day')}&until=${date.endOf('day')}`, jsonFetcher);
+  const { data: raceData } = useFetch(`/api/races?since=${moment(date).startOf('day')}&until=${moment(date).endOf('day')}`, jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
