@@ -2,7 +2,9 @@ import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
-import { BettingTicket, Race, User } from "../../model/index.js";
+import { BettingTicket } from "../../model/BettingTicket.js";
+import { Race } from "../../model/Race.js";
+import { User } from "../../model/User.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
 
@@ -91,6 +93,20 @@ export const apiRoute = async (fastify) => {
 
     const race = await repo.findOne(req.params.raceId, {
       relations: ["entries", "entries.player", "trifectaOdds"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    res.send(race);
+  });
+
+  fastify.get("/races/:raceId/only", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["entries", "entries.player"],
     });
 
     if (race === undefined) {
