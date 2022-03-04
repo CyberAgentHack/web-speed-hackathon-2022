@@ -22,6 +22,6 @@ export const TrimmedImage = ({ height, src, width }) => {
   `;
 
   return <StyledDiv>
-    <StyledImage src={src} />
+    <StyledImage loading="lazy" src={src} />
   </StyledDiv>;
 };
