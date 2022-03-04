@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import styled from "styled-components";
 
 /**
  * @typedef Props
@@ -7,32 +8,20 @@ import React, { useEffect, useState } from "react";
  * @property {height} height
  */
 
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
+
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
-  const [dataUrl, setDataUrl] = useState(null);
+  const StyledDiv = styled.div`
+    width: ${width}px;
+    height: ${height}px;
+  `;
 
-  useEffect(() => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-
-      const isWidthSmaller = img.width <= img.height;
-      const ratio = isWidthSmaller ? width / img.width : height / img.height;
-
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(
-        img,
-        -(img.width * ratio - width) / 2,
-        -(img.height * ratio - height) / 2,
-        img.width * ratio,
-        img.height * ratio,
-      );
-      setDataUrl(canvas.toDataURL());
-    };
-  }, [height, src, width]);
-
-  return <img src={dataUrl} />;
+  return <StyledDiv>
+    <StyledImage src={src} />
+  </StyledDiv>;
 };
