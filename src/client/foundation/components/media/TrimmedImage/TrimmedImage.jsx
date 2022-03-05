@@ -18,9 +18,7 @@ export const ThmImgCont = styled.div`
 
 
 export const ThmImg = styled.img`
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
+  max-height: 100%;
   margin: 0 auto;
   position: absolute;
   top: 0;
