@@ -26,14 +26,14 @@ export const TrimmedImage = ({
   useEffect(() => {
     const img = new Image();
     img.src = src;
-    ref.current.height = height;
+    // ref.current.height = height;
     img.onload = () => {
       // const canvas = document.createElement("canvas");
       // canvas.width = width;
       // canvas.height = height;
 
       const isWidthSmaller = img.width <= img.height;
-      const ratio = isWidthSmaller ? width / img.width : height / img.height;
+      // const ratio = isWidthSmaller ? width / img.width : height / img.height;
 
       // ref.current.width = img.width * ratio;
       // ref.current.height = img.height * ratio;
@@ -55,6 +55,9 @@ export const TrimmedImage = ({
     <Img
       decoding="async"
       ref={ref}
+      style={{
+        aspectRatio: `${width} / ${height}`,
+      }}
       onLoad={(e) => {
         const img = e.target;
         console.log(e.target.width, e.target.height);
@@ -62,10 +65,10 @@ export const TrimmedImage = ({
         const ratio = isWidthSmaller ? width / img.width : height / img.height;
         console.log(img.width * ratio, img.height * ratio);
       }}
-      // height={height}
       loading={lazyLoad ? "lazy" : undefined}
       src={src}
       width={width}
+      // height={height}
       $objectFit={objectFit}
     />
   );
