@@ -29,7 +29,7 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceResult = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data } = useFetch(`/api/races/${raceId}/result`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher,
