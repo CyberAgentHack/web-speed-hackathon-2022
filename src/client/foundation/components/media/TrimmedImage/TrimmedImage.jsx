@@ -6,6 +6,8 @@ const Image = styled.img.attrs((props) => ({
   width: props.width,
 }))`
   object-fit: contain;
+  aspect-ratio: ${({height, width}) => `${width} / ${height}`};
+  height: auto;
 `;
 
 /**
