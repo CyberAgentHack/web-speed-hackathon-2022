@@ -65,6 +65,7 @@
     "bezier-easing": "^2.1.0",
     "cross-env": "^7.0.3",
     "fastify": "^3.25.3",
+    "fastify-compress": "^4.0.1",
     "fastify-sensible": "^3.1.2",
     "fastify-static": "^4.5.0",
     "framer-motion": "^6.2.8",
