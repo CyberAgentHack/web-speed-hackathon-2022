@@ -94,13 +94,20 @@ export const apiRoute = async (fastify) => {
   fastify.get("/races/:raceId", async (req, res) => {
     const repo = (await createConnection()).getRepository(Race);
 
-    const race = await repo.findOne(req.params.raceId, {
+    const resp = await repo.findOne(req.params.raceId, {
       relations: ["entries", "entries.player", "trifectaOdds"],
     });
 
-    if (race === undefined) {
+    if (resp === undefined) {
       throw fastify.httpErrors.notFound();
     }
+
+    let race = resp
+
+    race.entries = resp.entries.map((x) => {
+      x.player.image = x.player.image.replace(".jpg", ".avif").replace("/assets/images/players/", "/assets/images/players/thumbnail/")
+      return x
+    })
 
     res.send(race);
   });
