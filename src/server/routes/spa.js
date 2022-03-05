@@ -7,6 +7,10 @@ import fastifyStatic from "fastify-static";
  */
 export const spaRoute = async (fastify) => {
   fastify.register(fastifyStatic, {
+    etag: true,
+    immutable: true,
+    lastModified: true,
+    maxAge: 604800 * 1000,
     root: join(__dirname, "public"),
     wildcard: false,
   });
