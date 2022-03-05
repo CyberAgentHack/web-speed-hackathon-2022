@@ -12,6 +12,7 @@ import React, {useEffect, useState, useRef } from "react";
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {
+    if(height===width)return;
     const img = new Image();
     img.src = src;
     img.onload = () => {
@@ -33,7 +34,7 @@ import React, {useEffect, useState, useRef } from "react";
       setDataUrl(canvas.toDataURL());
     };
   }, [height, src, width]);
-
+  if(height===width)return <img height={height} src={src} style={{objectFit:'cover'}} width={width} />
   return <img src={dataUrl} />;
 };
 // export const TrimmedImage = ({ height, src, width }) => {
