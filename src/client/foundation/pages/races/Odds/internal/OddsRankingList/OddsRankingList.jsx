@@ -1,4 +1,3 @@
-import { take, sortBy } from "lodash";
 import React from "react";
 import styled from "styled-components";
 
@@ -66,10 +65,14 @@ const RankNo = styled.div`
 
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = take(
+  /* const sortedOdds = take(
     sortBy(odds, (item) => item.odds),
     50,
-  );
+  ); */
+
+  const sortedOdds = [...odds].slice(0, 50);
+
+  sortedOdds.sort((a, b) => {a.odds - b.odds});
 
   return (
     <Wrapper>
