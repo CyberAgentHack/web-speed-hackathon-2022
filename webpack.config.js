@@ -3,7 +3,7 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin')
 const webpack = require("webpack")
 
@@ -31,7 +31,7 @@ module.exports = [
           type: "asset/source",
         },
         {
-          exclude: [/\/esm\//, /node_modules/],
+          exclude: [/\/esm\//, /node_modules/, /other/],
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
@@ -61,7 +61,7 @@ module.exports = [
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
 
-      // new BundleAnalyzerPlugin(),
+      new BundleAnalyzerPlugin(),
 
       new MomentTimezoneDataPlugin({ matchCountries: 'JP' }),
 
