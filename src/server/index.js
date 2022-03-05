@@ -48,7 +48,7 @@ server.register(spaRoute);
 const start = async () => {
   try {
     await initialize();
-    await server.listen(process.env.PORT || 3000, "0.0.0.0");
+    await server.listen(process.env.PORT || 3001, "0.0.0.0");
   } catch (err) {
     server.log.error(err);
     process.exit(1);
