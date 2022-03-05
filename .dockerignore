@@ -8,3 +8,5 @@ stylelint*
 
 .gitignore
 README.md
+
+src-server
