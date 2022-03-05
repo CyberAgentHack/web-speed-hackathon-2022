@@ -153,9 +153,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </datalist>
 
             {branch && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+              <Animate>
                 支店名: {branch.name}
-              </motion.div>
+              </Animate>
             )}
 
             <label>
