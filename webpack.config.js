@@ -19,7 +19,10 @@ const DIST_PUBLIC = abs("./dist/public");
 module.exports = [
   {
     devtool: "inline-source-map",
-    entry: path.join(SRC_ROOT, "client/index.jsx"),
+    entry: {
+      app: path.join(SRC_ROOT, "client/foundation/App.jsx"),
+      main: path.join(SRC_ROOT, "client/index.jsx"),
+    },
     mode: "production",
     module: {
       rules: [
@@ -31,11 +34,12 @@ module.exports = [
           type: "asset/source",
         },
         {
-          exclude: /\/esm\//,
+          exclude: /(\/esm\/|node_modules)/,
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
             options: {
+              plugins: ["@babel/plugin-syntax-dynamic-import"],
               presets: [
                 [
                   "@babel/preset-env",
@@ -55,8 +59,18 @@ module.exports = [
     optimization: {
       minimize: true,
       minimizer: ["...", new CssMinimizerPlugin()],
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            chunks: "initial",
+            enforce: true,
+            name: "vendor",
+          },
+        },
+      },
     },
     output: {
+      filename: "[name].js",
       path: DIST_PUBLIC,
     },
     plugins: [
