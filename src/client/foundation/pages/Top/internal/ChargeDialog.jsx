@@ -19,16 +19,20 @@ const CHARGE = "charge";
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
 export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
-  const [bankCode, setBankCode] = useState("");
-  const [branchCode, setBranchCode] = useState("");
-  const [accountNo, setAccountNo] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [userChargeInfo, setUserChargeInfo] = useState({
+    bankCode: "",
+    branchCode: "",
+    accountNo: "",
+    amount: 0,
+  });
 
   const clearForm = useCallback(() => {
-    setBankCode("");
-    setBranchCode("");
-    setAccountNo("");
-    setAmount(0);
+    setUserChargeInfo({
+      bankCode: "",
+      branchCode: "",
+      accountNo: "",
+      amount: 0,
+    });
   }, []);
 
   const [charge] = useMutation("/api/users/me/charge", {
@@ -36,22 +40,35 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     method: "POST",
   });
 
-  const handleCodeChange = useCallback((e) => {
-    setBankCode(e.currentTarget.value);
-    setBranchCode("");
-  }, []);
+  const handleCodeChange = (e) => {
+    setUserChargeInfo({
+      ...userChargeInfo,
+      bankCode: e.currentTarget.value,
+      branchCode: "",
+    });
+  };
 
-  const handleBranchChange = useCallback((e) => {
-    setBranchCode(e.currentTarget.value);
-  }, []);
+  const handleBranchChange = (e) => {
+    setUserChargeInfo({
+      ...userChargeInfo,
+      branchCode: e.currentTarget.value,
+    });
+  };
 
-  const handleAccountNoChange = useCallback((e) => {
-    setAccountNo(e.currentTarget.value);
-  }, []);
+  const handleAccountNoChange = (e) => {
+    setUserChargeInfo({
+      ...userChargeInfo,
+      accountNo: e.currentTarget.value,
+    });
+  };
 
-  const handleAmountChange = useCallback((e) => {
-    setAmount(parseInt(e.currentTarget.value, 10));
-  }, []);
+  const handleAmountChange = (e) => {
+    const value = parseInt(e.currentTarget.value, 10);
+    setUserChargeInfo({
+      ...userChargeInfo,
+      amount: value,
+    });
+  };
 
   const handleCloseDialog = useCallback(
     async (e) => {
@@ -60,19 +77,31 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
         return;
       }
 
+      const accountNo = userChargeInfo.accountNo;
+      const amount = userChargeInfo.amount;
+      const bankCode = userChargeInfo.bankCode;
+      const branchCode = userChargeInfo.branchCode;
       await charge({ accountNo, amount, bankCode, branchCode });
       clearForm();
       onComplete();
     },
-    [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
+    [
+      charge,
+      userChargeInfo.bankCode,
+      userChargeInfo.branchCode,
+      userChargeInfo.accountNo,
+      userChargeInfo.amount,
+      onComplete,
+      clearForm,
+    ],
   );
 
   const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
     code,
     name,
   }));
-  const bank = zenginCode[bankCode];
-  const branch = bank?.branches[branchCode];
+  const bank = zenginCode[userChargeInfo.bankCode];
+  const branch = bank?.branches[userChargeInfo.branchCode];
 
   return (
     <Dialog ref={ref} onClose={handleCloseDialog}>
@@ -87,7 +116,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
               <input
                 list="ChargeDialog-bank-list"
                 onChange={handleCodeChange}
-                value={bankCode}
+                value={userChargeInfo.bankCode}
               />
             </label>
 
@@ -108,7 +137,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
               <input
                 list="ChargeDialog-branch-list"
                 onChange={handleBranchChange}
-                value={branchCode}
+                value={userChargeInfo.branchCode}
               />
             </label>
 
@@ -132,7 +161,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
               <input
                 onChange={handleAccountNoChange}
                 type="text"
-                value={accountNo}
+                value={userChargeInfo.accountNo}
               />
             </label>
 
@@ -142,7 +171,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
                 min={0}
                 onChange={handleAmountChange}
                 type="number"
-                value={amount}
+                value={userChargeInfo.amount}
               />
               円
             </label>
