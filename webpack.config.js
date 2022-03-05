@@ -18,7 +18,7 @@ module.exports = [
   {
     devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
@@ -29,7 +29,7 @@ module.exports = [
           type: "asset/source",
         },
         {
-          exclude: /\/esm\//,
+          exclude: /[\\/]esm[\\/]/,
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
