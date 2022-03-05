@@ -1,6 +1,6 @@
 import "moment/locale/ja"
 import moment from "moment-timezone";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -15,7 +15,7 @@ import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
-import { HeroImage } from "./internal/HeroImage";
+// import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
 /**
@@ -82,17 +82,17 @@ import { RecentRaceList } from "./internal/RecentRaceList";
 /**
  * @returns {string | null}
  */
-function useHeroImage() {
-  const url = "/api/hero";
-  const { data } = useFetch(url, jsonFetcher);
+// function useHeroImage() {
+//   const url = "/api/hero";
+//   const { data } = useFetch(url, jsonFetcher);
 
-  if (data === null) {
-    return null;
-  }
+//   if (data === null) {
+//     return null;
+//   }
 
-  const imageUrl = `${data.url}`;
-  return imageUrl;
-}
+//   const imageUrl = `${data.url}`;
+//   return imageUrl;
+// }
 
 /** @type {React.VFC} */
 export const Top = () => {
@@ -108,6 +108,11 @@ export const Top = () => {
       background: ${Color.mono[800]};
     }
   `;
+
+  const Image = styled.img`
+  display: block;
+  margin: 0 auto;
+`;
 
   const chargeDialogRef = useRef(null);
 
@@ -143,11 +148,11 @@ export const Top = () => {
       : [];
   // const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
   const todayRacesToShow = todayRaces;
-  const heroImageUrl = useHeroImage(todayRaces);
+  // const heroImageUrl = useHeroImage(todayRaces);
 
   return (
     <Container>
-      {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
+      <Image alt="" src={"/assets/images/hero.webp"} />
 
       <Spacer mt={Space * 2} />
       {userData && (
