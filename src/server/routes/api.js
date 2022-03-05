@@ -1,9 +1,12 @@
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { initialize } from "../typeorm/initialize.js";
+
+dayjs.extend(utc);
 
 /**
  * @type {import('fastify').FastifyPluginCallback}
@@ -21,11 +24,17 @@ export const unAuthApiRoute = async (fastify) => {
       req.query.since != null ? dayjs.unix(req.query.since) : undefined;
     const until =
       req.query.until != null ? dayjs.unix(req.query.until) : undefined;
+    const limit = req.query.limit != null ? parseInt(req.query.limit, 10) : 30;
+    const offset =
+      req.query.offset != null ? parseInt(req.query.offset, 10) : 0;
 
     if (since != null && !since.isValid()) {
       throw fastify.httpErrors.badRequest();
     }
     if (until != null && !until.isValid()) {
+      throw fastify.httpErrors.badRequest();
+    }
+    if (Number.isNaN(offset)) {
       throw fastify.httpErrors.badRequest();
     }
 
@@ -45,11 +54,16 @@ export const unAuthApiRoute = async (fastify) => {
       });
     } else if (until != null) {
       Object.assign(where, {
-        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+        startAt: LessThanOrEqual(until.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
     }
 
     const races = await repo.find({
+      order: {
+        startAt: "ASC",
+      },
+      skip: offset,
+      take: limit,
       where,
     });
 
