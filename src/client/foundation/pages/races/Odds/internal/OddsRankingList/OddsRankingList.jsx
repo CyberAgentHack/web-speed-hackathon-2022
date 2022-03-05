@@ -67,7 +67,7 @@ const RankNo = styled.div`
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
   const sortedOdds = _.take(
-    _.sortBy(odds, (item) => item.odds),
+    _.sortBy(odds, (item) => item?.odds),
     50,
   );
 
@@ -79,16 +79,16 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
             <InactiveBuyButton>
               <Stack horizontal alignItems="center" gap={Space * 2}>
                 <RankNo>{i + 1}.</RankNo>
-                <EntryCombination numbers={item.key} />
-                <OddsMarker as="div" odds={item.odds} />
+                <EntryCombination numbers={item?.key} />
+                <OddsMarker as="div" odds={item?.odds} />
               </Stack>
             </InactiveBuyButton>
           ) : (
             <BuyButton onClick={() => onClickOdds(item)}>
               <Stack horizontal alignItems="center" gap={Space * 2}>
                 <RankNo>{i + 1}.</RankNo>
-                <EntryCombination numbers={item.key} />
-                <OddsMarker as="div" odds={item.odds} />
+                <EntryCombination numbers={item?.key} />
+                <OddsMarker as="div" odds={item?.odds} />
               </Stack>
             </BuyButton>
           )}
