@@ -8,8 +8,8 @@ import fastifyStatic from "fastify-static";
  */
 export const spaRoute = async (fastify) => {
   fastify.addHook("onRequest", async (req, res) => {
-    res.header("Cache-Control", "max-age=3600, must-revalidate");
-  })
+    res.header("Cache-Control", "max-age=3600");
+  });
   fastify.register(fastifyStatic, {
     root: join(__dirname, "public"),
     wildcard: false,

@@ -3,6 +3,10 @@ import { join } from "path";
 import sharp from "sharp";
 
 export const imageRoute = async (fastify) => {
+  fastify.addHook("onRequest", async (req, res) => {
+    res.header("Cache-Control", "max-age=3600");
+  });
+
   fastify.get("/assets/images/*", (req, res, next) => {
     const path = req.raw.url.replace(/\?.*/, "").split("/").slice(3);
 
