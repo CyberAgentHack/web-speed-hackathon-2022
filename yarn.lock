@@ -594,7 +594,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-syntax-dynamic-import@npm:^7.8.3":
+"@babel/plugin-syntax-dynamic-import@npm:^7.7.4, @babel/plugin-syntax-dynamic-import@npm:^7.8.3":
   version: 7.8.3
   resolution: "@babel/plugin-syntax-dynamic-import@npm:7.8.3"
   dependencies:
@@ -1448,6 +1448,40 @@ __metadata:
     "@jridgewell/resolve-uri": ^3.0.3
     "@jridgewell/sourcemap-codec": ^1.4.10
   checksum: ab8bce84bbbc8c34f3ba8325ed926f8f2d3098983c10442a80c55764c4eb6e47d5b92d8ff20a0dd868c3e76a3535651fd8a0138182c290dbfc8396195685c37b
+  languageName: node
+  linkType: hard
+
+"@loadable/babel-plugin@npm:^5.13.2":
+  version: 5.13.2
+  resolution: "@loadable/babel-plugin@npm:5.13.2"
+  dependencies:
+    "@babel/plugin-syntax-dynamic-import": ^7.7.4
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: c7e8376d97d66f03a440e6d9e09d64234713a71403d418af2c551c4e4fdfc5943be7ac506ef2425701f6ceb971941822edb7b224e75b6d94bddbeb3492f5da34
+  languageName: node
+  linkType: hard
+
+"@loadable/server@npm:^5.15.2":
+  version: 5.15.2
+  resolution: "@loadable/server@npm:5.15.2"
+  dependencies:
+    lodash: ^4.17.15
+  peerDependencies:
+    "@loadable/component": ^5.0.1
+    react: ">=16.3.0"
+  checksum: 9f7188b4d79717dd058ed9064fcf8454f236dc2165280203110d34e8a7f63cbe8ba9ab77a337174108a150b05715b64b0131295a28b2866b320514299f35db29
+  languageName: node
+  linkType: hard
+
+"@loadable/webpack-plugin@npm:^5.15.2":
+  version: 5.15.2
+  resolution: "@loadable/webpack-plugin@npm:5.15.2"
+  dependencies:
+    make-dir: ^3.0.2
+  peerDependencies:
+    webpack: ">=4.6.0"
+  checksum: fee31c7f8c158c1cf987dee57e1a8e7b822decd004fd3c00895e30c6780584410d0199e44d10e7bf225ea30bed439404755272396d515d51a65f02e8e3ae1db0
   languageName: node
   linkType: hard
 
@@ -5974,7 +6008,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.11, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
+"lodash@npm:^4.17.11, lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -9799,6 +9833,9 @@ __metadata:
     "@babel/preset-react": ^7.16.7
     "@babel/runtime": ^7.17.2
     "@fortawesome/fontawesome-free": ^5.15.4
+    "@loadable/babel-plugin": ^5.13.2
+    "@loadable/server": ^5.15.2
+    "@loadable/webpack-plugin": ^5.15.2
     "@stylelint/postcss-css-in-js": ^0.37.2
     "@types/lodash": ^4.14.178
     "@types/react": ^17.0.38
