@@ -16,17 +16,9 @@ import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
-const formatDate = (date) => {
-  return `
-    ${date.getFullYear()}-${(date.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}
-  `.replace(/\n|\r/g, "");
-};
-
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = formatDate(new Date()) } = useParams();
+  const { date = new Date().toISOString().split("T")[0] } = useParams();
   const todayUnix = Date.parse(date) / 1000 - 60 * 60 * 9;
   const tomorrowUnix = todayUnix + 24 * 60 * 60;
 
