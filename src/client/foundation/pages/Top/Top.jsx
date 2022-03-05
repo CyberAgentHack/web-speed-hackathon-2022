@@ -9,7 +9,7 @@ import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
-import { getEndOfDay, getStartOfDay } from "../../utils/DateUtils";
+import { formatDate, getEndOfDay, getStartOfDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
@@ -93,7 +93,7 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { date = new Date().toISOString().split("T")[0] } = useParams();
+  const { date = formatDate(new Date()) } = useParams();
   const { end = getEndOfDay(date), start = getStartOfDay(date) } = useParams();
 
   const { data: raceData } = useFetch(`/api/races?since=${start}&until=${end}`, jsonFetcher);
