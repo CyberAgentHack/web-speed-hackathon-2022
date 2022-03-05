@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { useAuth, useRegister } from "../../../contexts/AuthContext";
-import { Color, FontSize, Radius, Space } from "../../../styles/variables";
 import { BaseButton } from "../../buttons/BaseButton";
 
 const Wrapper = styled.div`
@@ -13,7 +12,7 @@ const Wrapper = styled.div`
   display: flex;
   height: 80px;
   justify-content: space-between;
-  padding: 0 ${Space * 2}px;
+  padding: 0 ${8 * 2}px;
 `;
 
 const NameText = styled.h1`
@@ -31,7 +30,7 @@ const LoginButton = styled(BaseButton)`
   background: #fff;
   border-radius: 12px;
   color: #292524;
-  padding: ${Space * 1}px ${Space * 2}px;
+  padding: ${8 * 1}px ${8 * 2}px;
 
   &:hover {
     background: #e7e5e4;

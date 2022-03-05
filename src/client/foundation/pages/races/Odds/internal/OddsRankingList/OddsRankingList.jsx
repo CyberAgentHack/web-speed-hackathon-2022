@@ -5,13 +5,12 @@ import styled from "styled-components";
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Stack } from "../../../../../components/layouts/Stack";
-import { BreakPoint, Color, Space } from "../../../../../styles/variables";
 import { OddsMarker } from "../OddsMarker";
 
 const Wrapper = styled.ol`
   display: grid;
   grid-auto-flow: column;
-  grid-column-gap: ${Space * 4}px;
+  grid-column-gap: ${8 * 4}px;
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(50, auto);
 
@@ -37,7 +36,7 @@ const Wrapper = styled.ol`
 const BuyButton = styled(BaseButton)`
   font-weight: bold;
   justify-content: left;
-  padding: ${Space * 2}px;
+  padding: ${8 * 2}px;
   width: 100%;
 
   &:hover {
@@ -49,7 +48,7 @@ const InactiveBuyButton = styled.div`
   cursor: default;
   font-weight: bold;
   justify-content: left;
-  padding: ${Space * 2}px;
+  padding: ${8 * 2}px;
   width: 100%;
 `;
 
@@ -77,7 +76,7 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
         <li key={item.id}>
           {isRaceClosed ? (
             <InactiveBuyButton>
-              <Stack horizontal alignItems="center" gap={Space * 2}>
+              <Stack horizontal alignItems="center" gap={8 * 2}>
                 <RankNo>{i + 1}.</RankNo>
                 <EntryCombination numbers={item.key} />
                 <OddsMarker as="div" odds={item.odds} />
@@ -85,7 +84,7 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
             </InactiveBuyButton>
           ) : (
             <BuyButton onClick={() => onClickOdds(item)}>
-              <Stack horizontal alignItems="center" gap={Space * 2}>
+              <Stack horizontal alignItems="center" gap={8 * 2}>
                 <RankNo>{i + 1}.</RankNo>
                 <EntryCombination numbers={item.key} />
                 <OddsMarker as="div" odds={item.odds} />

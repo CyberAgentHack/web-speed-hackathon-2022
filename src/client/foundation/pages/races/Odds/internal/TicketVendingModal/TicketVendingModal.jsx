@@ -87,10 +87,10 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
     <Dialog ref={ref} onClose={handleCloseDialog}>
       <Heading as="h1">拳券の購入</Heading>
 
-      <Spacer mt={Space * 2} />
+      <Spacer mt={8 * 2} />
 
       <form method="dialog">
-        <Stack gap={Space * 1}>
+        <Stack gap={8 * 1}>
           {!shouldShowForm ? (
             <>
               <ErrorText>購入するにはログインしてください</ErrorText>

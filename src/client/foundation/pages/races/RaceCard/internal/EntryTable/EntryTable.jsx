@@ -13,7 +13,7 @@ const Table = styled.table`
   border-style: solid;
   border-width: 2px 0 2px;
   font-size: 0.875rem;
-  min-width: calc(1024px - ${Space * 3}px * 2);
+  min-width: calc(1024px - ${8 * 3}px * 2);
   text-align: center;
   width: 100%;
 
@@ -26,7 +26,7 @@ const Table = styled.table`
 
   th {
     font-weight: normal;
-    padding: 0 ${Space * 1}px;
+    padding: 0 ${8 * 1}px;
   }
 
   thead tr:first-child th:last-child {
@@ -34,7 +34,7 @@ const Table = styled.table`
   }
 
   td {
-    padding: ${Space * 1}px;
+    padding: ${8 * 1}px;
     &:last-child {
       border-right-width: 0;
     }

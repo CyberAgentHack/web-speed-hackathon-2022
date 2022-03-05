@@ -79,9 +79,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
       <section>
         <Heading as="h1">チャージ</Heading>
 
-        <Spacer mt={Space * 2} />
+        <Spacer mt={8 * 2} />
         <form method="dialog">
-          <Stack gap={Space * 1}>
+          <Stack gap={8 * 1}>
             <label>
               銀行コード
               <input

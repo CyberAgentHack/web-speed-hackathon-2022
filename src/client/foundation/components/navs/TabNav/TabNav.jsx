@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { BreakPoint, Color, Radius, Space } from "../../../styles/variables";
 import { Stack } from "../../layouts/Stack";
 
 /**
@@ -16,8 +15,8 @@ const ItemWrapper = styled.li`
     border-radius: 12px;
     display: block;
     font-weight: bold;
-    padding-bottom: ${Space * 1}px;
-    padding-top: ${Space * 1}px;
+    padding-bottom: ${8 * 1}px;
+    padding-top: ${8 * 1}px;
     text-align: center;
     width: 96px;
 
@@ -56,7 +55,7 @@ const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
 export const TabNav = ({ children }) => {
   return (
     <nav>
-      <Stack horizontal as="ul" gap={Space * 2}>
+      <Stack horizontal as="ul" gap={8 * 2}>
         {children}
       </Stack>
     </nav>

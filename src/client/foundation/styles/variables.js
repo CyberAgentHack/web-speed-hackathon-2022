@@ -32,14 +32,6 @@ export const Color = {};
 
 export const FontSize = {};
 
-export const BreakPoint = {
-  DESKTOP: 1216,
-  MOBILE: 560,
-  TABLET: 1024,
-};
+export const BreakPoint = {};
 
-export const Radius = {
-  LARGE: "24px",
-  MEDIUM: "12px",
-  SMALL: "4px",
-};
+export const Radius = {};

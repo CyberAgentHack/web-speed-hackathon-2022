@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Color, Space } from "../../../styles/variables";
+import { Space } from "../../../styles/variables";
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
     width: 24px;
 
     &:not(:last-child) {
-      margin-right: ${Space * 1 - 1}px;
+      margin-right: ${8 * 1 - 1}px;
       position: relative;
 
       ::after {
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
         left: 100%;
         position: absolute;
         top: calc(50% - 1px);
-        width: ${Space * 1}px;
+        width: ${8 * 1}px;
       }
     }
   }

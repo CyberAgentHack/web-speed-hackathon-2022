@@ -9,9 +9,9 @@ const Wrapper = styled.div`
   display: flex;
   font-size: 1.25rem;
   font-weight: bold;
-  gap: ${Space * 2}px;
+  gap: ${8 * 2}px;
   justify-content: center;
-  padding: ${Space * 2}px;
+  padding: ${8 * 2}px;
 `;
 
 /**

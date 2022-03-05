@@ -8,8 +8,8 @@ const Wrapper = styled.div`
   background: #57534e;
   color: #fff;
   font-size: 0.875rem;
-  margin-top: ${Space * 5}px;
-  padding: ${Space * 5}px ${Space * 5}px;
+  margin-top: ${8 * 5}px;
+  padding: ${8 * 5}px ${8 * 5}px;
 `;
 
 const List = styled.ul`
@@ -21,10 +21,10 @@ const List = styled.ul`
 
 const ListItem = styled.li`
   cursor: pointer;
-  margin-top: ${Space * 2}px;
+  margin-top: ${8 * 2}px;
 
   @media (min-width: 1024px) {
-    margin-right: ${Space * 2}px;
+    margin-right: ${8 * 2}px;
     margin-top: 0;
   }
 
@@ -37,7 +37,7 @@ const NameText = styled.h1`
   color: #4ade80;
   font-size: 2rem;
   font-weight: bold;
-  margin: ${Space * 4}px 0;
+  margin: ${8 * 4}px 0;
 
   a {
     color: inherit;
