@@ -27,6 +27,9 @@ module.exports = [
         test: /\.(js|css)$/,
       }),
     ],
+    optimization: {
+      minimize: true,
+    },
     module: {
       rules: [
         {
