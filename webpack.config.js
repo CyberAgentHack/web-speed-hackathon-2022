@@ -16,9 +16,10 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: NODE_ENV === 'production' ? false : 'inline-source-map',
+    devtool:
+      process.env.NODE_ENV === "production" ? false : "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: 'production',
+    mode: "production",
     module: {
       rules: [
         {
@@ -64,10 +65,11 @@ module.exports = [
     target: "web",
   },
   {
-    devtool: NODE_ENV === 'production' ? false : 'inline-source-map',
+    devtool:
+      process.env.NODE_ENV === "production" ? false : "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
-    mode: 'production',
+    mode: "production",
     module: {
       rules: [
         {
