@@ -9,7 +9,7 @@ import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
-import { isSameDay } from "../../utils/DateUtils";
+import { getEndOfDay, getStartOfDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
@@ -95,8 +95,6 @@ function useHeroImage(todayRaces) {
 
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = new Date().toISOString().split("T")[0] } = useParams();
-
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
     border-radius: ${Radius.MEDIUM};
@@ -115,7 +113,7 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const { data: raceData } = useFetch(`/api/races?since=${getStartOfDay()}&until=${getEndOfDay()}`, jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -135,9 +133,6 @@ export const Top = () => {
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
               Date.parse(a.startAt) - Date.parse(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
           )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);

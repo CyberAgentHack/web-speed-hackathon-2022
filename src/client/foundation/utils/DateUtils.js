@@ -12,6 +12,18 @@ export const isSameDay = (dateLeft, dateRight) => {
   // return moment(dateLeft).isSame(moment(dateRight), "day");
 };
 
+export const getStartOfDay = () => {
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  return Math.floor(start.getTime()/1000);
+};
+
+export const getEndOfDay = () => {
+  const end = new Date();
+  end.setHours(23, 59, 59, 999);
+  return Math.floor(end.getTime()/1000);
+};
+
 /**
  *
  * @param {string} ts
