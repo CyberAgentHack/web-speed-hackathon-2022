@@ -6,12 +6,13 @@ import { Container } from "../../components/layouts/Container";
 import { Section } from "../../components/layouts/Section";
 import { Spacer } from "../../components/layouts/Spacer";
 import { TrimmedImage } from "../../components/media/TrimmedImage";
-import { TabNav } from "../../components/navs/TabNav";
 import { Heading } from "../../components/typographies/Heading";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { formatTime } from "../../utils/DateUtils";
 import { jsonFetcher } from "../../utils/HttpUtils";
+
+import { Tab } from "./internal/Tab";
 
 const LiveBadge = styled.span`
   background: ${Color.red};
@@ -54,13 +55,7 @@ export const RaceLayout = () => {
       <Spacer mt={Space * 2} />
 
       <Section>
-        <TabNav>
-          <TabNav.Item aria-current to={`/races/${raceId}/race-card`}>
-            出走表
-          </TabNav.Item>
-          <TabNav.Item to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
-          <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
-        </TabNav>
+        <Tab raceId={raceId} />
 
         <Outlet />
       </Section>

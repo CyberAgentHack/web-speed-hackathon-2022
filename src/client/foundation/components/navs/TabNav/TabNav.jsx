@@ -25,7 +25,7 @@ const ItemWrapper = styled.li`
       border-color: ${Color.mono[600]};
     }
 
-    &[aria-current] {
+    &[aria-current="true"] {
       background: ${Color.mono[900]};
       color: ${Color.mono[0]};
     }
@@ -38,6 +38,7 @@ const ItemWrapper = styled.li`
 
 /** @type {React.FC<ItemProps & React.AnchorHTMLAttributes>} */
 const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
+  console.log(ariaCurrent, children);
   return (
     <ItemWrapper>
       {ariaCurrent ? (
