@@ -30,9 +30,8 @@ const Item = ({ image, name, number }) => {
     <Stack gap={Space * 1}>
       <SquareTrimmedImage
         alt={name === "" ? "" : `${name}選手のプロフィール写真`}
-        height={100}
+        size={100}
         src={image}
-        width={100}
       />
 
       <Stack horizontal alignItems="center" gap={Space / 2} wrap="wrap">
