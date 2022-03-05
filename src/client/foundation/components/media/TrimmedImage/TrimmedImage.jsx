@@ -34,9 +34,7 @@ export const TrimmedImage = ({ height, src, width }) => {
   //   };
   // }, [height, src, width]);
   return (
-<picture >
-      <source srcset={src+'.webp'} type="image/webp"/>
+      // <source srcset={src+'.webp'} type="image/webp"/>
       <img src={src} alt="src"  width={width} height={height} style={{objectFit:'cover'}}/>
-  </picture>
   );
 };
