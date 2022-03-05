@@ -4522,6 +4522,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fastify-cors@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "fastify-cors@npm:6.0.3"
+  dependencies:
+    fastify-plugin: ^3.0.0
+    vary: ^1.1.2
+  checksum: 054cf4e1cf0b20778ac24d9995a99f44e9b026ca9a028db0cbb6093922bcc931dff5f5bb185d19e881014392bb5886a8b5f9da6af3d3ab5e62b7a68f4eca33c4
+  languageName: node
+  linkType: hard
+
 "fastify-error@npm:^0.3.0":
   version: 0.3.1
   resolution: "fastify-error@npm:0.3.1"
@@ -10435,6 +10445,7 @@ __metadata:
     eslint-plugin-sort: ^2.4.0
     fastify: ^3.25.3
     fastify-compress: ^4.0.1
+    fastify-cors: ^6.0.3
     fastify-sensible: ^3.1.2
     fastify-static: ^4.5.0
     framer-motion: ^6.2.8

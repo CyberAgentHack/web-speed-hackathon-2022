@@ -1,5 +1,6 @@
 import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import fastifyCors from "fastify-cors";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, OddsItem, Race, User } from "../../model/index.js";
@@ -31,6 +32,9 @@ Object.values(zenginData).forEach(bank => {
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
+  fastify.register(fastifyCors, {
+    origin: ["https://wsh-2022-cathiecode.tk", "https://wsh-2022-cathiecode.herokuapp.com", "http://localhost:3000"]
+  });
   fastify.addHook("onRequest", async (req, res) => {
     res.header("Cache-Control", "no-cache, no-store");
   });
