@@ -76,7 +76,7 @@ module.exports = [
     devtool: false,
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
-    mode: "production",
+    mode: "development",
     module: {
       rules: [
         {
