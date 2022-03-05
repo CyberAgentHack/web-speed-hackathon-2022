@@ -23,8 +23,6 @@ COPY ./database ./database
 RUN yarn install 
 
 COPY --from=builder ./dist ./dist
-COPY ./src ./src
-COPY ./public ./public
 
 EXPOSE 3000
 
