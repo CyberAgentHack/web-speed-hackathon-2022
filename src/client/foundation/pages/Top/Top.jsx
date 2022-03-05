@@ -1,4 +1,3 @@
-import moment from "moment";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -10,7 +9,7 @@ import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
-import { isSameDay } from "../../utils/DateUtils";
+import { formatDate, parseISOString } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
@@ -29,8 +28,8 @@ function useTodayRacesWithAnimation(races) {
   const timer = useRef(null);
 
   useEffect(() => {
-    const isRacesUpdate = races.some(({ id }) =>
-      !prevRaces.current.some((p) => p.id === id),
+    const isRacesUpdate = races.some(
+      ({ id }) => !prevRaces.current.some((p) => p.id === id),
     );
 
     prevRaces.current = races;
@@ -96,7 +95,7 @@ function useHeroImage(todayRaces) {
 
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
+  const { date = formatDate(new Date()) } = useParams();
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
@@ -135,10 +134,12 @@ export const Top = () => {
       ? [...raceData.races]
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
+              parseISOString(a.startAt).getTime() -
+              parseISOString(b.startAt).getTime(),
           )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
+          .filter(
+            (/** @type {Model.Race} */ race) =>
+              formatDate(parseISOString(race.startAt)) == date,
           )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
