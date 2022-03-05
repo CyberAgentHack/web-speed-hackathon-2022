@@ -56,7 +56,8 @@ module.exports = [
     name: "client",
     output: {
       path: DIST_PUBLIC,
-      filename: "main.[hash].js"
+      filename: "main.[fullhash].js",
+      publicPath: "/"
     },
     plugins: [
       ...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : []),
