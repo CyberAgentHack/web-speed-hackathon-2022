@@ -52,7 +52,11 @@ export const RaceResult = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image.substring(0, data.image.length - 3) + "webp"} width={400} />
+        <TrimmedImage
+          height={225}
+          src={data.image.substring(0, data.image.length - 3) + "webp"}
+          width={400}
+        />
       </Section>
 
       <Spacer mt={Space * 2} />
