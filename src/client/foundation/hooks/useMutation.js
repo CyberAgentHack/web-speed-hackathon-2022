@@ -43,7 +43,8 @@ export function useMutation(apiPath, { auth, method }) {
       }));
 
       try {
-        const res = await fetch(apiPath, {
+        const res = await axios.request({
+          data,
           headers: auth
             ? {
                 "x-app-userid": userId,
@@ -51,6 +52,7 @@ export function useMutation(apiPath, { auth, method }) {
             : {},
           body: data,
           method,
+          url: apiPath,
         });
 
         setResult((cur) => ({

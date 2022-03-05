@@ -64,11 +64,9 @@
   "dependencies": {
     "@babel/runtime": "^7.17.2",
     "@fortawesome/fontawesome-free": "^5.15.4",
+    "axios": "^0.25.0",
     "bezier-easing": "^2.1.0",
     "core-js": "^3.21.1",
-    "es5-shim": "^4.6.5",
-    "es6-shim": "^0.35.6",
-    "es7-shim": "^6.0.0",
     "fastify": "^3.25.3",
     "fastify-sensible": "^3.1.2",
     "fastify-static": "^4.5.0",
