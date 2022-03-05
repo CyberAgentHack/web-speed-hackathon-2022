@@ -7,7 +7,7 @@ export const IconImg = styled.img`
 `
 
 export const ThmImg = styled.img`
-  width: 400px;
-  height: 225px;
-  object-fit: cover;
+  object-fit: contain;
+  aspect-ratio: 400/225;
+  height: 100%;
 `
