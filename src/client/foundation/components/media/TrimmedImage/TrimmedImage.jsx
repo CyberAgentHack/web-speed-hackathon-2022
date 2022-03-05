@@ -7,7 +7,7 @@ const ImageAutoHeight = styled.img`
 
 /**
  * @typedef Props
- * @property {string} src
+ * @property {string | undefined} src
  * @property {number} width
  * @property {height} height
  */
@@ -17,6 +17,9 @@ export const TrimmedImage = memo(({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {
+    if (src === undefined) {
+      return;
+    }
     const img = new Image();
     img.src = src;
     img.onload = () => {
@@ -37,7 +40,7 @@ export const TrimmedImage = memo(({ height, src, width }) => {
       );
       setDataUrl(canvas.toDataURL());
     };
-  }, [height, width]);
+  }, [src, height, width]);
 
   return <ImageAutoHeight src={dataUrl} alt="" width={width} height={height} />;
 });

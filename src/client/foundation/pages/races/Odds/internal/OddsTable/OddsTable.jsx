@@ -63,6 +63,8 @@ const InactiveBuyButton = styled.div`
   cursor: default;
   height: 100%;
   padding: ${Space * 2}px;
+  min-height: calc(1em + ${Space / 2}px);
+
   width: 100%;
 `;
 
@@ -103,9 +105,9 @@ export const OddsTable = ({ entries, isRaceClosed, raceId, onClickOdds }) => {
   */
 
   // FIXME
-  if (!oddsMap) {
+  /*if (!oddsMap) {
     return null;
-  }
+  }*/
 
   return (
     <div>
@@ -145,18 +147,18 @@ export const OddsTable = ({ entries, isRaceClosed, raceId, onClickOdds }) => {
                   <th>{third}</th>
 
                   {headNumbers.map((second) => {
-                    const item = oddsMap[mapKey(second, third)];
+                    const item = oddsMap?.[mapKey(second, third)];
 
                     return (
                       <td key={second} width="auto">
                         {second !== third ? (
                           isRaceClosed ? (
                             <InactiveBuyButton>
-                              <OddsMarker odds={item.odds} />
+                              <OddsMarker odds={item?.odds} />
                             </InactiveBuyButton>
                           ) : (
                             <BuyButton onClick={() => onClickOdds(item)}>
-                              <OddsMarker odds={item.odds} />
+                              <OddsMarker odds={item?.odds} />
                             </BuyButton>
                           )
                         ) : (

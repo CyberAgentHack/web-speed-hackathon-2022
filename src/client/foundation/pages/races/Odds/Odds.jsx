@@ -14,6 +14,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
+import { assets } from "../../../utils/UrlUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
@@ -52,25 +53,24 @@ export const Odds = () => {
      * @param {Model.OddsItem} odds
      */
     (odds) => {
+      if (odds === undefined) {
+        return;
+      }
       setOddsKeyToBuy(odds.key);
       modalRef.current?.showModal();
     },
     [],
   );
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
   // const isRaceClosed = moment(data.closeAt).isBefore(new Date());
-  const isRaceClosed = (new Date(data.closeAt)) < new Date();
+  const isRaceClosed = data ? (new Date(data.closeAt)) < new Date() : true;
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{data?.name ?? "読み込み中"}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        {data ? <>開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}</> : "読み込み中"}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -78,7 +78,7 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={`${data.image}_small.avif`} width={400} />
+        <TrimmedImage height={225} src={data ? `${data.image}_small.avif` : undefined} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -105,12 +105,12 @@ export const Odds = () => {
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsTable
+        {data ? <OddsTable
           entries={data.entries}
           isRaceClosed={isRaceClosed}
           raceId={raceId}
           onClickOdds={handleClickOdds}
-        />
+        /> : "読み込み中"}
 
         <Spacer mt={Space * 4} />
         <Heading as="h2">人気順</Heading>

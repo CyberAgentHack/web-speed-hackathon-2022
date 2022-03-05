@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import useSWR from "swr";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
@@ -58,6 +59,8 @@ const RankNo = styled.div`
   width: 32px;
 `;
 
+const placeholder = [...new Array(50)].map((_, i) => ({id: i, key: [undefined, undefined, undefined], odds: 1000}));
+
 /**
  * @typedef Props
  * @property {string} raceId
@@ -67,13 +70,7 @@ const RankNo = styled.div`
 
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, raceId, onClickOdds }) => {
-
-  const { data: sortedOdds } = useFetch(`/api/races/${raceId}/odds_popular`, jsonFetcher);
-
-  // FIXME
-  if (!sortedOdds) {
-    return null;
-  }
+  const sortedOdds = useSWR(`/api/races/${raceId}/odds_popular`, jsonFetcher)?.data ?? placeholder;
 
   return (
     <Wrapper>
