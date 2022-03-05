@@ -12,34 +12,34 @@ export const TrimmedImage = ({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => {
+    const loadImage = () => {
+      console.log("loadImage");
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = (e) => reject(e);
+        img.src = src;
+      });
+    };
+    loadImage().then((res) => {
+      console.log("resWidth = ", res.width);
+      console.log("Width = ", width);
       const canvas = document.createElement("canvas");
       canvas.width = width;
       canvas.height = height;
-
-      const isWidthSmaller = img.width <= img.height;
-      const ratio = isWidthSmaller ? width / img.width : height / img.height;
-
+      const isWidthSmaller = res.width <= res.height;
+      const ratio = isWidthSmaller ? width / res.width : height / res.height;
       const ctx = canvas.getContext("2d");
       ctx.drawImage(
-        img,
-        -(img.width * ratio - width) / 2,
-        -(img.height * ratio - height) / 2,
-        img.width * ratio,
-        img.height * ratio,
+        res,
+        -(res.width * ratio - width) / 2,
+        -(res.height * ratio - height) / 2,
+        res.width * ratio,
+        res.height * ratio,
       );
       setDataUrl(canvas.toDataURL());
-    };
-    // const canvas = document.createElement("canvas");
-    // canvas.width = width;
-    // canvas.height = height;
-
-    // const ctx = canvas.getContext("2d");
-    // ctx.drawImage(img, width / 2, height / 2);
-    // setDataUrl(canvas.toDataURL());
+    });
   }, [height, src, width]);
 
-  return <img src={dataUrl} defer />;
+  return <img src={dataUrl} />;
 };
