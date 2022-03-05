@@ -35,5 +35,5 @@ export const TrimmedImage = memo(({ height, src, width }) => {
     };
   }, [height, optimizedImage, width]);
 
-  return <img src={dataUrl} width={width} height={height} alt="" />;
+  return <img src={dataUrl} alt="" />;
 });
