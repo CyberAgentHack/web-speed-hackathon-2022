@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-import { BreakPoint, Color, Radius, Space } from "../../../styles/variables";
-
 const Wrapper = styled.section`
   background: ${({ $dark }) => ($dark ? "#292524" : "#fff")};
   color: ${({ $dark }) => ($dark ? "#fff" : "#000")};
