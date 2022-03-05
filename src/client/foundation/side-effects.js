@@ -1,3 +1,3 @@
-import "@fortawesome/fontawesome-free/js/fontawesome";
-import "@fortawesome/fontawesome-free/js/solid";
-import "@fortawesome/fontawesome-free/js/regular";
+import "./fontawesome/fontawesome";
+import "./fontawesome/solid";
+import "./fontawesome/regular";
