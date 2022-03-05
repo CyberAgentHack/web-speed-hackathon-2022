@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
  */
 
 /** @type {React.VFC<Props>} */
+// TODO: 後で消す(cssでできる)
 export const TrimmedImage = ({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
 
