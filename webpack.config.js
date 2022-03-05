@@ -2,6 +2,7 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -38,8 +39,6 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
-                    spec: true,
                   },
                 ],
                 "@babel/preset-react",
@@ -57,6 +56,9 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      new BundleAnalyzerPlugin({
+        analyzerMode: "static",
+      })
     ],
     resolve: {
       extensions: [".js", ".jsx"],
@@ -81,7 +83,9 @@ module.exports = [
                   "@babel/preset-env",
                   {
                     modules: "cjs",
-                    spec: true,
+                    "targets": {
+					            "node": "current"
+				            }
                   },
                 ],
                 "@babel/preset-react",
