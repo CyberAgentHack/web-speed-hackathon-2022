@@ -83,7 +83,24 @@ export const apiRoute = async (fastify) => {
       where,
     });
 
-    res.send({ races });
+    const date = moment().format("YYYY-MM-DD");
+    const isSameDay = (dateLeft, dateRight) => {
+      return moment(dateLeft).isSame(moment(dateRight), "day");
+    };
+
+    const todayRaces =
+      races != null
+        ? [...races]
+            .sort(
+              (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
+                moment(a.startAt) - moment(b.startAt),
+            )
+            .filter((/** @type {Model.Race} */ race) =>
+              isSameDay(race.startAt, date),
+            )
+        : [];
+
+    res.send({ races: todayRaces });
   });
 
   fastify.get("/races/:raceId", async (req, res) => {

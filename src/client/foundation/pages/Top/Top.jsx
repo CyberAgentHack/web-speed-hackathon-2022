@@ -1,7 +1,5 @@
 import _ from "lodash";
-import moment from "moment-timezone";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { Container } from "../../components/layouts/Container";
@@ -11,7 +9,6 @@ import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
-import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
@@ -82,7 +79,7 @@ function useTodayRacesWithAnimation(races) {
  * @returns {string | null}
  */
 function useHeroImage(todayRaces) {
-  const firstRaceId = todayRaces[0]?.id;
+  const firstRaceId = todayRaces ? todayRaces[0]?.id : null;
   const url =
     firstRaceId !== undefined
       ? `/api/hero?firstRaceId=${firstRaceId}`
@@ -99,8 +96,6 @@ function useHeroImage(todayRaces) {
 
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
-
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
     border-radius: ${Radius.MEDIUM};
@@ -119,7 +114,7 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const { data: todayRaces } = useFetch("/api/races", jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -133,19 +128,12 @@ export const Top = () => {
     revalidate();
   }, [revalidate]);
 
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
-          )
-      : [];
-  const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
-  const heroImageUrl = useHeroImage(todayRaces);
+  let trs = [];
+  if (todayRaces != null) {
+    trs = todayRaces.races;
+  }
+  const todayRacesToShow = useTodayRacesWithAnimation(trs);
+  const heroImageUrl = useHeroImage(trs);
 
   return (
     <Container>
@@ -170,7 +158,7 @@ export const Top = () => {
         <Heading as="h1">本日のレース</Heading>
         {todayRacesToShow.length > 0 && (
           <RecentRaceList>
-            {todayRacesToShow.map((race) => (
+            {todayRacesToShow?.map((race) => (
               <RecentRaceList.Item key={race.id} race={race} />
             ))}
           </RecentRaceList>
