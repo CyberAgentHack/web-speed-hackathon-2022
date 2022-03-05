@@ -24,7 +24,7 @@ export const spaRoute = async (fastify) => {
   });
 
   fastify.get("*", (req, res) => {
-    res.header("Cache-Control", "max=age=0, s-max-age=86400");
+    res.header("Cache-Control", "max=age=0, s-max-age=86400, public, immutable");
     return res.sendFile("index_alt.html", join(__dirname, "public")); // NOTE: index.htmlを使うと何故かキャッシュヘッダが設定できないので_altを付けてある
   });
 };
