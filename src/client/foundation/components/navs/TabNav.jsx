@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { BreakPoint, Color, Radius, Space } from "../../../styles/variables";
-import { Stack } from "../../layouts/Stack";
+import { BreakPoint, Color, Radius, Space } from "../../styles/variables";
+import { Stack } from "../layouts/Stack";
 
 /**
  * @typedef ItemProps

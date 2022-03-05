@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { BreakPoint, Space } from "../../../styles/variables";
+import { BreakPoint, Space } from "../../styles/variables";
 
 const Wrapper = styled.div`
   margin-left: auto;

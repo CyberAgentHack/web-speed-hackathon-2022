@@ -5,7 +5,7 @@ import { EntryCombination } from "../../../../components/displays/EntryCombinati
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
-import { Heading } from "../../../../components/typographies/Heading/index.jsx";
+import { Heading } from "../../../../components/typographies/Heading.jsx";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useAuthorizedFetch } from "../../../../hooks/useAuthorizedFetch";
 import { useMutation } from "../../../../hooks/useMutation";

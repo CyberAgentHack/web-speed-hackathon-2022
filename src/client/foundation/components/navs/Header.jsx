@@ -2,9 +2,9 @@ import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { useAuth, useRegister } from "../../../contexts/AuthContext";
-import { Color, FontSize, Radius, Space } from "../../../styles/variables";
-import { BaseButton } from "../../buttons/BaseButton";
+import { useAuth, useRegister } from "../../contexts/AuthContext";
+import { Color, FontSize, Radius, Space } from "../../styles/variables";
+import { BaseButton } from "../buttons/BaseButton";
 
 const Wrapper = styled.div`
   align-items: center;

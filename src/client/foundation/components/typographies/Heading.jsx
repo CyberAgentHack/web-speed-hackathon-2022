@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { FontSize, Space } from "../../../styles/variables";
+import { FontSize, Space } from "../../styles/variables";
 
 const styles = {
   h1: `font-size: ${FontSize.XX_LARGE}`,
