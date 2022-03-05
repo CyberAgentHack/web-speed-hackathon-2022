@@ -120,6 +120,24 @@ export const apiRoute = async (fastify) => {
     res.send(race);
   });
 
+  // for edge cache
+  fastify.get("/races/:raceId/entry.json", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(
+      { id: req.params.raceId },
+      {
+        relations: ["entries", "entries.player"],
+      },
+    );
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    res.send(race);
+  });
+
   fastify.get("/races/:raceId/odds-items", async (req, res) => {
     const repo = (await createConnection()).getRepository(OddsItem);
     const odds = await repo.find({
@@ -129,6 +147,27 @@ export const apiRoute = async (fastify) => {
         },
       },
     });
+
+    if (odds === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+    res.send(odds);
+  });
+
+  // for edge cache
+  fastify.get("/races/:raceId/odds-items.json", async (req, res) => {
+    const repo = (await createConnection()).getRepository(OddsItem);
+    const odds = await repo.find({
+      where: {
+        race: {
+          id: req.params.raceId,
+        },
+      },
+    });
+
+    if (odds === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
     res.send(odds);
   });
 

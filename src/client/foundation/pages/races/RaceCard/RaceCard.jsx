@@ -8,7 +8,7 @@ import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
-import { useFetch } from "../../../hooks/useFetch";
+import { useLaterFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
@@ -28,7 +28,7 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceCard = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}/entry`, jsonFetcher);
+  const { data } = useLaterFetch(`/api/races/${raceId}/entry`, jsonFetcher);
 
   if (data == null) {
     return <Container>Loading...</Container>;

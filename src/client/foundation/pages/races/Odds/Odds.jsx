@@ -9,7 +9,7 @@ import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
-import { useFetch } from "../../../hooks/useFetch";
+import { useLaterFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
@@ -50,8 +50,11 @@ const Callout = styled.aside`
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
-  const { data: race } = useFetch(`/api/races/${raceId}/entry`, jsonFetcher);
-  const { data: trifectaOdds } = useFetch(
+  const { data: race } = useLaterFetch(
+    `/api/races/${raceId}/entry`,
+    jsonFetcher,
+  );
+  const { data: trifectaOdds } = useLaterFetch(
     `/api/races/${raceId}/odds-items`,
     jsonFetcher,
   );
