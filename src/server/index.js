@@ -39,7 +39,7 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.register(apiRoute, { prefix: "/api" });
-//server.register(imageRoute);
+server.register(imageRoute);
 server.register(spaRoute);
 
 const start = async () => {
