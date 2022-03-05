@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
@@ -87,7 +86,27 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
 
-  const headNumbers = _.without(_.range(1, entries.length + 1), firstKey);
+  const range = (start, end, increment) => {
+    const isEndDef = typeof end !== 'undefined'
+    end = isEndDef ? end : start
+    start = isEndDef ? start : 0
+    if (typeof increment === 'undefined') {
+      increment = Math.sign(end - start)
+    }
+    const length = Math.abs((end - start) / (increment || 1))
+    const { result } = Array.from({ length }).reduce(
+      ({ result, current }) => ({
+        result: [...result, current],
+        current: current + increment,
+      }),
+      { current: start, result: [] }
+    )
+    return result
+  }
+
+  const headNumbers = range(1, entries.length + 1).filter(function(value) {
+    return value !== firstKey;
+  });
 
   const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
   const oddsMap = filteredOdds.reduce((acc, cur) => {
