@@ -62,33 +62,11 @@ const RankNo = styled.div`
  * @property {boolean} isRaceClosed
  * @property {(odds: Model.OddsItem) => void} onClickOdds
  */
-// WARNING: This is not a drop in replacement solution and
-// it might not work for some edge cases. Test your code! 
-const take = (arr, qty = 1) => [...arr].splice(0, qty)
-
-const sortOdds = (odds) => [...odds].sort((a, b) => {
-  if (a.odds !== undefined || b.odds !== undefined) {
-    if (a.odds === undefined) return -1;
-    if (b.odds === undefined) return 1;
-  }
-
-  if (a.odds !== undefined && b.odds !== undefined) {
-    if (a.odds < b.odds) return -1;
-    if (a.odds > b.odds) return 1;
-  }
-
-  return 0;
-});
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = take(
-    sortOdds(odds),
-    50,
-  );
-
+export const OddsRankingList = ({ isRaceClosed, ranking, onClickOdds }) => {
   return (
     <Wrapper>
-      {sortedOdds.map((item, i) => (
+      {ranking.map((item, i) => (
         <li key={item.id}>
           {isRaceClosed ? (
             <InactiveBuyButton>

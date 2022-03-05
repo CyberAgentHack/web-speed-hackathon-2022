@@ -1,5 +1,5 @@
 import moment from "moment-timezone";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -47,6 +47,35 @@ export const Odds = () => {
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
+  const [ranking, setRanking] = useState(null);
+  const [odds, setOdds] = useState(null);
+  const [fk, setFk] = useState(1);
+  const rank = useFetch(`/api/races/${raceId}/ranking`, jsonFetcher)
+  const odd = useFetch(`/api/races/${raceId}/${fk}`, jsonFetcher)
+  useEffect(() => {
+    setRanking(rank.data)
+  }, [rank.data])
+  useEffect(() => {
+    setOdds(odd.data)
+  }, [odd.data])
+
+  useEffect(() => {
+    const promise = jsonFetcher(`/api/races/${raceId}/${fk}`);
+
+    promise.then((data) => {
+      setOdds(data);
+    });
+
+    promise.catch((error) => {
+      setOdds(null);
+    });
+  }, [fk]);
+
+  const setFirstKey = useCallback((key) => {
+    setFk(key)
+    setOdds(null);
+  })
+
 
   const handleClickOdds = useCallback(
     /**
@@ -105,22 +134,24 @@ export const Odds = () => {
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsTable
+        {odds ? <OddsTable
           entries={data.entries}
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
+          setFK={setFirstKey}
+          oddsMap={odds}
           onClickOdds={handleClickOdds}
-        />
+          firstKey={fk}
+        /> : <Container>Loading...</Container>}
 
         <Spacer mt={Space * 4} />
         <Heading as="h2">人気順</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsRankingList
+        {ranking ? <OddsRankingList
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
+          ranking={ranking}
           onClickOdds={handleClickOdds}
-        />
+        /> : <Container>Loading...</Container>}
       </Section>
 
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />

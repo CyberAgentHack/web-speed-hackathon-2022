@@ -117,21 +117,12 @@ const without = (arr, ...args) => arr.filter(item => !args.includes(item))
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
-  const [firstKey, setFirstKey] = useState(1);
-
+export const OddsTable = ({ entries, isRaceClosed, oddsMap, firstKey, setFK, onClickOdds }) => {
   const handleChange = useCallback((e) => {
-    setFirstKey(parseInt(e.currentTarget.value, 10));
+    setFK(parseInt(e.currentTarget.value, 10));
   }, []);
 
   const headNumbers = without(range(1, entries.length + 1), firstKey);
-
-  const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
-  const oddsMap = filteredOdds.reduce((acc, cur) => {
-    const [, second, third] = cur.key;
-    acc[mapKey(second, third)] = cur;
-    return acc;
-  }, {});
 
   return (
     <div>
