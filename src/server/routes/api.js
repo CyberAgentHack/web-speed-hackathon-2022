@@ -5,11 +5,14 @@ import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
+import fastifyResponseCaching from 'fastify-response-caching';
+
 
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
+  fastify.register(fastifyResponseCaching, { ttl: 5000 })
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
