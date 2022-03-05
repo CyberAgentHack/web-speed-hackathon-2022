@@ -3,7 +3,7 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const nodeExternals = require("webpack-node-externals");
 const smp = new SpeedMeasurePlugin()
 
@@ -21,7 +21,7 @@ module.exports = smp.wrap([
   {
     devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
@@ -59,8 +59,8 @@ module.exports = smp.wrap([
     plugins: [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
-      }),
-      new BundleAnalyzerPlugin()
+      })
+      // new BundleAnalyzerPlugin()
     ],
     resolve: {
       extensions: [".js", ".jsx"],
@@ -71,7 +71,7 @@ module.exports = smp.wrap([
     devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
