@@ -2,6 +2,7 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 function abs(...args) {
@@ -19,7 +20,13 @@ module.exports = [
     entry: path.join(SRC_ROOT, "client/index.jsx"),
     mode: "production",
     plugins: [
-      new BundleAnalyzerPlugin()
+      new BundleAnalyzerPlugin(),
+      new CompressionPlugin({
+        test: /\.(css)|(js)$/,
+        compressionOptions: {
+          level: 9
+        }
+      })
     ],
     module: {
       rules: [
