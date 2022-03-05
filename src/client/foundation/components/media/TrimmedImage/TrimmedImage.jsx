@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
 /**
  * @typedef Props
@@ -34,5 +35,16 @@ export const TrimmedImage = ({ height, src, width }) => {
     };
   }, [height, src, width]);
 
-  return <img height={height} src={dataUrl} width={width} />;
+  return <img src={dataUrl} />;
+};
+
+const SquareImage = styled.img.attrs((props) => ({
+  height: props.height,
+  width: props.width,
+}))`
+  object-fit: cover;
+`;
+
+export const TrimmedSquareImage = ({ height, src, width }) => {
+  return <SquareImage height={height} src={src}  width={width} />;
 };
