@@ -27,69 +27,9 @@ export const Space = 8;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+//気になる
 export const Color = {
-  amber: {
-    100: "#fef3c7",
-    200: "#fde68a",
-    300: "#fcd34d",
-    400: "#fbbf24",
-    50: "#fffbeb",
-    500: "#f59e0b",
-    600: "#d97706",
-    700: "#b45309",
-    800: "#92400e",
-    900: "#78350f",
-  },
-  black: "#000",
-  blue: {
-    100: "#dbeafe",
-    200: "#bfdbfe",
-    300: "#93c5fd",
-    400: "#60a5fa",
-    50: "#eff6ff",
-    500: "#3b82f6",
-    600: "#2563eb",
-    700: "#1d4ed8",
-    800: "#1e40af",
-    900: "#1e3a8a",
-  },
   current: "currentColor",
-  cyan: {
-    100: "#cffafe",
-    200: "#a5f3fc",
-    300: "#67e8f9",
-    400: "#22d3ee",
-    50: "#ecfeff",
-    500: "#06b6d4",
-    600: "#0891b2",
-    700: "#0e7490",
-    800: "#155e75",
-    900: "#164e63",
-  },
-  emerald: {
-    100: "#d1fae5",
-    200: "#a7f3d0",
-    300: "#6ee7b7",
-    400: "#34d399",
-    50: "#ecfdf5",
-    500: "#10b981",
-    600: "#059669",
-    700: "#047857",
-    800: "#065f46",
-    900: "#064e3b",
-  },
-  fuchsia: {
-    100: "#fae8ff",
-    200: "#f5d0fe",
-    300: "#f0abfc",
-    400: "#e879f9",
-    50: "#fdf4ff",
-    500: "#d946ef",
-    600: "#c026d3",
-    700: "#a21caf",
-    800: "#86198f",
-    900: "#701a75",
-  },
   gray: {
     100: "#f3f4f6",
     200: "#e5e7eb",
@@ -102,6 +42,7 @@ export const Color = {
     800: "#1f2937",
     900: "#111827",
   },
+  //変更green100, 400, 500
   green: {
     100: "#dcfce7",
     200: "#bbf7d0",
