@@ -1686,13 +1686,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.178":
-  version: 4.14.179
-  resolution: "@types/lodash@npm:4.14.179"
-  checksum: 71faa0c8071732c2b7f0bd092850d3cea96fc7912055d57d819cf2ab399a64150e4190d8a4ea35a0905662ddc118be9d2abd55891d8047c085acf98608156149
-  languageName: node
-  linkType: hard
-
 "@types/mdast@npm:^3.0.0":
   version: 3.0.10
   resolution: "@types/mdast@npm:3.0.10"
@@ -7969,7 +7962,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -8101,27 +8094,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-fast-compare@npm:^3.1.1":
-  version: 3.2.0
-  resolution: "react-fast-compare@npm:3.2.0"
-  checksum: 8ef272c825ae329f61633ce4ce7f15aa5b84e5214d88bc0823880236e03e985a13195befa2c7a4eda7db3b017dc7985729152d88445823f652403cf36c2b86aa
-  languageName: node
-  linkType: hard
-
-"react-helmet@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "react-helmet@npm:6.1.0"
-  dependencies:
-    object-assign: ^4.1.1
-    prop-types: ^15.7.2
-    react-fast-compare: ^3.1.1
-    react-side-effect: ^2.1.0
-  peerDependencies:
-    react: ">=16.3.0"
-  checksum: a4998479dab7fc1c2799eddefb1870a9d881b5f71cfdf97979a9882e42f4bb50402d55335f308f461e735e01a06f46b16cc7b4e6bcb22c7a4a6f85a753c5c106
-  languageName: node
-  linkType: hard
-
 "react-is@npm:^16.13.1, react-is@npm:^16.7.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -8150,15 +8122,6 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 1a2e7006d4d56bfae8ff11dd5ec15e8049578864dfb2764652510eb0ce4af26a8949790a3732c4f7beb14bcb6500469ea18841b8cfc953e09828e4e4113922f0
-  languageName: node
-  linkType: hard
-
-"react-side-effect@npm:^2.1.0":
-  version: 2.1.1
-  resolution: "react-side-effect@npm:2.1.1"
-  peerDependencies:
-    react: ^16.3.0 || ^17.0.0
-  checksum: 324511ea8f6669555e166b4af280cdf46034bf0e33c486711e3ce17f88f6f21fed17055098408be1347657d0cbcd614bca944cf9f8e4ecfa96a21d13893fe9fc
   languageName: node
   linkType: hard
 
@@ -10334,13 +10297,11 @@ __metadata:
     "@babel/runtime": ^7.17.2
     "@fortawesome/fontawesome-free": ^5.15.4
     "@stylelint/postcss-css-in-js": ^0.37.2
-    "@types/lodash": ^4.14.178
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
     "@types/styled-components": ^5.1.19
     "@typescript-eslint/eslint-plugin": ^5.13.0
     "@typescript-eslint/parser": ^5.13.0
-    axios: ^0.25.0
     babel-loader: ^8.2.3
     bezier-easing: ^2.1.0
     copy-webpack-plugin: ^10.2.0
@@ -10360,7 +10321,6 @@ __metadata:
     fastify-sensible: ^3.1.2
     fastify-static: ^4.5.0
     framer-motion: ^6.2.8
-    lodash: ^4.17.21
     modern-css-reset: ^1.4.0
     moment-timezone: ^0.5.34
     nodemon: ^2.0.15
@@ -10370,7 +10330,6 @@ __metadata:
     prettier: ^2.5.1
     react: ^17.0.2
     react-dom: ^17.0.2
-    react-helmet: ^6.1.0
     react-router-dom: 6
     regenerator-runtime: ^0.13.9
     rimraf: ^3.0.2
