@@ -1,4 +1,4 @@
-import moment from "moment-timezone";
+import moment from "moment";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import zenginCode from "zengin-code";
 
