@@ -60,18 +60,27 @@ export const RaceCard = () => {
 
         <Spacer mt={Space * 2} />
         <PlayerPictureList>
-          {data?.entries.map((entry) => (
-            <PlayerPictureList.Item
-              key={entry.id}
-              image={entry.player.image}
-              name={entry.player.name}
-              number={entry.number}
-            />
-          ))}
+          {data
+            ? data?.entries.map((entry) => (
+                <PlayerPictureList.Item
+                  key={entry.id}
+                  image={entry.player.image}
+                  name={entry.player.name}
+                  number={entry.number}
+                />
+              ))
+            : [...Array(12).keys()].map((id) => (
+                <PlayerPictureList.Item
+                  key={id}
+                  image={""}
+                  name={"〇〇〇〇"}
+                  number={id + 1}
+                />
+              ))}
         </PlayerPictureList>
 
         <Spacer mt={Space * 4} />
-        <EntryTable entries={data ? data.entries : []} />
+        <EntryTable entries={data ? data.entries : null} />
       </Section>
     </Container>
   );
