@@ -9,7 +9,6 @@ import { Heading } from "../../../../../components/typographies/Heading";
 import { useAuth } from "../../../../../contexts/AuthContext";
 import { useAuthorizedFetch } from "../../../../../hooks/useAuthorizedFetch";
 import { useMutation } from "../../../../../hooks/useMutation";
-import { Color, Space } from "../../../../../styles/variables";
 import { authorizedJsonFetcher } from "../../../../../utils/HttpUtils";
 
 const CANCEL = "cancel";

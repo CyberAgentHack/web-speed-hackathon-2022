@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
-import { Color, FontSize, Space } from "../../../../../styles/variables";
 import { OddsMarker } from "../OddsMarker";
 
 const ScrollWrapper = styled.div`

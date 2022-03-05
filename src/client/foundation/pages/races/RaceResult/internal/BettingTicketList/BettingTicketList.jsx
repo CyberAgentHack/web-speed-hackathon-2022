@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
-import { Color, FontSize, Space } from "../../../../../styles/variables";
 
 const ItemWrapper = styled.tr`
   padding: ${8 * 1}px ${8 * 2}px;

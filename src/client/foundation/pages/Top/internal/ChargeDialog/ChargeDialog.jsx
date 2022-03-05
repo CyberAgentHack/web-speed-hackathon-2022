@@ -7,7 +7,6 @@ import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { Heading } from "../../../../components/typographies/Heading";
 import { useMutation } from "../../../../hooks/useMutation";
-import { Space } from "../../../../styles/variables";
 
 const CANCEL = "cancel";
 const CHARGE = "charge";

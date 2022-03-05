@@ -6,7 +6,6 @@ import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../components/media/TrimmedImage";
 import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
-import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 
 export const RecentRaceList = ({ children }) => {

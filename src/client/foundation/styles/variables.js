@@ -1,5 +1,3 @@
-export const Space = 8;
-
 /**
  * 以下より引用し、一部変更を加えています
  * https://github.com/tailwindlabs/tailwindcss/blob/master/src/public/colors.js
@@ -28,10 +26,3 @@ export const Space = 8;
  * SOFTWARE.
  */
 //気になる
-export const Color = {};
-
-export const FontSize = {};
-
-export const BreakPoint = {};
-
-export const Radius = {};

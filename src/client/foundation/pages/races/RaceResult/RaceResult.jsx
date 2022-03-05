@@ -10,7 +10,6 @@ import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../../hooks/useFetch";
-import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../../utils/HttpUtils";
 
