@@ -28,7 +28,8 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceCard = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  // 重いデータにはアクセスしていない
+  const { data } = useFetch(`/api/races/${raceId}/small`, jsonFetcher);
 
   if (data == null) {
     return <Container>Loading...</Container>;

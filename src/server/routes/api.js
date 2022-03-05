@@ -113,6 +113,100 @@ export const apiRoute = async (fastify) => {
     res.send(race);
   });
 
+  fastify.get("/races/:raceId/small", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const resp = await repo.findOne(req.params.raceId, {
+      relations: ["entries", "entries.player"],
+    });
+
+    if (resp === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    let race = resp
+
+    resp.image = resp.image.replace('.jpg','.avif').replace('/assets/images/races/','/assets/images/races/title/')
+    race.entries = resp.entries.map((x) => {
+      x.player.image = x.player.image.replace(".jpg", ".avif").replace("/assets/images/players/", "/assets/images/players/thumbnail/")
+      return x
+    })
+
+    res.send(race);
+  });
+
+  fastify.get("/races/:raceId/:fkey", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const resp = await repo.findOne(req.params.raceId, {
+      relations: ["entries", "entries.player", "trifectaOdds"],
+    });
+
+    if (resp === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+    /**
+     * @param {number} second
+     * @param {number} third
+     * @returns {string}
+     */
+    const mapKey = (second, third) => `${second}.${third}`;
+
+    const firstKey = parseInt(req.params.fkey)
+
+    const odds = resp.trifectaOdds
+
+    
+    const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
+    
+
+    const oddsMap = filteredOdds.reduce((acc, cur) => {
+      const [, second, third] = cur.key;
+      acc[mapKey(second, third)] = cur;
+      return acc;
+    }, {});
+
+
+    res.send(oddsMap);
+  });
+
+  fastify.get("/races/:raceId/ranking", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const resp = await repo.findOne(req.params.raceId, {
+      relations: ["entries", "entries.player", "trifectaOdds"],
+    });
+
+    if (resp === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+    const sortOdds = (odds) => [...odds].sort((a, b) => {
+      if (a.odds !== undefined || b.odds !== undefined) {
+        if (a.odds === undefined) return -1;
+        if (b.odds === undefined) return 1;
+      }
+
+      if (a.odds !== undefined && b.odds !== undefined) {
+        if (a.odds < b.odds) return -1;
+        if (a.odds > b.odds) return 1;
+      }
+      return 0;
+    });
+
+    // WARNING: This is not a drop in replacement solution and
+    // it might not work for some edge cases. Test your code! 
+    const take = (arr, qty = 1) => [...arr].splice(0, qty)
+    const odds = resp.trifectaOdds
+    const sortedOdds = take(
+    // ソートしてから50件だけ返す
+      sortOdds(odds),
+      50,
+    );
+
+
+    res.send(sortedOdds);
+  });
+
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
     if (req.user == null) {
       throw fastify.httpErrors.unauthorized();
