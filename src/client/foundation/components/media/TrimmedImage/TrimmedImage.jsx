@@ -1,4 +1,10 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+
+const Img = styled.img`
+  aspect-ratio: ${({ $height, $width }) => `${$width} / ${$height}`};
+  height: auto;
+`;
 
 /**
  * @typedef Props
@@ -35,5 +41,13 @@ export const TrimmedImage = ({ height, lazy, src, width }) => {
     };
   }, [height, src, width]);
 
-  return <img loading={lazy ? "lazy" : "eager"} src={dataUrl} />;
+  return (
+    <Img
+      $height={height}
+      $width={width}
+      loading={lazy ? "lazy" : "eager"}
+      src={dataUrl}
+      width={width}
+    />
+  );
 };

@@ -17,26 +17,6 @@ import { RecentRaceList } from "./internal/RecentRaceList";
 
 const ChargeDialog = lazy(() => import("./internal/ChargeDialog/ChargeDialog"));
 
-/**
- * @param {Model.Race[]} todayRaces
- * @returns {string | null}
- */
-function useHeroImage(todayRaces) {
-  const firstRaceId = todayRaces[0]?.id;
-  const url =
-    firstRaceId !== undefined
-      ? `/api/hero?firstRaceId=${firstRaceId}`
-      : "/api/hero";
-  const { data } = useFetch(url, jsonFetcher);
-
-  if (firstRaceId === undefined || data === null) {
-    return null;
-  }
-
-  const imageUrl = `${data.url}?${data.hash}`;
-  return imageUrl;
-}
-
 /** @type {React.VFC} */
 export const Top = () => {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
@@ -70,6 +50,8 @@ export const Top = () => {
     jsonFetcher,
   );
 
+  const { data: HeroData } = useFetch("/api/hero", jsonFetcher);
+
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
       return;
@@ -82,12 +64,10 @@ export const Top = () => {
     revalidate();
   }, [revalidate]);
 
-  const heroImageUrl = useHeroImage(raceData?.races ?? []);
-
   return (
     <Container>
       <div style={{ aspectRatio: "auto 1024 / 735", backgroundColor: "#fff" }}>
-        {heroImageUrl && <HeroImage url={heroImageUrl} />}
+        {HeroData && <HeroImage url={HeroData.url} />}
       </div>
 
       <Spacer mt={Space * 2} />
