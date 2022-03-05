@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 
-const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
