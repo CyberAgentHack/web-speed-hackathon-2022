@@ -11,10 +11,6 @@ export const spaRoute = async (fastify) => {
     wildcard: false,
   });
 
-  fastify.get("/favicon.ico", () => {
-    throw fastify.httpErrors.notFound();
-  });
-
   fastify.get("*", (_req, reply) => {
     return reply.sendFile("index.html", join(__dirname, "public"));
   });
