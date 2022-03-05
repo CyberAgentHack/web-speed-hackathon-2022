@@ -47,12 +47,6 @@ export const apiRoute = async (fastify) => {
     res.send({ hash, url });
   });
 
-  fastify.get("/banks", async (_req, res) => {
-    const banks = zenginCode;
-
-    res.send(banks);
-  });
-
   fastify.get("/races", async (req, res) => {
     const since =
       req.query.since != null ? moment.unix(req.query.since) : undefined;
