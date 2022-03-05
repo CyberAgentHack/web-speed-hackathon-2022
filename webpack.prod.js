@@ -38,6 +38,9 @@ module.exports = [
                   "@babel/preset-env",
                   {
                     modules: "auto",
+                    targets: {
+                      chrome: "98",
+                    },
                   },
                 ],
                 "@babel/preset-react",
@@ -80,7 +83,7 @@ module.exports = [
                     modules: "auto",
                   },
                 ],
-                "@babel/preset-react",
+                // "@babel/preset-react",
               ],
             },
           },
