@@ -24,6 +24,17 @@ const ItemWrapper = styled.li`
   padding: ${Space * 3}px;
 `;
 
+const RaceTitle = styled.h2`
+  font-size: ${FontSize.LARGE};
+  font-weight: bold;
+`;
+
+const RaceImg = styled.img`
+  height: 100px;
+  width: 100px;
+  object-fit: contain;
+`;
+
 const RaceButton = styled(LinkButton)`
   background: ${Color.mono[700]};
   border-radius: ${Radius.MEDIUM};
@@ -33,11 +44,6 @@ const RaceButton = styled(LinkButton)`
   &:hover {
     background: ${Color.mono[800]};
   }
-`;
-
-const RaceTitle = styled.h2`
-  font-size: ${FontSize.LARGE};
-  font-weight: bold;
 `;
 
 /**
@@ -93,7 +99,7 @@ const Item = ({ race }) => {
 
         <Stack.Item grow={0} shrink={0}>
           <Stack horizontal alignItems="center" gap={Space * 2}>
-            <TrimmedImage height={100} src={race.image} width={100} />
+            <RaceImg src={race.image} />
             <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>
           </Stack>
         </Stack.Item>
