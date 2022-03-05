@@ -1,7 +1,7 @@
 # Use the official lightweight Node.js 16 image.
 # https://hub.docker.com/_/node
 # FROM node:16-slim as builder
-FROM node:16.13.1-alpine3.13
+FROM node:16.13.1-alpine3.13 as builder
 
 # Create and change to the app directory.
 WORKDIR /usr/src/app
@@ -24,18 +24,18 @@ CMD [ "yarn", "run", "serve" ]
 
 # =============================================
 
-# FROM fholzer/nginx-brotli
+FROM fholzer/nginx-brotli as serve
 
-# WORKDIR /etc/nginx
+WORKDIR /etc/nginx
 
-# COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 
-# ## Remove default nginx index page
-# RUN rm -rf /usr/share/nginx/html/*
+## Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
 
-# # Copy from the stahg 1
-# COPY --from=builder /dist /usr/share/nginx/html
+# Copy from the stahg 1
+COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
 
-# EXPOSE 8080
+EXPOSE 8080
 
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]

@@ -38,8 +38,8 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.addHook("onRequest", async (req, res) => {
-  res.header("Cache-Control", "no-cache, public, max-age=3600");
   res.header("Connection", "keep-alive");
+  res.header("Cache-Control", "no-cache, public, max-age=216000");
 });
 
 server.register(apiRoute, { prefix: "/api" });
