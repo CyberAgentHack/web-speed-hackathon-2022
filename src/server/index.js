@@ -5,7 +5,7 @@ import fastifySensible from "fastify-sensible";
 import { User } from "../model/index.js";
 
 import { apiRoute } from "./routes/api.js";
-import { spaRoute } from "./routes/spa.js";
+// import { spaRoute } from "./routes/spa.js";
 import { createConnection } from "./typeorm/connection.js";
 import { initialize } from "./typeorm/initialize.js";
 
@@ -43,7 +43,7 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.register(apiRoute, { prefix: "/api" });
-server.register(spaRoute);
+// server.register(spaRoute);
 
 const start = async () => {
   try {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
@@ -10,13 +10,11 @@ import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 import { convertToWebP } from "../../../../utils/ImageConvertUtils";
 
-export const RecentRaceList = ({ children }) => {
-  return (
-    <Stack as="ul" gap={Space * 2}>
-      {children}
-    </Stack>
-  );
-};
+export const RecentRaceList = memo(({ children }) => (
+  <Stack as="ul" gap={Space * 2}>
+    {children}
+  </Stack>
+));
 
 const ItemWrapper = styled.li`
   background: ${Color.mono[0]};
@@ -47,7 +45,7 @@ const RaceTitle = styled.h2`
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ race }) => {
+const Item = memo(({ race }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
 
   // 締切はリアルタイムで表示したい
@@ -105,5 +103,5 @@ const Item = ({ race }) => {
       </Stack>
     </ItemWrapper>
   );
-};
+});
 RecentRaceList.Item = Item;

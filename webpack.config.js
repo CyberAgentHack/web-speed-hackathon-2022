@@ -4,7 +4,7 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 // const BundleAnalyzerPlugin =
 //   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-const ImageminWebpWebpackPlugin = require("imagemin-webp-webpack-plugin");
+// const ImageminWebpWebpackPlugin = require("imagemin-webp-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
