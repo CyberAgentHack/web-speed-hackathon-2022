@@ -12,7 +12,6 @@ import { initialize } from "../typeorm/initialize.js";
 export const apiRoute = async (fastify, opts) => {
   module.exports.options = {
     http2: true,
-    logger: true,
   };
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
