@@ -1,19 +1,9 @@
 import React from "react";
-import Loadable from "react-loadable";
-import { Container } from "./components/layouts/Container";
 import { BrowserRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
-
-// import { AuthContextProvider } from "./contexts/AuthContext";
+import { AuthContextProvider } from "./contexts/AuthContext";
 import { Routes } from "./routes";
 import { GlobalStyle } from "./styles/GlobalStyle";
-
-const AuthContextProvider = Loadable({
-  loader: () => import("./contexts/AuthContext"),
-  loading() {
-    return <Container>Loading...</Container>;
-  },
-});
 
 /** @type {React.VFC} */
 export const App = () => {
