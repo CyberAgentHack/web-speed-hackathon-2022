@@ -83,7 +83,6 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
 
-  console.log(zenginCode);
   const bank = zenginCode[bankCode];
   const branch = bank?.branches[branchCode];
 
