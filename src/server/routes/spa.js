@@ -15,7 +15,7 @@ export const spaRoute = async (fastify) => {
     setHeaders: (res, path) => {
       // Custom Cache-Control for HTML files
       if (path.endsWith(".html")) {
-        res.header("Cache-Control", "public, max-age=300, s-maxage=180");
+        res.setHeader("Cache-Control", "public, max-age=300, s-maxage=180");
       }
     },
     wildcard: false,
