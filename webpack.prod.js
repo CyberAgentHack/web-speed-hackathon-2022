@@ -30,25 +30,20 @@ module.exports = [
         },
         {
           exclude: /node_modules/,
+          exclude: /[\\/]esm[\\/]/,
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
             options: {
               presets: [
-                "@babel/preset-env",
-                "@babel/preset-react", 
-              ],
-            },
-          },
-        },
-        {
-          exclude: /node_modules/,
-          test: /\.tsx?$/,
-          use: {
-            loader: "babel-loader",
-            options: {
-              presets: [
-                "@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"
+                [
+                  "@babel/preset-env",
+                  {
+                    modules: "cjs",
+                    spec: true,
+                  },
+                ],
+                "@babel/preset-react",
               ],
             },
           },
@@ -86,7 +81,13 @@ module.exports = [
             loader: "babel-loader",
             options: {
               presets: [
-                "@babel/preset-env",
+                [
+                  "@babel/preset-env",
+                  {
+                    modules: "cjs",
+                    spec: true,
+                  },
+                ],
                 "@babel/preset-react",
               ],
             },
