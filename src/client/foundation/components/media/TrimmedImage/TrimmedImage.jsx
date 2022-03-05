@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { getFetchSRC } from "../../../utils/Cloudinary";
 
 /**
  * @typedef Props
@@ -9,7 +10,7 @@ import React, { useEffect, useState } from "react";
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
-  src = `https://res.cloudinary.com/dxwjvnvek/image/fetch/w_${width}/https://web-hack-2022-maruyama.herokuapp.com${src}`
+  src = getFetchSRC(src, width)
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {

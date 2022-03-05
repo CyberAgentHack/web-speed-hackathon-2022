@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { getFetchSRC } from "../../../../utils/Cloudinary";
 
 const Image = styled.img`
   display: block;
@@ -14,5 +15,6 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
+  url = getFetchSRC(url, null)
   return <Image alt="" src={url} />;
 };
