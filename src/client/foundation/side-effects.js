@@ -1,8 +1,14 @@
+import { config, dom, library } from "@fortawesome/fontawesome-svg-core";
+import { faHandPeace } from "@fortawesome/free-regular-svg-icons";
+import { faInfoCircle, faTicketAlt } from "@fortawesome/free-solid-svg-icons";
 import "core-js";
-import "regenerator-runtime/runtime";
 import "es5-shim";
 import "es6-shim";
 import "es7-shim";
-import "@fortawesome/fontawesome-free/js/fontawesome";
-import "@fortawesome/fontawesome-free/js/solid";
-import "@fortawesome/fontawesome-free/js/regular";
+import "regenerator-runtime/runtime";
+
+config.showMissingIcons = true;
+
+library.add(faInfoCircle, faTicketAlt, faHandPeace);
+
+dom.watch();

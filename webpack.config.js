@@ -3,6 +3,7 @@ const path = require("path");
 
 // const CompressionPlugin = require("compression-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -51,6 +52,10 @@ module.exports = [
       ],
     },
     name: "client",
+    optimization: {
+      minimize: true,
+      minimizer: ["...", new CssMinimizerPlugin()],
+    },
     output: {
       path: DIST_PUBLIC,
     },
