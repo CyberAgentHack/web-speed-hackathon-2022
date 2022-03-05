@@ -1,5 +1,10 @@
 import React, { useEffect, useState, useMemo, memo } from "react";
+import styled from "styled-components";
 import { optimizedImage } from "../../../utils/UrlUtils";
+
+const ImageAutoHeight = styled.img`
+  height: auto;
+`
 
 /**
  * @typedef Props
@@ -35,5 +40,5 @@ export const TrimmedImage = memo(({ height, src, width }) => {
     };
   }, [height, optimizedImage, width]);
 
-  return <img src={dataUrl} alt="" />;
+  return <ImageAutoHeight src={dataUrl} alt="" width={width} height={height} />;
 });

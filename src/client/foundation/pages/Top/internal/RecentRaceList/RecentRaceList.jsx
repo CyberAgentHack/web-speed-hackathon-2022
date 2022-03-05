@@ -21,6 +21,7 @@ const ItemWrapper = styled.li`
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
   opacity: ${({ $opacity }) => $opacity};
+  transition: opacity ease-out 500ms;
   padding: ${Space * 3}px;
 `;
 
@@ -60,6 +61,7 @@ const Item = ({ race, visible }) => {
     };
   }, [race.closeAt]);
 
+  /*
   const {
     abortAnimation,
     resetAnimation,
@@ -81,10 +83,10 @@ const Item = ({ race, visible }) => {
     };
   }, [race.id, visible, startAnimation, abortAnimation, resetAnimation]);
 
-  console.log(visible);
+  */
 
   return (
-    <ItemWrapper $opacity={visible ? opacity : 0}>
+    <ItemWrapper $opacity={visible ? 1 : 0}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
