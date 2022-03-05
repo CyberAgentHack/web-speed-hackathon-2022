@@ -2,7 +2,7 @@ import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
-import { BettingTicket, Race, User } from "../../model/index.js";
+import { BettingTicket, OddsItem, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
 
@@ -89,15 +89,30 @@ export const apiRoute = async (fastify) => {
   fastify.get("/races/:raceId", async (req, res) => {
     const repo = (await createConnection()).getRepository(Race);
 
-    const race = await repo.findOne(req.params.raceId, {
-      relations: ["entries", "entries.player", "trifectaOdds"],
-    });
+    const race = await repo.findOne(
+      { id: req.params.raceId },
+      {
+        relations: ["entries", "entries.player"],
+      },
+    );
 
     if (race === undefined) {
       throw fastify.httpErrors.notFound();
     }
 
     res.send(race);
+  });
+
+  fastify.get("/races/:raceId/odds-items", async (req, res) => {
+    const repo = (await createConnection()).getRepository(OddsItem);
+    const odds = await repo.find({
+      where: {
+        race: {
+          id: req.params.raceId,
+        },
+      },
+    });
+    res.send(odds);
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {

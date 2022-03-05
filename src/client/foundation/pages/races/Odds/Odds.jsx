@@ -1,5 +1,5 @@
 import moment from "moment-timezone";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -42,7 +42,12 @@ const Callout = styled.aside`
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data: race } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data: trifectaOdds } = useFetch(
+    `/api/races/${raceId}/odds-items`,
+    jsonFetcher,
+  );
+
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 
@@ -57,18 +62,18 @@ export const Odds = () => {
     [],
   );
 
-  if (data == null) {
+  if (race == null) {
     return <Container>Loading...</Container>;
   }
 
-  const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  const isRaceClosed = moment(race.closeAt).isBefore(new Date());
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{race.name}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        開始 {formatTime(race.startAt)} 締切 {formatTime(race.closeAt)}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -76,7 +81,7 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <TrimmedImage height={225} src={race.image} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -103,22 +108,29 @@ export const Odds = () => {
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsTable
-          entries={data.entries}
-          isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
-          onClickOdds={handleClickOdds}
-        />
-
+        {trifectaOdds == null ? (
+          <></>
+        ) : (
+          <OddsTable
+            entries={race.entries}
+            isRaceClosed={isRaceClosed}
+            odds={trifectaOdds ?? []}
+            onClickOdds={handleClickOdds}
+          />
+        )}
         <Spacer mt={Space * 4} />
         <Heading as="h2">人気順</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsRankingList
-          isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
-          onClickOdds={handleClickOdds}
-        />
+        {trifectaOdds == null ? (
+          <></>
+        ) : (
+          <OddsRankingList
+            isRaceClosed={isRaceClosed}
+            odds={trifectaOdds}
+            onClickOdds={handleClickOdds}
+          />
+        )}
       </Section>
 
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
