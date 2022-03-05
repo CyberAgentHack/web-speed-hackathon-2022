@@ -4,13 +4,12 @@ import React, { useEffect, useState } from "react";
  * @typedef Props
  * @property {string} src
  * @property {boolean} lazy
- * @property {boolean} notLength
  * @property {number} width
  * @property {height} height
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, lazy, notLength, src, width }) => {
+export const TrimmedImage = ({ height, lazy, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {
@@ -36,12 +35,5 @@ export const TrimmedImage = ({ height, lazy, notLength, src, width }) => {
     };
   }, [height, src, width]);
 
-  return (
-    <img
-      height={notLength ? null : height}
-      loading={lazy ? "lazy" : "eagar"}
-      src={dataUrl}
-      width={notLength ? null : width}
-    />
-  );
+  return <img loading={lazy ? "lazy" : "eagar"} src={dataUrl} />;
 };
