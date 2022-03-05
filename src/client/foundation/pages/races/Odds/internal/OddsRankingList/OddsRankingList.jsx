@@ -70,7 +70,7 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
     return (a, b) => (a[key] > b[key]) ? 1 : ((b[key] > a[key]) ? -1 : 0);
   };
   const sortedOdds = take(
-    odds.concat().sort(sortBy((item) => item.odds)),
+    odds.concat().sort(sortBy('odds')),
     50
   );
 
