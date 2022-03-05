@@ -14,5 +14,5 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
-  return <Image alt="" src={url} />;
+  return <Image alt="" src={url} type="image/webp" />;
 };
