@@ -5,7 +5,7 @@ const Image = styled.img`
   display: block;
   margin: 0 auto;
   width: 100%;
-  aspect-ratio: 1104 / 792
+  aspect-ratio: 1104 / 792;
 `;
 
 /**

@@ -70,7 +70,7 @@ export const Top = () => {
       ? [...raceData.races]
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-            Date.parse(a.startAt) - Date.parse(b.startAt),
+              Date.parse(a.startAt) - Date.parse(b.startAt),
           )
           .filter((/** @type {Model.Race} */ race) =>
             isSameDay(race.startAt, date),
@@ -101,7 +101,11 @@ export const Top = () => {
         {todayRaces.length > 0 && (
           <RecentRaceList>
             {todayRaces.map((race, index) => (
-              <RecentRaceList.Item key={race.id} delay={index * 100} race={race} />
+              <RecentRaceList.Item
+                key={race.id}
+                delay={index * 100}
+                race={race}
+              />
             ))}
           </RecentRaceList>
         )}
