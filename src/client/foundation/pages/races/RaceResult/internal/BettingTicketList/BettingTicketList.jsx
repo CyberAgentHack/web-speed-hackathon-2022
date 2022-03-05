@@ -49,7 +49,7 @@ const Placeholder = styled.div`
   align-items: center;
   color: #a8a29e;
   display: flex;
-  font-size: ${FontSize.LARGE};
+  font-size: 1.25rem;
   font-weight: bold;
   gap: ${Space * 2}px;
   justify-content: center;

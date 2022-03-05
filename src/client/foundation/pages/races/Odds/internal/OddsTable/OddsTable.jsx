@@ -21,7 +21,7 @@ const Table = styled.table`
   border-color: #292524;
   border-style: solid;
   border-width: 2px 0 2px;
-  font-size: ${FontSize.SMALL};
+  font-size: 0.875rem;
   height: 100%;
   min-width: calc(1024px - ${Space * 3}px * 2);
   table-layout: fixed;

@@ -24,7 +24,7 @@ const Wrapper = styled.ol`
     }
   }
 
-  @media (min-width: ${BreakPoint.TABLET}px) {
+  @media (min-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(25, auto);
 

@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 
 const NameText = styled.h1`
   color: #4ade80;
-  font-size: ${FontSize.LARGE};
+  font-size: 1.25rem;
   font-weight: bold;
 
   a {
@@ -29,7 +29,7 @@ const NameText = styled.h1`
 
 const LoginButton = styled(BaseButton)`
   background: #fff;
-  border-radius: ${Radius.MEDIUM};
+  border-radius: 12px;
   color: #292524;
   padding: ${Space * 1}px ${Space * 2}px;
 

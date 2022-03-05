@@ -30,13 +30,7 @@ export const Space = 8;
 //気になる
 export const Color = {};
 
-export const FontSize = {
-  LARGE: "1.25rem",
-  SMALL: "0.875rem",
-  X_LARGE: "1.5rem",
-  X_SMALL: "0.75rem",
-  XX_LARGE: "2rem",
-};
+export const FontSize = {};
 
 export const BreakPoint = {
   DESKTOP: 1216,

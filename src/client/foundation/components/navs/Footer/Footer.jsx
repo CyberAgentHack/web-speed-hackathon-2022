@@ -7,13 +7,13 @@ import { BreakPoint, FontSize, Space } from "../../../styles/variables";
 const Wrapper = styled.div`
   background: #57534e;
   color: #fff;
-  font-size: ${FontSize.SMALL};
+  font-size: 0.875rem;
   margin-top: ${Space * 5}px;
   padding: ${Space * 5}px ${Space * 5}px;
 `;
 
 const List = styled.ul`
-  @media (min-width: ${BreakPoint.TABLET}px) {
+  @media (min-width: 1024px) {
     display: flex;
     justify-content: flex-start;
   }
@@ -23,7 +23,7 @@ const ListItem = styled.li`
   cursor: pointer;
   margin-top: ${Space * 2}px;
 
-  @media (min-width: ${BreakPoint.TABLET}px) {
+  @media (min-width: 1024px) {
     margin-right: ${Space * 2}px;
     margin-top: 0;
   }
@@ -35,7 +35,7 @@ const ListItem = styled.li`
 
 const NameText = styled.h1`
   color: #4ade80;
-  font-size: ${FontSize.XX_LARGE};
+  font-size: 2rem;
   font-weight: bold;
   margin: ${Space * 4}px 0;
 
@@ -47,7 +47,7 @@ const NameText = styled.h1`
 
 const WarningText = styled.p`
   color: #d6d3d1;
-  font-size: ${FontSize.X_SMALL};
+  font-size: 0.75rem;
 `;
 
 /** @type {React.VFC} */

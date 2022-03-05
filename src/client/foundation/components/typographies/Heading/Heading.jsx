@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { FontSize, Space } from "../../../styles/variables";
 
 const styles = {
-  h1: `font-size: ${FontSize.XX_LARGE}`,
-  h2: `font-size: ${FontSize.X_LARGE}`,
-  h3: `font-size: ${FontSize.LARGE}`,
+  h1: `font-size: 2rem`,
+  h2: `font-size: 1.5rem`,
+  h3: `font-size: 1.25rem`,
 };
 
 const Wrapper = styled.h1`

@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   padding-right: ${Space * 2}px;
   width: 100%;
 
-  @media (min-width: ${BreakPoint.TABLET}px) {
+  @media (min-width: 1024px) {
     max-width: calc(1024px + ${Space * 5}px * 2);
     padding-left: ${Space * 5}px;
     padding-right: ${Space * 5}px;

@@ -19,7 +19,7 @@ import { RaceResultSection } from "./internal/RaceResultSection";
 
 const LiveBadge = styled.span`
   background: #ff0000;
-  border-radius: ${Radius.SMALL};
+  border-radius: 4px;
   color: #fff;
   font-weight: bold;
   padding: ${Space * 1}px;

@@ -14,7 +14,7 @@ const PlayerNumber = styled.span`
 `;
 
 const PlayerName = styled.span`
-  font-size: ${FontSize.SMALL};
+  font-size: 0.875rem;
 `;
 
 /**

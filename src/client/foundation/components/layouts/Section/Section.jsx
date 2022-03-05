@@ -11,8 +11,8 @@ const Wrapper = styled.section`
   margin-right: -${Space * 2}px;
   padding: ${Space * 2}px;
 
-  @media (min-width: ${BreakPoint.TABLET}px) {
-    border-radius: ${Radius.MEDIUM};
+  @media (min-width: 1024px) {
+    border-radius: 12px;
     margin-left: 0;
     margin-right: 0;
     padding: ${Space * 5}px ${Space * 3}px;

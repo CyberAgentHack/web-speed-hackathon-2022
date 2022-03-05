@@ -13,7 +13,7 @@ import { Stack } from "../../layouts/Stack";
 const ItemWrapper = styled.li`
   a {
     border: 1px solid #a8a29e;
-    border-radius: ${Radius.MEDIUM};
+    border-radius: 12px;
     display: block;
     font-weight: bold;
     padding-bottom: ${Space * 1}px;
@@ -30,7 +30,7 @@ const ItemWrapper = styled.li`
       color: #fff;
     }
 
-    @media (min-width: ${BreakPoint.TABLET}px) {
+    @media (min-width: 1024px) {
       width: 160px;
     }
   }

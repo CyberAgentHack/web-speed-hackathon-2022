@@ -19,14 +19,14 @@ export const RecentRaceList = ({ children }) => {
 
 const ItemWrapper = styled.li`
   background: #fff;
-  border-radius: ${Radius.MEDIUM};
+  border-radius: 12px;
   opacity: ${({ $opacity }) => $opacity};
   padding: ${Space * 3}px;
 `;
 
 const RaceButton = styled(LinkButton)`
   background: #44403c;
-  border-radius: ${Radius.MEDIUM};
+  border-radius: 12px;
   color: #fff;
   padding: ${Space * 1}px ${Space * 2}px;
 
@@ -36,7 +36,7 @@ const RaceButton = styled(LinkButton)`
 `;
 
 const RaceTitle = styled.h2`
-  font-size: ${FontSize.LARGE};
+  font-size: 1.25rem;
   font-weight: bold;
 `;
 

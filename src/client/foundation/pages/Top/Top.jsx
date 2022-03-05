@@ -103,7 +103,7 @@ export const Top = () => {
 
   const ChargeButton = styled.button`
     background: #44403c;
-    border-radius: ${Radius.MEDIUM};
+    border-radius: 12px;
     color: #fff;
     padding: ${Space * 1}px ${Space * 2}px;
 
