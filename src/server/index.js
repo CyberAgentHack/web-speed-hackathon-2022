@@ -23,8 +23,13 @@ const server = fastify({
 });
 server.register(fastifySensible);
 
+server.addHook("onRequest", async (req) => {
+  const connection = await createConnection();
+  req.dbConnection = connection;
+});
+
 server.addHook("onRequest", async (req, res) => {
-  const repo = (await createConnection()).getRepository(User);
+  const repo = req.dbConnection.getRepository(User);
 
   const userId = req.headers["x-app-userid"];
   if (userId !== undefined) {
@@ -54,4 +59,5 @@ const start = async () => {
     process.exit(1);
   }
 };
+
 start();
