@@ -5,7 +5,7 @@ import sharp from "sharp";
 
 export const imageRoute = async (fastify) => {
   fastify.addHook("onRequest", async (req, res) => {
-    res.header("Cache-Control", "max-age=3600");
+    res.header("Cache-Control", "max-age=86400, immutable");
   });
 
   fastify.register(fastifyStatic, {

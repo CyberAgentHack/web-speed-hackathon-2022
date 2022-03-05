@@ -254,7 +254,7 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.get("/zengin-data", async (_req, res) => {
-    res.header("Cache-Control", "max-age=3600");
+    res.header("Cache-Control", "max-age=86400, immutable");
     res.send(zenginMinifiedData);
   })
 };
