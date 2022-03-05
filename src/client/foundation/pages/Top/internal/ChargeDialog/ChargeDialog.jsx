@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import React, { forwardRef, useCallback, useState } from "react";
-import zenginCode from "zengin-code";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -23,6 +22,28 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
   const [amount, setAmount] = useState(0);
+  const [zenginCode, setZenginCode] = useState({});
+  const [bankList, setBankList] = useState([]);
+  const [bank, setBank] = useState(bankList[0]);
+  const [branch, setBranch] = useState([]);
+
+  useEffect(() => {
+    const getZenginCode = async () => {
+      const res = await fetch("/assets/data/banks.json");
+      const data = await res.json();
+      setZenginCode(data);
+    };
+    getZenginCode();
+  }, []);
+
+  useEffect(() => {
+    setBankList([
+      ...Object.entries(zenginCode).map(([code, { name }]) => ({
+        code,
+        name,
+      })),
+    ]);
+  }, [zenginCode]);
 
   const clearForm = useCallback(() => {
     setBankCode("");
@@ -67,12 +88,21 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
 
-  const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
-    code,
-    name,
-  }));
-  const bank = zenginCode[bankCode];
-  const branch = bank?.branches[branchCode];
+  useEffect(() => {
+    if (bankCode === "") {
+      return null;
+    }
+    const getBranch = async () => {
+      const res = await fetch("/assets/data/branches/" + bankCode + ".json");
+      const data = await res.json();
+      setBank({
+        ...zenginCode[bankCode],
+        branches: data,
+      });
+      setBranch(data);
+    };
+    getBranch();
+  }, [bankCode, zenginCode]);
 
   return (
     <Dialog ref={ref} onClose={handleCloseDialog}>
