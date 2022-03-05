@@ -1,7 +1,7 @@
 import fastify from "fastify";
 import fastifySensible from "fastify-sensible";
 
-import { User } from "../model/index.js";
+import { Player, User } from "../model/index.js";
 
 import { apiRoute } from "./routes/api.js";
 import { spaRoute } from "./routes/spa.js";
@@ -44,9 +44,25 @@ server.addHook("onRequest", async (req, res) => {
 server.register(apiRoute, { prefix: "/api" });
 server.register(spaRoute);
 
+const changeImageUrl = async () => {
+  const repo = (await createConnection()).getRepository(Player);
+  const players = await repo.find();
+
+  players.forEach((player) => {
+    player.image = player.image
+      .replace("/images/", "/images/resized/")
+      .replace(".jpg", ".avif");
+  });
+
+  repo.save(players);
+};
+
 const start = async () => {
   try {
     await initialize();
+
+    await changeImageUrl();
+
     await server.listen(process.env.PORT || 3000, "0.0.0.0");
   } catch (err) {
     server.log.error(err);

@@ -22,7 +22,7 @@ const connectionPromise = typeorm.createConnection({
   ],
   synchronize: false,
   type: "sqlite",
-});
+})
 
 async function createConnection() {
   return await connectionPromise;
