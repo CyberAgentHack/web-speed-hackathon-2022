@@ -30,9 +30,9 @@ export const RaceCard = () => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
+  // if (data == null) {
+  //   return <Container>Loading...</Container>;
+  // }
 
   return (
     <Container>
@@ -54,9 +54,7 @@ export const RaceCard = () => {
 
       <Section>
         <TabNav>
-          <TabNav.Item aria-current to={`/races/${raceId}/race-card`}>
-            出走表
-          </TabNav.Item>
+          <TabNav.Item aria-current to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>
           <TabNav.Item to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
           <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
         </TabNav>
