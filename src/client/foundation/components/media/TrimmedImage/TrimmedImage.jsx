@@ -4,7 +4,8 @@ import styled from "styled-components";
 const Image = styled.img`
   width: ${({ $width }) => $width}px;
   object-fit: ${({ $fit }) => $fit};
-  aspect-ratio: ${({ $height, $width }) => `${$width} / ${$height}`};
+  aspect-ratio: ${({ $height, $width }) => $width / $height};
+  height: auto;
 `;
 
 /**
