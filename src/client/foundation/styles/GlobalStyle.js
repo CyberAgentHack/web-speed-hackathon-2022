@@ -1,10 +1,9 @@
 import resetCss from "modern-css-reset?raw";
-import {memo} from "react";
 import { createGlobalStyle } from "styled-components";
 
 import { Color } from "./variables";
 
-export const GlobalStyle = memo(createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
  ${resetCss}
 
   body {
@@ -37,4 +36,4 @@ export const GlobalStyle = memo(createGlobalStyle`
     font-display: block;
     src: url("/assets/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Bold.ttf") format("truetype");
   }
-`);
+`;
