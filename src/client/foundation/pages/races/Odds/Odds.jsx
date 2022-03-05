@@ -50,7 +50,7 @@ const Callout = styled.aside`
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
-  const { data: race } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data: race } = useFetch(`/api/races/${raceId}/entry`, jsonFetcher);
   const { data: trifectaOdds } = useFetch(
     `/api/races/${raceId}/odds-items`,
     jsonFetcher,

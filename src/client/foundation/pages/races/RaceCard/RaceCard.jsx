@@ -28,7 +28,7 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceCard = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data } = useFetch(`/api/races/${raceId}/entry`, jsonFetcher);
 
   if (data == null) {
     return <Container>Loading...</Container>;
