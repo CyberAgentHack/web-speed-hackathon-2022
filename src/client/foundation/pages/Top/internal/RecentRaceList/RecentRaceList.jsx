@@ -95,6 +95,7 @@ const Item = ({ race }) => {
           <Stack horizontal alignItems="center" gap={Space * 2}>
             <TrimmedImage
               height={100}
+              lazy={true}
               src={race.image.slice(0, -3) + "webp"}
               width={100}
             />
