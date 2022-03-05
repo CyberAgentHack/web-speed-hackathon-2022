@@ -83,7 +83,7 @@ module.exports = [
                     modules: "auto",
                   },
                 ],
-                // "@babel/preset-react",
+                "@babel/preset-react",
               ],
             },
           },
