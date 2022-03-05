@@ -3,35 +3,10 @@ import { useOutletContext } from "react-router-dom";
 
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Space } from "../../../styles/variables";
+import { defaultEntries } from "../../../utils/DummyData";
 
 import { EntryTable } from "./internal/EntryTable";
 import { PlayerPictureList } from "./internal/PlayerPictureList";
-
-const defaultPlayer = {
-  id: "",
-  image: "",
-  name: "■■■■",
-  number: null,
-};
-
-const defaultEntries = Array(12)
-  .fill(null)
-  .map((_, i) => ({
-    comment: "",
-    first: null,
-    firstRate: null,
-    id: i,
-    number: null,
-    others: null,
-    paperWin: null,
-    player: defaultPlayer,
-    predictionMark: "",
-    rockWin: null,
-    scissorsWin: null,
-    second: null,
-    third: null,
-    thirdRate: null,
-  }));
 
 /** @type {React.VFC} */
 export const RaceCard = () => {

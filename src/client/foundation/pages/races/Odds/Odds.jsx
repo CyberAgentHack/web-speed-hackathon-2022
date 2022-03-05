@@ -3,13 +3,13 @@ import React, { useCallback, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 
-import { Container } from "../../../components/layouts/Container";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Heading } from "../../../components/typographies/Heading";
 import { Color, Space } from "../../../styles/variables";
+import { defaultEntries, dummyOdds } from "../../../utils/DummyData";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
-import { OddsTable } from "./internal/OddsTable";
+import { DummyOddsTable, OddsTable } from "./internal/OddsTable";
 import { TicketVendingModal } from "./internal/TicketVendingModal";
 
 const Callout = styled.aside`
@@ -41,11 +41,8 @@ export const Odds = () => {
     [],
   );
 
-  if (raceDetail == null) {
-    return <Container>Loading...</Container>;
-  }
-
-  const isRaceClosed = dayjs(raceDetail.closeAt).isBefore(new Date());
+  const isRaceClosed =
+    raceDetail == null ? true : dayjs(raceDetail.closeAt).isBefore(new Date());
 
   return (
     <>
@@ -62,12 +59,20 @@ export const Odds = () => {
       <Heading as="h2">オッズ表</Heading>
 
       <Spacer mt={Space * 2} />
-      <OddsTable
-        entries={raceDetail.entries}
-        isRaceClosed={isRaceClosed}
-        odds={raceDetail.trifectaOdds}
-        onClickOdds={handleClickOdds}
-      />
+      {raceDetail == null ? (
+        <DummyOddsTable
+          entries={defaultEntries}
+          isRaceClosed={false}
+          onClickOdds={handleClickOdds}
+        />
+      ) : (
+        <OddsTable
+          entries={raceDetail.entries}
+          isRaceClosed={isRaceClosed}
+          odds={raceDetail.trifectaOdds}
+          onClickOdds={handleClickOdds}
+        />
+      )}
 
       <Spacer mt={Space * 4} />
       <Heading as="h2">人気順</Heading>
@@ -75,7 +80,7 @@ export const Odds = () => {
       <Spacer mt={Space * 2} />
       <OddsRankingList
         isRaceClosed={isRaceClosed}
-        odds={raceDetail.trifectaOdds}
+        odds={raceDetail?.trifectaOdds ?? dummyOdds}
         onClickOdds={handleClickOdds}
       />
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
