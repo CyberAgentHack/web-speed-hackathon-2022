@@ -18,7 +18,16 @@ module.exports = [
   {
     devtool:
       process.env.NODE_ENV === "production" ? false : "inline-source-map",
-    entry: path.join(SRC_ROOT, "client/index.jsx"),
+    entry: {
+      main: [
+        "core-js",
+        "regenerator-runtime/runtime",
+        "@fortawesome/fontawesome-free/js/fontawesome",
+        "@fortawesome/fontawesome-free/js/solid",
+        "@fortawesome/fontawesome-free/js/regular",
+        path.join(SRC_ROOT, "client/index.jsx"),
+      ],
+    },
     mode: process.env.NODE_ENV,
     module: {
       rules: [
@@ -42,6 +51,7 @@ module.exports = [
                     corejs: "3",
                     modules: "auto",
                     targets: "last 1 Chrome major version",
+                    useBuiltIns: "usage",
                   },
                 ],
                 [
