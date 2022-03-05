@@ -43,7 +43,11 @@ const Callout = styled.aside`
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data: odds } = useFetch(`/api/races/${raceId}/odds`, jsonFetcher);
+  const { data: entries } = useFetch(
+    `/api/races/${raceId}/entries`,
+    jsonFetcher,
+  );
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 
@@ -58,18 +62,18 @@ export const Odds = () => {
     [],
   );
 
-  if (data == null) {
+  if (entries == null || odds == null) {
     return <Container>Loading...</Container>;
   }
 
-  const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  const isRaceClosed = moment(entries.closeAt).isBefore(new Date());
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{entries.name}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        開始 {formatTime(entries.startAt)} 締切 {formatTime(entries.closeAt)}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -79,7 +83,7 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <TrimmedImage
           height={225}
-          src={convertToWebP(data.image, "jpg")}
+          src={convertToWebP(entries.image, "jpg")}
           width={400}
         />
       </Section>
@@ -109,9 +113,9 @@ export const Odds = () => {
 
         <Spacer mt={Space * 2} />
         <OddsTable
-          entries={data.entries}
+          entries={entries.entries}
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
+          odds={odds}
           onClickOdds={handleClickOdds}
         />
 
@@ -121,7 +125,7 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
+          odds={odds}
           onClickOdds={handleClickOdds}
         />
       </Section>

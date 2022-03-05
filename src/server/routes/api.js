@@ -100,6 +100,33 @@ export const apiRoute = async (fastify) => {
     res.send(race);
   });
 
+  fastify.get("/races/:raceId/entries", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const entires = await repo.findOne(req.params.raceId, {
+      relations: ["entries", "entries.player"],
+    });
+
+    if (entires === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    res.send(entires);
+  });
+
+  fastify.get("/races/:raceId/odds", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+    const odds = await repo.findOne(req.params.raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    if (odds === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    res.send(odds.trifectaOdds);
+  });
+
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
     if (req.user == null) {
       throw fastify.httpErrors.unauthorized();
