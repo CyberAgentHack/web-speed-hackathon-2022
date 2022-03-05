@@ -4,7 +4,7 @@ import { createGlobalStyle } from "styled-components";
 import { Color } from "./variables";
 
 export const GlobalStyle = createGlobalStyle`
- ${resetCss}
+  ${resetCss}
 
   body {
     color: ${Color.mono[900]};
@@ -27,6 +27,6 @@ export const GlobalStyle = createGlobalStyle`
     font-family: "Senobi-Gothic";
     font-weight: bold;
     font-display: swap;
-    src: url("/assets/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Bold.ttf") format("truetype");
+    src: url("/assets/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Bold.woff2") format("woff2");
   }
 `;
