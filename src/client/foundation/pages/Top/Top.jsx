@@ -97,11 +97,7 @@ function useHeroImage(todayRaces) {
   return imageUrl;
 }
 
-/** @type {React.VFC} */
-export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
-
-  const ChargeButton = styled.button`
+const ChargeButton = styled.button`
     background: ${Color.mono[700]};
     border-radius: ${Radius.MEDIUM};
     color: ${Color.mono[0]};
@@ -111,6 +107,10 @@ export const Top = () => {
       background: ${Color.mono[800]};
     }
   `;
+
+/** @type {React.VFC} */
+export const Top = () => {
+  const { date = moment().format("YYYY-MM-DD") } = useParams();
 
   const chargeDialogRef = useRef(null);
 
