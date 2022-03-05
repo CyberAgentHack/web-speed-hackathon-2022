@@ -1,0 +1,31 @@
+FROM node:16.13.0 AS builder
+
+COPY ./src ./src
+COPY ./database ./database
+COPY ./package.json ./package.json
+COPY ./yarn.lock ./yarn.lock
+COPY ./webpack.config.js ./webpack.config.js
+COPY ./stylelint.config.js ./stylelint.config.js
+COPY ./tsconfig.json ./tsconfig.json
+COPY ./public ./public
+
+RUN yarn install 
+RUN yarn build
+
+FROM --platform=linux/amd64 node:16.13.0
+
+WORKDIR /usr/src/app
+
+COPY ./package.json ./package.json
+COPY ./yarn.lock ./yarn.lock
+COPY ./database ./database
+
+RUN yarn install 
+
+COPY --from=builder ./dist ./dist
+COPY ./src ./src
+COPY ./public ./public
+
+EXPOSE 3000
+
+CMD yarn serve

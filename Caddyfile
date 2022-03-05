@@ -1,0 +1,7 @@
+localhost {
+    reverse_proxy server:3000
+}
+
+webspeedhackathon.tesso.dev {
+    reverse_proxy server:3000
+}
