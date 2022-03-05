@@ -19,8 +19,6 @@ export const TrimmedImage = ({ alt, height, src, width }) => {
       canvas.width = width;
       canvas.height = height;
 
-      if (width == img.width && height == img.height) return;
-
       const isWidthSmaller = img.width <= img.height;
       const ratio = isWidthSmaller ? width / img.width : height / img.height;
 
