@@ -20,6 +20,7 @@ const CHARGE = "charge";
 export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const [zenginCode, setZenginCode] = useState({});
   const [bankList, setBankList] = useState([]);
+  const [bank, setBank] = useState({});
 
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
@@ -28,7 +29,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
   useEffect(() => {
     const init = async () => {
-      const res = await fetch("/api/banks");
+      const res = await fetch(`assets/banks/banks.json`);
       const data = await res.json();
       const bl = Object.entries(data).map(([code, { name }]) => ({
         code,
@@ -39,6 +40,15 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     };
     init();
   }, []);
+
+  useEffect(() => {
+    const init = async () => {
+      const res = await fetch(`assets/banks/list/${bankCode}.json`);
+      const data = await res.json();
+      setBank(data);
+    };
+    if (bankCode !== "") init();
+  }, [bankCode]);
 
   const clearForm = useCallback(() => {
     setBankCode("");
@@ -83,7 +93,6 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
 
-  const bank = zenginCode[bankCode];
   const branch = bank?.branches[branchCode];
 
   return (
