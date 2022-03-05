@@ -136,6 +136,32 @@ export const apiRoute = async (fastify) => {
     });
   });
 
+  fastify.get("/races/:raceId/card", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["entries", "entries.player"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    res.send(race);
+  });
+
+  fastify.get("/races/:raceId/result", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {});
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    res.send(race);
+  });
+
   fastify.post("/races/:raceId/betting-tickets", async (req, res) => {
     if (req.user == null) {
       throw fastify.httpErrors.unauthorized();

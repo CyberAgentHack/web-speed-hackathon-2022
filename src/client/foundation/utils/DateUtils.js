@@ -37,3 +37,10 @@ export const formatCloseAt = (closeAt, now = new Date()) => {
 
   return `締切${Math.floor((Date.parse(closeAt) - now.getTime()) / 1000 / 60)}分前`;
 };
+
+export const formatDate = (dt) => {
+  var y = dt.getFullYear();
+  var m = ('00' + (dt.getMonth()+1)).slice(-2);
+  var d = ('00' + dt.getDate()).slice(-2);
+  return (y + '-' + m + '-' + d);
+};
