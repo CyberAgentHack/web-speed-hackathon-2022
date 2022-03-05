@@ -32,18 +32,15 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
       const res = await fetch("/assets/data/banks.json");
       const data = await res.json();
       setZenginCode(data);
+      setBankList([
+        ...Object.entries(data).map(([code, { name }]) => ({
+          code,
+          name,
+        })),
+      ]);
     };
     getZenginCode();
   }, []);
-
-  useEffect(() => {
-    setBankList([
-      ...Object.entries(zenginCode).map(([code, { name }]) => ({
-        code,
-        name,
-      })),
-    ]);
-  }, [zenginCode]);
 
   const clearForm = useCallback(() => {
     setBankCode("");
@@ -58,6 +55,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   });
 
   const handleCodeChange = useCallback((e) => {
+    setBank(null);
     setBankCode(e.currentTarget.value);
     setBranchCode("");
   }, []);
@@ -90,7 +88,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
   useEffect(() => {
     if (bankCode === "" || bankCode.length != 4) {
-      return null;
+      return;
     }
     const getBranch = async () => {
       const res = await fetch("/assets/data/branches/" + bankCode + ".json");
@@ -100,15 +98,22 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
         ...zenginCode[bankCode],
         branches: data,
       });
-      setBranch(data);
     };
 
-    setBranch(null);
-    setBank(null);
     if (zenginCode[bankCode] !== undefined) {
       getBranch();
     }
   }, [bankCode, zenginCode]);
+
+  useEffect(() => {
+    if (bank === null) return;
+    if (branchCode === "") return;
+    if (bank.branches[branchCode]) {
+      setBranch(bank.branches[branchCode]);
+    } else {
+      setBranch(null);
+    }
+  }, [bank, branchCode]);
 
   return (
     <Dialog ref={ref} onClose={handleCloseDialog}>
@@ -157,7 +162,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
                 ))}
             </datalist>
 
-            {branch && (
+            {branch != null && (
               <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
                 支店名: {branch.name}
               </motion.div>
