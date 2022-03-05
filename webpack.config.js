@@ -39,11 +39,17 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
-                    spec: true,
+                    corejs: "3",
+                    modules: "auto",
+                    targets: "last 1 Chrome major version",
                   },
                 ],
-                "@babel/preset-react",
+                [
+                  "@babel/preset-react",
+                  {
+                    development: process.env.NODE_ENV !== "production",
+                  },
+                ],
               ],
             },
           },
