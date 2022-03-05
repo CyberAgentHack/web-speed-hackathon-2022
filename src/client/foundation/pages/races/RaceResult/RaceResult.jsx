@@ -49,7 +49,7 @@ export const RaceResult = () => {
 
       <Spacer mt={Space * 2} />
 
-      <Section dark shrink>
+      <Section custom dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
         <ThmImgCont>

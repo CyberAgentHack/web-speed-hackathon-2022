@@ -11,6 +11,9 @@ const Wrapper = styled.section`
   margin-right: -${Space * 2}px;
   padding: ${Space * 2}px;
 
+  box-sizing: ${({ $custom }) => ($custom ? "content-box" : "border-box")};
+  max-width: ${({ $custom }) => ($custom ? "100%" : "")};
+
   @media (min-width: ${BreakPoint.TABLET}px) {
     border-radius: ${Radius.MEDIUM};
     margin-left: 0;
@@ -26,9 +29,9 @@ const Wrapper = styled.section`
  */
 
 /** @type {React.FC<Props>} */
-export const Section = ({ children, dark, shrink }) => {
+export const Section = ({ children, custom, dark, shrink }) => {
   return (
-    <Wrapper $dark={dark} $shrink={shrink}>
+    <Wrapper $custom={custom} $dark={dark} $shrink={shrink}>
       {children}
     </Wrapper>
   );
