@@ -2,19 +2,19 @@ version: "3"
 
 services:
   server:
+    image: ghcr.io/tesso57/web-speed-hackathon-2022/server:latest
     build:
       context: .
       dockerfile: Dockerfile.server
     restart: always
-    image: ghcr.io/tesso57/web-speed-hackathon-2022/server:latest
     expose:
       - "3000"
   client:
+    image: ghcr.io/tesso57/web-speed-hackathon-2022/client:latest
     build:
       context: .
       dockerfile: Dockerfile.client
     restart: always
-    image: ghcr.io/tesso57/web-speed-hackathon-2022/client:latest
     ports:
       - "80:80"
       - "443:443"
