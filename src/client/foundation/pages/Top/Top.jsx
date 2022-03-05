@@ -137,10 +137,7 @@ export const Top = () => {
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
               new Date(a.startAt) - new Date(b.startAt),
           )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(new Date(race.startAt), date),
-          )
-      : []), [raceData, date]);
+      : []), [raceData]);
 
   const heroImageUrl = useHeroImage(todayRaces);
 
