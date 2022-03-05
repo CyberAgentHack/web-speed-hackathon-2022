@@ -39,22 +39,38 @@ export function useAuthorizedFetch(apiPath, fetcher) {
 
     const promise = fetcher(apiPath, userId);
 
-    promise.then((data) => {
+    // promise.then((data) => {
+    //   setResult((cur) => ({
+    //     ...cur,
+    //     data,
+    //     loading: false,
+    //   }));
+    // });
+
+    promise((data) => {
       setResult((cur) => ({
         ...cur,
         data,
         loading: false,
       }));
-    });
+    })
 
-    promise.catch((error) => {
+  //   promise.catch((error) => {
+  //     setResult((cur) => ({
+  //       ...cur,
+  //       error,
+  //       loading: false,
+  //     }));
+  //   });
+  // }, [apiPath, fetcher, loggedIn, userId]);
+
+    promise((error) => {
       setResult((cur) => ({
         ...cur,
         error,
         loading: false,
       }));
-    });
-  }, [apiPath, fetcher, loggedIn, userId]);
+    }, [apiPath, fetcher, loggedIn, userId]);
 
   useEffect(() => {
     fetch();
