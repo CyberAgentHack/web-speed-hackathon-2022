@@ -1,7 +1,7 @@
 import fastify from "fastify";
 import fastifySensible from "fastify-sensible";
 
-import { Player, User } from "../model/index.js";
+import { Player, Race, User } from "../model/index.js";
 
 import { apiRoute } from "./routes/api.js";
 import { spaRoute } from "./routes/spa.js";
@@ -45,16 +45,26 @@ server.register(apiRoute, { prefix: "/api" });
 server.register(spaRoute);
 
 const changeImageUrl = async () => {
-  const repo = (await createConnection()).getRepository(Player);
-  const players = await repo.find();
+  const conn = await createConnection();
+  const playerRepo = conn.getRepository(Player);
+  const players = await playerRepo.find();
 
   players.forEach((player) => {
     player.image = player.image
       .replace("/images/", "/images/resized/")
       .replace(".jpg", ".avif");
   });
+  playerRepo.save(players);
 
-  repo.save(players);
+  const raceRepo = conn.getRepository(Race);
+  const races = await raceRepo.find();
+
+  races.forEach((race) => {
+    race.image = race.image
+      .replace("/images/races/", "/images/resized/races_{ratio}/")
+      .replace(".jpg", ".avif");
+  });
+  raceRepo.save(races);
 };
 
 const start = async () => {
