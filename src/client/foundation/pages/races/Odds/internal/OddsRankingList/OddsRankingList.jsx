@@ -79,16 +79,16 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
             <InactiveBuyButton>
               <Stack horizontal alignItems="center" gap={Space * 2}>
                 <RankNo>{i + 1}.</RankNo>
-                <EntryCombination numbers={item?.key} />
-                <OddsMarker as="div" odds={item?.odds} />
+                <EntryCombination numbers={item ? item.key : []} />
+                <OddsMarker as="div" odds={item ? item.odds : 0} />
               </Stack>
             </InactiveBuyButton>
           ) : (
             <BuyButton onClick={() => onClickOdds(item)}>
               <Stack horizontal alignItems="center" gap={Space * 2}>
                 <RankNo>{i + 1}.</RankNo>
-                <EntryCombination numbers={item?.key} />
-                <OddsMarker as="div" odds={item?.odds} />
+                <EntryCombination numbers={item ? item.key : []} />
+                <OddsMarker as="div" odds={item ? item.odds : 0} />
               </Stack>
             </BuyButton>
           )}
