@@ -63,13 +63,9 @@ const RankNo = styled.div`
  * @property {(odds: Model.OddsItem) => void} onClickOdds
  */
 
-const sortBy = (key) => {
-  return (a, b) => (a[key] > b[key]) ? 1 : ((b[key] > a[key]) ? -1 : 0);
-}
-
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = odds.concat().sort(sortBy((item) => item.odds)).slice(0, 50);
+  const sortedOdds = odds.concat().sort((a, b) => a.odds - b.odds).slice(0, 50);
 
   return (
     <Wrapper>
