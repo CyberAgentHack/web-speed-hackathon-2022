@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 `;
 
 const NameText = styled.h1`
-  color: ${Color.green[400]};
+  color: #4ade80;
   font-size: ${FontSize.LARGE};
   font-weight: bold;
 

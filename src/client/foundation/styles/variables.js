@@ -31,11 +31,6 @@ export const Space = 8;
 export const Color = {
   current: "currentColor",
   //変更green100, 400, 500
-  green: {
-    100: "#dcfce7",
-    400: "#4ade80",
-    500: "#22c55e",
-  },
   inherit: "inherit",
   mono: {
     0: "#fff",
@@ -57,7 +52,6 @@ export const Color = {
 
 export const FontSize = {
   LARGE: "1.25rem",
-  MEDIUM: "1rem",
   SMALL: "0.875rem",
   X_LARGE: "1.5rem",
   X_SMALL: "0.75rem",

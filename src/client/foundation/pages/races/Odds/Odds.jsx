@@ -29,9 +29,8 @@ const LiveBadge = styled.span`
 
 const Callout = styled.aside`
   align-items: center;
-  background: ${({ $closed }) =>
-    $closed ? Color.mono[200] : Color.green[100]};
-  color: ${({ $closed }) => ($closed ? Color.mono[600] : Color.green[500])};
+  background: ${({ $closed }) => ($closed ? Color.mono[200] : "#dcfce7")};
+  color: ${({ $closed }) => ($closed ? Color.mono[600] : "#22c55e")};
   display: flex;
   font-weight: bold;
   gap: ${Space * 2}px;

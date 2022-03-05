@@ -34,7 +34,7 @@ const ListItem = styled.li`
 `;
 
 const NameText = styled.h1`
-  color: ${Color.green[400]};
+  color: #4ade80;
   font-size: ${FontSize.XX_LARGE};
   font-weight: bold;
   margin: ${Space * 4}px 0;
