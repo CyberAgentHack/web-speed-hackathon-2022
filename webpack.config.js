@@ -13,11 +13,14 @@ const SRC_ROOT = abs("./src");
 const PUBLIC_ROOT = abs("./public");
 const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
+const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
 
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
+    devtool: IS_DEVELOPMENT ? "inline-source-map" : false,
     entry: path.join(SRC_ROOT, "client/index.jsx"),
+    mode: "production",
     module: {
       rules: [
         {
@@ -85,6 +88,7 @@ module.exports = [
   {
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
+    mode: "development",
     module: {
       rules: [
         {
@@ -100,7 +104,15 @@ module.exports = [
                     bugfixes: true,
                     corejs: "3",
                     loose: true,
+                    modules: "cjs",
                     useBuiltIns: "usage",
+                  },
+                ],
+                [
+                  "@babel/preset-react",
+                  {
+                    development: process.env.BABEL_ENV === "development",
+                    useSpread: true,
                   },
                 ],
               ],
