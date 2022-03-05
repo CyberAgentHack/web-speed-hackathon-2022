@@ -18,9 +18,9 @@ export const formatTime = (ts) => {
 export const formatDate = (date) => {
   if (!date) return "";
 
-  return `${date.getFullYear()}/${toDoubleDigits(
+  return `${date.getFullYear()}-${toDoubleDigits(
     date.getMonth() + 1,
-  )}/${toDoubleDigits(date.getDate())}`;
+  )}-${toDoubleDigits(date.getDate())}`;
 };
 
 const toDoubleDigits = function (num) {
