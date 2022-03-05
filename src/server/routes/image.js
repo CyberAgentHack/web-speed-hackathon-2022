@@ -17,6 +17,7 @@ export const imageRoute = async (fastify) => {
     const path = req.raw.url.replace(/\?.*/, "").split("/").slice(3);
 
     if (req.query["w"]) {
+      res.header("Content-Type", "image/jpeg");
       sharp(join(__dirname, "images", ...path))
         .resize(Number(req.query["w"]))
         .jpeg({
@@ -27,8 +28,6 @@ export const imageRoute = async (fastify) => {
         .then(buffer => res.send(buffer))
       return;
     } else {
-      //res.send(join(__dirname, dirname(path.join("/"))));
-      //res.send(basename(path.join("/")));
       res.sendFile(path.join("/"));
     }
   });
