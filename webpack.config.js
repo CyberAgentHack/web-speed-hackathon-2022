@@ -36,14 +36,7 @@ module.exports = [
           use: {
             loader: "babel-loader",
             options: {
-              presets: [
-                [
-                  "@babel/preset-env",
-                  {
-                  },
-                ],
-                "@babel/preset-react",
-              ],
+              presets: [["@babel/preset-env", {}], "@babel/preset-react"],
             },
           },
         },
@@ -60,7 +53,7 @@ module.exports = [
       new BundleAnalyzerPlugin({
         analyzerMode: "static",
       }),
-      new MomentLocalesPlugin({ localesToKeep: ["ja"] })
+      new MomentLocalesPlugin({ localesToKeep: [] }),
     ],
     resolve: {
       extensions: [".js", ".jsx"],
@@ -85,9 +78,9 @@ module.exports = [
                   "@babel/preset-env",
                   {
                     modules: "cjs",
-                    "targets": {
-					            "node": "current"
-				            }
+                    targets: {
+                      node: "current",
+                    },
                   },
                 ],
                 "@babel/preset-react",
