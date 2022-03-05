@@ -38,7 +38,7 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.addHook("onRequest", async (req, res) => {
-  res.header("Cache-Control", "public");
+  res.header("Cache-Control", "public, max-age=31536000");
   res.header("Connection", "close");
 });
 
