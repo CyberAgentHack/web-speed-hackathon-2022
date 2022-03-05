@@ -3,6 +3,7 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
+const webpack = require('webpack')
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -13,9 +14,14 @@ const PUBLIC_ROOT = abs("./public");
 const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
 
+console.log("process env ", process.env.NODE_ENV)
+
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
+    optimization: {
+      minimize: true
+    },
     devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
     mode: "development",
@@ -57,6 +63,13 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      new webpack.DefinePlugin({
+        process: {
+          env: {
+            "NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+          }
+        }
+      })
     ],
     resolve: {
       extensions: [".js", ".jsx"],
