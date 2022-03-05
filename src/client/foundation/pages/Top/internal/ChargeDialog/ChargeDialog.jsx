@@ -18,9 +18,8 @@ const CHARGE = "charge";
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
 export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
-  const [zenginCode, setZenginCode] = useState({});
   const [bankList, setBankList] = useState([]);
-  const [bank, setBank] = useState({});
+  const [bank, setBank] = useState(null);
 
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
@@ -31,12 +30,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     const init = async () => {
       const res = await fetch(`assets/banks/banks.json`);
       const data = await res.json();
-      const bl = Object.entries(data).map(([code, { name }]) => ({
-        code,
-        name,
-      }));
-      setZenginCode(data);
-      setBankList(bl);
+      setBankList(data);
     };
     init();
   }, []);
@@ -44,8 +38,12 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   useEffect(() => {
     const init = async () => {
       const res = await fetch(`assets/banks/list/${bankCode}.json`);
-      const data = await res.json();
-      setBank(data);
+      try {
+        const data = await res.json();
+        setBank(data);
+      } catch (e) {
+        setBank(null);
+      }
     };
     if (bankCode !== "") init();
   }, [bankCode]);
