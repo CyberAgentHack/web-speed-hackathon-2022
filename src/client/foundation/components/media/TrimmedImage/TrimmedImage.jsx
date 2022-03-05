@@ -1,38 +1,72 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
+
+const Img = styled.img`
+  object-fit: cover;
+`;
 
 /**
  * @typedef Props
  * @property {string} src
  * @property {number} width
- * @property {height} height
+ * @property {number} height
+ * @property {boolean?} lazyLoad
+ * @property {"cover" | "contain" | undefined} objectFit
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
-  const [dataUrl, setDataUrl] = useState(null);
-
+export const TrimmedImage = ({
+  height,
+  lazyLoad = false,
+  src,
+  width,
+  objectFit = "cover",
+}) => {
+  const ref = useRef(null);
   useEffect(() => {
     const img = new Image();
     img.src = src;
+    ref.current.height = height;
     img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
+      // const canvas = document.createElement("canvas");
+      // canvas.width = width;
+      // canvas.height = height;
 
       const isWidthSmaller = img.width <= img.height;
       const ratio = isWidthSmaller ? width / img.width : height / img.height;
 
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(
-        img,
-        -(img.width * ratio - width) / 2,
-        -(img.height * ratio - height) / 2,
-        img.width * ratio,
-        img.height * ratio,
-      );
-      setDataUrl(canvas.toDataURL());
+      // ref.current.width = img.width * ratio;
+      // ref.current.height = img.height * ratio;
+
+      const imgAspect = img.width / img.height;
+      const areaAspect = width / height;
+
+      ref.current.style.objectFit = isWidthSmaller
+        ? areaAspect < imgAspect
+          ? "contain"
+          : "cover"
+        : imgAspect < areaAspect
+        ? "contain"
+        : "cover";
     };
   }, [height, src, width]);
 
-  return <img src={dataUrl} />;
+  return (
+    <Img
+      decoding="async"
+      ref={ref}
+      onLoad={(e) => {
+        const img = e.target;
+        console.log(e.target.width, e.target.height);
+        const isWidthSmaller = img.width <= img.height;
+        const ratio = isWidthSmaller ? width / img.width : height / img.height;
+        console.log(img.width * ratio, img.height * ratio);
+      }}
+      // height={height}
+      loading={lazyLoad ? "lazy" : undefined}
+      src={src}
+      width={width}
+      $objectFit={objectFit}
+    />
+  );
 };
