@@ -70,7 +70,26 @@ const InactiveBuyButton = styled.div`
  */
 const mapKey = (second, third) => `${second}.${third}`;
 const without = (arr, ...args) => arr.filter((item) => !args.includes(item));
-const range = (n) => [...new Array(n).keys()];
+// WARNING: This is not a drop in replacement solution and
+// it might not work for some edge cases. Test your code!
+const range = (start, end, increment) => {
+  const isEndDef = typeof end !== "undefined";
+  end = isEndDef ? end : start;
+  start = isEndDef ? start : 0;
+  if (typeof increment === "undefined") {
+    increment = Math.sign(end - start);
+  }
+  const length = Math.abs((end - start) / (increment || 1));
+  const { result } = Array.from({ length }).reduce(
+    ({ current, result }) => ({
+      current: current + increment,
+      result: [...result, current],
+    }),
+    { current: start, result: [] },
+  );
+
+  return result;
+};
 
 /**
  * @typedef Props
