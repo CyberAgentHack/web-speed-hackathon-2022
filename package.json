@@ -80,6 +80,7 @@
     "regenerator-runtime": "^0.13.9",
     "sqlite3": "^5.0.2",
     "styled-components": "^5.3.3",
+    "terser-webpack-plugin": "^5.3.1",
     "typeorm": "^0.2.44",
     "uuid": "^8.3.2",
     "zengin-code": "^1.0.0-p20220130"

@@ -2,6 +2,7 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -16,9 +17,9 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: "inline-source-map",
+    devtool: "source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
@@ -50,6 +51,17 @@ module.exports = [
       ],
     },
     name: "client",
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            keep_classnames: true,
+            keep_fnames: true,
+          },
+        }),
+      ],
+    },
     output: {
       path: DIST_PUBLIC,
     },
@@ -64,10 +76,10 @@ module.exports = [
     target: "web",
   },
   {
-    devtool: "inline-source-map",
+    devtool: "source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
@@ -92,6 +104,17 @@ module.exports = [
       ],
     },
     name: "server",
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            keep_classnames: true,
+            keep_fnames: true,
+          },
+        }),
+      ],
+    },
     output: {
       filename: "server.js",
       path: DIST_ROOT,
