@@ -4,7 +4,9 @@ import styled from "styled-components";
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useFetch } from "../../../../../hooks/useFetch";
 import { BreakPoint, Color, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const Wrapper = styled.ol`
@@ -58,22 +60,20 @@ const RankNo = styled.div`
 
 /**
  * @typedef Props
- * @property {Model.OddsItem[]} odds
+ * @property {string} raceId
  * @property {boolean} isRaceClosed
  * @property {(odds: Model.OddsItem) => void} onClickOdds
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  /* const sortedOdds = take(
-    sortBy(odds, (item) => item.odds),
-    50,
-  ); */
+export const OddsRankingList = ({ isRaceClosed, raceId, onClickOdds }) => {
 
-  const sortedOdds = (() => {
-    const sorted = [...odds].sort((a, b) => a.odds - b.odds);
-    return sorted.slice(0, 50);
-  })()
+  const { data: sortedOdds } = useFetch(`/api/races/${raceId}/odds_popular`, jsonFetcher);
+
+  // FIXME
+  if (!sortedOdds) {
+    return null;
+  }
 
   return (
     <Wrapper>

@@ -2,7 +2,7 @@ import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
-import { BettingTicket, Race, User } from "../../model/index.js";
+import { BettingTicket, OddsItem, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
 
@@ -123,6 +123,64 @@ export const apiRoute = async (fastify) => {
     }
 
     res.send(race);
+  });
+
+  fastify.get("/races/:raceId/subset", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["entries", "entries.player"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    res.send(race);
+  });
+
+  fastify.get("/races/:raceId/odds_popular", async (req, res) => {
+    const repo = (await createConnection()).getRepository(OddsItem);
+
+    const odds = await repo.find({
+      race: req.params["raceId"]
+    });
+
+    if (odds === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    const sortedOdds = (() => {
+      const sorted = [...odds].sort((a, b) => a.odds - b.odds);
+      return sorted.slice(0, req.params["count"] !== undefined ? parseInt(req.params["count"]) : 50);
+    })()
+
+    res.send(sortedOdds);
+  });
+
+  const mapKey = (second, third) => `${second}.${third}`;
+
+  fastify.get("/races/:raceId/odds_map/:firstKey", async (req, res) => {
+    const repo = (await createConnection()).getRepository(OddsItem);
+
+    const odds = await repo.find({
+      race: req.params["raceId"]
+    });
+
+    if (odds === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    const firstKey = parseInt(req.params["firstKey"]);
+    const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
+
+    const oddsMap = filteredOdds.reduce((acc, cur) => {
+      const [, second, third] = cur.key;
+      acc[mapKey(second, third)] = cur;
+      return acc;
+    }, {});
+
+    res.send(oddsMap);
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {

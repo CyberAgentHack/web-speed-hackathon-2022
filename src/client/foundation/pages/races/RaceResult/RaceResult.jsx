@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import useSWR from "swr";
 
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
@@ -29,7 +30,7 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceResult = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data } = useSWR(`/api/races/${raceId}/subset`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher,

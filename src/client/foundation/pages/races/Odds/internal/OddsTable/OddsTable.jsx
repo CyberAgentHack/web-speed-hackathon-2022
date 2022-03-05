@@ -1,10 +1,13 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
+import useSWR from "swr";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useFetch } from "../../../../../hooks/useFetch";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const ScrollWrapper = styled.div`
@@ -72,15 +75,17 @@ const mapKey = (second, third) => `${second}.${third}`;
 
 /**
  * @typedef Props
- * @property {Model.OddsItem[]} odds
+ * @property {string} raceId
  * @property {Model.RaceEntry[]} entries
  * @property {boolean} isRaceClosed
  * @property {(odds: Model.OddsItem) => void} onClickOdds
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
+export const OddsTable = ({ entries, isRaceClosed, raceId, onClickOdds }) => {
   const [firstKey, setFirstKey] = useState(1);
+
+  const { data: oddsMap } = useSWR(`/api/races/${raceId}/odds_map/${firstKey}`, jsonFetcher);
 
   const handleChange = useCallback((e) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
@@ -88,12 +93,19 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
 
   const headNumbers = [...Array(entries.length)].map((_, i) => i + 1).filter(i => i != firstKey);
 
-  const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
-  const oddsMap = filteredOdds.reduce((acc, cur) => {
-    const [, second, third] = cur.key;
-    acc[mapKey(second, third)] = cur;
-    return acc;
-  }, {});
+  /*
+    const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
+    const oddsMap = filteredOdds.reduce((acc, cur) => {
+      const [, second, third] = cur.key;
+      acc[mapKey(second, third)] = cur;
+      return acc;
+    }, {});
+  */
+
+  // FIXME
+  if (!oddsMap) {
+    return null;
+  }
 
   return (
     <div>
