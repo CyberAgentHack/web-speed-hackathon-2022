@@ -35,5 +35,12 @@ export const TrimmedImage = ({ height, lazy, src, width }) => {
     };
   }, [height, src, width]);
 
-  return <img loading={lazy ? "lazy" : "eagar"} src={dataUrl} />;
+  return (
+    <img
+      height={height}
+      loading={lazy ? "lazy" : "eagar"}
+      src={dataUrl}
+      width={width}
+    />
+  );
 };
