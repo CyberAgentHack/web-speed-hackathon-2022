@@ -7,6 +7,9 @@ import fastifyStatic from "fastify-static";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const spaRoute = async (fastify) => {
+  fastify.addHook("onRequest", async (req, res) => {
+    res.header("Cache-Control", "max-age=3600, must-revalidate");
+  })
   fastify.register(fastifyStatic, {
     root: join(__dirname, "public"),
     wildcard: false,
