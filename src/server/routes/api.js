@@ -8,6 +8,7 @@ import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
 
 import zenginData from "zengin-code";
+import { formatRFC7231, fromUnixTime } from "date-fns";
 
 const zenginMinifiedData = {};
 
@@ -76,6 +77,7 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.get("/races", async (req, res) => {
+    res.header("Cache-Control", "public");
     const since =
       req.query.since != null ? moment.unix(req.query.since) : undefined;
     const until =
@@ -98,11 +100,13 @@ export const apiRoute = async (fastify) => {
           until.utc().format("YYYY-MM-DD HH:mm:ss"),
         ),
       });
+      res.header("Expires", formatRFC7231(fromUnixTime(parseInt(req.query.until))));
     } else if (since != null) {
       Object.assign(where, {
         startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
     } else if (until != null) {
+      res.header("Expires", formatRFC7231(fromUnixTime(parseInt(req.query.until))));
       Object.assign(where, {
         startAt: LessThanOrEqual(until.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
