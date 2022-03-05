@@ -1,6 +1,5 @@
 import moment from "moment-timezone";
-import lazy from "preact-lazy";
-import React, { useCallback, useRef } from "react";
+import React, { lazy, Suspense, useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -16,7 +15,7 @@ import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
-const ChargeDialog = lazy(() => import("./internal/ChargeDialog"));
+const ChargeDialog = lazy(() => import("./internal/ChargeDialog/ChargeDialog"));
 
 /**
  * @param {Model.Race[]} todayRaces
@@ -125,7 +124,9 @@ export const Top = () => {
         )}
       </section>
 
-      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      <Suspense fallback={<p></p>}>
+        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      </Suspense>
     </Container>
   );
 };
