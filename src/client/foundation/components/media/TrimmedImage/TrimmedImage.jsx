@@ -34,5 +34,5 @@ export const TrimmedImage = React.memo(({ height, src, width }) => {
     };
   }, []);
 
-  return <img src={dataUrl} />;
+  return <img src={dataUrl} defer/>;
 });
