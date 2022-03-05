@@ -5,7 +5,7 @@ import zenginCode from "zengin-code";
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
-import { initialize } from "../typeorm/initialize.js";
+import { changeImageUrl, initialize } from "../typeorm/initialize.js";
 
 /**
  * @type {import('fastify').FastifyPluginCallback}
@@ -182,6 +182,7 @@ export const apiRoute = async (fastify) => {
 
   fastify.post("/initialize", async (_req, res) => {
     await initialize();
+    await changeImageUrl();
     res.status(204).send();
   });
 };

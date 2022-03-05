@@ -1,12 +1,12 @@
 import fastify from "fastify";
 import fastifySensible from "fastify-sensible";
 
-import { Player, Race, User } from "../model/index.js";
+import { User } from "../model/index.js";
 
 import { apiRoute } from "./routes/api.js";
 import { spaRoute } from "./routes/spa.js";
 import { createConnection } from "./typeorm/connection.js";
-import { initialize } from "./typeorm/initialize.js";
+import { changeImageUrl, initialize } from "./typeorm/initialize.js";
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
@@ -43,29 +43,6 @@ server.addHook("onRequest", async (req, res) => {
 
 server.register(apiRoute, { prefix: "/api" });
 server.register(spaRoute);
-
-const changeImageUrl = async () => {
-  const conn = await createConnection();
-  const playerRepo = conn.getRepository(Player);
-  const players = await playerRepo.find();
-
-  players.forEach((player) => {
-    player.image = player.image
-      .replace("/images/", "/images/resized/")
-      .replace(".jpg", ".avif");
-  });
-  playerRepo.save(players);
-
-  const raceRepo = conn.getRepository(Race);
-  const races = await raceRepo.find();
-
-  races.forEach((race) => {
-    race.image = race.image
-      .replace("/images/races/", "/images/resized/races_{ratio}/")
-      .replace(".jpg", ".avif");
-  });
-  raceRepo.save(races);
-};
 
 const start = async () => {
   try {
