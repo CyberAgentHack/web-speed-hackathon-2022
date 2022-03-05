@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { BreakPoint, Color, FontSize, Space } from "../../../styles/variables";
+import { BreakPoint, Color, FontSize, Space } from "../../styles/variables";
 
 const Wrapper = styled.div`
   background: ${Color.mono[600]};

@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import styled from "styled-components";
 
-import { Color } from "../../../styles/variables";
+import { Color } from "../../styles/variables";
 
 const StyledDialog = styled.dialog`
   border: 1px solid ${Color.mono[400]};
