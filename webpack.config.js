@@ -65,7 +65,8 @@ module.exports = [
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
       new HtmlWebpackPlugin({
-        title: "CyberTicket"
+        title: "CyberTicket",
+        filename: 'index_alt.html' // NOTE: ヘッダ設定のためのワークアラウンド。
       })
     ],
     resolve: {
