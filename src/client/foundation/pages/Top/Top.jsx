@@ -113,7 +113,8 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { end = getEndOfDay(), start = getStartOfDay() } = useParams();
+  const { date = new Date().toISOString().split("T")[0] } = useParams();
+  const { end = getEndOfDay(date), start = getStartOfDay(date) } = useParams();
 
   const { data: raceData } = useFetch(`/api/races?since=${start}&until=${end}`, jsonFetcher);
 
