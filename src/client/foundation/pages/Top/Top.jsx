@@ -151,11 +151,9 @@ export const Top = () => {
 
   return (
     <Container>
-      {raceData && heroImageUrl ? (
-        <HeroImage url={heroImageUrl} />
-      ) : (
-        <div style={{ aspectRatio: "auto 1024 / 735" }} />
-      )}
+      <div style={{ aspectRatio: "auto 1024 / 735", backgroundColor: "#fff" }}>
+        {heroImageUrl && <HeroImage url={heroImageUrl} />}
+      </div>
 
       <Spacer mt={Space * 2} />
       {userData && (
