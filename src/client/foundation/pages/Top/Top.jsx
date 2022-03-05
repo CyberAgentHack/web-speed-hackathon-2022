@@ -1,4 +1,3 @@
-import _ from "lodash";
 import moment from "moment-timezone";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
