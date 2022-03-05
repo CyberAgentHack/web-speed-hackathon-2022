@@ -87,5 +87,8 @@
   },
   "engines": {
     "node": "16.x.x"
-  }
+  },
+  "browserslist": [
+    "last 1 chrome version"
+  ]
 }
