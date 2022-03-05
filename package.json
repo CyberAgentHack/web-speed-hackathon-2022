@@ -4,8 +4,9 @@
   "author": "dora <31735614+dora1998@users.noreply.github.com>",
   "scripts": {
     "analyze": "webpack --mode=production --analyze",
-    "build": "webpack",
-    "build:watch": "yarn build --watch --progress",
+    "build": "webpack --mode=production",
+    "build:dev": "webpack --mode=development",
+    "build:watch": "yarn build:dev --watch --progress",
     "serve": "node --enable-source-maps dist/server.js",
     "serve:dev": "wait-on dist/server.js && NODE_OPTIONS=--enable-source-maps nodemon dist/server.js",
     "dev": "npm-run-all -s clean -p build:watch serve:dev",
