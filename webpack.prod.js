@@ -39,7 +39,8 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: false,
+                    modules: "cjs",
+                    spec: true,
                   },
                 ],
                 "@babel/preset-react",
