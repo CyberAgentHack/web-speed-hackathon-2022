@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React, { forwardRef, useCallback, useState } from "react";
-import zenginCode from "zengin-code";
 
+import zenginCode from "../../../../../../batch/fmt-zengin-code.json";
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";

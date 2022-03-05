@@ -3,6 +3,7 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -17,7 +18,7 @@ const DIST_PUBLIC = abs("./dist/public");
 module.exports = [
   {
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "production",
+    mode: "development",
     module: {
       rules: [
         {
@@ -28,7 +29,7 @@ module.exports = [
           type: "asset/source",
         },
         {
-          exclude: /\/esm\//,
+          exclude: [/\/esm\//, /node_modules/],
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
@@ -57,6 +58,9 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+
+      new BundleAnalyzerPlugin()
+
     ],
     resolve: {
       extensions: [".js", ".jsx"],
