@@ -11,7 +11,6 @@ import { initialize } from "../typeorm/initialize.js";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
-
   fastify.addHook("onRequest", async (_req, res) => {
     res.header("Cache-Control", "max-age=0");
   });

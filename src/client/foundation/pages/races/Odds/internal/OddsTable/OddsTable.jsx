@@ -87,7 +87,7 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
   }, []);
 
   const headNumbers = Array.from(
-    { length: entries.length },
+    { length: entries.length || 8 },
     (_, i) => i + 1,
   ).filter((value) => value !== firstKey);
 
@@ -143,11 +143,15 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
                         {second !== third ? (
                           isRaceClosed ? (
                             <InactiveBuyButton>
-                              <OddsMarker odds={item.odds} />
+                              <OddsMarker odds={item?.odds} />
                             </InactiveBuyButton>
                           ) : (
-                            <BuyButton onClick={() => onClickOdds(item)}>
-                              <OddsMarker odds={item.odds} />
+                            <BuyButton
+                              onClick={() => {
+                                if (item) onClickOdds(item);
+                              }}
+                            >
+                              <OddsMarker odds={item?.odds} />
                             </BuyButton>
                           )
                         ) : (

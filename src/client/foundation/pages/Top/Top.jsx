@@ -18,7 +18,7 @@ import { RecentRaceList } from "./internal/RecentRaceList";
 
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = formatDate(new Date())} = useParams();
+  const { date = formatDate(new Date()) } = useParams();
   const todayUnix = Date.parse(date) / 1000 - 60 * 60 * 9;
   const tomorrowUnix = todayUnix + 24 * 60 * 60;
 
@@ -103,7 +103,9 @@ export const Top = () => {
         )}
       </section>
 
-      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      {userData && (
+        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      )}
     </Container>
   );
 };

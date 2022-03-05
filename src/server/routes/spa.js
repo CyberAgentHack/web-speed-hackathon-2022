@@ -7,7 +7,6 @@ import fastifyStatic from "fastify-static";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const spaRoute = async (fastify) => {
-
   fastify.register(compression);
 
   fastify.addHook("onRequest", async (_req, res) => {

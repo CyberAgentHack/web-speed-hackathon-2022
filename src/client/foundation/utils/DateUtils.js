@@ -6,9 +6,11 @@
 export const isSameDay = (dateLeft, dateRight) => {
   const left = new Date(dateLeft);
   const right = new Date(dateRight);
-  return left.getFullYear() === right.getFullYear() &&
-        left.getMonth() === right.getMonth() &&
-        left.getDate() === right.getDate();
+  return (
+    left.getFullYear() === right.getFullYear() &&
+    left.getMonth() === right.getMonth() &&
+    left.getDate() === right.getDate()
+  );
 };
 
 /**
@@ -18,7 +20,7 @@ export const isSameDay = (dateLeft, dateRight) => {
  */
 export const formatTime = (ts) => {
   const d = new Date(ts);
-  return `${d.getHours()}:${d.getMinutes().toString().padStart(2, '0')}`;
+  return `${d.getHours()}:${d.getMinutes().toString().padStart(2, "0")}`;
 };
 
 /**
@@ -35,12 +37,14 @@ export const formatCloseAt = (closeAt, now = new Date()) => {
     return "投票受付中";
   }
 
-  return `締切${Math.floor((Date.parse(closeAt) - now.getTime()) / 1000 / 60)}分前`;
+  return `締切${Math.floor(
+    (Date.parse(closeAt) - now.getTime()) / 1000 / 60,
+  )}分前`;
 };
 
 export const formatDate = (dt) => {
   var y = dt.getFullYear();
-  var m = ('00' + (dt.getMonth()+1)).slice(-2);
-  var d = ('00' + dt.getDate()).slice(-2);
-  return (y + '-' + m + '-' + d);
+  var m = ("00" + (dt.getMonth() + 1)).slice(-2);
+  var d = ("00" + dt.getDate()).slice(-2);
+  return y + "-" + m + "-" + d;
 };
