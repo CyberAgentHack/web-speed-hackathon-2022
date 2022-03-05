@@ -17,7 +17,7 @@ import { EntryTable } from "./internal/EntryTable";
 import { PlayerPictureList } from "./internal/PlayerPictureList";
 
 const LiveBadge = styled.span`
-  background: ${Color.red};
+  background: #ff0000;
   border-radius: ${Radius.SMALL};
   color: #fff;
   font-weight: bold;

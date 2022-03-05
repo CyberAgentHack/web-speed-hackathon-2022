@@ -28,13 +28,7 @@ export const Space = 8;
  * SOFTWARE.
  */
 //気になる
-export const Color = {
-  current: "currentColor",
-  //変更green100, 400, 500
-  inherit: "inherit",
-  red: "#ff0000",
-  transparent: "transparent",
-};
+export const Color = {};
 
 export const FontSize = {
   LARGE: "1.25rem",

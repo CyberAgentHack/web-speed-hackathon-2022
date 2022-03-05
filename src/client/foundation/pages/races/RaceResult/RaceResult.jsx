@@ -18,7 +18,7 @@ import { BettingTicketList } from "./internal/BettingTicketList";
 import { RaceResultSection } from "./internal/RaceResultSection";
 
 const LiveBadge = styled.span`
-  background: ${Color.red};
+  background: #ff0000;
   border-radius: ${Radius.SMALL};
   color: #fff;
   font-weight: bold;

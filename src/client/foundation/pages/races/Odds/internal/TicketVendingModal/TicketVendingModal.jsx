@@ -16,7 +16,7 @@ const CANCEL = "cancel";
 const BUY = "buy";
 
 const ErrorText = styled.p`
-  color: ${Color.red};
+  color: #ff0000;
 `;
 
 /**

@@ -19,7 +19,7 @@ import { OddsTable } from "./internal/OddsTable";
 import { TicketVendingModal } from "./internal/TicketVendingModal";
 
 const LiveBadge = styled.span`
-  background: ${Color.red};
+  background: #ff0000;
   border-radius: ${Radius.SMALL};
   color: #fff;
   font-weight: bold;
