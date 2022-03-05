@@ -37,6 +37,7 @@ const Item = ({ ticket: { key } }) => {
 
 const Table = styled.table`
   border-spacing: 0;
+  table-layout: fixed;
 `;
 
 const Header = styled.tr`
