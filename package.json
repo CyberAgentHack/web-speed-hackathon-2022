@@ -70,7 +70,6 @@
     "fastify-static": "^4.5.0",
     "framer-motion": "^6.2.8",
     "modern-css-reset": "^1.4.0",
-    "moment-timezone": "^0.5.34",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",

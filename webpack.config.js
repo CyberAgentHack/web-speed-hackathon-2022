@@ -55,8 +55,8 @@ module.exports = [
     },
     plugins: [
       new CopyPlugin({
-        patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
-      }),
+        patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }]
+      })
     ],
     resolve: {
       extensions: [".js", ".jsx"],

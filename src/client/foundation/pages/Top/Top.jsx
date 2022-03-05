@@ -1,4 +1,3 @@
-import moment from "moment-timezone";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -93,7 +92,18 @@ function useHeroImage(todayRaces) {
 
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
+
+  const nDigitize = (n) => (m) => ('' + m).padStart(n, '0');
+  const twoDigitize = nDigitize(2);
+  const fourDigitize = nDigitize(4);
+  const formatedNow = () => {
+  const d = new Date();
+    return `${fourDigitize(d.getFullYear())}-${twoDigitize(
+      d.getMonth() + 1,
+    )}-${twoDigitize(d.getDate())}`;
+  };
+
+  const { date = formatedNow() } = useParams();
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
@@ -132,7 +142,7 @@ export const Top = () => {
       ? [...raceData.races]
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
+              new Date(a.startAt) - new Date(b.startAt),
           )
           .filter((/** @type {Model.Race} */ race) =>
             isSameDay(race.startAt, date),

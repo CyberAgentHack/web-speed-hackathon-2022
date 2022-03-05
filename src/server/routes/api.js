@@ -1,6 +1,6 @@
-import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
+import { getUnixSec } from "../../client/foundation/utils/DateUtils.js";
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
@@ -47,10 +47,8 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.get("/races", async (req, res) => {
-    const since =
-      req.query.since != null ? moment.unix(req.query.since) : undefined;
-    const until =
-      req.query.until != null ? moment.unix(req.query.until) : undefined;
+    const since = req.query.since != null ? getUnixSec(req.query.since) : undefined;
+    const until = req.query.until != null ? getUnixSec(req.query.since) : undefined;
 
     if (since != null && !since.isValid()) {
       throw fastify.httpErrors.badRequest();
