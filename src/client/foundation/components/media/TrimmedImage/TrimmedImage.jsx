@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
+  src = `https://res.cloudinary.com/dxwjvnvek/image/fetch/w_${width},h_${height},f_png/https://web-hack-2022-maruyama.herokuapp.com${src}`
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {
