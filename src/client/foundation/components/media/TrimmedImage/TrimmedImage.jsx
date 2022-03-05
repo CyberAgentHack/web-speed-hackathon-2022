@@ -15,7 +15,7 @@ const WrapperSvg = styled.svg`
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = memo(({ height, src, width }) => {
+export const TrimmedImage = ({ height, src, width }) => {
   const [position, setPosition] = useState({x: 0, y: 0, width: 0, height: 0});
 
 
@@ -55,4 +55,4 @@ export const TrimmedImage = memo(({ height, src, width }) => {
       />
     </Wrapper>
   )*/
-});
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -17,11 +17,21 @@ export const RecentRaceList = ({ children }) => {
   );
 };
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`
+
 const ItemWrapper = styled.li`
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
-  opacity: ${({ $opacity }) => $opacity};
-  transition: opacity ease-out 500ms;
+  
+  animation: ${fadeIn} 500ms ${({$delay}) => $delay}ms ease-out both;
   padding: ${Space * 3}px;
 `;
 
@@ -47,14 +57,15 @@ const RaceTitle = styled.h2`
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ race, visible }) => {
+const Item = ({ race, delay }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
 
+  // TODO
   // 締切はリアルタイムで表示したい
   useEffect(() => {
     const timer = setInterval(() => {
       setCloseAtText(formatCloseAt(race.closeAt));
-    }, 0);
+    }, 100);
 
     return () => {
       clearInterval(timer);
@@ -86,7 +97,7 @@ const Item = ({ race, visible }) => {
   */
 
   return (
-    <ItemWrapper $opacity={visible ? 1 : 0}>
+    <ItemWrapper $delay={delay}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>

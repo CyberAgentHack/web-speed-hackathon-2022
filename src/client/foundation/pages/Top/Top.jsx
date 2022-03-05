@@ -141,7 +141,7 @@ export const Top = () => {
             isSameDay(new Date(race.startAt), date),
           )
       : [];
-  const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
+
   const heroImageUrl = useHeroImage(todayRaces);
 
   return (
@@ -166,7 +166,7 @@ export const Top = () => {
       <section>
         <Heading as="h1">本日のレース</Heading>
         <RecentRaceList>
-          {todayRacesToShow.map(({race, visible}) => <RecentRaceList.Item key={race.id} race={race} visible={visible} />)}
+          {todayRaces.map((race, i) => <RecentRaceList.Item key={race.id} race={race} delay={i * 100} />)}
         </RecentRaceList>
       </section>
 
