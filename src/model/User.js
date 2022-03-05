@@ -20,7 +20,6 @@ class User {
       },
     },
     name: "User",
-    tableName: "User",
     target: User,
   });
 

@@ -29,7 +29,6 @@ class OddsItem {
         type: "many-to-one",
       },
     },
-    tableName: "OddsItem",
     target: OddsItem,
   });
 

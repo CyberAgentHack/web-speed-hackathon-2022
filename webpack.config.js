@@ -2,6 +2,8 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -19,7 +21,7 @@ module.exports = [
     devtool:
       process.env.NODE_ENV === "production" ? false : "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "production",
+    mode: process.env.NODE_ENV === "production" ? "production" : "development",
     module: {
       rules: [
         {
@@ -58,6 +60,7 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      // new BundleAnalyzerPlugin(),
     ],
     resolve: {
       extensions: [".js", ".jsx"],
@@ -69,7 +72,7 @@ module.exports = [
       process.env.NODE_ENV === "production" ? false : "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
-    mode: "production",
+    mode: process.env.NODE_ENV === "production" ? "production" : "development",
     module: {
       rules: [
         {
@@ -94,6 +97,10 @@ module.exports = [
       ],
     },
     name: "server",
+    optimization: {
+      // typeorm scheme can not resolve
+      minimize: false,
+    },
     output: {
       filename: "server.js",
       path: DIST_ROOT,
