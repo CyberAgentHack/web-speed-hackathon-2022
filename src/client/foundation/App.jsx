@@ -1,3 +1,4 @@
+import { domAnimation, LazyMotion } from "framer-motion";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
@@ -11,10 +12,12 @@ export const App = () => {
   return (
     <StyleSheetManager disableCSSOMInjection>
       <AuthContextProvider>
-        <GlobalStyle />
-        <BrowserRouter>
-          <Routes />
-        </BrowserRouter>
+        <LazyMotion features={domAnimation}>
+          <GlobalStyle />
+          <BrowserRouter>
+            <Routes />
+          </BrowserRouter>
+        </LazyMotion>
       </AuthContextProvider>
     </StyleSheetManager>
   );
