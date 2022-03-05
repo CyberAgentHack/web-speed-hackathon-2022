@@ -6,8 +6,13 @@ export const IconImg = styled.img`
   object-fit: cover;
 `
 
-export const ThmImg = styled.img`
+export const ThmImgCont = styled.div`
   width: 400px;
   height: 225px;
-  object-fit: cover;
+`
+
+
+export const ThmImg = styled.img`
+  max-height:100%;
+  margin: 0 auto;
 `

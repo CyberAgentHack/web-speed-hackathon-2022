@@ -1,1 +1,1 @@
-export { IconImg, ThmImg } from "./TrimmedImage";
+export { IconImg, ThmImg, ThmImgCont } from "./TrimmedImage";
