@@ -22,11 +22,10 @@ module.exports = [
     plugins: [
       new BundleAnalyzerPlugin(),
       new CompressionPlugin({
-        test: /\.(css)|(js)$/,
-        compressionOptions: {
-          level: 9
-        }
-      })
+        filename: "[path].gz[query]",
+        algorithm: "gzip",
+        test: /\.(js|css)$/,
+      }),
     ],
     module: {
       rules: [
