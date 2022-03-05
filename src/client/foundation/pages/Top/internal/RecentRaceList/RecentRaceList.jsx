@@ -96,6 +96,7 @@ const Item = ({ race }) => {
             <TrimmedImage
               height={100}
               lazy={true}
+              length={true}
               src={race.image.slice(0, -3) + "webp"}
               width={100}
             />

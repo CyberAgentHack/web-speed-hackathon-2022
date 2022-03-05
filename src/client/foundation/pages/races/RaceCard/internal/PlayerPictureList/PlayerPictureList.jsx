@@ -32,6 +32,7 @@ const Item = ({ image, name, number }) => {
         alt={`${name}選手のプロフィール写真`}
         height={100}
         lazy={true}
+        length={true}
         src={image.slice(0, -3) + "webp"}
         width={100}
       />

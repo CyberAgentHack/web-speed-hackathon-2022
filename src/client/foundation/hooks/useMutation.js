@@ -4,7 +4,6 @@ import { useAuth } from "../contexts/AuthContext";
 
 /**
  * @typedef {UseMutationOptions}
- * @property {string} method
  * @property {boolean=} auth
  */
 
