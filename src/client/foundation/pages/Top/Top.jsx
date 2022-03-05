@@ -2,6 +2,7 @@ import { endOfDay, parse, startOfDay } from "date-fns";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import useSWR from "swr";
 
 import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
@@ -116,7 +117,7 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch(`/api/races?since=${Math.round(startOfDay(date) / 1000)}&until=${Math.round(endOfDay(date) / 1000)}`, jsonFetcher);
+  const { data: raceData } = useSWR(`/api/races?since=${Math.round(startOfDay(date) / 1000)}&until=${Math.round(endOfDay(date) / 1000)}`, jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
