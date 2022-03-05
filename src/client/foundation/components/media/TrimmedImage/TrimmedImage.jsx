@@ -37,10 +37,8 @@ export const TrimmedImage = ({ alt, height, src, width }) => {
   return (
     <img
       alt={alt}
-      height={height}
       src={dataUrl}
       type="image/webp"
-      width={width}
     />
   );
 };
