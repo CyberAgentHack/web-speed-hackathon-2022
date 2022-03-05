@@ -33,6 +33,10 @@ export const TrimmedImage = ({ height, src, width }) => {
   //     setDataUrl(canvas.toDataURL());
   //   };
   // }, [height, src, width]);
-
-  return <img src={src} width={width} height={height} style={{objectFit:'cover'}} />;
+  return (
+<picture >
+      <source srcset={src+'.webp'} type="image/webp"/>
+      <img src={src} alt="src"  width={width} height={height} style={{objectFit:'cover'}}/>
+  </picture>
+  );
 };
