@@ -4280,6 +4280,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fastify-etag@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "fastify-etag@npm:2.1.0"
+  dependencies:
+    fastify-plugin: ^3.0.0
+  checksum: 76176ce75e074aca5a13143b09d0b9720d12a262270479535a35006bbdcf325559641c90194aabf1aa4e64bc6fb078737a6c91bdd99a25a343499952e230385a
+  languageName: node
+  linkType: hard
+
 "fastify-plugin@npm:^3.0.0":
   version: 3.0.1
   resolution: "fastify-plugin@npm:3.0.1"
@@ -9871,6 +9880,7 @@ __metadata:
     eslint-plugin-sort: ^2.4.0
     fastify: ^3.25.3
     fastify-compress: ^4.0.1
+    fastify-etag: ^2.1.0
     fastify-sensible: ^3.1.2
     fastify-static: ^4.5.0
     framer-motion: ^6.2.8

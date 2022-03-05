@@ -1,4 +1,5 @@
 import fastify from "fastify";
+import etag from "fastify-etag";
 import fastifySensible from "fastify-sensible";
 
 import { User } from "../model/index.js";
@@ -21,6 +22,7 @@ const server = fastify({
       },
 });
 server.register(fastifySensible);
+server.register(etag);
 
 server.addHook("onRequest", async (req, res) => {
   const repo = (await createConnection()).getRepository(User);
@@ -37,7 +39,6 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.addHook("onRequest", async (req, res) => {
-  res.header("Cache-Control", "no-cache, no-store, no-transform");
   res.header("Connection", "keep-alive");
 });
 

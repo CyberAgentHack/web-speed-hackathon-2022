@@ -12,6 +12,10 @@ import { changeImageUrl, initialize } from "../typeorm/initialize.js";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
+  fastify.addHook("onRequest", async (req, res) => {
+    res.header("Cache-Control", "max-age=0");
+  });
+
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
@@ -92,7 +96,7 @@ export const apiRoute = async (fastify) => {
       50,
     );
 
-    res.send(sortedOdds)
+    res.send(sortedOdds);
   });
 
   fastify.get("/races", async (req, res) => {
