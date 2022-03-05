@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
-import { Heading } from "../../components/typographies/Heading";
+import { Heading } from "../../components/typographies/Heading/index.jsx";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
