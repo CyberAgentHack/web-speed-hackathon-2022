@@ -19,7 +19,7 @@ image
     .resize(Math.round(meta.width * ratio),Math.round (meta.height * ratio)) 
     .resize(width,height,{fit:"cover"}) 
     .toFormat(ext,{quality: 100})
-    .toFile(`.${input_file.split(".")[1]}-${width}_${height}.${ext}`);
+    .toFile(`.${input_file.split(".")[1].substring(4)}-${width}_${height}.${ext}`);
 
 }
 
