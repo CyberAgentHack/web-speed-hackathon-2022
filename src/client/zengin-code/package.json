@@ -1,0 +1,25 @@
+{
+  "name": "zengin-code",
+  "version": "1.0.0-p20220130",
+  "main": "lib/zengin-code.js",
+  "description": "bank codes and branch codes for japanese",
+  "files": [
+    "LICENSE.txt",
+    "README.md",
+    "lib/"
+  ],
+  "repository": "zengin-code/zengin-js",
+  "author": {
+    "name": "Sho Kusano",
+    "email": "rosylilly@aduca.org"
+  },
+  "license": "MIT",
+  "ignore": [
+    ".*",
+    "**/*.rb"
+  ],
+  "scripts": {
+    "build": "scripts/build",
+    "ci": "scripts/ci"
+  }
+}
