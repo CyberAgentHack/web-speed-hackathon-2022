@@ -1,5 +1,6 @@
 import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import zenginCode from "zengin-code";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
@@ -45,6 +46,20 @@ export const apiRoute = async (fastify) => {
 
     res.send({ hash, url });
   });
+
+  fastify.get("/banklist", async (req, res) => {
+    res.send(
+      Object.entries(zenginCode).map(([code, { name }]) => ({
+        code,
+        name,
+      })),
+    );
+  });
+
+  fastify.get("/bank/:code", async (req, res) => {
+    const { code } = req.params;
+    res.send(zenginCode[code]);
+  })
 
   fastify.get("/races", async (req, res) => {
     const since =
