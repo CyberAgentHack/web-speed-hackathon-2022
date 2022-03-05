@@ -26,7 +26,7 @@ const LiveBadge = styled.span`
 `;
 
 /** @type {React.VFC} */
-const RaceCard = () => {
+export const RaceCard = () => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
 
@@ -79,5 +79,3 @@ const RaceCard = () => {
     </Container>
   );
 };
-
-export default RaceCard
