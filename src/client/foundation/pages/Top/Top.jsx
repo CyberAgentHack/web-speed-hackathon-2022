@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
-import { Heading } from "../../components/typographies/Heading";
+import { Heading } from "../../components/typographies/Heading/index.jsx";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
@@ -97,11 +97,7 @@ function useHeroImage(todayRaces) {
   return imageUrl;
 }
 
-/** @type {React.VFC} */
-export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
-
-  const ChargeButton = styled.button`
+const ChargeButton = styled.button`
     background: ${Color.mono[700]};
     border-radius: ${Radius.MEDIUM};
     color: ${Color.mono[0]};
@@ -111,6 +107,10 @@ export const Top = () => {
       background: ${Color.mono[800]};
     }
   `;
+
+/** @type {React.VFC} */
+export const Top = () => {
+  const { date = moment().format("YYYY-MM-DD") } = useParams();
 
   const chargeDialogRef = useRef(null);
 
