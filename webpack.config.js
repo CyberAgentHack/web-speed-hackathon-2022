@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const _path, path = () => { _path = _path || require("path"); return _path };
+const path = require("path");
 
-const _CopyPlugin , CopyPlugin = () => { _CopyPlugin = CopyPlugin || require("copy-webpack-plugin"); return _CopyPlugin }
-const _nodeExternals, nodeExternals = () => { _nodeExternals = nodeExternals || require("webpack-node-externals"); return _nodeExternals } 
+const CopyPlugin = require("copy-webpack-plugin");
+const nodeExternals = require("webpack-node-externals");
+
 function abs(...args) {
   return path.join(__dirname, ...args);
 }
