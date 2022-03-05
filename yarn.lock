@@ -1749,6 +1749,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4.14.178":
+  version: 4.14.179
+  resolution: "@types/lodash@npm:4.14.179"
+  checksum: 71faa0c8071732c2b7f0bd092850d3cea96fc7912055d57d819cf2ab399a64150e4190d8a4ea35a0905662ddc118be9d2abd55891d8047c085acf98608156149
+  languageName: node
+  linkType: hard
+
 "@types/mdast@npm:^3.0.0":
   version: 3.0.10
   resolution: "@types/mdast@npm:3.0.10"
@@ -12482,6 +12489,7 @@ __metadata:
     "@babel/preset-react": ^7.16.7
     "@babel/runtime": ^7.17.2
     "@stylelint/postcss-css-in-js": ^0.37.2
+    "@types/lodash": ^4.14.178
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
     "@types/styled-components": ^5.1.19
@@ -12504,6 +12512,7 @@ __metadata:
     framer-motion: ^6.2.8
     imagemin-webp: ^7.0.0
     imagemin-webpack-plugin: ^2.4.2
+    lodash: ^4.17.21
     modern-css-reset: ^1.4.0
     moment-timezone: ^0.5.34
     nodemon: ^2.0.15
