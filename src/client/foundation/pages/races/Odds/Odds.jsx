@@ -72,18 +72,15 @@ export const Odds = () => {
     [],
   );
 
-  if (race == null) {
-    return <Container>Loading...</Container>;
-  }
-
-  const isRaceClosed = Date.parse(race.closeAt) < new Date().getTime(); // moment(race.closeAt).isBefore(new Date());
+  const isRaceClosed = Date.parse(race?.closeAt) < new Date().getTime(); // moment(race.closeAt).isBefore(new Date());
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{race.name}</Heading>
+      <Heading as="h1">{race ? race.name : "Loading..."}</Heading>
       <p>
-        開始 {formatTime(race.startAt)} 締切 {formatTime(race.closeAt)}
+        開始 {race ? formatTime(race.startAt) : "0:00"} 締切{" "}
+        {race ? formatTime(race.closeAt) : "0:00"}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -91,7 +88,7 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={race.image} width={400} />
+        <TrimmedImage height={225} src={race ? race.image : ""} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -130,29 +127,21 @@ export const Odds = () => {
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        {trifectaOdds == null ? (
-          <></>
-        ) : (
-          <OddsTable
-            entries={race.entries}
-            isRaceClosed={isRaceClosed}
-            odds={trifectaOdds ?? []}
-            onClickOdds={handleClickOdds}
-          />
-        )}
+        <OddsTable
+          entries={race ? race.entries : []}
+          isRaceClosed={isRaceClosed}
+          odds={trifectaOdds ?? []}
+          onClickOdds={handleClickOdds}
+        />
         <Spacer mt={Space * 4} />
         <Heading as="h2">人気順</Heading>
 
         <Spacer mt={Space * 2} />
-        {trifectaOdds == null ? (
-          <></>
-        ) : (
-          <OddsRankingList
-            isRaceClosed={isRaceClosed}
-            odds={trifectaOdds}
-            onClickOdds={handleClickOdds}
-          />
-        )}
+        <OddsRankingList
+          isRaceClosed={isRaceClosed}
+          odds={trifectaOdds ?? []}
+          onClickOdds={handleClickOdds}
+        />
       </Section>
 
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
