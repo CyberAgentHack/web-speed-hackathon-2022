@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Space } from "../../../../../styles/variables";
+import { Space } from "../../../../styles/variables";
 
 const Wrapper = styled.span`
   background: rgba(74, 222, 128, ${({ $odds }) => Math.min(5 / $odds, 1.0)});
