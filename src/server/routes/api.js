@@ -1,3 +1,4 @@
+import _ from "lodash";
 import moment from "moment";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import zenginCode from "zengin-code";
@@ -59,7 +60,40 @@ export const apiRoute = async (fastify) => {
   fastify.get("/bank/:code", async (req, res) => {
     const { code } = req.params;
     res.send(zenginCode[code]);
-  })
+  });
+
+  fastify.get("/odds/:raceId/:firstKey", async (req, res) => {
+    const { firstKey, raceId } = req.params;
+
+    const repo = (await createConnection()).getRepository(Race);
+
+    const { trifectaOdds } = await repo.findOne(raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    const filtteredOdds = trifectaOdds.filter(
+      (item) => item.key[0] == firstKey,
+    );
+
+    res.send(filtteredOdds);
+  });
+
+  fastify.get("/odds/:raceId", async (req, res) => {
+    const { raceId } = req.params;
+
+    const repo = (await createConnection()).getRepository(Race);
+
+    const { trifectaOdds: odds } = await repo.findOne(raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    const sortedOdds = _.take(
+      _.sortBy(odds, (item) => item.odds),
+      50,
+    );
+
+    res.send(sortedOdds)
+  });
 
   fastify.get("/races", async (req, res) => {
     const since =
@@ -105,7 +139,7 @@ export const apiRoute = async (fastify) => {
     const repo = (await createConnection()).getRepository(Race);
 
     const race = await repo.findOne(req.params.raceId, {
-      relations: ["entries", "entries.player", "trifectaOdds"],
+      relations: ["entries", "entries.player"],
     });
 
     if (race === undefined) {

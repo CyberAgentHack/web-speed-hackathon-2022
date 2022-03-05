@@ -57,7 +57,8 @@ export const Odds = () => {
     [],
   );
 
-  const isRaceClosed = data == null ? true : moment(data.closeAt).isBefore(new Date());
+  const isRaceClosed =
+    data == null ? true : moment(data.closeAt).isBefore(new Date());
 
   return (
     <Container>
@@ -72,7 +73,11 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data?.image?.replace("{ratio}", "16_9")} width={400} />
+        <TrimmedImage
+          height={225}
+          src={data?.image?.replace("{ratio}", "16_9")}
+          width={400}
+        />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -102,8 +107,8 @@ export const Odds = () => {
         <OddsTable
           entries={data?.entries ?? []}
           isRaceClosed={isRaceClosed}
-          odds={data?.trifectaOdds ?? []}
           onClickOdds={handleClickOdds}
+          raceId={raceId}
         />
 
         <Spacer mt={Space * 4} />
@@ -112,8 +117,8 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
-          odds={data?.trifectaOdds ?? []}
           onClickOdds={handleClickOdds}
+          raceId={raceId}
         />
       </Section>
 

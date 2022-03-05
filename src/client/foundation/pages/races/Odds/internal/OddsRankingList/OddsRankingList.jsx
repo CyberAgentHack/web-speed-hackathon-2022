@@ -1,12 +1,15 @@
-import _ from "lodash";
+
 import React from "react";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useFetch } from "../../../../../hooks/useFetch";
 import { BreakPoint, Color, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
+
 
 const Wrapper = styled.ol`
   display: grid;
@@ -65,15 +68,12 @@ const RankNo = styled.div`
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = _.take(
-    _.sortBy(odds, (item) => item.odds),
-    50,
-  );
+export const OddsRankingList = ({ isRaceClosed, onClickOdds, raceId }) => {
+  const { data: sortedOdds } = useFetch(`/api/odds/${raceId}`, jsonFetcher);
 
   return (
     <Wrapper>
-      {sortedOdds.map((item, i) => (
+      {sortedOdds?.map((item, i) => (
         <li key={item.id}>
           {isRaceClosed ? (
             <InactiveBuyButton>
