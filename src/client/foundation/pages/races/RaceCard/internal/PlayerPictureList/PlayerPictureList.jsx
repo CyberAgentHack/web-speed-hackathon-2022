@@ -29,7 +29,7 @@ const Item = ({ image, name, number }) => {
   return (
     <Stack gap={Space * 1}>
       <TrimmedImage
-        alt={`${name}選手のプロフィール写真`}
+        alt={name === "" ? "" : `${name}選手のプロフィール写真`}
         height={100}
         src={image}
         width={100}

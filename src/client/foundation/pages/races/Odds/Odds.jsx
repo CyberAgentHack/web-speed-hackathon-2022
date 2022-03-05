@@ -1,14 +1,12 @@
 import moment from "moment-timezone";
 import React, { useCallback, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 
 import { Container } from "../../../components/layouts/Container";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Heading } from "../../../components/typographies/Heading";
-import { useFetch } from "../../../hooks/useFetch";
 import { Color, Space } from "../../../styles/variables";
-import { jsonFetcher } from "../../../utils/HttpUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
@@ -28,8 +26,7 @@ const Callout = styled.aside`
 
 /** @type {React.VFC} */
 export const Odds = () => {
-  const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { raceDetail, raceId } = useOutletContext();
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 
@@ -44,11 +41,11 @@ export const Odds = () => {
     [],
   );
 
-  if (data == null) {
+  if (raceDetail == null) {
     return <Container>Loading...</Container>;
   }
 
-  const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  const isRaceClosed = moment(raceDetail.closeAt).isBefore(new Date());
 
   return (
     <>
@@ -66,9 +63,9 @@ export const Odds = () => {
 
       <Spacer mt={Space * 2} />
       <OddsTable
-        entries={data.entries}
+        entries={raceDetail.entries}
         isRaceClosed={isRaceClosed}
-        odds={data.trifectaOdds}
+        odds={raceDetail.trifectaOdds}
         onClickOdds={handleClickOdds}
       />
 
@@ -78,7 +75,7 @@ export const Odds = () => {
       <Spacer mt={Space * 2} />
       <OddsRankingList
         isRaceClosed={isRaceClosed}
-        odds={data.trifectaOdds}
+        odds={raceDetail.trifectaOdds}
         onClickOdds={handleClickOdds}
       />
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -28,6 +28,8 @@ export const RaceLayout = () => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
 
+  const context = useMemo(() => ({ raceDetail: data, raceId }), [data, raceId]);
+
   return (
     <Container>
       <Spacer mt={Space * 2} />
@@ -54,7 +56,8 @@ export const RaceLayout = () => {
 
       <Section>
         <Tab raceId={raceId} />
-        <Outlet />
+        {/* NOTE: もう少し実装方法を考えたい（Context APIなど）が、暫定でOutletにPropsを渡す */}
+        <Outlet context={context} />
       </Section>
     </Container>
   );
