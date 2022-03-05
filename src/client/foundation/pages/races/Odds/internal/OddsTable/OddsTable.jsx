@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
@@ -89,7 +88,10 @@ export const OddsTable = ({ entries, isRaceClosed, onClickOdds, raceId }) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
 
-  const headNumbers = _.without(_.range(1, entries.length + 1), firstKey);
+  const headNumbers = [];
+  for (let i = 1; i <= entries.length; i++) {
+    if (i != firstKey) headNumbers.push(i);
+  }
 
   const { data: filteredOdds } = useFetch(
     `/api/odds/${raceId}/${firstKey}`,
@@ -135,34 +137,34 @@ export const OddsTable = ({ entries, isRaceClosed, onClickOdds, raceId }) => {
 
             <tbody>
               {headNumbers.map((third, i) => (
-                  <tr key={third}>
-                    {i === 0 && <th rowSpan={headNumbers.length}>3位</th>}
+                <tr key={third}>
+                  {i === 0 && <th rowSpan={headNumbers.length}>3位</th>}
 
-                    <th>{third}</th>
+                  <th>{third}</th>
 
-                    {headNumbers.map((second) => {
-                      const item = oddsMap[mapKey(second, third)];
+                  {headNumbers.map((second) => {
+                    const item = oddsMap[mapKey(second, third)];
 
-                      return (
-                        <td key={second} width="auto">
-                          {second !== third && item ? (
-                            isRaceClosed ? (
-                              <InactiveBuyButton>
-                                <OddsMarker odds={item.odds} />
-                              </InactiveBuyButton>
-                            ) : (
-                              <BuyButton onClick={() => onClickOdds(item)}>
-                                <OddsMarker odds={item.odds} />
-                              </BuyButton>
-                            )
+                    return (
+                      <td key={second} width="auto">
+                        {second !== third && item ? (
+                          isRaceClosed ? (
+                            <InactiveBuyButton>
+                              <OddsMarker odds={item.odds} />
+                            </InactiveBuyButton>
                           ) : (
-                            <BuyButton disabled>-</BuyButton>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
+                            <BuyButton onClick={() => onClickOdds(item)}>
+                              <OddsMarker odds={item.odds} />
+                            </BuyButton>
+                          )
+                        ) : (
+                          <BuyButton disabled>-</BuyButton>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
             </tbody>
           </Table>
         </div>
