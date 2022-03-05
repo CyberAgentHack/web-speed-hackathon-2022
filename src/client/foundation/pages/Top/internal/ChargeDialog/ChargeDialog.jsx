@@ -68,7 +68,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   );
   
   useEffect(() => {
-    import("zengin-code").then((value) => setZenginCode(value));
+    fetch("/api/zengin-data").then(result => result.json()).then((value) => setZenginCode(value));
   }, []);
 
   const inner = (() => {

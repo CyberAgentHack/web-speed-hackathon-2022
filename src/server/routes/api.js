@@ -6,6 +6,27 @@ import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
 
+import zenginData from "zengin-code";
+
+const zenginMinifiedData = {};
+
+Object.values(zenginData).forEach(bank => {
+  const branches = {};
+
+  Object.values(bank.branches).forEach(branch => {
+    branches[branch.code] = {
+      code: branch.code,
+      name: branch.name
+    }
+  })
+
+  zenginMinifiedData[bank.code] = {
+    code: bank.code,
+    name: bank.name,
+    branches
+  }
+})
+
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */
@@ -173,4 +194,8 @@ export const apiRoute = async (fastify) => {
     await initialize();
     res.status(204).send();
   });
+
+  fastify.get("/zengin-data", async (_req, res) => {
+    res.send(zenginMinifiedData);
+  })
 };
