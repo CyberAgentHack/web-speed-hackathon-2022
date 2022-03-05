@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
@@ -16,9 +18,8 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: process.env.NODE_ENV,
     module: {
       rules: [
         {
@@ -38,7 +39,7 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
+                    modules: false,
                     spec: true,
                   },
                 ],
@@ -54,6 +55,7 @@ module.exports = [
       path: DIST_PUBLIC,
     },
     plugins: [
+      ...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : []),
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
@@ -64,7 +66,6 @@ module.exports = [
     target: "web",
   },
   {
-    devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
     mode: "development",
