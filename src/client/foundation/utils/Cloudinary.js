@@ -8,7 +8,7 @@ export const getFetchSRC = (src, width) => {
   if (!src.startsWith('http')) {
     src = MY_DOMAIN + src
   }
-  if (!width) {
+  if (width) {
     return `${FETCH_BASE_URL}/w_${width},f_auto,q_auto/${src}`
   }
   return `${FETCH_BASE_URL}/f_auto,q_auto/${src}`
