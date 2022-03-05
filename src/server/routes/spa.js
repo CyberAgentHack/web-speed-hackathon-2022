@@ -8,7 +8,7 @@ import fastifyStatic from "fastify-static";
  */
 export const spaRoute = async (fastify) => {
   fastify.addHook("onRequest", async (req, res) => {
-    res.header("Cache-Control", "max-age=3600, s-max-age=86400, immutable");
+    res.header("Cache-Control", "max-age=3600, s-max-age=86400, public, immutable");
   });
 
   fastify.register(fastifyStatic, {
@@ -24,7 +24,7 @@ export const spaRoute = async (fastify) => {
   });
 
   fastify.get("*", (req, res) => {
-    res.header("Cache-Control", "max-age=0, s-max-age=86400, public, immutable");
+    res.header("Cache-Control", "max-age=600, s-maxage=86400, public, immutable, must-revalidate");
     return res.sendFile("index_alt.html", join(__dirname, "public")); // NOTE: index.htmlを使うと何故かキャッシュヘッダが設定できないので_altを付けてある
   });
 };
