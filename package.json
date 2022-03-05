@@ -4,6 +4,7 @@
   "author": "dora <31735614+dora1998@users.noreply.github.com>",
   "scripts": {
     "build": "webpack",
+    "batch:image": "node --experimental-modules src/batch/resizeimage.js",
     "build:watch": "yarn build --watch --progress",
     "serve": "node --enable-source-maps dist/server.js",
     "serve:dev": "wait-on dist/server.js && NODE_OPTIONS=--enable-source-maps nodemon dist/server.js",
@@ -31,6 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
     "babel-loader": "^8.2.3",
+    "canvas": "^2.9.0",
     "compression-webpack-plugin": "^9.2.0",
     "copy-webpack-plugin": "^10.2.0",
     "csstype": "^3.0.10",
@@ -43,6 +45,7 @@
     "nodemon": "^2.0.15",
     "npm-run-all": "^4.1.5",
     "pino-pretty": "^7.3.0",
+    "png-js": "^1.0.0",
     "postcss-syntax": "^0.36.2",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
