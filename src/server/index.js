@@ -26,10 +26,10 @@ server.register(fastifySensible);
 server.register(etag);
 
 server.addHook("onRequest", async (req, res) => {
-  const repo = (await createConnection()).getRepository(User);
 
   const userId = req.headers["x-app-userid"];
   if (userId !== undefined) {
+    const repo = (await createConnection()).getRepository(User);
     const user = await repo.findOne(userId);
     if (user === undefined) {
       res.unauthorized();
