@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import React, { forwardRef, useCallback, useState } from "react";
 import zenginCode from "zengin-code";
 
@@ -98,9 +98,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </datalist>
 
             {bank != null && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+              <m.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
                 銀行名: {bank.name}銀行
-              </motion.div>
+              </m.div>
             )}
 
             <label>
@@ -122,9 +122,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </datalist>
 
             {branch && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+              <m.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
                 支店名: {branch.name}
-              </motion.div>
+              </m.div>
             )}
 
             <label>
