@@ -79,9 +79,14 @@ export const apiRoute = async (fastify) => {
       });
     }
 
-    const races = await repo.find({
+    const resp = await repo.find({
       where,
     });
+
+    const races = resp.map((x) => {
+      x.image = x.image.replace('.jpg','.avif').replace('/assets/images/races/','/assets/images/races/thumbnail/')
+      return x
+    })
 
     res.send({ races });
   });
