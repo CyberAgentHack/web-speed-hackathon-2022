@@ -30,7 +30,7 @@ const Item = ({ image, name, number }) => {
   return (
     <Stack gap={Space * 1}>
 
-      <TrimmedImage alt={`${name}選手のプロフィール写真`} height={100} src={jpg2avif(image)} width={100}/>
+      <TrimmedImage alt={`${name}選手のプロフィール写真`} height={100} src={jpg2avif(image)} type={"cover"} width={100}/>
 
       <Stack horizontal alignItems="center" gap={Space / 2} wrap="wrap">
         <PlayerNumber>{number}</PlayerNumber>

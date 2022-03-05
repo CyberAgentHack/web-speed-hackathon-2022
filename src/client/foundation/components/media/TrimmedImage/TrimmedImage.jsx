@@ -8,32 +8,13 @@ import styled from "styled-components";
  * @property {height} height
  */
 
-const CoveredImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`
-
-const ContainImage = styled.img`
-  height: 100%;
-  object-fit: contain;
-  margin 0 auto;
-`
-
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
-  const StyledDiv = styled.div`
-    width: ${width}px;
+export const TrimmedImage = ({ height, src, type, width }) => {
+  const StyledImage = styled.img`
+    max-height: 100%;
     height: ${height}px;
-  `;
+    aspect-ratio: ${width} / ${height};
+    object-fit: ${type};`
 
-  if (width != height) {
-    return <StyledDiv>
-      <ContainImage loading="lazy" src={src} />
-    </StyledDiv>;
-  }else{
-    return <StyledDiv>
-      <CoveredImage loading="lazy" src={src} />
-    </StyledDiv>;
-  }
+  return <StyledImage loading="lazy" src={src} />;
 };
