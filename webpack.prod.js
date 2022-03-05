@@ -38,7 +38,7 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
+                    modules: "auto",
                     spec: true,
                   },
                 ],
@@ -80,7 +80,7 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
+                    modules: "auto",
                     spec: true,
                   },
                 ],
