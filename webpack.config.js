@@ -68,6 +68,9 @@ module.exports = [
       extensions: [".js", ".jsx", ".ts", ".tsx"],
     },
     target: "web",
+    cache: {
+      type: "filesystem"
+    },
   },
   {
     devtool: false,
@@ -100,5 +103,8 @@ module.exports = [
       extensions: [".mjs", ".js", ".jsx"],
     },
     target: "node",
+    cache: {
+      type: "filesystem"
+    },
   },
 ];
