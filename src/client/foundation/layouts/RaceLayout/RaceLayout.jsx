@@ -49,6 +49,7 @@ export const RaceLayout = () => {
           height={225}
           src={data == null ? null : data.image.split(".jpg")[0] + "_md.webp"}
           width={400}
+          objectFit="contain"
         />
       </Section>
 
