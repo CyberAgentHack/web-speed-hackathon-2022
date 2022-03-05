@@ -104,7 +104,7 @@ export const Top = () => {
     background: #44403c;
     border-radius: 12px;
     color: #fff;
-    padding: ${8 * 1}px ${8 * 2}px;
+    padding: ${8}px ${16}px;
 
     &:hover {
       background: #292524;
@@ -150,7 +150,7 @@ export const Top = () => {
     <Container>
       {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
 
-      <Spacer mt={8 * 2} />
+      <Spacer mt={16} />
       {userData && (
         <Stack horizontal alignItems="center" justifyContent="space-between">
           <div>
@@ -164,7 +164,7 @@ export const Top = () => {
         </Stack>
       )}
 
-      <Spacer mt={8 * 2} />
+      <Spacer mt={16} />
       <section>
         <Heading as="h1">本日のレース</Heading>
         {todayRacesToShow.length > 0 && (

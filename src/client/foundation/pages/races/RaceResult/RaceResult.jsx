@@ -21,7 +21,7 @@ const LiveBadge = styled.span`
   border-radius: 4px;
   color: #fff;
   font-weight: bold;
-  padding: ${8 * 1}px;
+  padding: ${8}px;
   text-transform: uppercase;
 `;
 
@@ -40,21 +40,21 @@ export const RaceResult = () => {
 
   return (
     <Container>
-      <Spacer mt={8 * 2} />
+      <Spacer mt={16} />
       <Heading as="h1">{data.name}</Heading>
       <p>
         開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
       </p>
 
-      <Spacer mt={8 * 2} />
+      <Spacer mt={16} />
 
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
-        <Spacer mt={8 * 2} />
+        <Spacer mt={16} />
         <TrimmedImage height={225} src={data.image} width={400} />
       </Section>
 
-      <Spacer mt={8 * 2} />
+      <Spacer mt={16} />
 
       <Section>
         <TabNav>
@@ -65,20 +65,20 @@ export const RaceResult = () => {
           </TabNav.Item>
         </TabNav>
 
-        <Spacer mt={8 * 4} />
+        <Spacer mt={32} />
         <Heading as="h2">購入した買い目</Heading>
 
-        <Spacer mt={8 * 2} />
+        <Spacer mt={16} />
         <BettingTicketList>
           {(ticketData?.bettingTickets ?? []).map((ticket) => (
             <BettingTicketList.Item key={ticket.id} ticket={ticket} />
           ))}
         </BettingTicketList>
 
-        <Spacer mt={8 * 4} />
+        <Spacer mt={32} />
         <Heading as="h2">勝負結果</Heading>
 
-        <Spacer mt={8 * 2} />
+        <Spacer mt={16} />
         <RaceResultSection />
       </Section>
     </Container>

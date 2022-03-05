@@ -22,7 +22,7 @@ const LiveBadge = styled.span`
   border-radius: 4px;
   color: #fff;
   font-weight: bold;
-  padding: ${8 * 1}px;
+  padding: ${8}px;
   text-transform: uppercase;
 `;
 
@@ -32,9 +32,9 @@ const Callout = styled.aside`
   color: ${({ $closed }) => ($closed ? "#57534e" : "#22c55e")};
   display: flex;
   font-weight: bold;
-  gap: ${8 * 2}px;
+  gap: ${16}px;
   justify-content: left;
-  padding: ${8 * 1}px ${8 * 2}px;
+  padding: ${8}px ${16}px;
 `;
 
 /** @type {React.VFC} */
@@ -63,21 +63,21 @@ export const Odds = () => {
 
   return (
     <Container>
-      <Spacer mt={8 * 2} />
+      <Spacer mt={16} />
       <Heading as="h1">{data.name}</Heading>
       <p>
         開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
       </p>
 
-      <Spacer mt={8 * 2} />
+      <Spacer mt={16} />
 
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
-        <Spacer mt={8 * 2} />
+        <Spacer mt={16} />
         <TrimmedImage height={225} src={data.image} width={400} />
       </Section>
 
-      <Spacer mt={8 * 2} />
+      <Spacer mt={16} />
 
       <Section>
         <TabNav>
@@ -88,7 +88,7 @@ export const Odds = () => {
           <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
         </TabNav>
 
-        <Spacer mt={8 * 4} />
+        <Spacer mt={32} />
 
         <Callout $closed={isRaceClosed}>
           <i className="fas fa-info-circle" />
@@ -97,10 +97,10 @@ export const Odds = () => {
             : "オッズをクリックすると拳券が購入できます"}
         </Callout>
 
-        <Spacer mt={8 * 4} />
+        <Spacer mt={32} />
         <Heading as="h2">オッズ表</Heading>
 
-        <Spacer mt={8 * 2} />
+        <Spacer mt={16} />
         <OddsTable
           entries={data.entries}
           isRaceClosed={isRaceClosed}
@@ -108,10 +108,10 @@ export const Odds = () => {
           onClickOdds={handleClickOdds}
         />
 
-        <Spacer mt={8 * 4} />
+        <Spacer mt={32} />
         <Heading as="h2">人気順</Heading>
 
-        <Spacer mt={8 * 2} />
+        <Spacer mt={16} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
           odds={data.trifectaOdds}

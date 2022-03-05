@@ -5,15 +5,15 @@ const Wrapper = styled.section`
   background: ${({ $dark }) => ($dark ? "#292524" : "#fff")};
   color: ${({ $dark }) => ($dark ? "#fff" : "#000")};
   display: ${({ $shrink }) => ($shrink ? "inline-block" : "block")};
-  margin-left: -${8 * 2}px;
-  margin-right: -${8 * 2}px;
-  padding: ${8 * 2}px;
+  margin-left: -${16}px;
+  margin-right: -${16}px;
+  padding: ${16}px;
 
   @media (min-width: 1024px) {
     border-radius: 12px;
     margin-left: 0;
     margin-right: 0;
-    padding: ${8 * 5}px ${8 * 3}px;
+    padding: ${40}px ${24}px;
   }
 `;
 

@@ -10,7 +10,7 @@ const styles = {
 const Wrapper = styled.h1`
   ${({ as }) => styles[as]}
   font-weight: bold;
-  margin-bottom: ${8 * 1}px;
+  margin-bottom: ${8}px;
 `;
 
 /**

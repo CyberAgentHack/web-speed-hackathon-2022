@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 
 const ItemWrapper = styled.tr`
-  padding: ${8 * 1}px ${8 * 2}px;
+  padding: ${8}px ${16}px;
 
   &:not(:last-child) {
     border-bottom: 1px solid #a8a29e;
@@ -12,7 +12,7 @@ const ItemWrapper = styled.tr`
 `;
 
 const Cell = styled.td`
-  padding: ${8 * 1}px;
+  padding: ${8}px;
   text-align: ${({ $align }) => $align};
 `;
 
@@ -50,9 +50,9 @@ const Placeholder = styled.div`
   display: flex;
   font-size: 1.25rem;
   font-weight: bold;
-  gap: ${8 * 2}px;
+  gap: ${16}px;
   justify-content: center;
-  padding: ${8 * 2}px;
+  padding: ${16}px;
 `;
 
 export const BettingTicketList = ({ children }) => {

@@ -12,7 +12,7 @@ const Wrapper = styled.div`
     width: 24px;
 
     &:not(:last-child) {
-      margin-right: ${8 * 1 - 1}px;
+      margin-right: ${8 - 1}px;
       position: relative;
 
       ::after {
@@ -21,7 +21,7 @@ const Wrapper = styled.div`
         left: 100%;
         position: absolute;
         top: calc(50% - 1px);
-        width: ${8 * 1}px;
+        width: ${8}px;
       }
     }
   }

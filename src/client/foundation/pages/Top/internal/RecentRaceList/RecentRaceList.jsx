@@ -10,7 +10,7 @@ import { formatCloseAt } from "../../../../utils/DateUtils";
 
 export const RecentRaceList = ({ children }) => {
   return (
-    <Stack as="ul" gap={8 * 2}>
+    <Stack as="ul" gap={16}>
       {children}
     </Stack>
   );
@@ -20,14 +20,14 @@ const ItemWrapper = styled.li`
   background: #fff;
   border-radius: 12px;
   opacity: ${({ $opacity }) => $opacity};
-  padding: ${8 * 3}px;
+  padding: ${24}px;
 `;
 
 const RaceButton = styled(LinkButton)`
   background: #44403c;
   border-radius: 12px;
   color: #fff;
-  padding: ${8 * 1}px ${8 * 2}px;
+  padding: ${8}px ${16}px;
 
   &:hover {
     background: #292524;
@@ -83,15 +83,15 @@ const Item = ({ race }) => {
   return (
     <ItemWrapper $opacity={opacity}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
-        <Stack gap={8 * 1}>
+        <Stack gap={8}>
           <RaceTitle>{race.name}</RaceTitle>
           <p>{closeAtText}</p>
         </Stack>
 
-        <Spacer mr={8 * 2} />
+        <Spacer mr={16} />
 
         <Stack.Item grow={0} shrink={0}>
-          <Stack horizontal alignItems="center" gap={8 * 2}>
+          <Stack horizontal alignItems="center" gap={16}>
             <TrimmedImage height={100} src={race.image} width={100} />
             <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>
           </Stack>

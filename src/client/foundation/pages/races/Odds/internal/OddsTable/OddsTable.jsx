@@ -22,7 +22,7 @@ const Table = styled.table`
   border-width: 2px 0 2px;
   font-size: 0.875rem;
   height: 100%;
-  min-width: calc(1024px - ${8 * 3}px * 2);
+  min-width: calc(1024px - ${24}px * 2);
   table-layout: fixed;
   text-align: center;
   width: 100%;
@@ -38,13 +38,13 @@ const Table = styled.table`
 
   th {
     font-weight: normal;
-    padding: 0 ${8 * 1}px;
+    padding: 0 ${8}px;
   }
 `;
 
 const BuyButton = styled(BaseButton)`
   height: 100%;
-  padding: ${8 * 2}px;
+  padding: ${16}px;
   width: 100%;
 
   &:disabled {
@@ -59,7 +59,7 @@ const BuyButton = styled(BaseButton)`
 const InactiveBuyButton = styled.div`
   cursor: default;
   height: 100%;
-  padding: ${8 * 2}px;
+  padding: ${16}px;
   width: 100%;
 `;
 
@@ -108,7 +108,7 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
         </select>
       </Stack>
 
-      <Spacer mt={8 * 2} />
+      <Spacer mt={16} />
       <ScrollWrapper>
         <div>
           <Table>

@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   display: flex;
   height: 80px;
   justify-content: space-between;
-  padding: 0 ${8 * 2}px;
+  padding: 0 ${16}px;
 `;
 
 const NameText = styled.h1`
@@ -30,7 +30,7 @@ const LoginButton = styled(BaseButton)`
   background: #fff;
   border-radius: 12px;
   color: #292524;
-  padding: ${8 * 1}px ${8 * 2}px;
+  padding: ${8}px ${16}px;
 
   &:hover {
     background: #e7e5e4;

@@ -26,7 +26,7 @@ const PlayerName = styled.span`
 /** @type {React.VFC<ItemProps>} */
 const Item = ({ image, name, number }) => {
   return (
-    <Stack gap={8 * 1}>
+    <Stack gap={8}>
       <TrimmedImage
         alt={`${name}選手のプロフィール写真`}
         height={100}
@@ -44,7 +44,7 @@ const Item = ({ image, name, number }) => {
 
 export const PlayerPictureList = ({ children }) => {
   return (
-    <Stack horizontal gap={8 * 2} wrap="wrap">
+    <Stack horizontal gap={16} wrap="wrap">
       {children}
     </Stack>
   );

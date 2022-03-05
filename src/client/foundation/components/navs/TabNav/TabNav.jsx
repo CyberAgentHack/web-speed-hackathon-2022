@@ -15,8 +15,8 @@ const ItemWrapper = styled.li`
     border-radius: 12px;
     display: block;
     font-weight: bold;
-    padding-bottom: ${8 * 1}px;
-    padding-top: ${8 * 1}px;
+    padding-bottom: ${8}px;
+    padding-top: ${8}px;
     text-align: center;
     width: 96px;
 
@@ -55,7 +55,7 @@ const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
 export const TabNav = ({ children }) => {
   return (
     <nav>
-      <Stack horizontal as="ul" gap={8 * 2}>
+      <Stack horizontal as="ul" gap={16}>
         {children}
       </Stack>
     </nav>

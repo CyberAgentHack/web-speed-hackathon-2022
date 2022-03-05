@@ -5,7 +5,7 @@ const Wrapper = styled.span`
   background: rgba(74, 222, 128, ${({ $odds }) => Math.min(5 / $odds, 1.0)});
   font-family: "Senobi-Gothic", sans-serif;
   font-weight: bold;
-  padding: ${8 / 2}px ${8 * 1}px;
+  padding: ${8 / 2}px ${8}px;
 `;
 
 /**
