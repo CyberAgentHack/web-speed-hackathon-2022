@@ -4,6 +4,8 @@ const zlib = require("zlib");
 
 const CompressionPlugin = require("compression-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -52,6 +54,9 @@ module.exports = [
       ],
     },
     name: "client",
+    optimization: {
+      minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin()],
+    },
     output: {
       path: DIST_PUBLIC,
     },
