@@ -59,7 +59,6 @@ module.exports = [
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
       new CompressionPlugin({
-        algorithm: 'gzip',
         compressionOptions: {
           level: 9
         },
