@@ -20,6 +20,7 @@ export const TrimmedImage = ({ height, lazy, src, width }) => {
       height={height}
       loading={lazy ? "lazy" : "eager"}
       src={src}
+      style={{ paddingLeft: lazy ? 0 : 44, paddingRight: lazy ? 0 : 44 }}
       width={width}
     />
   );
