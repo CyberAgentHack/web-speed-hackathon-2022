@@ -1,4 +1,4 @@
-import moment from "moment-timezone";
+import moment from "dayjs";
 /**
  * @param {string} dateLeft
  * @param {string} dateRight
