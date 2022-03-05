@@ -4,28 +4,15 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { Container } from "../../../components/layouts/Container";
-import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
-import { TrimmedImage } from "../../../components/media/TrimmedImage";
-import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
-import { Color, Radius, Space } from "../../../styles/variables";
-import { formatTime } from "../../../utils/DateUtils";
+import { Color, Space } from "../../../styles/variables";
 import { jsonFetcher } from "../../../utils/HttpUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
 import { TicketVendingModal } from "./internal/TicketVendingModal";
-
-const LiveBadge = styled.span`
-  background: ${Color.red};
-  border-radius: ${Radius.SMALL};
-  color: ${Color.mono[0]};
-  font-weight: bold;
-  padding: ${Space * 1}px;
-  text-transform: uppercase;
-`;
 
 const Callout = styled.aside`
   align-items: center;
@@ -64,64 +51,37 @@ export const Odds = () => {
   const isRaceClosed = moment(data.closeAt).isBefore(new Date());
 
   return (
-    <Container>
-      <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
-      <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
-      </p>
+    <>
+      <Spacer mt={Space * 4} />
+
+      <Callout $closed={isRaceClosed}>
+        <i className="fas fa-info-circle" />
+        {isRaceClosed
+          ? "このレースの投票は締め切られています"
+          : "オッズをクリックすると拳券が購入できます"}
+      </Callout>
+
+      <Spacer mt={Space * 4} />
+      <Heading as="h2">オッズ表</Heading>
 
       <Spacer mt={Space * 2} />
+      <OddsTable
+        entries={data.entries}
+        isRaceClosed={isRaceClosed}
+        odds={data.trifectaOdds}
+        onClickOdds={handleClickOdds}
+      />
 
-      <Section dark shrink>
-        <LiveBadge>Live</LiveBadge>
-        <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image.split(".jpg")[0] + "_md.webp"} width={400} />
-      </Section>
+      <Spacer mt={Space * 4} />
+      <Heading as="h2">人気順</Heading>
 
       <Spacer mt={Space * 2} />
-
-      <Section>
-        <TabNav>
-          <TabNav.Item to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>
-          <TabNav.Item aria-current to={`/races/${raceId}/odds`}>
-            オッズ
-          </TabNav.Item>
-          <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
-        </TabNav>
-
-        <Spacer mt={Space * 4} />
-
-        <Callout $closed={isRaceClosed}>
-          <i className="fas fa-info-circle" />
-          {isRaceClosed
-            ? "このレースの投票は締め切られています"
-            : "オッズをクリックすると拳券が購入できます"}
-        </Callout>
-
-        <Spacer mt={Space * 4} />
-        <Heading as="h2">オッズ表</Heading>
-
-        <Spacer mt={Space * 2} />
-        <OddsTable
-          entries={data.entries}
-          isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
-          onClickOdds={handleClickOdds}
-        />
-
-        <Spacer mt={Space * 4} />
-        <Heading as="h2">人気順</Heading>
-
-        <Spacer mt={Space * 2} />
-        <OddsRankingList
-          isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
-          onClickOdds={handleClickOdds}
-        />
-      </Section>
-
+      <OddsRankingList
+        isRaceClosed={isRaceClosed}
+        odds={data.trifectaOdds}
+        onClickOdds={handleClickOdds}
+      />
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
-    </Container>
+    </>
   );
 };
