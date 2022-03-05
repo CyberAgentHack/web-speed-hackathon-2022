@@ -1,5 +1,4 @@
-import _ from "lodash";
-import moment from "moment-timezone";
+import _ from "lodash-es";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -97,9 +96,14 @@ function useHeroImage(todayRaces) {
   return imageUrl;
 }
 
+const getDate = () => {
+  const t=new Date()
+  return t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + t.getDate()
+}
+
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
+  const { date = getDate() } = useParams();
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
@@ -138,7 +142,7 @@ export const Top = () => {
       ? [...raceData.races]
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
+              new Date(a.startAt).getTime()-new Date(b.startAt).getTime()
           )
           .filter((/** @type {Model.Race} */ race) =>
             isSameDay(race.startAt, date),

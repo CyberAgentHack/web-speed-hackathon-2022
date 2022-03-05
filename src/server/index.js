@@ -38,8 +38,10 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.addHook("onRequest", async (req, res) => {
-  res.header("Cache-Control", "no-cache, no-store, no-transform");
+  // res.header("Cache-Control", "no-cache, no-store, no-transform");
   // for http2
+  res.header("Cache-Control", "max-age=900 min-fresh=0 max-stale=900");
+
   res.header("Connection", "keep-alive");
 });
 
