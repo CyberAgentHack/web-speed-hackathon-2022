@@ -4,9 +4,9 @@ import { Route, Routes as RouterRoutes } from "react-router-dom";
 
 import { CommonLayout } from "./layouts/CommonLayout";
 import { Top } from "./pages/Top";
+import { Odds } from "./pages/races/Odds";
 import { RaceCard } from "./pages/races/RaceCard";
 
-const Odds = lazy(() => import("./pages/races/Odds"));
 const RaceResult = lazy(() => import("./pages/races/RaceResult"));
 
 /** @type {React.VFC} */

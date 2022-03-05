@@ -1,5 +1,5 @@
 import moment from "moment-timezone";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -8,6 +8,9 @@ import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
+import { HeadingPlaceholder } from "../../../components/placeholders/HeadingPlaceholder";
+import { PeriodPlaceholder } from "../../../components/placeholders/PeriodPlaceholder";
+import { TrimmedImagePlaceholder } from "../../../components/placeholders/TrimmedImagePlaceholder";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
@@ -39,6 +42,12 @@ const Callout = styled.aside`
   padding: ${Space * 1}px ${Space * 2}px;
 `;
 
+const CalloutPlaceholder = styled.div`
+  background-color: ${Color.mono[200]};
+  height: 40px;
+  width: 100%;
+`;
+
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
@@ -57,26 +66,38 @@ export const Odds = () => {
     [],
   );
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
-  const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  const isRaceClosed = useMemo(() => {
+    if (!data) return false;
+    return moment(data.closeAt).isBefore(new Date());
+  }, [data]);
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
-      <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
-      </p>
+      {data ? <Heading as="h1">{data.name}</Heading> : <HeadingPlaceholder />}
+      {data ? (
+        <p>
+          開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        </p>
+      ) : (
+        <PeriodPlaceholder />
+      )}
 
       <Spacer mt={Space * 2} />
 
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} lazy={false} src={data.image} width={400} />
+        {data ? (
+          <TrimmedImage
+            height={225}
+            lazy={false}
+            src={data.image}
+            width={400}
+          />
+        ) : (
+          <TrimmedImagePlaceholder />
+        )}
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -92,33 +113,41 @@ export const Odds = () => {
 
         <Spacer mt={Space * 4} />
 
-        <Callout $closed={isRaceClosed}>
-          <i className="fas fa-info-circle" />
-          {isRaceClosed
-            ? "このレースの投票は締め切られています"
-            : "オッズをクリックすると拳券が購入できます"}
-        </Callout>
+        {data ? (
+          <Callout $closed={isRaceClosed}>
+            <i className="fas fa-info-circle" />
+            {isRaceClosed
+              ? "このレースの投票は締め切られています"
+              : "オッズをクリックすると拳券が購入できます"}
+          </Callout>
+        ) : (
+          <CalloutPlaceholder />
+        )}
 
         <Spacer mt={Space * 4} />
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsTable
-          entries={data.entries}
-          isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
-          onClickOdds={handleClickOdds}
-        />
+        {data && (
+          <OddsTable
+            entries={data.entries}
+            isRaceClosed={isRaceClosed}
+            odds={data.trifectaOdds}
+            onClickOdds={handleClickOdds}
+          />
+        )}
 
         <Spacer mt={Space * 4} />
         <Heading as="h2">人気順</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsRankingList
-          isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
-          onClickOdds={handleClickOdds}
-        />
+        {data && (
+          <OddsRankingList
+            isRaceClosed={isRaceClosed}
+            odds={data.trifectaOdds}
+            onClickOdds={handleClickOdds}
+          />
+        )}
       </Section>
 
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
