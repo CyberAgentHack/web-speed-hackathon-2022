@@ -42,7 +42,19 @@ module.exports = [
                     spec: true,
                   },
                 ],
-                "@babel/preset-react",
+                "@babel/preset-react", 
+              ],
+            },
+          },
+        },
+        {
+          exclude: /\/esm\//,
+          test: /\.tsx?$/,
+          use: {
+            loader: "babel-loader",
+            options: {
+              presets: [
+                "@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"
               ],
             },
           },
@@ -59,7 +71,7 @@ module.exports = [
       }),
     ],
     resolve: {
-      extensions: [".js", ".jsx"],
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
     },
     target: "web",
   },

@@ -1,1 +1,1 @@
-export * from "./CommonLayout";
+export {CommonLayout} from "./CommonLayout";
