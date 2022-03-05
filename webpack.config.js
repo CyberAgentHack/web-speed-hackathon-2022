@@ -16,6 +16,7 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
+    devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
     module: {
       rules: [
@@ -62,6 +63,7 @@ module.exports = [
     target: "web",
   },
   {
+    devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
     module: {
