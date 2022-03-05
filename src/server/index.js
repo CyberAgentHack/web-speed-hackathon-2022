@@ -8,7 +8,7 @@ import { apiRoute } from "./routes/api.js";
 import { spaRoute } from "./routes/spa.js";
 import { createConnection } from "./typeorm/connection.js";
 import { initialize } from "./typeorm/initialize.js";
-
+// import * as http2 from 'http2';
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 const server = fastify({
@@ -39,7 +39,8 @@ server.addHook("onRequest", async (req, res) => {
 
 server.addHook("onRequest", async (req, res) => {
   res.header("Cache-Control", "no-cache, no-store, no-transform");
-  res.header("Connection", "close");
+  // for http2
+  res.header("Connection", "keep-alive");
 });
 
 server.register(apiRoute, { prefix: "/api" });
