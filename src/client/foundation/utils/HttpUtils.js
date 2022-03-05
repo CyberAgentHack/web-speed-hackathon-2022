@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const origin = process.env.NODE_ENV === "development" ? "" : "https://wsh-2022-cathiecode.herokuapp.com"
+//const origin = process.env.NODE_ENV === "development" ? "" : "https://wsh-2022-cathiecode.herokuapp.com"
+const origin = "";
 
 export const jsonFetcher = async (/** @type {string} */ url) => {
   const res = await axios.get(origin + url, { responseType: "json" });
