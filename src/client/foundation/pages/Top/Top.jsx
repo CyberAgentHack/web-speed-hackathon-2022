@@ -79,12 +79,17 @@ function useTodayRacesWithAnimation(races) {
  * @returns {string | null}
  */
 function useHeroImage(todayRaces) {
-  const firstRaceId = todayRaces ? todayRaces[0]?.id : null;
+  const firstRaceId = todayRaces[0]?.id;
+  console.log("ri", firstRaceId);
   const url =
     firstRaceId !== undefined
       ? `/api/hero?firstRaceId=${firstRaceId}`
       : "/api/hero";
   const { data } = useFetch(url, jsonFetcher);
+  console.log("data", data);
+  // const assets = (path) => `/assets/${path.replace(/^\//, "")}`;
+  // const url = assets("/images/hero.jpg");
+  // const hash = Math.random().toFixed(10).substring(2);
 
   if (firstRaceId === undefined || data === null) {
     return null;
@@ -114,7 +119,7 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: todayRaces } = useFetch("/api/races", jsonFetcher);
+  const { data: todayRaces } = useFetch("/api/todaysRaces", jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
