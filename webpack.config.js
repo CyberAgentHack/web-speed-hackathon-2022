@@ -3,7 +3,8 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin')
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -59,7 +60,9 @@ module.exports = [
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
 
-      // new BundleAnalyzerPlugin()
+      new BundleAnalyzerPlugin(),
+
+      new MomentTimezoneDataPlugin({ matchCountries: 'JP' }),
 
     ],
     resolve: {
