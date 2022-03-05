@@ -1,5 +1,6 @@
 import "regenerator-runtime/runtime";
 import fastify from "fastify";
+import fastifyCompress from "fastify-compress";
 import fastifySensible from "fastify-sensible";
 
 import { User } from "../model/index.js";
@@ -37,6 +38,11 @@ server.addHook("onRequest", async (req, res) => {
     req.user = user;
   }
 });
+
+server.register(
+  fastifyCompress,
+  { threshold: 2048 }
+)
 
 server.register(apiRoute, { prefix: "/api" });
 server.register(imageRoute);
