@@ -1,4 +1,3 @@
-import moment from "moment-timezone";
 import React, { useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -17,9 +16,17 @@ import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
+const formatDate = (date) => {
+  return `
+    ${date.getFullYear()}-${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}
+  `.replace(/\n|\r/g, "");
+};
+
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
+  const { date = formatDate(new Date()) } = useParams();
   const todayUnix = Date.parse(date) / 1000 - 60 * 60 * 9;
   const tomorrowUnix = todayUnix + 24 * 60 * 60;
 
@@ -63,7 +70,7 @@ export const Top = () => {
       ? [...raceData.races]
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
+              Date.parse(a.startAt) - Date.parse(b.startAt),
           )
           .filter((/** @type {Model.Race} */ race) =>
             isSameDay(race.startAt, date),
