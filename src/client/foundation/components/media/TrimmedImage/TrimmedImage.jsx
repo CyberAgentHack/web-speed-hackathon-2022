@@ -12,12 +12,9 @@ import { optimizedImage } from "../../../utils/UrlUtils";
 export const TrimmedImage = memo(({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
 
-  console.log(width, height);
-  const optimizedSrc = useMemo(() => optimizedImage(src, Math.max(width ?? 0, height ?? 0) * 2), [src, width, height]);
-
   useEffect(() => {
     const img = new Image();
-    img.src = optimizedSrc;
+    img.src = src;
     img.onload = () => {
       const canvas = document.createElement("canvas");
       canvas.width = width;
