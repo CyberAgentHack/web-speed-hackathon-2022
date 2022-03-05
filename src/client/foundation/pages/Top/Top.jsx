@@ -14,8 +14,7 @@ import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
-const ChargeDialog = React.lazy(() => import("./internal/ChargeDialog"));
-
+import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
@@ -177,10 +176,8 @@ export const Top = () => {
           </RecentRaceList>
         )}
       </section>
-      
-      <React.Suspense fallback={<>Loading...</>}>
-        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
-      </React.Suspense>
+
+      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
     </Container>
   );
 };
