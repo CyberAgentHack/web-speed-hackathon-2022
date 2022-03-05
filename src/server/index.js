@@ -1,6 +1,6 @@
 import "regenerator-runtime/runtime";
 import fastify from "fastify";
-import compression from "fastify-compress";
+import etag from "fastify-etag";
 import fastifySensible from "fastify-sensible";
 
 import { User } from "../model/index.js";
@@ -23,7 +23,7 @@ const server = fastify({
       },
 });
 server.register(fastifySensible);
-server.register(compression);
+server.register(etag);
 
 server.addHook("onRequest", async (req, res) => {
   const repo = (await createConnection()).getRepository(User);
@@ -40,7 +40,6 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.addHook("onRequest", async (_req, res) => {
-  res.header("Cache-Control", "no-cache, no-store");
   res.header("Connection", "Keep-Alive");
 });
 
