@@ -34,7 +34,7 @@ class Player {
     /** @type {string} */
     this.shortName = payload.shortName;
     /** @type {string} */
-    this.image = payload.image;
+    this.image = `${payload.image}`.slice(0,-3)+'webp';
   }
 }
 

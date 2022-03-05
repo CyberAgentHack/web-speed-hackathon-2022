@@ -61,7 +61,7 @@ class Race {
     /** @type {string} */
     this.name = payload.name;
     /** @type {string} */
-    this.image = payload.image;
+    this.image = `${payload.image}`.slice(0,-3)+'webp';
     /** @type {string} */
     this.startAt = payload.startAt;
     /** @type {string} */
