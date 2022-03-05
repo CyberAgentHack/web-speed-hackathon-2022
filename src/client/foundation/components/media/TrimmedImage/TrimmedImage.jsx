@@ -13,8 +13,8 @@ export const TrimmedImage = ({ height, src, width }) => {
 
   useEffect(() => {
     const img = new Image();
-    src.replace(".jpg", ".webp");
-    img.src = src;
+    const imgsrc = src.replace(".jpg", ".webp");
+    img.src = imgsrc;
     img.onload = () => {
       const canvas = document.createElement("canvas");
       canvas.width = width;
