@@ -6,7 +6,7 @@
 (function() {
   'use strict';
 
-  var zenginCode = require('./zengin-data');
+  var zenginCode = require('./zengin-data-comp');
 
   if (typeof define === 'function' && define.amd) {
     define(function() { return zenginCode; });
