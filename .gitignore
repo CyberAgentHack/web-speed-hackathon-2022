@@ -8,3 +8,5 @@ node_modules
 
 dist
 database.sqlite
+
+.DS_Store
