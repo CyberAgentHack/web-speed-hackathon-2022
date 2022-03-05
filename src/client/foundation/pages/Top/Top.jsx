@@ -90,8 +90,8 @@ function useHeroImage(todayRaces) {
     return null;
   }
 
-  const imageUrl = `${data.url}?${data.hash}`;
-  return imageUrl;
+  // const imageUrl = `${data.url}?${data.hash}`;
+  return data.url;
 }
 
 /** @type {React.VFC} */
