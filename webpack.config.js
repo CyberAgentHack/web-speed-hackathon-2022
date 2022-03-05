@@ -36,8 +36,10 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
+                    bugfixes: true,
                     modules: "cjs",
                     spec: true,
+                    useBuiltIns: 'usage',
                   },
                 ],
                 "@babel/preset-react",
@@ -76,8 +78,10 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
+                    bugfixes: true,
                     modules: "cjs",
                     spec: true,
+                    useBuiltIns: 'usage',
                   },
                 ],
                 "@babel/preset-react",
