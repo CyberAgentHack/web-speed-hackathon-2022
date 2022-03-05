@@ -63,7 +63,6 @@ const InactiveBuyButton = styled.div`
   cursor: default;
   height: 100%;
   padding: ${Space * 2}px;
-  min-height: calc(1em + ${Space / 2}px);
 
   width: 100%;
 `;
