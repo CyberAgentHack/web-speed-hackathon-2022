@@ -17,6 +17,6 @@ const Image = styled.img.attrs(() => ({
  */
 
 /** @type {React.VFC<Props>} */
-export const HeroImage = ({ url }) => {
-  return <Image alt="" src={url} />;
+export const HeroImage = () => {
+  return <Image alt="" src="/assets/images/resized/hero.avif" />;
 };

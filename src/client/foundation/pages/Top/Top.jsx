@@ -73,10 +73,12 @@ function useTodayRacesWithAnimation(races) {
   return racesToShow;
 }
 
+
 /**
  * @param {Model.Race[]} todayRaces
  * @returns {string | null}
  */
+/*
 function useHeroImage(todayRaces) {
   const firstRaceId = todayRaces[0]?.id;
   const url =
@@ -92,6 +94,7 @@ function useHeroImage(todayRaces) {
   const imageUrl = `${data.url}?${data.hash}`;
   return imageUrl;
 }
+*/
 
 /** @type {React.VFC} */
 export const Top = () => {
@@ -161,11 +164,10 @@ export const Top = () => {
           )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
-  const heroImageUrl = useHeroImage(todayRaces);
 
   return (
     <Container>
-      <HeroImage url={heroImageUrl} />
+      <HeroImage />
 
       <Spacer mt={Space * 2} />
       {userData && (
