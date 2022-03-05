@@ -38,7 +38,6 @@ const ItemWrapper = styled.li`
 
 /** @type {React.FC<ItemProps & React.AnchorHTMLAttributes>} */
 const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
-  console.log(ariaCurrent, children);
   return (
     <ItemWrapper>
       {ariaCurrent ? (
