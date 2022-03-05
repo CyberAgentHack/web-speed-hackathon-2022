@@ -66,8 +66,8 @@ const RankNo = styled.div`
 /** @type {React.VFC<Props>} */
 const take = (arr, qty = 1) => [...arr].splice(0, qty);
 const compare = (a, b) => {
-  const oddsA = a.odds.toUpperCase();
-  const oddsB = b.odds.toUpperCase();
+  const oddsA = a.odds;
+  const oddsB = b.odds;
 
   let comparison = 0;
   if (oddsA > oddsB) {
