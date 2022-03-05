@@ -9,7 +9,7 @@ import { initialize } from "../typeorm/initialize.js";
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */
-export const apiRoute = async (fastif, optsy) => {
+export const apiRoute = async (fastify, opts) => {
   module.exports.options = {
     http2: true,
     logger: true,
