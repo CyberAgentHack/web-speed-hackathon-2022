@@ -3,6 +3,10 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const BundleAnalyzerPlugin =
+  // eslint-disable-next-line import/order
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -57,6 +61,7 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      new BundleAnalyzerPlugin(),
     ],
     resolve: {
       extensions: [".js", ".jsx"],

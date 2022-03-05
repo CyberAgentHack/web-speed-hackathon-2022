@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
@@ -26,7 +25,6 @@ const Table = styled.table`
   table-layout: fixed;
   text-align: center;
   width: 100%;
-
   th,
   td {
     border-color: #292524;
@@ -35,7 +33,6 @@ const Table = styled.table`
     height: 100%;
     padding: 0;
   }
-
   th {
     font-weight: normal;
     padding: 0 ${8}px;
@@ -46,11 +43,9 @@ const BuyButton = styled(BaseButton)`
   height: 100%;
   padding: ${16}px;
   width: 100%;
-
   &:disabled {
     background: #f5f5f4;
   }
-
   &:not(:disabled):hover {
     background: #e7e5e4;
   }
@@ -85,8 +80,25 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
   const handleChange = useCallback((e) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
-
-  const headNumbers = _.without(_.range(1, entries.length + 1), firstKey);
+  const without = (arr, ...args) => arr.filter((item) => !args.includes(item));
+  const range = (start, end, increment) => {
+    const isEndDef = typeof end !== "undefined";
+    end = isEndDef ? end : start;
+    start = isEndDef ? start : 0;
+    if (typeof increment === "undefined") {
+      increment = Math.sign(end - start);
+    }
+    const length = Math.abs((end - start) / (increment || 1));
+    const { result } = Array.from({ length }).reduce(
+      ({ result, current }) => ({
+        result: [...result, current],
+        current: current + increment,
+      }),
+      { current: start, result: [] },
+    );
+    return result;
+  };
+  const headNumbers = without(range(1, entries.length + 1), firstKey);
 
   const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
   const oddsMap = filteredOdds.reduce((acc, cur) => {
