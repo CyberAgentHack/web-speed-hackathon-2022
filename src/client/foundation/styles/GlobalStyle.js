@@ -36,4 +36,8 @@ export const GlobalStyle = createGlobalStyle`
     font-display: block;
     src: url("/assets/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Bold.ttf") format("truetype");
   }
+
+  .fa {
+    height: 1em;
+  }
 `;
