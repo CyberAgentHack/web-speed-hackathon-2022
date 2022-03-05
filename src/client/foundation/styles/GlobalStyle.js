@@ -1,10 +1,8 @@
-import resetCss from "modern-css-reset?raw";
 import { createGlobalStyle } from "styled-components";
 
 import { Color } from "./variables";
 
 export const GlobalStyle = createGlobalStyle`
- ${resetCss}
 
   body {
     color: ${Color.mono[900]};
