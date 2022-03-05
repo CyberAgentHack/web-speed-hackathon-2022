@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef } from "react";
+import React, {useEffect, useState } from "react";
 
 /**
  * @typedef Props
@@ -35,7 +35,7 @@ import React, {useEffect, useState, useRef } from "react";
     };
   }, [height, src, width]);
   if(height===width)return <img height={height} src={src} style={{objectFit:'cover'}} width={width} />
-  return <img src={dataUrl} />;
+  return <img height={height} src={dataUrl} width={width} />;
 };
 // export const TrimmedImage = ({ height, src, width }) => {
 //   const img = useRef();
