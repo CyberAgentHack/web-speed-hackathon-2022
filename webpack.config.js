@@ -18,7 +18,7 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: "inline-source-map",
+    devtool: "inline-source-map", // TODO: 消す
     entry: path.join(SRC_ROOT, "client/index.jsx"),
     mode: "development",
     module: {
@@ -44,7 +44,12 @@ module.exports = [
                     spec: true,
                   },
                 ],
-                "@babel/preset-react",
+                [
+                  '@babel/preset-react',
+                  {
+                    development: false,
+                  },
+                ]
               ],
             },
           },
