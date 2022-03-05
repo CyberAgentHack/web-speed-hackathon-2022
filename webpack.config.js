@@ -21,7 +21,6 @@ module.exports = [
     devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
     mode: "production",
-    //mode: "development",
     module: {
       rules: [
         {
@@ -60,12 +59,6 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
-      // new CompressionPlugin({
-      //   test: /\.js(\?.*)?$/i,
-      //   filename: "[path][query]",
-      //   algorithm: "gzip",
-      //   deleteOriginalAssets: false,
-      // }),
     ],
     resolve: {
       extensions: [".js", ".jsx"],
@@ -76,7 +69,7 @@ module.exports = [
     devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
