@@ -10,9 +10,10 @@ const Image = styled.img`
  * @property {string} src
  * @property {number} width
  * @property {number} height
+ * @property {boolean?} lazyLoad
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
-  return <Image height={height} src={src} width={width} />;
+export const TrimmedImage = ({ height, lazyLoad = false, src, width }) => {
+  return <Image decoding="async" height={height} loading={lazyLoad ? "lazy" : undefined} src={src} width={width} />;
 };

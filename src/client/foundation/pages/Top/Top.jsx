@@ -170,8 +170,8 @@ export const Top = () => {
         <Heading as="h1">本日のレース</Heading>
         {todayRacesToShow.length > 0 && (
           <RecentRaceList>
-            {todayRacesToShow.map((race) => (
-              <RecentRaceList.Item key={race.id} race={race} />
+            {todayRacesToShow.map((race, index) => (
+              <RecentRaceList.Item key={race.id} imgLazyLoad={3 < index} race={race} />
             ))}
           </RecentRaceList>
         )}
