@@ -54,7 +54,7 @@ export const RaceResult = () => {
         <Spacer mt={Space * 2} />
         <TrimmedImage
           height={225}
-          src={data.image.substring(0, data.image.length - 3) + "avif"}
+          src={data.image}
           width={400}
         />
       </Section>

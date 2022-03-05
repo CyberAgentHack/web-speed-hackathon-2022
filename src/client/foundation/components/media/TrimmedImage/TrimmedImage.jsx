@@ -14,7 +14,8 @@ export const TrimmedImage = ({ height, src, width }) => {
   useEffect(() => {
     if (height === width) return;
     const img = new Image();
-    img.src = src;
+    const imgsrc = src.replace(".jpg", ".avif");
+    img.src = imgsrc;
     img.onload = () => {
       const canvas = document.createElement("canvas");
       canvas.width = width;
