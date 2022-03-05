@@ -31,16 +31,12 @@ export const RaceCard = () => {
   const { raceId } = useParams();
   const { data } = useSWR(`/api/races/${raceId}/subset`, jsonFetcher);
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{data ? data.name : "読み込み中…"}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+      {data ? <>開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}</> : "読み込み中"}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -48,7 +44,7 @@ export const RaceCard = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={`${data.image}_small.avif`} width={400} />
+        <TrimmedImage height={225} src={data ? `${data.image}_small.avif` : undefined} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -63,19 +59,21 @@ export const RaceCard = () => {
         </TabNav>
 
         <Spacer mt={Space * 2} />
-        <PlayerPictureList>
-          {data.entries.map((entry) => (
-            <PlayerPictureList.Item
-              key={entry.id}
-              image={entry.player.image}
-              name={entry.player.name}
-              number={entry.number}
-            />
-          ))}
-        </PlayerPictureList>
+        {data ? (<>
+          <PlayerPictureList>
+            {data.entries.map((entry) => (
+              <PlayerPictureList.Item
+                key={entry.id}
+                image={entry.player.image}
+                name={entry.player.name}
+                number={entry.number}
+              />
+            ))}
+          </PlayerPictureList>
 
-        <Spacer mt={Space * 4} />
-        <EntryTable entries={data.entries} />
+          <Spacer mt={Space * 4} />
+          <EntryTable entries={data.entries} />
+        </>) : "読み込み中…"}
       </Section>
     </Container>
   );
