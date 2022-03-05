@@ -38,8 +38,13 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.addHook("onRequest", async (req, res) => {
-  res.header("Cache-Control", "no-cache, no-store");
-  res.header("Connection", "close");
+  if (req.url.startsWith("/assets")) {
+    res.header("Cache-Control", "public,max-age=604800,immutable");
+  }
+  else {
+    res.header("Cache-Control", "no-cache, no-store");
+  }
+  
 });
 
 server.register(apiRoute, { prefix: "/api" });
