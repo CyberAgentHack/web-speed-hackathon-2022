@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
+import { Fa } from "../../../../../components/icons/Fa";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
 
 const ItemWrapper = styled.tr`
@@ -60,7 +61,7 @@ export const BettingTicketList = ({ children }) => {
   if (React.Children.count(children) === 0) {
     return (
       <Placeholder>
-        <i className="fas fa-ticket-alt" />
+        <Fa icon="solid-ticket-alt" />
         <div>購入した拳券はありません</div>
       </Placeholder>
     );
