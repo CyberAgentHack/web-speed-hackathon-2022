@@ -21,13 +21,13 @@ const formatDate = (date) => {
     ${date.getFullYear()}-${(date.getMonth() + 1)
     .toString()
     .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}
-  `.replace(/\n|\r/g, "");
+  `.replace(/\n|\r| /g, "");
 };
 
 /** @type {React.VFC} */
 export const Top = () => {
   const { date = formatDate(new Date()) } = useParams();
-  const todayUnix = Date.parse(date) / 1000;
+  const todayUnix = Date.parse(date) / 1000 - 60 * 60 * 9;
   const tomorrowUnix = todayUnix + 24 * 60 * 60;
 
   const ChargeButton = styled.button`
