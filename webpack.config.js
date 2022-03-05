@@ -19,9 +19,9 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = smp.wrap([
   {
-    devtool: "inline-source-map",
+    devtool: false,
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "production",
+    mode: "development",
     module: {
       rules: [
         {
@@ -68,10 +68,10 @@ module.exports = smp.wrap([
     target: "web",
   },
   {
-    devtool: "inline-source-map",
+    devtool: false,
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
-    mode: "production",
+    mode: "development",
     module: {
       rules: [
         {
