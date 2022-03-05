@@ -70,7 +70,7 @@ export const Odds = () => {
       <Spacer mt={Space * 2} />
       <Heading as="h1">{data?.name ?? "読み込み中"}</Heading>
       <p>
-        {data ? <>開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}</> : "読み込み中"}
+      {data ? <>開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}</> : "読み込み中"}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -96,9 +96,10 @@ export const Odds = () => {
 
         <Callout $closed={isRaceClosed}>
           <FontAwesomeIcon icon={faInfoCircle} />
-          {isRaceClosed
+          {data ? isRaceClosed
             ? "このレースの投票は締め切られています"
-            : "オッズをクリックすると拳券が購入できます"}
+            : "オッズをクリックすると拳券が購入できます"
+            : "読み込み中…"}
         </Callout>
 
         <Spacer mt={Space * 4} />
