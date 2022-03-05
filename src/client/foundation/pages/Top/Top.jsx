@@ -15,7 +15,7 @@ import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
-// import { HeroImage } from "./internal/HeroImage";
+import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
 /**
@@ -109,10 +109,6 @@ export const Top = () => {
     }
   `;
 
-  const Image = styled.img`
-  display: block;
-  margin: 0 auto;
-`;
 
   const chargeDialogRef = useRef(null);
 
@@ -152,7 +148,7 @@ export const Top = () => {
 
   return (
     <Container>
-      <Image alt="" src={"/assets/images/hero.webp"} />
+      <HeroImage alt="" url={"/assets/images/hero.webp"} />
 
       <Spacer mt={Space * 2} />
       {userData && (
