@@ -5,6 +5,7 @@ import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
+import zenginCode from "../../batch/fmt-zengin-code.json";
 
 /**
  * @type {import('fastify').FastifyPluginCallback}
@@ -164,6 +165,21 @@ export const apiRoute = async (fastify) => {
 
     res.send(bettingTicket);
   });
+
+  fastify.get("/zengin", (_req, res) => {
+    const result = Object.entries(zenginCode).map(([code, { name }]) => ({
+      code,
+      name,
+    }));
+    res.send(JSON.stringify(result));
+  })
+
+
+  fastify.get("/zengin/:code", (req, res) => {
+    const result = zenginCode[req.params.code]
+
+    res.send(JSON.stringify(result));
+  })
 
   fastify.post("/initialize", async (_req, res) => {
     await initialize();
