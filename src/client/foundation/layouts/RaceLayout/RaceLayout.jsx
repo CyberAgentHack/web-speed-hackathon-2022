@@ -28,16 +28,14 @@ export const RaceLayout = () => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{data?.name ?? "　"}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        {/* TODO: replace correct placeholder */}
+        開始 {data == null ? "     " : formatTime(data.startAt)} 締切{" "}
+        {data == null ? "     " : formatTime(data.closeAt)}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -47,7 +45,7 @@ export const RaceLayout = () => {
         <Spacer mt={Space * 2} />
         <TrimmedImage
           height={225}
-          src={data.image.split(".jpg")[0] + "_md.webp"}
+          src={data == null ? null : data.image.split(".jpg")[0] + "_md.webp"}
           width={400}
         />
       </Section>
@@ -56,7 +54,6 @@ export const RaceLayout = () => {
 
       <Section>
         <Tab raceId={raceId} />
-
         <Outlet />
       </Section>
     </Container>
