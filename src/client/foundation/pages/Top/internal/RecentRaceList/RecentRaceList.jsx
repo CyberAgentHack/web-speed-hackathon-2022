@@ -26,9 +26,11 @@ const fadeIn = keyframes`
 `;
 
 const ItemWrapper = styled.li`
+  opacity: 0;
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
-  animation: ${fadeIn} 0.5s ease-out;
+  animation: ${fadeIn} 0.5s ease-out ${({ $delay }) => $delay}ms 1 normal
+    forwards;
   padding: ${Space * 3}px;
 `;
 
@@ -50,18 +52,19 @@ const RaceTitle = styled.h2`
 
 /**
  * @typedef ItemProps
+ * @property {number} num
  * @property {Model.Race} race
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ race }) => {
+const Item = ({ num, race }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
 
   // 締切はリアルタイムで表示したい
   useEffect(() => {
     const timer = setInterval(() => {
       setCloseAtText(formatCloseAt(race.closeAt));
-    }, 0);
+    }, 100);
 
     return () => {
       clearInterval(timer);
@@ -69,7 +72,7 @@ const Item = ({ race }) => {
   }, [race.closeAt]);
 
   return (
-    <ItemWrapper>
+    <ItemWrapper $delay={num * 100}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
