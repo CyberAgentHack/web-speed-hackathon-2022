@@ -1,4 +1,4 @@
-import React, {memo} from "react";
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 
@@ -8,7 +8,7 @@ import { GlobalStyle } from "./styles/GlobalStyle";
 
 /** @type {React.VFC} */
 // eslint-disable-next-line react/display-name
-export const App = memo(() => {
+export const App = () => {
   return (
     <StyleSheetManager disableCSSOMInjection>
       <AuthContextProvider>
@@ -19,4 +19,4 @@ export const App = memo(() => {
       </AuthContextProvider>
     </StyleSheetManager>
   );
-});
+};
