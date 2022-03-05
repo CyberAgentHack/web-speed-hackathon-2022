@@ -1,0 +1,37 @@
+{
+  "001":{
+    "code":"001",
+    "name":"本店",
+    "kana":"ホンテン",
+    "hira":"ほんてん",
+    "roma":"honten"
+  },
+  "003":{
+    "code":"003",
+    "name":"中央",
+    "kana":"チユウオウ",
+    "hira":"ちゆうおう",
+    "roma":"chiyuuou"
+  },
+  "004":{
+    "code":"004",
+    "name":"清川",
+    "kana":"キヨカワ",
+    "hira":"きよかわ",
+    "roma":"kiyokawa"
+  },
+  "005":{
+    "code":"005",
+    "name":"真船",
+    "kana":"マフネ",
+    "hira":"まふね",
+    "roma":"mafune"
+  },
+  "012":{
+    "code":"012",
+    "name":"富来田",
+    "kana":"フクタ",
+    "hira":"ふくた",
+    "roma":"fukuta"
+  }
+}

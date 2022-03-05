@@ -2,8 +2,6 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
-const BundleAnalyzerPlugin =
-  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -41,7 +39,7 @@ module.exports = [
           type: "asset/source",
         },
         {
-          exclude: /[\\/]esm[\\/]/,
+          exclude: [/[\\/]esm[\\/]/, /[\\/]node_modules[\\/]/],
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
@@ -75,12 +73,6 @@ module.exports = [
     plugins: [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
-      }),
-      new BundleAnalyzerPlugin({
-        analyzerMode: "static",
-        generateStatsFile: true,
-        reportFilename: "../../report.html",
-        statsFilename: "../../stats.json",
       }),
     ],
     resolve: {
