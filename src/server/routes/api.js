@@ -104,6 +104,7 @@ export const apiRoute = async (fastify) => {
 
     let race = resp
 
+    resp.image = resp.image.replace('.jpg','.avif').replace('/assets/images/races/','/assets/images/races/title/')
     race.entries = resp.entries.map((x) => {
       x.player.image = x.player.image.replace(".jpg", ".avif").replace("/assets/images/players/", "/assets/images/players/thumbnail/")
       return x
