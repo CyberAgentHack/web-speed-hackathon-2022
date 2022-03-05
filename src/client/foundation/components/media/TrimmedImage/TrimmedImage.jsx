@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useMemo, memo } from "react";
 import styled from "styled-components";
-import { optimizedImage } from "../../../utils/UrlUtils";
 
 const ImageAutoHeight = styled.img`
   height: auto;
@@ -38,7 +37,7 @@ export const TrimmedImage = memo(({ height, src, width }) => {
       );
       setDataUrl(canvas.toDataURL());
     };
-  }, [height, optimizedImage, width]);
+  }, [height, width]);
 
   return <ImageAutoHeight src={dataUrl} alt="" width={width} height={height} />;
 });

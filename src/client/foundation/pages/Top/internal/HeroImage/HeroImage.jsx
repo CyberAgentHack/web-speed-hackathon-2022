@@ -18,10 +18,9 @@ const Picture = styled.picture`
 export const HeroImage = memo(({ url }) => {
   return (
     <Picture alt="" src={url}>
-      <source srcSet={optimizedImage(url, 400)} media="(max-width: 400px)" />
-        <source srcSet={optimizedImage(url, 800)} media="(max-width: 800px)" />
-        <source srcSet={optimizedImage(url, 1024)} media="(min-width: 1024px)" />
-        <img src={url} alt="" />
+        <source srcSet={`${url}_small.avif`} media="(max-width: 600px)" />
+        <source srcSet={`${url}_1024.avif`} media="(min-width: 601px)" />
+        <img src={url} alt="" /> {/* original for high resolution screen */}
     </Picture>
   )
 });
