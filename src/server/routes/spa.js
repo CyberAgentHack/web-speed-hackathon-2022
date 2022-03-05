@@ -16,6 +16,7 @@ export const spaRoute = async (fastify) => {
   });
 
   fastify.get("*", (_req, reply) => {
+    reply.header("Cache-Control", "max-age=900");
     return reply.sendFile("index.html", join(__dirname, "public"));
   });
 };
