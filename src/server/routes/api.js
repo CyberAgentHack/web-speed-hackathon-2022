@@ -102,7 +102,14 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.notFound();
     }
 
-    const newRace = { ...race, image: race.image.replace(".jpg", ".avif") };
+    const newRace = {
+      ...race,
+      entries: race.entries.map((entry) => {
+        const newFileName = entry.player.image.replace(".jpg", ".avif");
+        return { ...entry, player: { ...entry.player, image: newFileName } };
+      }),
+      image: race.image.replace(".jpg", ".avif"),
+    };
 
     res.send(newRace);
   });

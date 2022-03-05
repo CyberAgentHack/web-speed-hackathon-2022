@@ -10,11 +10,14 @@ import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
+import { range } from "../../../utils/ArrayUtil";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
 
 import { EntryTable } from "./internal/EntryTable";
 import { PlayerPictureList } from "./internal/PlayerPictureList";
+
+const LIST_ITEM_PH_NUM = 10;
 
 const LiveBadge = styled.span`
   background: ${Color.red};
@@ -25,29 +28,52 @@ const LiveBadge = styled.span`
   text-transform: uppercase;
 `;
 
+const HeadingPlaceholder = styled.div`
+  height: 48px;
+  margin-bottom: 8px;
+`;
+
+const PeriodPlaceholder = styled.div`
+  height: 24px;
+`;
+
+const TrimmedImagePlaceholder = styled.div`
+  height: 225px;
+  width: 400px;
+`;
+
+const PlayerPictureListItemPlaceholder = styled.div`
+  height: 132px;
+  width: 100px;
+`;
+
 /** @type {React.VFC} */
 export const RaceCard = () => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
-      <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
-      </p>
+      {data ? <Heading as="h1">{data?.name}</Heading> : <HeadingPlaceholder />}
+      {data ? (
+        <p>
+          開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        </p>
+      ) : (
+        <PeriodPlaceholder />
+      )}
 
       <Spacer mt={Space * 2} />
 
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        {data ? (
+          <TrimmedImage height={225} src={data?.image} width={400} />
+        ) : (
+          <TrimmedImagePlaceholder />
+        )}
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -63,18 +89,22 @@ export const RaceCard = () => {
 
         <Spacer mt={Space * 2} />
         <PlayerPictureList>
-          {data.entries.map((entry) => (
-            <PlayerPictureList.Item
-              key={entry.id}
-              image={entry.player.image}
-              name={entry.player.name}
-              number={entry.number}
-            />
-          ))}
+          {data
+            ? data.entries.map((entry) => (
+                <PlayerPictureList.Item
+                  key={entry.id}
+                  image={entry.player.image}
+                  name={entry.player.name}
+                  number={entry.number}
+                />
+              ))
+            : range(0, LIST_ITEM_PH_NUM).map((i) => (
+                <PlayerPictureListItemPlaceholder key={i} />
+              ))}
         </PlayerPictureList>
 
         <Spacer mt={Space * 4} />
-        <EntryTable entries={data.entries} />
+        {data && <EntryTable entries={data.entries} />}
       </Section>
     </Container>
   );
