@@ -83,10 +83,7 @@ function useTodayRacesWithAnimation(races) {
  */
 function useHeroImage(todayRaces) {
   const firstRaceId = todayRaces[0]?.id;
-  const url =
-    firstRaceId !== undefined
-      ? `/api/hero?firstRaceId=${firstRaceId}`
-      : "/api/hero";
+  const url = "/api/hero";
   const { data } = useFetch(url, jsonFetcher);
 
   if (firstRaceId === undefined || data === null) {
