@@ -7414,7 +7414,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.0, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -7571,17 +7571,6 @@ __metadata:
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
-  languageName: node
-  linkType: hard
-
-"react-loadable@npm:^5.5.0":
-  version: 5.5.0
-  resolution: "react-loadable@npm:5.5.0"
-  dependencies:
-    prop-types: ^15.5.0
-  peerDependencies:
-    react: "*"
-  checksum: 72329cfd2f2c8b3d4666acf97c36e9d653a3620970d2702d22282b1eb4bcb3c709695d06489f2844da2d541e42e45bcf43fe89eeedb508680f071984cee0eddd
   languageName: node
   linkType: hard
 
@@ -9783,7 +9772,6 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-helmet: ^6.1.0
-    react-loadable: ^5.5.0
     react-router-dom: 6
     regenerator-runtime: ^0.13.9
     rimraf: ^3.0.2

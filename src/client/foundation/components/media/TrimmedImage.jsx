@@ -10,9 +10,9 @@ import React, { useEffect, useState } from "react";
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
+  const img = new Image();
 
   useEffect(() => {
-    const img = new Image();
     let unmounted = false;
     img.src = src;
     img.onload = () => {
@@ -25,6 +25,7 @@ export const TrimmedImage = ({ height, src, width }) => {
         const ratio = isWidthSmaller ? width / img.width : height / img.height;
 
         const ctx = canvas.getContext("2d");
+        console.log(img.height + ", " + img.width);
         ctx.drawImage(
           img,
           -(img.width * ratio - width) / 2,
@@ -40,5 +41,13 @@ export const TrimmedImage = ({ height, src, width }) => {
     };
   }, [height, src, width]);
 
-  return <img src={dataUrl} />;
+  return (
+    <img
+      src={dataUrl}
+      // height={img.height}
+      // width={img.width}
+      importance="high"
+      loading="async"
+    />
+  );
 };
