@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import React, { forwardRef, useCallback, useState } from "react";
-import zenginCode from "zengin-code";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -8,6 +7,7 @@ import { Stack } from "../../../../components/layouts/Stack";
 import { Heading } from "../../../../components/typographies/Heading";
 import { useMutation } from "../../../../hooks/useMutation";
 import { Space } from "../../../../styles/variables";
+import { zenginCode } from "../../../../utils/zengin-code";
 
 const CANCEL = "cancel";
 const CHARGE = "charge";
