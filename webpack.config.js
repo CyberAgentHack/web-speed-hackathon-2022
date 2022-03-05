@@ -42,8 +42,10 @@ module.exports = smp.wrap([
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
-                    spec: true,
+                    corejs: "3",
+                    modules: "auto",
+                    targets: "last 1 Chrome major version",
+                    useBuiltIns: "usage",
                   },
                 ],
                 "@babel/preset-react",
