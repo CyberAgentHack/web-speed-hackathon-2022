@@ -1,4 +1,4 @@
-FROM node:16.13.0 AS builder
+FROM node:16.13.1 AS builder
 
 COPY ./src ./src
 COPY ./database ./database
@@ -12,7 +12,7 @@ COPY ./public ./public
 RUN yarn install 
 RUN yarn build
 
-FROM --platform=linux/amd64 node:16.13.0
+FROM --platform=linux/amd64 node:16.13.1
 
 WORKDIR /usr/src/app
 
