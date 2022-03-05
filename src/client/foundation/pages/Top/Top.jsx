@@ -46,10 +46,10 @@ function useTodayRacesWithAnimation(races) {
       return;
     }
     // 視覚効果 off のときはアニメーションしない
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRacesToShow(races);
-      return;
-    }
+    // if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    //   setRacesToShow(races);
+    //   return;
+    // }
 
     numberOfRacesToShow.current = 0;
     if (timer.current !== null) {
