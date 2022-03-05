@@ -115,7 +115,29 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const since = new Date(
+    date.substring(0, 4),
+    Number(date.substring(5, 7)) - 1,
+    date.substring(8, 10),
+    0,
+    0,
+    0,
+    0,
+  ).getTime();
+  const until = new Date(
+    date.substring(0, 4),
+    Number(date.substring(5, 7)) - 1,
+    date.substring(8, 10),
+    24,
+    0,
+    0,
+    0,
+  ).getTime();
+
+  const { data: raceData } = useFetch(
+    `/api/races?since=${since}&until=${until}`,
+    jsonFetcher,
+  );
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -136,10 +158,6 @@ export const Top = () => {
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
               parseISOString(a.startAt).getTime() -
               parseISOString(b.startAt).getTime(),
-          )
-          .filter(
-            (/** @type {Model.Race} */ race) =>
-              formatDate(parseISOString(race.startAt)) == date,
           )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);

@@ -1,6 +1,6 @@
 import _ from "lodash";
 import moment from "moment";
-import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+// import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import zenginCode from "zengin-code";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
@@ -116,12 +116,13 @@ export const apiRoute = async (fastify) => {
 
     const repo = (await createConnection()).getRepository(Race);
 
-    const where = {};
+
+    /*
     if (since != null && until != null) {
       Object.assign(where, {
         startAt: Between(
-          since.utc().format("YYYY-MM-DD HH:mm:ss"),
-          until.utc().format("YYYY-MM-DD HH:mm:ss"),
+          since.utc().format(),
+          until.utc().format(),
         ),
       });
     } else if (since != null) {
@@ -130,13 +131,22 @@ export const apiRoute = async (fastify) => {
       });
     } else if (until != null) {
       Object.assign(where, {
-        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+        startAt: LessThanOrEqual(until.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
     }
+    */
 
-    const races = await repo.find({
-      where,
-    });
+    const races = await repo.find();
+
+    if (since && until) {
+      const filtered = races.filter((race) => {
+        const unix = moment.unix(race.startAt);
+        return since.unix() <= unix.unix() && unix.unix() < until.unix();
+      });
+
+      res.send({ races: filtered });
+      return;
+    }
 
     res.send({ races });
   });
