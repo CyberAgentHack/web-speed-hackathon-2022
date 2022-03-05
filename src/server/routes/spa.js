@@ -9,7 +9,7 @@ export const spaRoute = async (fastify) => {
   // fastify.register(require('fastify-compress'));
 
   fastify.register(fastifyStatic, {
-    root: join(__dirname, "public"),
+    root: join(__dirname, "public/assets"),
     prefix: '/assets/',
     wildcard: false,
   });
