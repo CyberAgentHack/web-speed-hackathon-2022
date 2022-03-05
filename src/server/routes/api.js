@@ -1,6 +1,7 @@
 import _ from "lodash";
 import moment from "moment";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import zenginCode from "zengin-code";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
@@ -11,6 +12,22 @@ import { changeImageUrl, initialize } from "../typeorm/initialize.js";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
+  fastify.get("/banklist", async (req, res) => {
+    res.header("Cache-Control", "public, max-age=86400");
+    res.send(
+      Object.entries(zenginCode).map(([code, { name }]) => ({
+        code,
+        name,
+      })),
+    );
+  });
+
+  fastify.get("/bank/:code", async (req, res) => {
+    const { code } = req.params;
+    res.header("Cache-Control", "public, max-age=86400");
+    res.send(zenginCode[code]);
+  });
+
   fastify.addHook("onRequest", async (req, res) => {
     res.header("Cache-Control", "max-age=0");
   });

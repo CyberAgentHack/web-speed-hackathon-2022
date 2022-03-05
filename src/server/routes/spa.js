@@ -1,7 +1,6 @@
 import { join } from "path";
 
 import fastifyStatic from "fastify-static";
-import zenginCode from "zengin-code";
 
 /**
  * @type {import('fastify').FastifyPluginCallback}
@@ -17,20 +16,6 @@ export const spaRoute = async (fastify) => {
   fastify.register(fastifyStatic, {
     root: join(__dirname, "public"),
     wildcard: false,
-  });
-
-  fastify.get("/banklist", async (req, res) => {
-    res.send(
-      Object.entries(zenginCode).map(([code, { name }]) => ({
-        code,
-        name,
-      })),
-    );
-  });
-
-  fastify.get("/bank/:code", async (req, res) => {
-    const { code } = req.params;
-    res.send(zenginCode[code]);
   });
 
   fastify.get("/favicon.ico", () => {
