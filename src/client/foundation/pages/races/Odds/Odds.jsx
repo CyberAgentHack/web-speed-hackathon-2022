@@ -60,7 +60,14 @@ const SVG = styled.svg`
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data: entriesData } = useFetch(
+    `/api/races/${raceId}/entries`,
+    jsonFetcher,
+  );
+  const { data: trifectaOddsData } = useFetch(
+    `/api/races/${raceId}/trifectaOdds`,
+    jsonFetcher,
+  );
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 
@@ -76,17 +83,22 @@ export const Odds = () => {
   );
 
   const isRaceClosed = useMemo(() => {
-    if (!data) return false;
-    return moment(data.closeAt).isBefore(new Date());
-  }, [data]);
+    if (!entriesData) return false;
+    return moment(entriesData.closeAt).isBefore(new Date());
+  }, [entriesData]);
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      {data ? <Heading as="h1">{data.name}</Heading> : <HeadingPlaceholder />}
-      {data ? (
+      {entriesData ? (
+        <Heading as="h1">{entriesData.name}</Heading>
+      ) : (
+        <HeadingPlaceholder />
+      )}
+      {entriesData ? (
         <p>
-          開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+          開始 {formatTime(entriesData.startAt)} 締切{" "}
+          {formatTime(entriesData.closeAt)}
         </p>
       ) : (
         <PeriodPlaceholder />
@@ -97,11 +109,11 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        {data ? (
+        {entriesData ? (
           <TrimmedImage
             height={225}
             lazy={false}
-            src={data.image}
+            src={entriesData.image}
             width={400}
           />
         ) : (
@@ -122,7 +134,7 @@ export const Odds = () => {
 
         <Spacer mt={Space * 4} />
 
-        {data ? (
+        {entriesData ? (
           <Callout $closed={isRaceClosed}>
             <SVG viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -142,11 +154,11 @@ export const Odds = () => {
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        {data && (
+        {entriesData && trifectaOddsData && (
           <OddsTable
-            entries={data.entries}
+            entries={entriesData.entries}
             isRaceClosed={isRaceClosed}
-            odds={data.trifectaOdds}
+            odds={trifectaOddsData}
             onClickOdds={handleClickOdds}
           />
         )}
@@ -155,10 +167,10 @@ export const Odds = () => {
         <Heading as="h2">人気順</Heading>
 
         <Spacer mt={Space * 2} />
-        {data && (
+        {trifectaOddsData && (
           <OddsRankingList
             isRaceClosed={isRaceClosed}
-            odds={data.trifectaOdds}
+            odds={trifectaOddsData}
             onClickOdds={handleClickOdds}
           />
         )}

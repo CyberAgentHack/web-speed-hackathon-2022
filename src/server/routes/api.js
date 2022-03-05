@@ -117,6 +117,43 @@ export const apiRoute = async (fastify) => {
     res.send(newRace);
   });
 
+  fastify.get("/races/:raceId/entries", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["entries", "entries.player"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    const newRace = {
+      ...race,
+      entries: race.entries.map((entry) => {
+        const newFileName = entry.player.image.replace(".jpg", ".avif");
+        return { ...entry, player: { ...entry.player, image: newFileName } };
+      }),
+      image: race.image.replace(".jpg", ".avif"),
+    };
+
+    res.send(newRace);
+  });
+
+  fastify.get("/races/:raceId/trifectaOdds", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    res.send(race.trifectaOdds);
+  });
+
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
     if (req.user == null) {
       throw fastify.httpErrors.unauthorized();
