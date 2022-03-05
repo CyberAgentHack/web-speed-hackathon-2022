@@ -1,6 +1,7 @@
 import "regenerator-runtime/runtime";
 import fastify from "fastify";
 import fastifyCompress from "fastify-compress";
+import fastifySensible from "fastify-sensible";
 
 import { User } from "../model/index.js";
 
@@ -21,6 +22,7 @@ const server = fastify({
         },
       },
 });
+server.register(fastifySensible);
 
 server.register(fastifyCompress, { global: true });
 
