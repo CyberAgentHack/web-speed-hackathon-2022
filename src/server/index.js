@@ -2,9 +2,7 @@ import "regenerator-runtime/runtime";
 import fastify from "fastify";
 import fastifySensible from "fastify-sensible";
 
-import { User } from "../model/index.js";
-
-import { apiRoute } from "./routes/api.js";
+import { authApiRoute, unAuthApiRoute } from "./routes/api.js";
 import { spaRoute } from "./routes/spa.js";
 import { createConnection } from "./typeorm/connection.js";
 import { initialize } from "./typeorm/initialize.js";
@@ -29,25 +27,12 @@ server.addHook("onRequest", async (req) => {
 });
 
 server.addHook("onRequest", async (req, res) => {
-  const repo = req.dbConnection.getRepository(User);
-
-  const userId = req.headers["x-app-userid"];
-  if (userId !== undefined) {
-    const user = await repo.findOne(userId);
-    if (user === undefined) {
-      res.unauthorized();
-      return;
-    }
-    req.user = user;
-  }
-});
-
-server.addHook("onRequest", async (req, res) => {
   res.header("Cache-Control", "no-cache, no-store, no-transform");
   res.header("Connection", "close");
 });
 
-server.register(apiRoute, { prefix: "/api" });
+server.register(authApiRoute, { prefix: "/api" });
+server.register(unAuthApiRoute, { prefix: "/api" });
 server.register(spaRoute);
 
 const start = async () => {

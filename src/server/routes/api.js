@@ -8,36 +8,7 @@ import { initialize } from "../typeorm/initialize.js";
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */
-export const apiRoute = async (fastify) => {
-  fastify.get("/users/me", async (req, res) => {
-    const repo = req.dbConnection.getRepository(User);
-
-    if (req.user != null) {
-      res.send(req.user);
-    } else {
-      const user = await repo.save(new User());
-      res.send(user);
-    }
-  });
-
-  fastify.post("/users/me/charge", async (req, res) => {
-    if (req.user == null) {
-      throw fastify.httpErrors.unauthorized();
-    }
-
-    const { amount } = req.body;
-    if (typeof amount !== "number" || amount <= 0) {
-      throw fastify.httpErrors.badRequest();
-    }
-
-    const repo = req.dbConnection.getRepository(User);
-
-    req.user.balance += amount;
-    await repo.save(req.user);
-
-    res.status(204).send();
-  });
-
+export const unAuthApiRoute = async (fastify) => {
   fastify.get("/hero", async (_req, res) => {
     const url = assets("/images/hero.webp");
     const hash = Math.random().toFixed(10).substring(2);
@@ -97,6 +68,59 @@ export const apiRoute = async (fastify) => {
     }
 
     res.send(race);
+  });
+
+  fastify.post("/initialize", async (_req, res) => {
+    await initialize();
+    res.status(204).send();
+  });
+};
+
+/**
+ * @type {import('fastify').FastifyPluginCallback}
+ */
+export const authApiRoute = async (fastify) => {
+  fastify.addHook("onRequest", async (req, res) => {
+    const repo = req.dbConnection.getRepository(User);
+
+    const userId = req.headers["x-app-userid"];
+    if (userId !== undefined) {
+      const user = await repo.findOne(userId);
+      if (user === undefined) {
+        res.unauthorized();
+        return;
+      }
+      req.user = user;
+    }
+  });
+
+  fastify.get("/users/me", async (req, res) => {
+    const repo = req.dbConnection.getRepository(User);
+
+    if (req.user != null) {
+      res.send(req.user);
+    } else {
+      const user = await repo.save(new User());
+      res.send(user);
+    }
+  });
+
+  fastify.post("/users/me/charge", async (req, res) => {
+    if (req.user == null) {
+      throw fastify.httpErrors.unauthorized();
+    }
+
+    const { amount } = req.body;
+    if (typeof amount !== "number" || amount <= 0) {
+      throw fastify.httpErrors.badRequest();
+    }
+
+    const repo = req.dbConnection.getRepository(User);
+
+    req.user.balance += amount;
+    await repo.save(req.user);
+
+    res.status(204).send();
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
@@ -160,10 +184,5 @@ export const apiRoute = async (fastify) => {
     await userRepo.save(req.user);
 
     res.send(bettingTicket);
-  });
-
-  fastify.post("/initialize", async (_req, res) => {
-    await initialize();
-    res.status(204).send();
   });
 };
