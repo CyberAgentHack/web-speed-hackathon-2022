@@ -7,6 +7,10 @@ import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
+import { HeadingPlaceholder } from "../../../components/placeholders/HeadingPlaceholder";
+import { PeriodPlaceholder } from "../../../components/placeholders/PeriodPlaceholder";
+import { PlayerPictureListItemPlaceholder } from "../../../components/placeholders/PlayerPictureListItemPlaceholder";
+import { TrimmedImagePlaceholder } from "../../../components/placeholders/TrimmedImagePlaceholder";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
@@ -26,25 +30,6 @@ const LiveBadge = styled.span`
   font-weight: bold;
   padding: ${Space * 1}px;
   text-transform: uppercase;
-`;
-
-const HeadingPlaceholder = styled.div`
-  height: 48px;
-  margin-bottom: 8px;
-`;
-
-const PeriodPlaceholder = styled.div`
-  height: 24px;
-`;
-
-const TrimmedImagePlaceholder = styled.div`
-  height: 225px;
-  width: 400px;
-`;
-
-const PlayerPictureListItemPlaceholder = styled.div`
-  height: 132px;
-  width: 100px;
 `;
 
 /** @type {React.VFC} */
