@@ -53,7 +53,7 @@ export function useAuthorizedFetch(apiPath, fetcher) {
         data,
         loading: false,
       }));
-    })
+    });
 
   //   promise.catch((error) => {
   //     setResult((cur) => ({
@@ -64,13 +64,14 @@ export function useAuthorizedFetch(apiPath, fetcher) {
   //   });
   // }, [apiPath, fetcher, loggedIn, userId]);
 
-    promise((error) => {
-      setResult((cur) => ({
-        ...cur,
-        error,
-        loading: false,
+  promise((error) => {
+    setResult((cur) => ({
+      ...cur,
+      error,
+      loading: false,
       }));
-    }, [apiPath, fetcher, loggedIn, userId]);
+    });
+  }, [apiPath, fetcher, loggedIn, userId]);
 
   useEffect(() => {
     fetch();
