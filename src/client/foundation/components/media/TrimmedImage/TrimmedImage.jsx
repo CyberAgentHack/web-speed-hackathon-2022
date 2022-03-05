@@ -1,9 +1,4 @@
-import React from "react";
-import styled from "styled-components";
-
-const CoverImage = styled.img`
-  object-fit: cover;
-`;
+import React, { useEffect, useState } from "react";
 
 /**
  * @typedef Props
@@ -15,13 +10,30 @@ const CoverImage = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, lazy, src, width }) => {
-  return (
-    <CoverImage
-      height={height}
-      loading={lazy ? "lazy" : "eager"}
-      src={src}
-      style={{ paddingLeft: lazy ? 0 : 44, paddingRight: lazy ? 0 : 44 }}
-      width={width}
-    />
-  );
+  const [dataUrl, setDataUrl] = useState(null);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+
+      const isWidthSmaller = img.width <= img.height;
+      const ratio = isWidthSmaller ? width / img.width : height / img.height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(
+        img,
+        -(img.width * ratio - width) / 2,
+        -(img.height * ratio - height) / 2,
+        img.width * ratio,
+        img.height * ratio,
+      );
+      setDataUrl(canvas.toDataURL());
+    };
+  }, [height, src, width]);
+
+  return <img loading={lazy ? "lazy" : "eager"} src={dataUrl} />;
 };
