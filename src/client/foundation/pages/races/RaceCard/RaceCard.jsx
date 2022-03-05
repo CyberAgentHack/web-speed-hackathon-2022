@@ -49,7 +49,7 @@ export const RaceCard = () => {
         <Spacer mt={Space * 2} />
         <TrimmedImage
           height={225}
-          src={data.image.substring(0, data.image.length - 4) + "-large.webp"}
+          src={data.image.substring(0, data.image.length - 3) + "webp"}
           width={400}
         />
       </Section>
