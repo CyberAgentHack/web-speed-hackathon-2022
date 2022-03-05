@@ -1,4 +1,4 @@
 /** @type {(path: string) => string} */
 export const assets = (path) => `/assets/${path.replace(/^\//, "")}`;
 
-export const jpg2webp = (path) => path.replace("jpg", "webp");
+export const jpg2avif = (path) => path.replace("jpg", "avif");

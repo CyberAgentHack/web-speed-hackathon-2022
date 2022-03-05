@@ -42,7 +42,7 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.webp");
+    const url = assets("/images/hero.avif");
     const hash = Math.random().toFixed(10).substring(2);
 
     res.send({ hash, url });

@@ -13,7 +13,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
-import { jpg2webp } from "../../../utils/UrlUtils";
+import { jpg2avif } from "../../../utils/UrlUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
@@ -77,7 +77,7 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={jpg2webp(data.image)} width={400}/>
+        <TrimmedImage height={225} src={jpg2avif(data.image)} width={400}/>
       </Section>
 
       <Spacer mt={Space * 2} />
