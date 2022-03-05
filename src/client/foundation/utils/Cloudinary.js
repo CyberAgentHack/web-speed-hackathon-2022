@@ -6,11 +6,17 @@ export const getFetchSRC = (src, width) => {
     return src
   }
   if (!src.startsWith('http')) {
-    console.log(src)
     src = MY_DOMAIN + src
   }
   if (!width) {
-    return `${FETCH_BASE_URL}/${src}`
+    return `${FETCH_BASE_URL}/f_auto,q_auto/${src}`
   }
-  return `${FETCH_BASE_URL}/w_${width}/${src}`
+  return `${FETCH_BASE_URL}/f_auto,q_auto/${src}`
+}
+
+export const getFetchSRCTrimmed = (src, height, width) => {
+  if (!src.startsWith('http')) {
+    src = MY_DOMAIN + src
+  }
+  return `${FETCH_BASE_URL}/w_${width},h_${height},c_pad,f_png/${src}`
 }
