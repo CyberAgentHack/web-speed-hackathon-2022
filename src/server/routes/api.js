@@ -11,11 +11,6 @@ import { initialize } from "../typeorm/initialize.js";
  */
 export const apiRoute = async (fastify) => {
 
-  fastify.get('/*.js', (req, res) => {
-    req.url = req.url + '.gz';
-    res.set('Content-Encoding', 'gzip');
-  });
-
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
