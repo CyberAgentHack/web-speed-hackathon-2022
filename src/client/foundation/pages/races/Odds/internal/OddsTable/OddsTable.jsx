@@ -46,7 +46,6 @@ const Table = styled.table`
 `;
 
 const BuyButton = styled(BaseButton)`
-  height: 100%;
   padding: ${Space * 2}px;
   width: 100%;
 
@@ -61,7 +60,6 @@ const BuyButton = styled(BaseButton)`
 
 const InactiveBuyButton = styled.div`
   cursor: default;
-  height: 100%;
   padding: ${Space * 2}px;
 
   width: 100%;
