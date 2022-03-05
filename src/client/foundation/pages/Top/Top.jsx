@@ -100,7 +100,7 @@ function useHeroImage(todayRaces) {
 }
 
 /** @type {React.VFC} */
-export const Top = () => {
+const Top = () => {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
 
   const ChargeButton = styled.button`
@@ -184,3 +184,5 @@ export const Top = () => {
     </Container>
   );
 };
+
+export default Top
