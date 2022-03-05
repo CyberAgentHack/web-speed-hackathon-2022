@@ -24,7 +24,7 @@ image
 }
 
 convertImage(100,100)
-convertImage(225,400)
+convertImage(400, 225)
 // const isWidthSmaller = img.width <= img.height;
 
 
