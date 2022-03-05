@@ -1,11 +1,29 @@
 import React from "react";
 import { Route, Routes as RouterRoutes } from "react-router-dom";
+import Loadable from "react-loadable";
+import { Container } from "./components/layouts/Container";
 
 import { CommonLayout } from "./layouts/CommonLayout";
 import { Top } from "./pages/Top";
-import { Odds } from "./pages/races/Odds";
-import { RaceCard } from "./pages/races/RaceCard";
-import { RaceResult } from "./pages/races/RaceResult";
+
+const Odds = Loadable({
+  loader: () => import("./pages/races/Odds"),
+  loading() {
+    return <Container>Loading...</Container>;
+  },
+});
+const RaceCard = Loadable({
+  loader: () => import("./pages/races/RaceCard"),
+  loading() {
+    return <Container>Loading...</Container>;
+  },
+});
+const RaceResult = Loadable({
+  loader: () => import("./pages/races/RaceResult"),
+  loading() {
+    return <Container>Loading...</Container>;
+  },
+});
 
 /** @type {React.VFC} */
 export const Routes = () => {

@@ -40,7 +40,7 @@ const Callout = styled.aside`
 `;
 
 /** @type {React.VFC} */
-export const Odds = () => {
+const Odds = () => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
@@ -125,3 +125,5 @@ export const Odds = () => {
     </Container>
   );
 };
+
+export default Odds
