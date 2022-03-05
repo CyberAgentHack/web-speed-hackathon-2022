@@ -8,8 +8,8 @@ import { BaseButton } from "../../buttons/BaseButton";
 
 const Wrapper = styled.div`
   align-items: center;
-  background: ${Color.mono[600]};
-  color: ${Color.mono[0]};
+  background: #57534e;
+  color: #fff;
   display: flex;
   height: 80px;
   justify-content: space-between;
@@ -28,13 +28,13 @@ const NameText = styled.h1`
 `;
 
 const LoginButton = styled(BaseButton)`
-  background: ${Color.mono[0]};
+  background: #fff;
   border-radius: ${Radius.MEDIUM};
-  color: ${Color.mono[800]};
+  color: #292524;
   padding: ${Space * 1}px ${Space * 2}px;
 
   &:hover {
-    background: ${Color.mono[200]};
+    background: #e7e5e4;
   }
 `;
 

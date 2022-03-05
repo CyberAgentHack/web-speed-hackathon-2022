@@ -5,7 +5,7 @@ import { Color, FontSize, Space } from "../../../../../styles/variables";
 
 const Wrapper = styled.div`
   align-items: center;
-  color: ${Color.mono[400]};
+  color: #a8a29e;
   display: flex;
   font-size: ${FontSize.LARGE};
   font-weight: bold;

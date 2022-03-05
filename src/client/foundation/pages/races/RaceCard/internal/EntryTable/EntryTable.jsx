@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 
 const Table = styled.table`
   border-collapse: collapse;
-  border-color: ${Color.mono[800]};
+  border-color: #292524;
   border-style: solid;
   border-width: 2px 0 2px;
   font-size: ${FontSize.SMALL};
@@ -19,7 +19,7 @@ const Table = styled.table`
 
   th,
   td {
-    border-color: ${Color.mono[800]};
+    border-color: #292524;
     border-style: solid;
     border-width: 1px 1px 1px 0;
   }

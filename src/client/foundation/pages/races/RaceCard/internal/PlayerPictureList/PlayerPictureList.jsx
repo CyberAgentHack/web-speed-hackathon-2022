@@ -6,7 +6,7 @@ import { TrimmedImage } from "../../../../../components/media/TrimmedImage";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
 
 const PlayerNumber = styled.span`
-  border: 1px solid ${Color.mono[900]};
+  border: 1px solid #1c1917;
   font-weight: bold;
   height: 24px;
   text-align: center;

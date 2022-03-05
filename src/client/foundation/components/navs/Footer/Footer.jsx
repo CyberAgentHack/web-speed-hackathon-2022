@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { BreakPoint, Color, FontSize, Space } from "../../../styles/variables";
 
 const Wrapper = styled.div`
-  background: ${Color.mono[600]};
-  color: ${Color.mono[0]};
+  background: #57534e;
+  color: #fff;
   font-size: ${FontSize.SMALL};
   margin-top: ${Space * 5}px;
   padding: ${Space * 5}px ${Space * 5}px;
@@ -29,7 +29,7 @@ const ListItem = styled.li`
   }
 
   &:hover {
-    color: ${Color.mono[300]};
+    color: #d6d3d1;
   }
 `;
 
@@ -46,7 +46,7 @@ const NameText = styled.h1`
 `;
 
 const WarningText = styled.p`
-  color: ${Color.mono[300]};
+  color: #d6d3d1;
   font-size: ${FontSize.X_SMALL};
 `;
 

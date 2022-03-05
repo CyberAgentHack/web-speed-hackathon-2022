@@ -18,7 +18,7 @@ const RankLabel = styled.label`
 
 const Table = styled.table`
   border-collapse: collapse;
-  border-color: ${Color.mono[800]};
+  border-color: #292524;
   border-style: solid;
   border-width: 2px 0 2px;
   font-size: ${FontSize.SMALL};
@@ -30,7 +30,7 @@ const Table = styled.table`
 
   th,
   td {
-    border-color: ${Color.mono[800]};
+    border-color: #292524;
     border-style: solid;
     border-width: 1px;
     height: 100%;
@@ -49,11 +49,11 @@ const BuyButton = styled(BaseButton)`
   width: 100%;
 
   &:disabled {
-    background: ${Color.mono[100]};
+    background: #f5f5f4;
   }
 
   &:not(:disabled):hover {
-    background: ${Color.mono[200]};
+    background: #e7e5e4;
   }
 `;
 

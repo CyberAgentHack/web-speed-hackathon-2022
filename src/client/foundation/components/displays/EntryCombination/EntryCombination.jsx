@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   display: flex;
 
   div {
-    border: 1px solid ${Color.mono[900]};
+    border: 1px solid #1c1917;
     font-weight: bold;
     height: 24px;
     text-align: center;
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
       position: relative;
 
       ::after {
-        border: 2px solid ${Color.mono[900]};
+        border: 2px solid #1c1917;
         content: "";
         left: 100%;
         position: absolute;

@@ -32,20 +32,6 @@ export const Color = {
   current: "currentColor",
   //変更green100, 400, 500
   inherit: "inherit",
-  mono: {
-    0: "#fff",
-    100: "#f5f5f4",
-    1000: "#000",
-    200: "#e7e5e4",
-    300: "#d6d3d1",
-    400: "#a8a29e",
-    50: "#fafaf9",
-    500: "#78716c",
-    600: "#57534e",
-    700: "#44403c",
-    800: "#292524",
-    900: "#1c1917",
-  },
   red: "#ff0000",
   transparent: "transparent",
 };

@@ -18,20 +18,20 @@ export const RecentRaceList = ({ children }) => {
 };
 
 const ItemWrapper = styled.li`
-  background: ${Color.mono[0]};
+  background: #fff;
   border-radius: ${Radius.MEDIUM};
   opacity: ${({ $opacity }) => $opacity};
   padding: ${Space * 3}px;
 `;
 
 const RaceButton = styled(LinkButton)`
-  background: ${Color.mono[700]};
+  background: #44403c;
   border-radius: ${Radius.MEDIUM};
-  color: ${Color.mono[0]};
+  color: #fff;
   padding: ${Space * 1}px ${Space * 2}px;
 
   &:hover {
-    background: ${Color.mono[800]};
+    background: #292524;
   }
 `;
 

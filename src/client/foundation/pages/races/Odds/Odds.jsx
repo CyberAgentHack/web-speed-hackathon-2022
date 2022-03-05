@@ -21,7 +21,7 @@ import { TicketVendingModal } from "./internal/TicketVendingModal";
 const LiveBadge = styled.span`
   background: ${Color.red};
   border-radius: ${Radius.SMALL};
-  color: ${Color.mono[0]};
+  color: #fff;
   font-weight: bold;
   padding: ${Space * 1}px;
   text-transform: uppercase;
@@ -29,8 +29,8 @@ const LiveBadge = styled.span`
 
 const Callout = styled.aside`
   align-items: center;
-  background: ${({ $closed }) => ($closed ? Color.mono[200] : "#dcfce7")};
-  color: ${({ $closed }) => ($closed ? Color.mono[600] : "#22c55e")};
+  background: ${({ $closed }) => ($closed ? "#e7e5e4" : "#dcfce7")};
+  color: ${({ $closed }) => ($closed ? "#57534e" : "#22c55e")};
   display: flex;
   font-weight: bold;
   gap: ${Space * 2}px;

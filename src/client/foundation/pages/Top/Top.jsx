@@ -102,13 +102,13 @@ export const Top = () => {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
 
   const ChargeButton = styled.button`
-    background: ${Color.mono[700]};
+    background: #44403c;
     border-radius: ${Radius.MEDIUM};
-    color: ${Color.mono[0]};
+    color: #fff;
     padding: ${Space * 1}px ${Space * 2}px;
 
     &:hover {
-      background: ${Color.mono[800]};
+      background: #292524;
     }
   `;
 

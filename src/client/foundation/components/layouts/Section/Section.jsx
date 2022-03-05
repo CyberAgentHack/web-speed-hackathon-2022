@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { BreakPoint, Color, Radius, Space } from "../../../styles/variables";
 
 const Wrapper = styled.section`
-  background: ${({ $dark }) => ($dark ? Color.mono[800] : Color.mono[0])};
-  color: ${({ $dark }) => ($dark ? Color.mono[0] : Color.mono[1000])};
+  background: ${({ $dark }) => ($dark ? "#292524" : "#fff")};
+  color: ${({ $dark }) => ($dark ? "#fff" : "#000")};
   display: ${({ $shrink }) => ($shrink ? "inline-block" : "block")};
   margin-left: -${Space * 2}px;
   margin-right: -${Space * 2}px;

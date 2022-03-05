@@ -16,11 +16,11 @@ const Wrapper = styled.ol`
   grid-template-rows: repeat(50, auto);
 
   li {
-    background: ${Color.mono[0]};
-    border-top: 1px solid ${Color.mono[400]};
+    background: #fff;
+    border-top: 1px solid #a8a29e;
 
     &:last-child {
-      border-bottom: 1px solid ${Color.mono[400]};
+      border-bottom: 1px solid #a8a29e;
     }
   }
 
@@ -29,7 +29,7 @@ const Wrapper = styled.ol`
     grid-template-rows: repeat(25, auto);
 
     li:nth-child(25) {
-      border-bottom: 1px solid ${Color.mono[400]};
+      border-bottom: 1px solid #a8a29e;
     }
   }
 `;
@@ -41,7 +41,7 @@ const BuyButton = styled(BaseButton)`
   width: 100%;
 
   &:hover {
-    background: ${Color.mono[200]};
+    background: #e7e5e4;
   }
 `;
 
