@@ -22,9 +22,6 @@ module.exports = [
       main: [
         "core-js",
         "regenerator-runtime/runtime",
-        "@fortawesome/fontawesome-free/js/fontawesome",
-        "@fortawesome/fontawesome-free/js/solid",
-        "@fortawesome/fontawesome-free/js/regular",
         path.join(SRC_ROOT, "client/index.jsx"),
       ],
     },
