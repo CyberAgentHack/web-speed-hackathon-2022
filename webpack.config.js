@@ -3,8 +3,6 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
-const BundleAnalyzerPlugin =
-  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const LoadablePlugin = require("@loadable/webpack-plugin");
 
 function abs(...args) {
@@ -60,7 +58,6 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
-      new BundleAnalyzerPlugin(),
       new LoadablePlugin(),
     ],
     resolve: {
