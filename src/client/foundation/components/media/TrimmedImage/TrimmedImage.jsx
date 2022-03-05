@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
+export const TrimmedImage = React.memo(({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {
@@ -35,4 +35,4 @@ export const TrimmedImage = ({ height, src, width }) => {
   }, [height, src, width]);
 
   return <img src={dataUrl} />;
-};
+});
