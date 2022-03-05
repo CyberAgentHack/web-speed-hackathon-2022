@@ -78,13 +78,7 @@ function useTodayRacesWithAnimation(races) {
 /** @type {React.VFC} */
 export const Top = () => {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
-  const todayDate = new Date();
-  const todayUnix =
-    new Date(
-      todayDate.getFullYear(),
-      todayDate.getMonth(),
-      todayDate.getDate(),
-    ).getTime() / 1000;
+  const todayUnix = Date.parse(date) / 1000 - 60 * 60 * 9;
   const tomorrowUnix = todayUnix + 24 * 60 * 60;
 
   const ChargeButton = styled.button`
