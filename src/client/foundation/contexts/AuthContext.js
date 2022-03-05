@@ -48,7 +48,6 @@ export const useRegister = () => {
 
   const register = useCallback(async () => {
     const res = await fetch("/api/users/me").then((res) => res.json());
-    console.log(res);
     setUserId(res.id);
   }, [setUserId]);
 
