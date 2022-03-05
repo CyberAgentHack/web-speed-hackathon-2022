@@ -58,13 +58,6 @@ export const TrimmedImage = ({
       style={{
         aspectRatio: `${width} / ${height}`,
       }}
-      onLoad={(e) => {
-        const img = e.target;
-        console.log(e.target.width, e.target.height);
-        const isWidthSmaller = img.width <= img.height;
-        const ratio = isWidthSmaller ? width / img.width : height / img.height;
-        console.log(img.width * ratio, img.height * ratio);
-      }}
       loading={lazyLoad ? "lazy" : undefined}
       src={src}
       width={width}

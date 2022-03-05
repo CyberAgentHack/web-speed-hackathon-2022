@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
-import { TrimmedImage } from "../../../../components/media/TrimmedImage";
+import { SquareTrimmedImage } from "../../../../components/media/TrimmedImage";
 import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
 import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
@@ -94,7 +94,7 @@ const Item = ({ imgLazyLoad, race }) => {
 
         <Stack.Item grow={0} shrink={0}>
           <Stack horizontal alignItems="center" gap={Space * 2}>
-            <TrimmedImage
+            <SquareTrimmedImage
               height={100}
               lazyLoad={imgLazyLoad}
               src={race.image.split(".jpg")[0] + "_sm.webp"}
