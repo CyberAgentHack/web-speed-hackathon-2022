@@ -24,7 +24,8 @@ export const unAuthApiRoute = async (fastify) => {
       req.query.since != null ? dayjs.unix(req.query.since) : undefined;
     const until =
       req.query.until != null ? dayjs.unix(req.query.until) : undefined;
-    const limit = req.query.limit != null ? parseInt(req.query.limit, 10) : 30;
+    const limit =
+      req.query.limit != null ? parseInt(req.query.limit, 10) : undefined;
     const offset =
       req.query.offset != null ? parseInt(req.query.offset, 10) : 0;
 
