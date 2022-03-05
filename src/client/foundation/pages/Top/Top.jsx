@@ -71,7 +71,7 @@ function useTodayRacesWithAnimation(races) {
 }
 
 /** @type {React.VFC} */
-export const Top = () => {
+export default function Top() {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
 
   const ChargeButton = styled.button`
@@ -89,7 +89,7 @@ export const Top = () => {
 
   const { data: userData, revalidate } = useAuthorizedFetch(
     "/api/users/me",
-    authorizedJsonFetcher,
+    authorizedJsonFetcher
   );
 
   const { data: raceData } = useFetch("/api/races", jsonFetcher);
@@ -106,17 +106,14 @@ export const Top = () => {
     revalidate();
   }, [revalidate]);
 
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
-          )
-      : [];
+  const todayRaces = raceData != null
+    ? [...raceData.races]
+      .sort(
+        (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) => moment(a.startAt) - moment(b.startAt)
+      )
+      .filter((/** @type {Model.Race} */ race) => isSameDay(race.startAt, date)
+      )
+    : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
 
   return (
@@ -152,4 +149,4 @@ export const Top = () => {
       <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
     </Container>
   );
-};
+}

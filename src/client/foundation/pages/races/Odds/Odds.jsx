@@ -41,7 +41,7 @@ const Callout = styled.aside`
 `;
 
 /** @type {React.VFC} */
-export const Odds = () => {
+export default function Odds()  {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);

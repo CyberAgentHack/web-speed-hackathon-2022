@@ -27,7 +27,7 @@ const LiveBadge = styled.span`
 `;
 
 /** @type {React.VFC} */
-export const RaceResult = () => {
+export default function RaceResult ()  {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
