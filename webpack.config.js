@@ -42,7 +42,13 @@ module.exports = [
                     useBuiltIns: "usage",
                   },
                 ],
-                "@babel/preset-react",
+                [
+                  "@babel/preset-react",
+                  {
+                    development: process.env.BABEL_ENV === "development",
+                    useSpread: true,
+                  },
+                ],
               ],
             },
           },
