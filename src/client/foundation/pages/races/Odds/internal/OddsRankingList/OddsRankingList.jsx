@@ -70,9 +70,10 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
     50,
   ); */
 
-  const sortedOdds = [...odds].slice(0, 50);
-
-  sortedOdds.sort((a, b) => {a.odds - b.odds});
+  const sortedOdds = (() => {
+    const sorted = [...odds].sort((a, b) => a.odds - b.odds);
+    return sorted.slice(0, 50);
+  })()
 
   return (
     <Wrapper>
