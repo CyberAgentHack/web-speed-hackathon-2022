@@ -100,6 +100,10 @@ function useHeroImage(todayRaces) {
 /** @type {React.VFC} */
 export const Top = () => {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
+  const unixDateSince = Math.floor(new Date().getTime() / 1000);
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const unixDateUntil = Math.floor(tomorrow / 1000);
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
@@ -119,7 +123,10 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const { data: raceData } = useFetch(
+    `/api/races?since=${unixDateSince}&until=${unixDateUntil}`,
+    jsonFetcher,
+  );
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
