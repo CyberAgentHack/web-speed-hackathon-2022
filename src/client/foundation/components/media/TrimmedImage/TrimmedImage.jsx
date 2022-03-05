@@ -7,21 +7,12 @@ export const IconImg = styled.img`
 `
 
 export const ThmImgCont = styled.div`
-  position: relative;
-  &:before {
-    content: "";
-    display: block;
-    padding-top: 56.25%;
-    width: 400px;
-  }
+  width: 400px;
+  height: 225px;
 `
 
 
 export const ThmImg = styled.img`
-  max-height: 100%;
+  max-height:100%;
   margin: 0 auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
 `
