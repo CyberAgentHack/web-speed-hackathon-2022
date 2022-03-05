@@ -17,6 +17,7 @@ const CoveredImage = styled.img`
 const ContainImage = styled.img`
   height: 100%;
   object-fit: contain;
+  margin 0 auto;
 `
 
 /** @type {React.VFC<Props>} */
