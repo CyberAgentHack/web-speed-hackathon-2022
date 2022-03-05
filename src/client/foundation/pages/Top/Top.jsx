@@ -1,4 +1,3 @@
-import _ from "lodash";
 import moment from "moment-timezone";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -29,9 +28,11 @@ function useTodayRacesWithAnimation(races) {
   const prevRaces = useRef(races);
   const timer = useRef(null);
 
+  const difference = (ary1, ary2) => [ary1, ary2].reduce((a, b) => a.filter(c => !b.includes(c)))
+
   useEffect(() => {
     const isRacesUpdate =
-      _.difference(
+      difference(
         races.map((e) => e.id),
         prevRaces.current.map((e) => e.id),
       ).length !== 0;
@@ -62,7 +63,7 @@ function useTodayRacesWithAnimation(races) {
       }
 
       numberOfRacesToShow.current++;
-      setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
+      setRacesToShow(races.slice(0, numberOfRacesToShow.current));
     }, 100);
   }, [isRacesUpdate, races]);
 
@@ -136,13 +137,13 @@ export const Top = () => {
   const todayRaces =
     raceData != null
       ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
-          )
+        .sort(
+          (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
+            moment(a.startAt) - moment(b.startAt),
+        )
+        .filter((/** @type {Model.Race} */ race) =>
+          isSameDay(race.startAt, date),
+        )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
   const heroImageUrl = useHeroImage(todayRaces);

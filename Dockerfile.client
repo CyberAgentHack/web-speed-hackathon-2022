@@ -1,4 +1,4 @@
-FROM caddy:2.4.6
+FROM --platform=linux/amd64 caddy:2.4.6
 
 COPY ./Caddyfile /etc/caddy/Caddyfile
 
