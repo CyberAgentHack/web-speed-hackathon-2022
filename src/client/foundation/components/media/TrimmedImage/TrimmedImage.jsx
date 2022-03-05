@@ -14,25 +14,14 @@ export const TrimmedImage = ({ height, src, width }) => {
   useEffect(() => {
     const img = new Image();
     img.src = src;
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
 
-      const isWidthSmaller = img.width <= img.height;
-      const ratio = isWidthSmaller ? width / img.width : height / img.height;
-
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(
-        img,
-        -(img.width * ratio - width) / 2,
-        -(img.height * ratio - height) / 2,
-        img.width * ratio,
-        img.height * ratio,
-      );
-      setDataUrl(canvas.toDataURL());
-    };
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, width / 2, height / 2);
+    setDataUrl(canvas.toDataURL());
   }, [height, src, width]);
 
-  return <img src={dataUrl} />;
+  return <img src={dataUrl} defer />;
 };
