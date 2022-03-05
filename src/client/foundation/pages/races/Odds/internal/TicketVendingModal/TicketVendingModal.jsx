@@ -34,6 +34,10 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
     {
       auth: true,
       method: "POST",
+      headers: {
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+      },
     },
   );
   const { data: userData, revalidate } = useAuthorizedFetch(

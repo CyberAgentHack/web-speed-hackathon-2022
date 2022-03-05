@@ -34,6 +34,10 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const [charge] = useMutation("/api/users/me/charge", {
     auth: true,
     method: "POST",
+    headers: {
+      "Content-Encoding": "gzip",
+      "Content-Type": "application/json",
+    },
   });
 
   const handleCodeChange = useCallback((e) => {
