@@ -136,12 +136,12 @@ export const Top = () => {
   const todayRaces =
     raceData != null
       ? [...raceData.races]
+          .filter((/** @type {Model.Race} */ race) =>
+            isSameDay(race.startAt, date),
+          )
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
               moment(a.startAt) - moment(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
           )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);

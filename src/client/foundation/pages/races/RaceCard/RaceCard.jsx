@@ -37,10 +37,9 @@ export const RaceCard = () => {
   return (
     <Container>
       <Spacer mt={Space * 2} />
+
       <Heading as="h1">{data.name}</Heading>
-      <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
-      </p>
+      <p>開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}</p>
 
       <Spacer mt={Space * 2} />
 
@@ -60,6 +59,7 @@ export const RaceCard = () => {
         </TabNav>
 
         <Spacer mt={Space * 2} />
+        
         <PlayerPictureList>
           {data.entries.map((entry) => (
             <PlayerPictureList.Item
@@ -72,7 +72,9 @@ export const RaceCard = () => {
         </PlayerPictureList>
 
         <Spacer mt={Space * 4} />
+
         <EntryTable entries={data.entries} />
+
       </Section>
     </Container>
   );
