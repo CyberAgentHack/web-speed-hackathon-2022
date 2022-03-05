@@ -1,5 +1,5 @@
 import React from "react";
-// import {useQuery} from 'react-query'
+import {useQuery} from 'react-query'
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -10,7 +10,7 @@ import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../../hooks/useAuthorizedFetch";
-import { useFetch } from "../../../hooks/useFetch";
+// import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../../utils/HttpUtils";
@@ -30,8 +30,8 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceResult = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
-  // const { data, isLoading } = useQuery(`/api/races/${raceId}`, jsonFetcher);
+  // const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data } = useQuery(`/api/races/${raceId}`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher,
