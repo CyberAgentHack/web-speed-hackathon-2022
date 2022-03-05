@@ -5,6 +5,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -55,12 +56,16 @@ module.exports = [
     name: "client",
     output: {
       path: DIST_PUBLIC,
+      filename: "main.[hash].js"
     },
     plugins: [
       ...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : []),
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      new HtmlWebpackPlugin({
+        title: "CyberTicket"
+      })
     ],
     resolve: {
       extensions: [".js", ".jsx"],
