@@ -10,6 +10,10 @@ import { initialize } from "../typeorm/initialize.js";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
+  fastify.addHook("onRequest", async (req, res) => {
+    res.header("Cache-Control", "no-cache, no-store, no-transform");
+  });
+
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 

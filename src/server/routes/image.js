@@ -14,7 +14,6 @@ export const imageRoute = async (fastify) => {
           progressive: true
         })
         .pipe(res.raw);
-      //res.send("test");
       return;
     } else {
       createReadStream(join(__dirname, "images", ...path)).pipe(res.raw);
