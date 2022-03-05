@@ -22,80 +22,75 @@ import { RecentRaceList } from "./internal/RecentRaceList";
  * @param {Model.Race[]} races
  * @returns {Model.Race[]}
  */
-function useTodayRacesWithAnimation(races) {
-  const [isRacesUpdate, setIsRacesUpdate] = useState(false);
-  const [racesToShow, setRacesToShow] = useState([]);
-  const numberOfRacesToShow = useRef(0);
-  const prevRaces = useRef(races);
-  const timer = useRef(null);
+// function useTodayRacesWithAnimation(races) {
+//   const [isRacesUpdate, setIsRacesUpdate] = useState(false);
+//   const [racesToShow, setRacesToShow] = useState([]);
+//   const numberOfRacesToShow = useRef(0);
+//   const prevRaces = useRef(races);
+//   const timer = useRef(null);
 
-  const difference = (ary1, ary2) => [ary1, ary2].reduce((a, b) => a.filter(c => !b.includes(c)))
+//   const difference = (ary1, ary2) => [ary1, ary2].reduce((a, b) => a.filter(c => !b.includes(c)))
 
-  useEffect(() => {
-    const isRacesUpdate =
-      difference(
-        races.map((e) => e.id),
-        prevRaces.current.map((e) => e.id),
-      ).length !== 0;
+//   useEffect(() => {
+//     const isRacesUpdate =
+//       difference(
+//         races.map((e) => e.id),
+//         prevRaces.current.map((e) => e.id),
+//       ).length !== 0;
 
-    prevRaces.current = races;
-    setIsRacesUpdate(isRacesUpdate);
-  }, [races]);
+//     prevRaces.current = races;
+//     setIsRacesUpdate(isRacesUpdate);
+//   }, [races]);
 
-  useEffect(() => {
-    if (!isRacesUpdate) {
-      return;
-    }
-    // 視覚効果 off のときはアニメーションしない
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRacesToShow(races);
-      return;
-    }
+//   useEffect(() => {
+//     if (!isRacesUpdate) {
+//       return;
+//     }
+//     // 視覚効果 off のときはアニメーションしない
+//     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+//       setRacesToShow(races);
+//       return;
+//     }
 
-    numberOfRacesToShow.current = 0;
-    if (timer.current !== null) {
-      clearInterval(timer.current);
-    }
+//     numberOfRacesToShow.current = 0;
+//     if (timer.current !== null) {
+//       clearInterval(timer.current);
+//     }
 
-    timer.current = setInterval(() => {
-      if (numberOfRacesToShow.current >= races.length) {
-        clearInterval(timer.current);
-        return;
-      }
+//     timer.current = setInterval(() => {
+//       if (numberOfRacesToShow.current >= races.length) {
+//         clearInterval(timer.current);
+//         return;
+//       }
 
-      numberOfRacesToShow.current++;
-      setRacesToShow(races.slice(0, numberOfRacesToShow.current));
-    }, 100);
-  }, [isRacesUpdate, races]);
+//       numberOfRacesToShow.current++;
+//       setRacesToShow(races.slice(0, numberOfRacesToShow.current));
+//     }, 0);
+//   }, [isRacesUpdate, races]);
 
-  useEffect(() => {
-    return () => {
-      if (timer.current !== null) {
-        clearInterval(timer.current);
-      }
-    };
-  }, []);
+//   useEffect(() => {
+//     return () => {
+//       if (timer.current !== null) {
+//         clearInterval(timer.current);
+//       }
+//     };
+//   }, []);
 
-  return racesToShow;
-}
+//   return racesToShow;
+// }
 
 /**
- * @param {Model.Race[]} todayRaces
  * @returns {string | null}
  */
-function useHeroImage(todayRaces) {
-  const firstRaceId = todayRaces[0]?.id;
-  const url =
-    firstRaceId !== undefined
-      ? `/api/hero?firstRaceId=${firstRaceId}`
-      : "/api/hero";
+function useHeroImage() {
+  const url = "/api/hero";
   const { data } = useFetch(url, jsonFetcher);
 
-  if (firstRaceId === undefined || data === null) {
+  if (data === null) {
     return null;
   }
 
-  const imageUrl = `${data.url}?${data.hash}`;
+  const imageUrl = `${data.url}`;
   return imageUrl;
 }
 
@@ -146,7 +141,8 @@ export const Top = () => {
           isSameDay(race.startAt, date),
         )
       : [];
-  const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
+  // const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
+  const todayRacesToShow = todayRaces;
   const heroImageUrl = useHeroImage(todayRaces);
 
   return (
