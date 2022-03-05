@@ -47,7 +47,11 @@ export const RaceCard = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <TrimmedImage
+          height={225}
+          src={data.image.substring(0, data.image.length - 4) + "-large.webp"}
+          width={400}
+        />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -66,7 +70,10 @@ export const RaceCard = () => {
           {data.entries.map((entry) => (
             <PlayerPictureList.Item
               key={entry.id}
-              image={entry.player.image}
+              image={
+                entry.player.image.substring(0, entry.player.image.length - 3) +
+                "webp"
+              }
               name={entry.player.name}
               number={entry.number}
             />

@@ -13,6 +13,6 @@ const Image = styled.img`
  */
 
 /** @type {React.VFC<Props>} */
-export const HeroImage = ({ url }) => {
-  return <Image alt="" src={url} />;
+export const HeroImage = () => {
+  return <Image alt="" src="/assets/images/hero.webp" />;
 };
