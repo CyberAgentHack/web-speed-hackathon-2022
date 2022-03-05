@@ -12,8 +12,10 @@ function abs(...args) {
 
 const SRC_ROOT = abs("./src");
 const PUBLIC_ROOT = abs("./public");
+const IMAGES_ROOT = abs("./images");
 const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
+const DIST_IMAGES = abs("./dist/images");
 
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
@@ -102,5 +104,10 @@ module.exports = [
       extensions: [".mjs", ".js", ".jsx"],
     },
     target: "node",
+    plugins: [
+      new CopyPlugin({
+        patterns: [{ from: IMAGES_ROOT, to: DIST_IMAGES }],
+      }),
+    ],
   },
 ];

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, memo } from "react";
+import { optimizedImage } from "../../../utils/UrlUtils";
 
 /**
  * @typedef Props
@@ -8,12 +9,15 @@ import React, { useEffect, useState } from "react";
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
+export const TrimmedImage = memo(({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
+
+  console.log(width, height);
+  const optimizedSrc = useMemo(() => optimizedImage(src, Math.max(width ?? 0, height ?? 0) * 2), [src, width, height]);
 
   useEffect(() => {
     const img = new Image();
-    img.src = src;
+    img.src = optimizedSrc;
     img.onload = () => {
       const canvas = document.createElement("canvas");
       canvas.width = width;
@@ -32,7 +36,7 @@ export const TrimmedImage = ({ height, src, width }) => {
       );
       setDataUrl(canvas.toDataURL());
     };
-  }, [height, src, width]);
+  }, [height, optimizedImage, width]);
 
-  return <img src={dataUrl} />;
-};
+  return <img src={dataUrl} width={width} height={height} alt="" />;
+});

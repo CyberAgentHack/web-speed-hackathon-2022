@@ -1,5 +1,6 @@
 import { join } from "path";
 
+
 import fastifyStatic from "fastify-static";
 
 /**
