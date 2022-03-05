@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import zenginCode from "zengin-code";
 
-import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { initialize } from "../typeorm/initialize.js";
 
@@ -12,12 +12,26 @@ dayjs.extend(utc);
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const unAuthApiRoute = async (fastify) => {
-  fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.webp");
-    const hash = Math.random().toFixed(10).substring(2);
+  fastify.get("/bank/list", async (req, res) => {
+    const bankList = Object.values(zenginCode).map(({ code, name }) => ({
+      code,
+      name,
+    }));
 
-    res.send({ hash, url });
+    res.send({ bankList });
   });
+
+  fastify.get("/bank/:bankId", async (req, res) => {
+    const bank = zenginCode[req.params.bankId];
+    res.send({ bank });
+  });
+
+  // fastify.get("/hero", async (_req, res) => {
+  //   const url = assets("/images/hero.webp");
+  //   const hash = Math.random().toFixed(10).substring(2);
+
+  //   res.send({ hash, url });
+  // });
 
   fastify.get("/races", async (req, res) => {
     const since =
