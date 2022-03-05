@@ -70,8 +70,7 @@ export const apiRoute = async (fastify) => {
           until.utc().format("YYYY-MM-DD HH:mm:ss"),
         ),
       });
-    }
-    else if (since != null) {
+    }else if (since != null) {
       Object.assign(where, {
         startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
