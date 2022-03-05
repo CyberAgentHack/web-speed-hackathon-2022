@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useCallback, useState } from "react";
 
 import { useAuth } from "../contexts/AuthContext";
@@ -23,7 +22,7 @@ import { useAuth } from "../contexts/AuthContext";
  * @param {UseMutationOptions} options
  * @returns {[(body: any) => Promise<void>, ReturnValues<T>]}
  */
-export function useMutation(apiPath, { auth, method }) {
+export function useMutation(apiPath, { auth }) {
   const [result, setResult] = useState({
     data: null,
     error: null,
@@ -44,16 +43,19 @@ export function useMutation(apiPath, { auth, method }) {
       }));
 
       try {
-        const res = await axios.request({
-          data,
+        let res;
+        console.log(data);
+        await fetch(apiPath, {
+          body: JSON.stringify(data),
           headers: auth
-            ? {
-                "x-app-userid": userId,
-              }
-            : {},
-          method,
-          url: apiPath,
-        });
+            ? { "Content-Type": "application/json", "x-app-userid": userId }
+            : { "Content-Type": "application/json" },
+          method: "POST",
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            res = json;
+          });
 
         setResult((cur) => ({
           ...cur,
@@ -68,7 +70,7 @@ export function useMutation(apiPath, { auth, method }) {
         }));
       }
     },
-    [apiPath, auth, loggedIn, method, userId],
+    [apiPath, auth, loggedIn, userId],
   );
 
   return [mutate, result];

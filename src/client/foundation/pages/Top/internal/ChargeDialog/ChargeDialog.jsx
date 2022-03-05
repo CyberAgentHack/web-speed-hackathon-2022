@@ -33,7 +33,6 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
   const [charge] = useMutation("/api/users/me/charge", {
     auth: true,
-    method: "POST",
   });
 
   const handleCodeChange = useCallback((e) => {
