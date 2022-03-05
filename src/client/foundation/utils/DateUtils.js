@@ -1,3 +1,4 @@
+import "moment/locale/ja"
 import moment from "moment-timezone";
 /**
  * @param {string} dateLeft
