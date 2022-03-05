@@ -3,7 +3,7 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
-
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 function abs(...args) {
   return path.join(__dirname, ...args);
 }
@@ -19,6 +19,9 @@ module.exports = [
     devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
     mode: "production",
+    plugins: [
+      new BundleAnalyzerPlugin()
+    ],
     module: {
       rules: [
         {
