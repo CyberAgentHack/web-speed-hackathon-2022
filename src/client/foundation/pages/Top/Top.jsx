@@ -167,7 +167,7 @@ export const Top = () => {
 
       <Spacer mt={Space * 2} />
       <section>
-        <Heading as="h1">本日のレースs</Heading>
+        <Heading as="h1">本日のレース4</Heading>
         {todayRacesToShow.length > 0 && (
           <RecentRaceList>
             {todayRacesToShow.map((race) => (
