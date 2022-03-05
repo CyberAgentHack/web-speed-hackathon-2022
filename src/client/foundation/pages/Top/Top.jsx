@@ -100,10 +100,17 @@ function useHeroImage(todayRaces) {
 /** @type {React.VFC} */
 export const Top = () => {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
-  const unixDateSince = Math.floor(new Date().getTime() / 1000);
+  const [raceData2, setRaceData2] = useState({});
+  // const unixDateSince = Math.floor(new Date().getTime() / 1000);
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const unixDateSince = Math.floor(yesterday / 1000);
+  console.log("yesterday", unixDateSince);
+
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const unixDateUntil = Math.floor(tomorrow / 1000);
+  console.log("tomorrow = ", unixDateUntil);
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
@@ -123,10 +130,20 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch(
-    `/api/races?since=${unixDateSince}&until=${unixDateUntil}`,
-    jsonFetcher,
-  );
+  //useEffectなどでfetchを抑制したい
+  // useEffect(() => {
+  //   (async () => {
+  //     const { data: raceData } = await useFetch(
+  //       // `/api/races?since=${unixDateSince}&until=${unixDateUntil}`,
+  //       `/api/races`,
+  //       jsonFetcher,
+  //     );
+  //     setRaceData2(raceData);
+  //     console.log("hello useEffect");
+  //   })();
+  // }, []);  useEffect(() => {
+
+  const { data: raceData } = useFetch("/api/races", jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -139,7 +156,7 @@ export const Top = () => {
   const handleCompleteCharge = useCallback(() => {
     revalidate();
   }, [revalidate]);
-
+  console.log("raceData =", raceData);
   const todayRaces =
     raceData != null
       ? [...raceData.races]
@@ -151,8 +168,10 @@ export const Top = () => {
             isSameDay(race.startAt, date),
           )
       : [];
-  const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
-  const heroImageUrl = useHeroImage(todayRaces);
+  const todayRacesToShow =
+    todayRaces != null ? useTodayRacesWithAnimation(todayRaces) : [];
+  console.log("todayRace = ", todayRacesToShow);
+  const heroImageUrl = todayRaces != null ? useHeroImage(todayRaces) : [];
 
   return (
     <Container>
