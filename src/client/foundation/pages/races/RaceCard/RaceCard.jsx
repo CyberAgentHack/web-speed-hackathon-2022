@@ -30,9 +30,9 @@ export const RaceCard = () => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
 
-  // if (data == null) {
-  //   return <Container>Loading...</Container>;
-  // }
+  if (data == null) {
+    return <Container>Loading...</Container>;
+  }
 
   return (
     <Container>
