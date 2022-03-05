@@ -36,6 +36,7 @@ class BettingTicket {
         type: "many-to-one",
       },
     },
+    tableName: "BettingTicket",
     target: BettingTicket,
   });
 

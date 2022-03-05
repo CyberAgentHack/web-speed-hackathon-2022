@@ -51,6 +51,7 @@ class Race {
         type: "one-to-many",
       },
     },
+    tableName: "Race",
     target: Race,
   });
 

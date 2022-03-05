@@ -72,6 +72,7 @@ class RaceEntry {
         type: "many-to-one",
       },
     },
+    tableName: "RaceEntry",
     target: RaceEntry,
   });
 

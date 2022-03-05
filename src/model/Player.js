@@ -22,6 +22,7 @@ class Player {
       },
     },
     name: "Player",
+    tableName: "Player",
     target: Player,
   });
 
