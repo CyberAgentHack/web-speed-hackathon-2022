@@ -24,8 +24,8 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const [amount, setAmount] = useState(0);
   const [zenginCode, setZenginCode] = useState({});
   const [bankList, setBankList] = useState([]);
-  const [bank, setBank] = useState(bankList[0]);
-  const [branch, setBranch] = useState([]);
+  const [bank, setBank] = useState(null);
+  const [branch, setBranch] = useState(null);
 
   useEffect(() => {
     const getZenginCode = async () => {
@@ -89,11 +89,12 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   );
 
   useEffect(() => {
-    if (bankCode === "") {
+    if (bankCode === "" || bankCode.length != 4) {
       return null;
     }
     const getBranch = async () => {
       const res = await fetch("/assets/data/branches/" + bankCode + ".json");
+      if (res.status !== 200) return;
       const data = await res.json();
       setBank({
         ...zenginCode[bankCode],
@@ -101,7 +102,12 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
       });
       setBranch(data);
     };
-    getBranch();
+
+    setBranch(null);
+    setBank(null);
+    if (zenginCode[bankCode] !== undefined) {
+      getBranch();
+    }
   }, [bankCode, zenginCode]);
 
   return (
