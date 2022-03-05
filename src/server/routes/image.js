@@ -1,5 +1,6 @@
 import { createReadStream } from "fs";
-import { join } from "path";
+import fastifyStatic from "fastify-static"
+import { basename, dirname, join } from "path";
 import sharp from "sharp";
 
 export const imageRoute = async (fastify) => {
@@ -7,6 +8,11 @@ export const imageRoute = async (fastify) => {
     res.header("Cache-Control", "max-age=3600");
   });
 
+  fastify.register(fastifyStatic, {
+    root: join(__dirname, "images"),
+    prefix: "/assets/images/original",
+  });
+  
   fastify.get("/assets/images/*", (req, res, next) => {
     const path = req.raw.url.replace(/\?.*/, "").split("/").slice(3);
 
@@ -17,10 +23,13 @@ export const imageRoute = async (fastify) => {
           quality: 90,
           progressive: true
         })
-        .pipe(res.raw);
+        .toBuffer()
+        .then(buffer => res.send(buffer))
       return;
     } else {
-      createReadStream(join(__dirname, "images", ...path)).pipe(res.raw);
+      //res.send(join(__dirname, dirname(path.join("/"))));
+      //res.send(basename(path.join("/")));
+      res.sendFile(path.join("/"));
     }
   });
 }

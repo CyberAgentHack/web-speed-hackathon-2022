@@ -96,7 +96,7 @@ function useHeroImage(todayRaces) {
 
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = new Date() } = parse(useParams(), "yyyy-MM-dd", new Date());
+  const date = useParams().date ? parse(useParams().date, "yyyy-MM-dd", new Date()) : new Date();
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
