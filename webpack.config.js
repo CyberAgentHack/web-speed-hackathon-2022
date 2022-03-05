@@ -65,6 +65,13 @@ module.exports = [
       }),
     ],
     resolve: {
+      alias: {
+        react: "preact/compat",
+        // eslint-disable-next-line sort/object-properties
+        "react-dom/test-utils": "preact/test-utils",
+        "react-dom": "preact/compat", // Must be below test-utils
+        "react/jsx-runtime": "preact/jsx-runtime",
+      },
       extensions: [".js", ".jsx"],
     },
     target: "web",
