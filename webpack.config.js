@@ -3,7 +3,8 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
-const webpack = require('webpack')
+const webpack = require('webpack');
+const CompressionPlugin = require("compression-webpack-plugin");
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -68,6 +69,12 @@ module.exports = [
           env: {
             "NODE_ENV": JSON.stringify(process.env.NODE_ENV)
           }
+        },
+      }),
+      new CompressionPlugin({
+        test: /\.(css)|(js)$/,
+        compressionOptions: {
+          level: 9
         }
       })
     ],

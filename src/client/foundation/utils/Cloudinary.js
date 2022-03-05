@@ -2,7 +2,6 @@ const FETCH_BASE_URL = "https://res.cloudinary.com/dxwjvnvek/image/fetch"
 const MY_DOMAIN = "https://web-hack-2022-maruyama.herokuapp.com"
 
 export const getFetchSRC = (src, width) => {
-  console.log(process.env)
   if (process.env.NODE_ENV != "production") {
     return src
   }
