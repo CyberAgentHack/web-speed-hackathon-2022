@@ -29,7 +29,7 @@ module.exports = [
           type: "asset/source",
         },
         {
-          exclude: /\/esm\//,
+          exclude: /node_modules/,
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
@@ -40,6 +40,9 @@ module.exports = [
                   {
                     modules: "cjs",
                     spec: true,
+                    targets: {
+                      browsers: "last 1 Chrome major version"
+                    }
                   },
                 ],
                 "@babel/preset-react", 
@@ -48,7 +51,7 @@ module.exports = [
           },
         },
         {
-          exclude: /\/esm\//,
+          exclude: /node_modules/,
           test: /\.tsx?$/,
           use: {
             loader: "babel-loader",
@@ -94,6 +97,9 @@ module.exports = [
                   {
                     modules: "cjs",
                     spec: true,
+                    targets: {
+                      browsers: "last 1 Chrome major version"
+                    }
                   },
                 ],
                 "@babel/preset-react",

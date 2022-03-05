@@ -4,6 +4,6 @@
     "allowJs": true,
     "noEmit": true,
     "jsx": "react",
-    "esModuleInterop": true
+    "esModuleInterop": false
   }
 }
