@@ -55,7 +55,7 @@ export const RaceCard = () => {
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      {data ? <Heading as="h1">{data?.name}</Heading> : <HeadingPlaceholder />}
+      {data ? <Heading as="h1">{data.name}</Heading> : <HeadingPlaceholder />}
       {data ? (
         <p>
           開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
@@ -70,7 +70,12 @@ export const RaceCard = () => {
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
         {data ? (
-          <TrimmedImage height={225} src={data?.image} width={400} />
+          <TrimmedImage
+            height={225}
+            lazy={false}
+            src={data.image}
+            width={400}
+          />
         ) : (
           <TrimmedImagePlaceholder />
         )}

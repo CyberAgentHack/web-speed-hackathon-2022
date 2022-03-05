@@ -10,9 +10,17 @@ const CoverImage = styled.img`
  * @property {string} src
  * @property {number} width
  * @property {number} height
+ * @property {boolean} lazy
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
-  return <CoverImage height={height} loading="lazy" src={src} width={width} />;
+export const TrimmedImage = ({ height, lazy, src, width }) => {
+  return (
+    <CoverImage
+      height={height}
+      loading={lazy ? "lazy" : "eager"}
+      src={src}
+      width={width}
+    />
+  );
 };
