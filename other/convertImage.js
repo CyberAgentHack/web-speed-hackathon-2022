@@ -1,11 +1,12 @@
 
 
 const convertImage = async (width, height) => {
-    if (process.argv.length != 3) {
+    if (process.argv.length != 4) {
     console.log("Abort");
     return
 }
 const input_file = process.argv[2];
+const ext = process.argv[3]
 
 
 const sharp = require('sharp');
@@ -17,8 +18,8 @@ const ratio = isWidthSmaller ? width / meta.width : height / meta.height;
 image
     .resize(Math.round(meta.width * ratio),Math.round (meta.height * ratio)) 
     .resize(width,height,{fit:"cover"}) 
-    .jpeg({quality: 100})
-    .toFile(`.${input_file.split(".")[1]}-${width}_${height}.jpg`);
+    .toFormat(ext,{quality: 100})
+    .toFile(`.${input_file.split(".")[1]}-${width}_${height}.${ext}`);
 
 }
 
