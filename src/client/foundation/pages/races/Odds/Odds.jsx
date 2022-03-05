@@ -1,4 +1,3 @@
-import moment from "moment-timezone";
 import React, { useCallback, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -77,7 +76,7 @@ export const Odds = () => {
     return <Container>Loading...</Container>;
   }
 
-  const isRaceClosed = moment(race.closeAt).isBefore(new Date());
+  const isRaceClosed = Date.parse(race.closeAt) < new Date().getTime(); // moment(race.closeAt).isBefore(new Date());
 
   return (
     <Container>
