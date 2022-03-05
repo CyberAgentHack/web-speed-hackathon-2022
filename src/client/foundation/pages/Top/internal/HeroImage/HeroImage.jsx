@@ -14,5 +14,5 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = () => {
-  return <Image alt="" src="/assets/images/hero.webp" />;
+  return <Image alt="" src="/assets/images/hero.avif" />;
 };

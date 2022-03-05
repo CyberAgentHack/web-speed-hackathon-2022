@@ -49,7 +49,7 @@ export const RaceCard = () => {
         <Spacer mt={Space * 2} />
         <TrimmedImage
           height={225}
-          src={data.image.substring(0, data.image.length - 3) + "webp"}
+          src={data.image.substring(0, data.image.length - 3) + "avif"}
           width={400}
         />
       </Section>
@@ -72,7 +72,7 @@ export const RaceCard = () => {
               key={entry.id}
               image={
                 entry.player.image.substring(0, entry.player.image.length - 3) +
-                "webp"
+                "avif"
               }
               name={entry.player.name}
               number={entry.number}
