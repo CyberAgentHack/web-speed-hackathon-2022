@@ -1,12 +1,4 @@
-import React from "react";
-import styled from "styled-components";
-
-const Image = styled.img`
-  width: ${({ $width }) => $width}px;
-  object-fit: ${({ $fit }) => $fit};
-  aspect-ratio: ${({ $height, $width }) => $width / $height};
-  height: auto;
-`;
+import React, { useEffect, useState } from "react";
 
 /**
  * @typedef Props
@@ -17,7 +9,31 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
-  const fit = width > height ? "contain" : "cover";
-  const imageSrc = src.replace(".jpg", ".webp");
-  return <Image $fit={fit} $height={height} $width={width} src={imageSrc} />;
+  const [dataUrl, setDataUrl] = useState(null);
+
+  useEffect(() => {
+    const img = new Image();
+    const imgsrc = src.replace(".jpg", ".webp");
+    img.src = imgsrc;
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+
+      const isWidthSmaller = img.width <= img.height;
+      const ratio = isWidthSmaller ? width / img.width : height / img.height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(
+        img,
+        -(img.width * ratio - width) / 2,
+        -(img.height * ratio - height) / 2,
+        img.width * ratio,
+        img.height * ratio,
+      );
+      setDataUrl(canvas.toDataURL());
+    };
+  }, [height, src, width]);
+
+  return <img height={height} src={dataUrl} width={width} />;
 };
