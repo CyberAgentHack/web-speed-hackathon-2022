@@ -34,5 +34,11 @@ export const TrimmedImage = ({ height, src, width }) => {
     };
   }, [height, src, width]);
 
-  return <img height={height} src={dataUrl} width={width} />;
+  return (
+    <img
+      src={dataUrl}
+      style={{ aspectRatio: width / height, height: "auto", width: width }}
+      width={width}
+    />
+  );
 };
