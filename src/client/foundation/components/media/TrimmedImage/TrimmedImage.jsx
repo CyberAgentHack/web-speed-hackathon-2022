@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, lazy, src, width }) => {
+export const TrimmedImage = ({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {
@@ -35,12 +35,5 @@ export const TrimmedImage = ({ height, lazy, src, width }) => {
     };
   }, [height, src, width]);
 
-  return (
-    <img
-      height={height}
-      loading={lazy ? "lazy" : "eagar"}
-      src={dataUrl}
-      width={width}
-    />
-  );
+  return <img height={height} src={dataUrl} width={width} />;
 };
