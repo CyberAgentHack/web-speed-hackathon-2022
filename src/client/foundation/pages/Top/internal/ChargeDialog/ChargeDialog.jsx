@@ -1,6 +1,6 @@
+import axios from "axios";
 import { motion } from "framer-motion";
-import React, { forwardRef, useCallback, useState } from "react";
-import zenginCode from "zengin-code";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -23,6 +23,8 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
   const [amount, setAmount] = useState(0);
+  const [banklist, setBanklist] = useState([]);
+  const [bank, setBank] = useState(null);
 
   const clearForm = useCallback(() => {
     setBankCode("");
@@ -67,12 +69,19 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
 
-  const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
-    code,
-    name,
-  }));
-  const bank = zenginCode[bankCode];
-  const branch = bank?.branches[branchCode];
+  useEffect(() => {
+    axios.get("/api/banklist").then((res) => {
+      setBanklist(res.data);
+    });
+  }, []);
+  useEffect(() => {
+    if (bankCode !== "")
+      axios.get(`/api/bank/${bankCode}`).then((res) => {
+        setBank(res.data);
+      });
+  }, [banklist, bankCode]);
+
+  const branch = bank ? bank.branches[branchCode] : {};
 
   return (
     <Dialog ref={ref} onClose={handleCloseDialog}>
@@ -92,7 +101,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </label>
 
             <datalist id="ChargeDialog-bank-list">
-              {bankList.map(({ code, name }) => (
+              {banklist.map(({ code, name }) => (
                 <option key={code} value={code}>{`${name} (${code})`}</option>
               ))}
             </datalist>
