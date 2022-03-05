@@ -5,7 +5,6 @@ import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../components/media/TrimmedImage";
-import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
 import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 
@@ -22,6 +21,8 @@ const ItemWrapper = styled.li`
   border-radius: ${Radius.MEDIUM};
   opacity: ${({ $opacity }) => $opacity};
   padding: ${Space * 3}px;
+  transition: opacity ${({ $duration }) => $duration}s
+    cubic-bezier(0.2, 0.6, 0.35, 1);
 `;
 
 const RaceButton = styled(LinkButton)`
@@ -43,11 +44,14 @@ const RaceTitle = styled.h2`
 /**
  * @typedef ItemProps
  * @property {Model.Race} race
+ * @property number delay
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ race }) => {
+const Item = ({ delay, race }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
+  const [opacity, setOpacity] = useState(0);
+  const [duration, setDuration] = useState(0.5);
 
   // 締切はリアルタイムで表示したい
   useEffect(() => {
@@ -60,29 +64,22 @@ const Item = ({ race }) => {
     };
   }, [race.closeAt]);
 
-  const {
-    abortAnimation,
-    resetAnimation,
-    startAnimation,
-    value: opacity,
-  } = useAnimation({
-    duration: 500,
-    end: 1,
-    start: 0,
-    timingFunction: easeOutCubic,
-  });
-
   useEffect(() => {
-    resetAnimation();
-    startAnimation();
+    setDuration(0.5);
+    const timer = setTimeout(() => {
+      setOpacity(1);
+    }, delay);
 
     return () => {
-      abortAnimation();
+      clearTimeout(timer);
+      console.log("return");
+      setDuration(0);
+      setOpacity(0);
     };
-  }, [race.id, startAnimation, abortAnimation, resetAnimation]);
+  }, [race.id, delay]);
 
   return (
-    <ItemWrapper $opacity={opacity}>
+    <ItemWrapper $duration={duration} $opacity={opacity}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
@@ -95,7 +92,7 @@ const Item = ({ race }) => {
           <Stack horizontal alignItems="center" gap={Space * 2}>
             <TrimmedImage
               height={100}
-              src={race.image.substring(0, race.image.length - 3) + "avif"}
+              src={race.image}
               width={100}
             />
             <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>
