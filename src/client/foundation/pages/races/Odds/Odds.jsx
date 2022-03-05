@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
-import { TrimmedImage } from "../../../components/media/TrimmedImage";
+import { TrimmedImage2 } from "../../../components/media/TrimmedImage/TrimmedImage2";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
@@ -81,11 +81,7 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage
-          height={225}
-          src={convertToWebP(entries.image, "jpg")}
-          width={400}
-        />
+        <TrimmedImage2 src={convertToWebP(entries.image, "jpg")} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
