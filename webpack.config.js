@@ -2,8 +2,9 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
-const BundleAnalyzerPlugin =
-  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin =
+//   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+// const ImageminWebpWebpackPlugin = require("imagemin-webp-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -60,6 +61,19 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      // https://www.npmjs.com/package/imagemin-webp
+      // new ImageminWebpWebpackPlugin({
+      //   config: [
+      //     {
+      //       options: {
+      //         method: 6, // 0 (fastest) and 6 (slowest).
+      //         quality: 10, // 画質
+      //         size: 50, //
+      //       },
+      //       test: /\.(png|jpe?g)$/i, // 対象ファイル
+      //     },
+      //   ],
+      // }),
       // new BundleAnalyzerPlugin(),
     ],
     resolve: {
