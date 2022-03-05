@@ -2,6 +2,7 @@ import { difference, slice } from "lodash-es";
 import moment from "moment-timezone";
 import React, {
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -14,16 +15,17 @@ import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
 import { Heading } from "../../components/typographies/Heading";
+import { AuthContext } from "../../contexts/AuthContext";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
-import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
+// const ChargeDialog = React.lazy(() => import("./internal/ChargeDialog"));
 /**
  * @param {Model.Race[]} races
  * @returns {Model.Race[]}
@@ -87,7 +89,18 @@ const UNIXTIME_PER_DAY = 86400;
 
 /** @type {React.VFC} */
 export const Top = () => {
+  const [ChargeDialog, setChargeDialog] = useState();
   const { date = moment().format("YYYY-MM-DD") } = useParams();
+  const { userId } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (userId == null) return;
+
+    (async () => {
+      const { default: ChargeDialog } = await import("./internal/ChargeDialog");
+      setChargeDialog(ChargeDialog);
+    })();
+  }, [userId]);
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
@@ -178,7 +191,9 @@ export const Top = () => {
         )}
       </section>
 
-      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      {ChargeDialog && (
+        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      )}
     </Container>
   );
 };

@@ -8,7 +8,7 @@ import React, { useCallback, useContext, useMemo, useState } from "react";
  */
 
 /** @type {React.Context<AuthContextValues>} */
-const AuthContext = React.createContext({
+export const AuthContext = React.createContext({
   setUserId: () => {
     throw new Error("AuthContext value is not set");
   },
