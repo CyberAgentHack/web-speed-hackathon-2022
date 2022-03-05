@@ -2,7 +2,6 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
-const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
@@ -36,7 +35,6 @@ module.exports = [
           use: {
             loader: "babel-loader",
             options: {
-              plugins: ["lodash"],
               presets: [
                 [
                   "@babel/preset-env",
@@ -68,7 +66,6 @@ module.exports = [
       path: DIST_PUBLIC,
     },
     plugins: [
-      new LodashModuleReplacementPlugin(),
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
