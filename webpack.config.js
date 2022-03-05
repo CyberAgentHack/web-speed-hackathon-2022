@@ -99,7 +99,12 @@ module.exports = [
                     spec: true,
                   },
                 ],
-                "@babel/preset-react",
+                [
+                  '@babel/preset-react',
+                  {
+                    development: false,
+                  },
+                ],
               ],
             },
           },
