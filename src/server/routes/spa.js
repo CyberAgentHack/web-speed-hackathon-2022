@@ -19,7 +19,7 @@ export const spaRoute = async (fastify) => {
     throw fastify.httpErrors.notFound();
   });
 
-  fastify.get("*", (_req, reply) => {
+  fastify.get("*", (req, res) => {
     res.header("Cache-Control", "no-cache, max-age=3600");
     return reply.sendFile("index.html", join(__dirname, "public"));
   });
