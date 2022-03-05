@@ -29,13 +29,6 @@ function useTodayRacesWithAnimation(races) {
   const timer = useRef(null);
 
   useEffect(() => {
-    // const isRacesUpdate =
-    //   difference(
-    //     races.map((e) => e.id),
-    //     prevRaces.current.map((e) => e.id),
-    //   ).length !== 0;
-
-    // const isRacesUpdate = races.filter((e)=>!prevRaces.current.some((prevE)=>e.id===prevE.id)).length !== 0
     const isRacesUpdate = races.filter((e)=>!prevRaces.current.some((prevE)=>e.id===prevE.id)).length !== 0
     prevRaces.current = races;
     setIsRacesUpdate(isRacesUpdate);
@@ -61,7 +54,6 @@ function useTodayRacesWithAnimation(races) {
         clearInterval(timer.current);
         return;
       }
-
       numberOfRacesToShow.current++;
       setRacesToShow(races.slice(0,numberOfRacesToShow.current));
     }, 100);
