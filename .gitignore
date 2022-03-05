@@ -10,3 +10,5 @@ dist
 database.sqlite
 
 .DS_Store
+stats.json
+report.html
