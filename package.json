@@ -4,7 +4,7 @@
   "author": "dora <31735614+dora1998@users.noreply.github.com>",
   "scripts": {
     "analyze": "webpack --mode=production --analyze",
-    "build": "webpack --mode=production",
+    "build": "webpack --mode=development",
     "build:dev": "webpack --mode=development",
     "build:watch": "yarn build:dev --watch --progress",
     "serve": "node --enable-source-maps dist/server.js",
