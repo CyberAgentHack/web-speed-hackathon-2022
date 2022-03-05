@@ -3,6 +3,7 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
+const TerserPlugin = require("terser-webpack-plugin");
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const nodeExternals = require("webpack-node-externals");
 const smp = new SpeedMeasurePlugin()
@@ -21,7 +22,7 @@ module.exports = smp.wrap([
   {
     devtool: false,
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
@@ -32,7 +33,7 @@ module.exports = smp.wrap([
           type: "asset/source",
         },
         {
-          exclude: /\/esm\//,
+          exclude: /[\\/]esm[\\/]/,
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
@@ -53,6 +54,9 @@ module.exports = smp.wrap([
       ],
     },
     name: "client",
+    optimization: {
+      minimizer: [new TerserPlugin({ /* additional options here */ })],
+    },
     output: {
       path: DIST_PUBLIC,
     },
@@ -96,6 +100,9 @@ module.exports = smp.wrap([
       ],
     },
     name: "server",
+    optimization: {
+      minimizer: [new TerserPlugin({ /* additional options here */ })],
+    },
     output: {
       filename: "server.js",
       path: DIST_ROOT,
