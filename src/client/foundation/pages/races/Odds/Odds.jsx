@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useCallback, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -9,7 +10,7 @@ import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
-import { useLaterFetch } from "../../../hooks/useFetch";
+import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
@@ -42,7 +43,7 @@ const Callout = styled.aside`
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
-  const { data } = useLaterFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 
@@ -61,7 +62,7 @@ export const Odds = () => {
     return <Container>Loading...</Container>;
   }
 
-  const isRaceClosed = Date.parse(data.closeAt) < new Date().getTime();
+  const isRaceClosed = moment(data.closeAt).isBefore(new Date());
 
   return (
     <Container>
@@ -78,7 +79,7 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <TrimmedImage
           height={225}
-          src={data.image}
+          src={data.image.substring(0, data.image.length - 3) + "avif"}
           width={400}
         />
       </Section>

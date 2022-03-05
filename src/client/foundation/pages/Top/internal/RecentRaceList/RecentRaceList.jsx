@@ -72,7 +72,6 @@ const Item = ({ delay, race }) => {
 
     return () => {
       clearTimeout(timer);
-      console.log("return");
       setDuration(0);
       setOpacity(0);
     };
@@ -92,7 +91,7 @@ const Item = ({ delay, race }) => {
           <Stack horizontal alignItems="center" gap={Space * 2}>
             <TrimmedImage
               height={100}
-              src={race.image}
+              src={race.image.substring(0, race.image.length - 3) + "avif"}
               width={100}
             />
             <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>
