@@ -65,7 +65,10 @@ const RankNo = styled.div`
 
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = odds.concat().sort((a, b) => a.odds - b.odds).slice(0, 50);
+  const sortedOdds = odds
+    .concat()
+    .sort((a, b) => a.odds - b.odds)
+    .slice(0, 50);
 
   return (
     <Wrapper>

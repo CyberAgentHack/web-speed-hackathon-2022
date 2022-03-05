@@ -1,4 +1,4 @@
-import moment from "dayjs";
+import moment from "moment";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -29,7 +29,10 @@ function useTodayRacesWithAnimation(races) {
   const timer = useRef(null);
 
   useEffect(() => {
-    const isRacesUpdate = [races.map((e) => e.id), prevRaces.current.map((e) => e.id)].reduce((a, b) => a.filter(c => !b.includes(c))).length !== 0;
+    const isRacesUpdate =
+      [races.map((e) => e.id), prevRaces.current.map((e) => e.id)].reduce(
+        (a, b) => a.filter((c) => !b.includes(c)),
+      ).length !== 0;
 
     prevRaces.current = races;
     setIsRacesUpdate(isRacesUpdate);
@@ -70,26 +73,6 @@ function useTodayRacesWithAnimation(races) {
   }, []);
 
   return racesToShow;
-}
-
-/**
- * @param {Model.Race[]} todayRaces
- * @returns {string | null}
- */
-function useHeroImage(todayRaces) {
-  const firstRaceId = todayRaces[0]?.id;
-  const url =
-    firstRaceId !== undefined
-      ? `/api/hero?firstRaceId=${firstRaceId}`
-      : "/api/hero";
-  const { data } = useFetch(url, jsonFetcher);
-
-  if (firstRaceId === undefined || data === null) {
-    return null;
-  }
-
-  const imageUrl = `${data.url}?${data.hash}`;
-  return imageUrl;
 }
 
 /** @type {React.VFC} */
@@ -140,11 +123,10 @@ export const Top = () => {
           )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
-  const heroImageUrl = useHeroImage(todayRaces);
 
   return (
     <Container>
-      {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
+      <HeroImage />
 
       <Spacer mt={Space * 2} />
       {userData && (
