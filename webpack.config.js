@@ -16,6 +16,7 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
+    devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
     module: {
       rules: [
@@ -39,7 +40,6 @@ module.exports = [
                     bugfixes: true,
                     modules: "cjs",
                     spec: true,
-                    useBuiltIns: 'usage',
                   },
                 ],
                 "@babel/preset-react",
@@ -64,6 +64,7 @@ module.exports = [
     target: "web",
   },
   {
+    devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
     module: {
@@ -81,7 +82,6 @@ module.exports = [
                     bugfixes: true,
                     modules: "cjs",
                     spec: true,
-                    useBuiltIns: 'usage',
                   },
                 ],
                 "@babel/preset-react",
