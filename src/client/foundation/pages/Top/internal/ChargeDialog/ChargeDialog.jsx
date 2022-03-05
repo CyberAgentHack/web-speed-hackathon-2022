@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import React, { forwardRef, useCallback, useState } from "react";
-import zenginCode from "zengin-code";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -19,10 +18,27 @@ const CHARGE = "charge";
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
 export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
+  const [zenginCode, setZenginCode] = useState({});
+  const [bankList, setBankList] = useState([]);
+
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
   const [amount, setAmount] = useState(0);
+
+  useEffect(() => {
+    const init = async () => {
+      const res = await fetch("/api/banks");
+      const data = await res.json();
+      const bl = Object.entries(data).map(([code, { name }]) => ({
+        code,
+        name,
+      }));
+      setZenginCode(data);
+      setBankList(bl);
+    };
+    init();
+  }, []);
 
   const clearForm = useCallback(() => {
     setBankCode("");
@@ -67,10 +83,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
 
-  const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
-    code,
-    name,
-  }));
+  console.log(zenginCode);
   const bank = zenginCode[bankCode];
   const branch = bank?.branches[branchCode];
 
