@@ -16,10 +16,14 @@ const Picture = styled.picture`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = memo(({ url }) => {
+  const smaller = (suffix) => {
+    return url.replace(".jpg", `.jpg_${suffix}.avif`);
+  }
+
   return (
     <Picture alt="" src={url}>
-        <source srcSet={`${url}_small.avif`} media="(max-width: 600px)" />
-        <source srcSet={`${url}_1024.avif`} media="(min-width: 601px)" />
+        <source srcSet={smaller("small")} media="(max-width: 600px)" />
+        <source srcSet={smaller("1024")} media="(min-width: 601px)" />
         <img src={url} alt="" /> {/* original for high resolution screen */}
     </Picture>
   )
