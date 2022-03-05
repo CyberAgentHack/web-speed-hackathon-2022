@@ -24,7 +24,7 @@ class BettingTicket {
     },
     name: "BettingTicket",
     orderBy: {
-      createdAt: "ASC",
+      createdAt: "DESC",
     },
     relations: {
       race: {
