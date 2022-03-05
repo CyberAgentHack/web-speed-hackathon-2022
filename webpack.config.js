@@ -40,7 +40,7 @@ module.exports = [
                   "@babel/preset-env",
                   {
                     modules: "cjs",
-                    spec: true,
+                    targets: "last 1 Chrome version",
                   },
                 ],
                 "@babel/preset-react",
@@ -93,7 +93,7 @@ module.exports = [
                   "@babel/preset-env",
                   {
                     modules: "cjs",
-                    spec: true,
+                    targets: "last 1 Chrome version",
                   },
                 ],
                 "@babel/preset-react",
