@@ -32,7 +32,7 @@ function useTodayRacesWithAnimation(races) {
     const isRacesUpdate =
       races
         .map((e) => e.id)
-        .filter((x) => prevRaces.current.map((e) => e.id).includes(x))
+        .filter((x) => !prevRaces.current.map((e) => e.id).includes(x))
         .length !== 0;
 
     prevRaces.current = races;
