@@ -27,7 +27,7 @@ const formatDate = (date) => {
 /** @type {React.VFC} */
 export const Top = () => {
   const { date = formatDate(new Date()) } = useParams();
-  const todayUnix = Date.parse(date) / 1000 - 60 * 60 * 9;
+  const todayUnix = Date.parse(date) / 1000;
   const tomorrowUnix = todayUnix + 24 * 60 * 60;
 
   const ChargeButton = styled.button`
