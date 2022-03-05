@@ -56,24 +56,16 @@ export const Odds = () => {
     setRanking(rank.data)
   }, [rank.data])
   useEffect(() => {
+    console.log("key2")
     setOdds(odd.data)
   }, [odd.data])
-
-  useEffect(() => {
-    const promise = jsonFetcher(`/api/races/${raceId}/${fk}`);
-
-    promise.then((data) => {
-      setOdds(data);
-    });
-
-    promise.catch((error) => {
-      setOdds(null);
-    });
-  }, [fk]);
-
   const setFirstKey = useCallback((key) => {
-    setFk(key)
-    setOdds(null);
+    if (key !== fk) {
+      console.log(key)
+      console.log(fk)
+      setFk(key)
+      setOdds(null);
+    }
   })
 
 
