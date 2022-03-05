@@ -10,17 +10,16 @@ import { initialize } from "../typeorm/initialize.js";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
-  http2: true,
-    fastify.get("/users/me", async (req, res) => {
-      const repo = (await createConnection()).getRepository(User);
+  fastify.get("/users/me", async (req, res) => {
+    const repo = (await createConnection()).getRepository(User);
 
-      if (req.user != null) {
-        res.send(req.user);
-      } else {
-        const user = await repo.save(new User());
-        res.send(user);
-      }
-    });
+    if (req.user != null) {
+      res.send(req.user);
+    } else {
+      const user = await repo.save(new User());
+      res.send(user);
+    }
+  });
 
   fastify.post("/users/me/charge", async (req, res) => {
     if (req.user == null) {
