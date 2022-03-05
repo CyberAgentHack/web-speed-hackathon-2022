@@ -1,5 +1,5 @@
 import { parse } from "date-fns";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -130,8 +130,8 @@ export const Top = () => {
     revalidate();
   }, [revalidate]);
 
-  const todayRaces =
-    raceData != null
+  const todayRaces = useMemo(
+    () => (raceData != null
       ? [...raceData.races]
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
@@ -140,7 +140,7 @@ export const Top = () => {
           .filter((/** @type {Model.Race} */ race) =>
             isSameDay(new Date(race.startAt), date),
           )
-      : [];
+      : []), [raceData, date]);
 
   const heroImageUrl = useHeroImage(todayRaces);
 
@@ -170,7 +170,7 @@ export const Top = () => {
         </RecentRaceList>
       </section>
 
-      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      {userData && (<ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />)}
     </Container>
   );
 };
