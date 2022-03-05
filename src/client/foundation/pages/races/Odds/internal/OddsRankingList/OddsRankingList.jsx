@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
 
@@ -56,8 +57,6 @@ const RankNo = styled.div`
   width: 32px;
 `;
 
-const take = (arr, qty = 1) => [...arr].splice(0, qty);
-
 /**
  * @typedef Props
  * @property {Model.OddsItem[]} odds
@@ -67,8 +66,8 @@ const take = (arr, qty = 1) => [...arr].splice(0, qty);
 
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = take(
-    odds.sort((a, b) => a.odds - b.odds),
+  const sortedOdds = _.take(
+    _.sortBy(odds, (item) => item.odds),
     50,
   );
 
