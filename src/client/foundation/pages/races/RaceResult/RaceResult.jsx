@@ -27,7 +27,7 @@ const LiveBadge = styled.span`
 `;
 
 /** @type {React.VFC} */
-export const RaceResult = () => {
+export const RaceResult = React.memo(() => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
@@ -84,4 +84,4 @@ export const RaceResult = () => {
       </Section>
     </Container>
   );
-};
+});

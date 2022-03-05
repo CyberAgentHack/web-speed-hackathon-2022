@@ -8,7 +8,7 @@ import { RaceCard } from "./pages/races/RaceCard";
 import { RaceResult } from "./pages/races/RaceResult";
 
 /** @type {React.VFC} */
-export const Routes = () => {
+export const Routes = React.memo(() => {
   return (
     <RouterRoutes>
       <Route element={<CommonLayout />} path="/">
@@ -22,4 +22,4 @@ export const Routes = () => {
       </Route>
     </RouterRoutes>
   );
-};
+});

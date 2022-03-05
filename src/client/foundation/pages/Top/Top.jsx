@@ -98,7 +98,7 @@ function useHeroImage(todayRaces) {
 }
 
 /** @type {React.VFC} */
-export const Top = () => {
+export const Top = React.memo(() => {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
 
   const ChargeButton = styled.button`
@@ -180,4 +180,4 @@ export const Top = () => {
       <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
     </Container>
   );
-};
+});

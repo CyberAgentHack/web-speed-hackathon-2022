@@ -35,16 +35,7 @@ module.exports = [
             loader: "babel-loader",
             options: {
               presets: [
-                [
-                  "@babel/preset-env",
-                  {
-                    modules: "cjs",
-                    spec: true,
-                    targets: {
-                      browsers: "last 1 Chrome major version"
-                    }
-                  },
-                ],
+                "@babel/preset-env",
                 "@babel/preset-react", 
               ],
             },
@@ -92,16 +83,7 @@ module.exports = [
             loader: "babel-loader",
             options: {
               presets: [
-                [
-                  "@babel/preset-env",
-                  {
-                    modules: "cjs",
-                    spec: true,
-                    targets: {
-                      browsers: "last 1 Chrome major version"
-                    }
-                  },
-                ],
+                "@babel/preset-env",
                 "@babel/preset-react",
               ],
             },

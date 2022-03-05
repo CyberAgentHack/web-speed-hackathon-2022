@@ -32,7 +32,7 @@ export const TrimmedImage = React.memo(({ height, src, width }) => {
       );
       setDataUrl(canvas.toDataURL());
     };
-  }, [height, src, width]);
+  }, []);
 
   return <img src={dataUrl} />;
 });
