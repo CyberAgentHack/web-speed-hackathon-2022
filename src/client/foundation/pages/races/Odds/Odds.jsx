@@ -1,5 +1,6 @@
 import moment from "moment-timezone";
 import React, { useCallback, useRef, useState } from "react";
+import {useQuery} from 'react-query'
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -9,7 +10,7 @@ import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
-import { useFetch } from "../../../hooks/useFetch";
+// import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
@@ -42,7 +43,8 @@ const Callout = styled.aside`
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  // const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const {data, isLoading} = useQuery(`/api/races/${raceId}`, jsonFetcher)
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 
@@ -57,7 +59,7 @@ export const Odds = () => {
     [],
   );
 
-  if (data == null) {
+  if (isLoading) {
     return <Container>Loading...</Container>;
   }
 
