@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getFetchSRCTrimmed } from "../../../utils/Cloudinary";
+import { getFetchSRC } from "../../../utils/Cloudinary";
 
 /**
  * @typedef Props
@@ -25,54 +25,55 @@ const getTrimmedSRC = (src, height, width) => {
 }
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
-  // src = getFetchSRCTrimmed(src, height, width)
-  const [dataUrl, setDataUrl] = useState(null);
-  const url = getTrimmedSRC(src, height, width)
-
-  useEffect(() => {
-    fetch(url)
-      .then(response => response.text())
-      .then(data => {
-        // console.log(data)
-        setDataUrl(data);
-      })
-    // setDataUrl(response.text);
-  }, [height, src, width]);
-  return < img src = { dataUrl } />;
-}
 // export const TrimmedImage = ({ height, src, width }) => {
-//   src = getFetchSRC(src, width)
+//   // src = getFetchSRCTrimmed(src, height, width)
 //   const [dataUrl, setDataUrl] = useState(null);
+//   const url = getTrimmedSRC(src, height, width)
 
 //   useEffect(() => {
-//     const img = new Image();
-//     img.src = src;
-//     img.crossOrigin = "anonymous";
-//     img.onload = () => {
-//       const canvas = document.createElement("canvas");
-//       canvas.width = width;
-//       canvas.height = height;
-
-//       const isWidthSmaller = img.width <= img.height;
-//       const ratio = isWidthSmaller ? width / img.width : height / img.height;
-
-//       const targetWidth = img.width * ratio
-//       const targetHeight = img.height * ratio
-
-//       console.log(src, img.width, img.height, targetWidth, targetHeight, width, height)
-
-//       const ctx = canvas.getContext("2d");
-//       ctx.drawImage(
-//         img,
-//         -(img.width * ratio - width) / 2,
-//         -(img.height * ratio - height) / 2,
-//         img.width * ratio,
-//         img.height * ratio,
-//       );
-//       setDataUrl(canvas.toDataURL());
-//     };
+//     fetch(url)
+//       .then(response => response.text())
+//       .then(data => {
+//         // console.log(data)
+//         setDataUrl(data);
+//       })
+//     // setDataUrl(response.text);
 //   }, [height, src, width]);
+//   return < img src = { dataUrl } />;
+// }
+export const TrimmedImage = ({ height, src, width }) => {
+  src = getFetchSRC(src, width)
+  src = src + ".webp"
+  const [dataUrl, setDataUrl] = useState(null);
 
-//   return <img src={dataUrl} />;
-// };
+  useEffect(() => {
+    const img = new Image();
+    img.src = src;
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+
+      const isWidthSmaller = img.width <= img.height;
+      const ratio = isWidthSmaller ? width / img.width : height / img.height;
+
+      const targetWidth = img.width * ratio
+      const targetHeight = img.height * ratio
+
+      console.log(src, img.width, img.height, targetWidth, targetHeight, width, height)
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(
+        img,
+        -(img.width * ratio - width) / 2,
+        -(img.height * ratio - height) / 2,
+        img.width * ratio,
+        img.height * ratio,
+      );
+      setDataUrl(canvas.toDataURL());
+    };
+  }, [height, src, width]);
+
+  return <img src={dataUrl} />;
+};

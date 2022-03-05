@@ -9,7 +9,7 @@ export const getFetchSRC = (src, width) => {
     src = MY_DOMAIN + src
   }
   if (!width) {
-    return `${FETCH_BASE_URL}/f_auto,q_auto/${src}`
+    return `${FETCH_BASE_URL}/w_${width},f_auto,q_auto/${src}`
   }
   return `${FETCH_BASE_URL}/f_auto,q_auto/${src}`
 }

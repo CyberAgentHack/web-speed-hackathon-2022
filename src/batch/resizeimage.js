@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require('fs');
 const PNG = require('png-js');
 const Canvas = require('canvas');
+const sharp = require('sharp');
 
 // import { resizeImage } from "../client/foundation/utils/ResizeImage";
 
@@ -47,7 +48,7 @@ const resizeImage = (imageData, width, height) => {
     img.width * ratio,
     img.height * ratio,
   );
-  return canvas.toDataURL("image/png");
+  return canvas.toDataURL();
 }
 
 
@@ -66,25 +67,40 @@ function main() {
   files.forEach(function (file) {
     const src = PLAYERS_IMAGE_DIR + file
     const imageData = fs.readFileSync(src)
-    const resizedData = resizeImage(imageData, player_width, player_height)
+    sharp(imageData)
+      .toFile(src+".webp");
+    // const resizedData = resizeImage(imageData, player_width, player_height)
 
-    const newFileName = `${player_width}_${player_height}_${file}`
+    // const newFileName = `${player_width}_${player_height}_${file}`
 
-    fs.appendFileSync(RESIZE_PLAYERS_IMAGE_DIR + jpgToPngSRC(newFileName), resizedData)
+    // fs.appendFileSync(RESIZE_PLAYERS_IMAGE_DIR + jpgToPngSRC(newFileName), resizedData)
   });
 
   files = fs.readdirSync(RACE_IMAGE_DIR);
-  const race_width = 400;
-  const race_height = 225;
   files.forEach(function (file) {
     const src = RACE_IMAGE_DIR + file
     const imageData = fs.readFileSync(src)
-    const resizedData = resizeImage(imageData, race_width, race_height)
+    sharp(imageData)
+      .toFile(src + ".webp");
+    // const resizedData = resizeImage(imageData, player_width, player_height)
 
-    const newFileName = `${race_width}_${race_height}_${file}`
+    // const newFileName = `${player_width}_${player_height}_${file}`
 
-    fs.appendFileSync(RESIZE_RACE_IMAGE_DIR + jpgToPngSRC(newFileName), resizedData)
+    // fs.appendFileSync(RESIZE_PLAYERS_IMAGE_DIR + jpgToPngSRC(newFileName), resizedData)
   });
+
+  // files = fs.readdirSync(RACE_IMAGE_DIR);
+  // const race_width = 400;
+  // const race_height = 225;
+  // files.forEach(function (file) {
+  //   const src = RACE_IMAGE_DIR + file
+  //   const imageData = fs.readFileSync(src)
+  //   const resizedData = resizeImage(imageData, race_width, race_height)
+
+  //   const newFileName = `${race_width}_${race_height}_${file}`
+
+  //   fs.appendFileSync(RESIZE_RACE_IMAGE_DIR + jpgToPngSRC(newFileName), resizedData)
+  // });
   // for file in files
   // const data = fs.readFileSync('/Users/joe/test.txt', 'utf8')
   // fs.readdir(PLAYERS_IMAGE_DIR, function (err, files) {
