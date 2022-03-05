@@ -43,7 +43,7 @@ function useTodayRacesWithAnimation(races) {
     }
     // 視覚効果 off のときはアニメーションしない
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRacesToShow(races);
+      setRacesToShow(races.map(race => ({race, visible: true})));
       return;
     }
 
@@ -59,7 +59,7 @@ function useTodayRacesWithAnimation(races) {
       }
 
       numberOfRacesToShow.current++;
-      setRacesToShow(races.slice(0, numberOfRacesToShow.current));
+      setRacesToShow(races.map((race, index) => ({race, visible: index <= numberOfRacesToShow.current})));
     }, 100);
   }, [isRacesUpdate, races]);
 
@@ -165,13 +165,9 @@ export const Top = () => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        {todayRacesToShow.length > 0 && (
-          <RecentRaceList>
-            {todayRacesToShow.map((race) => (
-              <RecentRaceList.Item key={race.id} race={race} />
-            ))}
-          </RecentRaceList>
-        )}
+        <RecentRaceList>
+          {todayRacesToShow.map(({race, visible}) => <RecentRaceList.Item key={race.id} race={race} visible={visible} />)}
+        </RecentRaceList>
       </section>
 
       <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />

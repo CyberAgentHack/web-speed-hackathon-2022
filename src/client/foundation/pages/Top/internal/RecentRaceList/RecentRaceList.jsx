@@ -46,7 +46,7 @@ const RaceTitle = styled.h2`
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ race }) => {
+const Item = ({ race, visible }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
 
   // 締切はリアルタイムで表示したい
@@ -79,10 +79,12 @@ const Item = ({ race }) => {
     return () => {
       abortAnimation();
     };
-  }, [race.id, startAnimation, abortAnimation, resetAnimation]);
+  }, [race.id, visible, startAnimation, abortAnimation, resetAnimation]);
+
+  console.log(visible);
 
   return (
-    <ItemWrapper $opacity={opacity}>
+    <ItemWrapper $opacity={visible ? opacity : 0}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
