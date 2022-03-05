@@ -12,6 +12,11 @@ import { Space } from "../../../../styles/variables";
 const CANCEL = "cancel";
 const CHARGE = "charge";
 
+const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
+  code,
+  name,
+}));
+
 /**
  * @typedef Props
  * @type {object}
@@ -67,10 +72,6 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
 
-  const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
-    code,
-    name,
-  }));
   const bank = zenginCode[bankCode];
   const branch = bank?.branches[branchCode];
 
