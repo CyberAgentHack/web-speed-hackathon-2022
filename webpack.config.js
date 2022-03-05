@@ -2,7 +2,6 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -64,28 +63,13 @@ module.exports = [
       extensions: [".js", ".jsx"],
     },
     target: "web",
-    optimization: {
-      minimize: true,
-      minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            ecma: 6,
-            compress: true,
-            output: {
-              comments: false,
-              beautify: false,
-            },
-          },
-        }),
-      ],
-    },
   },
   {
     devtool:
       process.env.NODE_ENV === "production" ? false : "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
-    mode: "production",
+    mode: "development",
     module: {
       rules: [
         {
