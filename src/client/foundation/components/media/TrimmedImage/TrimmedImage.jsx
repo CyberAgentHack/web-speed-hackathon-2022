@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
+export const TrimmedImage = ({ alt, height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {
@@ -18,6 +18,8 @@ export const TrimmedImage = ({ height, src, width }) => {
       const canvas = document.createElement("canvas");
       canvas.width = width;
       canvas.height = height;
+
+      if (width == img.width && height == img.height) return;
 
       const isWidthSmaller = img.width <= img.height;
       const ratio = isWidthSmaller ? width / img.width : height / img.height;
@@ -32,7 +34,7 @@ export const TrimmedImage = ({ height, src, width }) => {
       );
       setDataUrl(canvas.toDataURL());
     };
-  }, [height, src, width]);
+  }, [alt, height, src, width]);
 
-  return <img src={dataUrl} />;
+  return <img alt={alt} height={height} src={dataUrl} width={width}/>;
 };

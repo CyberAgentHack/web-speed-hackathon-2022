@@ -40,7 +40,7 @@ module.exports = [
           use: {
             loader: "babel-loader",
             options: {
-              compact: false,
+              // compact: false,
               plugins: ["@babel/plugin-syntax-dynamic-import"],
               presets: [
                 [
