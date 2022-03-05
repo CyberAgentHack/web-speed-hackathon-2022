@@ -148,7 +148,7 @@ export const Top = () => {
 
   return (
     <Container>
-      {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
+      <HeroImage url={heroImageUrl ?? ""} />
 
       <Spacer mt={Space * 2} />
       {userData && (
