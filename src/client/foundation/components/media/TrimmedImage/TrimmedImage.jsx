@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const Image = styled.img`
   width: ${({ $width }) => $width}px;
+  height: ${({ $height }) => $height}px;
   object-fit: ${({ $fit }) => $fit};
-  aspect-ratio: ${({ $height, $width }) => `${$width} / ${$height}`};
 `;
 
 /**
