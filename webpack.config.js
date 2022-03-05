@@ -4,7 +4,7 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 // const BundleAnalyzerPlugin =
 //   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-// const ImageminWebpWebpackPlugin = require("imagemin-webp-webpack-plugin");
+const ImageminWebpWebpackPlugin = require("imagemin-webp-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -66,9 +66,9 @@ module.exports = [
       //   config: [
       //     {
       //       options: {
-      //         method: 6, // 0 (fastest) and 6 (slowest).
-      //         quality: 10, // 画質
-      //         size: 50, //
+      //         method: 0, // 0 (fastest) and 6 (slowest).
+      //         quality: 0, // 画質
+      //         size: 1, //
       //       },
       //       test: /\.(png|jpe?g)$/i, // 対象ファイル
       //     },
