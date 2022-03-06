@@ -12,12 +12,12 @@ export const spaRoute = async (fastify) => {
     lastModified: true,
     maxAge: 604800 * 1000,
     root: join(__dirname, "public"),
-    setHeaders: (res, path) => {
-      // Custom Cache-Control for HTML files
-      if (path.endsWith(".html")) {
-        res.setHeader("Cache-Control", "public, max-age=300, s-maxage=180");
-      }
-    },
+    // setHeaders: (res, path) => {
+    //   // Custom Cache-Control for HTML files
+    //   if (path.endsWith(".html")) {
+    //     res.setHeader("Cache-Control", "public, max-age=300, s-maxage=180");
+    //   }
+    // },
     wildcard: false,
   });
 
