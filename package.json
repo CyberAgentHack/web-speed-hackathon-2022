@@ -65,6 +65,7 @@
   "dependencies": {
     "@babel/runtime": "^7.17.2",
     "@fortawesome/fontawesome-free": "^5.15.4",
+    "@fortawesome/free-solid-svg-icons": "^6.0.0",
     "axios": "^0.25.0",
     "bezier-easing": "^2.1.0",
     "compression-webpack-plugin": "^9.2.0",

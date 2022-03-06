@@ -1395,10 +1395,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fortawesome/fontawesome-common-types@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@fortawesome/fontawesome-common-types@npm:0.3.0"
+  checksum: f08280e2e6c7df5cf2c80c88092828b367bb824ec21a6ba0e5d290ebf86038de166622152c8845a0aeaeff70bd54df7af17f1ef26dea7b832fdebdcc37412c37
+  languageName: node
+  linkType: hard
+
 "@fortawesome/fontawesome-free@npm:^5.15.4":
   version: 5.15.4
   resolution: "@fortawesome/fontawesome-free@npm:5.15.4"
   checksum: 32281c3df4075290d9a96dfc22f72fadb3da7055d4117e48d34046b8c98032a55fa260ae351b0af5d6f6fb57a2f5d79a4abe52af456da35195f7cb7dda27b4a2
+  languageName: node
+  linkType: hard
+
+"@fortawesome/free-solid-svg-icons@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@fortawesome/free-solid-svg-icons@npm:6.0.0"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": ^0.3.0
+  checksum: af00e4245e20283f74c37e3c44a247d086ef54cd57e8e0b26178e82d4f400514e405dff6e6d0fd67d50be873180e41c5347f1baaee7a6506228f88390204064a
   languageName: node
   linkType: hard
 
@@ -10667,6 +10683,7 @@ __metadata:
     "@babel/preset-react": ^7.16.7
     "@babel/runtime": ^7.17.2
     "@fortawesome/fontawesome-free": ^5.15.4
+    "@fortawesome/free-solid-svg-icons": ^6.0.0
     "@stylelint/postcss-css-in-js": ^0.37.2
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
