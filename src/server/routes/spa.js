@@ -7,7 +7,11 @@ import fastifyStatic from "fastify-static";
  */
 export const spaRoute = async (fastify) => {
   // TODO: check index.html and index.js
-  //fastify.register(require("fastify-compress"));
+  fastify.register(require("fastify-compress"));
+
+  fastify.addHook("onRequest", async (req, res) => {
+    res.header("Cache-Control", "max-age=3600, must-revalidate");
+  })
 
   fastify.register(fastifyStatic, {
     root: join(__dirname, "public"),
