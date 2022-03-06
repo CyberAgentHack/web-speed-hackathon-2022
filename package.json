@@ -66,7 +66,6 @@
     "bezier-easing": "^2.1.0",
     "compression-webpack-plugin": "^9.2.0",
     "es5-shim": "^4.6.5",
-    "es6-shim": "^0.35.6",
     "es7-shim": "^6.0.0",
     "fastify": "^3.25.3",
     "fastify-compress": "^4.0.1",

@@ -42,7 +42,7 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
+                    modules: "esm",
                     spec: true,
                   },
                 ],
@@ -92,7 +92,7 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
+                    modules: "esm",
                     spec: true,
                   },
                 ],
