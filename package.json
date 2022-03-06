@@ -90,8 +90,5 @@
     "styled-components": "^5.3.3",
     "typeorm": "^0.2.44",
     "uuid": "^8.3.2"
-  },
-  "engines": {
-    "node": "16.x.x"
   }
 }

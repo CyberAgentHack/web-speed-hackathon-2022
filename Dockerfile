@@ -1,4 +1,4 @@
-FROM node:16.13.1 AS builder
+FROM node:14-alpine AS builder
 
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 
@@ -13,10 +13,9 @@ ARG COMMIT_HASH
 ENV COMMIT_HASH $COMMIT_HASH
 
 RUN yarn
-RUN yarn clean
 RUN yarn build
 
-FROM node:16.13.1
+FROM node:14-alpine
 
 COPY ./public ./public
 COPY ./package.json ./package.json
