@@ -4,7 +4,10 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 const webpack = require('webpack');
+
 const CompressionPlugin = require("compression-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -15,17 +18,16 @@ const PUBLIC_ROOT = abs("./public");
 const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
 
-console.log("process env ", process.env.NODE_ENV)
-
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
     optimization: {
-      minimize: true
+      minimize: true,
+      minimizer: [new TerserPlugin()],
     },
-    devtool: "inline-source-map",
+    // devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
@@ -61,13 +63,14 @@ module.exports = [
       path: DIST_PUBLIC,
     },
     plugins: [
+      new BundleAnalyzerPlugin(),
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
       new webpack.DefinePlugin({
         process: {
           env: {
-            "NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+            "NODE_ENV": JSON.stringify('production')
           }
         },
       }),

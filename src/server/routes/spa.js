@@ -32,7 +32,7 @@ export const spaRoute = async (fastify) => {
   // });
 
   fastify.get("/main.js", async (_req, reply) => {
-    // reply.header("Cache-Control", "1000");
+    reply.header("Cache-Control", "max-age=1000");
     reply.header("Content-Encoding", "gzip");
     return reply.sendFile("main.js.gz", join(__dirname, "public"));
   });

@@ -7,4 +7,4 @@ import { App } from "./foundation/App";
 
 const root = document.getElementById("root");
 // ReactDOM.hydrate(<App />, root);
-ReactDOM.render(<App />, root);
+ReactDOM.render(<App ></App>, root);

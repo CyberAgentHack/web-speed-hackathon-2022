@@ -68,6 +68,10 @@ function main() {
     const src = PLAYERS_IMAGE_DIR + file
     const imageData = fs.readFileSync(src)
     sharp(imageData)
+      .resize(400)
+      .webp({
+        quality: 30
+      })
       .toFile(src+".webp");
     // const resizedData = resizeImage(imageData, player_width, player_height)
 
@@ -81,6 +85,10 @@ function main() {
     const src = RACE_IMAGE_DIR + file
     const imageData = fs.readFileSync(src)
     sharp(imageData)
+      .resize(400)
+      .webp({
+        quality: 30
+      })
       .toFile(src + ".webp");
     // const resizedData = resizeImage(imageData, player_width, player_height)
 
