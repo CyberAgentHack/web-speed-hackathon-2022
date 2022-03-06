@@ -17,8 +17,10 @@ import { jsonFetcher } from "../../../utils/HttpUtils";
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
 import { TicketVendingModal } from "./internal/TicketVendingModal";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import IcoMoon from "react-icomoon";
+import iconSet from "./selection.json";
+
+const Icon = (props) => <IcoMoon iconSet={iconSet} {...props} />;
 
 const LiveBadge = styled.span`
   background: ${Color.red};
@@ -113,7 +115,7 @@ export const Odds = () => {
         <Spacer mt={Space * 4} />
 
         <Callout $closed={isRaceClosed}>
-          <FontAwesomeIcon icon={faInfoCircle} />
+          <Icon icon="info-circle" size={20} />
           {isRaceClosed
             ? "このレースの投票は締め切られています"
             : "オッズをクリックすると拳券が購入できます"}
