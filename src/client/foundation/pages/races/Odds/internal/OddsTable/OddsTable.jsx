@@ -1,10 +1,13 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
+import { Container } from "../../../../../components/layouts/Container";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useFetch } from "../../../../../hooks/useFetch";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const ScrollWrapper = styled.div`
@@ -117,12 +120,21 @@ const without = (arr, ...args) => arr.filter(item => !args.includes(item))
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, oddsMap, firstKey, setFK, onClickOdds }) => {
+export const OddsTable = ({ entries, isRaceClosed, raceId, onClickOdds }) => {
+  const [firstKey, setFk] = useState(1);
+  const [oddsMap, setOdds] = useState(null);
   const handleChange = useCallback((e) => {
-    setFK(parseInt(e.currentTarget.value, 10));
+    setFk(parseInt(e.currentTarget.value, 10));
+    setOdds(null);
   }, []);
 
   const headNumbers = without(range(1, entries.length + 1), firstKey);
+
+  const odd = useFetch(`/api/races/${raceId}/${firstKey}`, jsonFetcher)
+
+  useEffect(() => {
+    setOdds(odd.data)
+  }, [odd.data])
 
   return (
     <div>
@@ -155,7 +167,7 @@ export const OddsTable = ({ entries, isRaceClosed, oddsMap, firstKey, setFK, onC
             </thead>
 
             <tbody>
-              {headNumbers.map((third, i) => (
+              {!oddsMap ? <Container>Loading...</Container> : headNumbers.map((third, i) => (
                 <tr key={third}>
                   {i === 0 && <th rowSpan={headNumbers.length}>3位</th>}
 

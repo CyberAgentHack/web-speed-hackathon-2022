@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
+import { Container } from "../../../../../components/layouts/Container";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useFetch } from "../../../../../hooks/useFetch";
 import { BreakPoint, Color, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const Wrapper = styled.ol`
@@ -63,10 +66,15 @@ const RankNo = styled.div`
  * @property {(odds: Model.OddsItem) => void} onClickOdds
  */
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, ranking, onClickOdds }) => {
+export const OddsRankingList = ({ isRaceClosed, raceId, onClickOdds }) => {
+  const rank = useFetch(`/api/races/${raceId}/ranking`, jsonFetcher)
+  const [ranking, setRanking] = useState(null);
+  useEffect(() => {
+    setRanking(rank.data)
+  }, [rank.data])
   return (
     <Wrapper>
-      {ranking.map((item, i) => (
+      {!ranking ? <Container>Loading...</Container> : ranking.map((item, i) => (
         <li key={item.id}>
           {isRaceClosed ? (
             <InactiveBuyButton>

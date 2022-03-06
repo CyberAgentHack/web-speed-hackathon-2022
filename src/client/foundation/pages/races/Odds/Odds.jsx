@@ -49,23 +49,7 @@ export const Odds = () => {
   const { data } = useFetch(`/api/races/${raceId}/small`, jsonFetcher);
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
-  const [ranking, setRanking] = useState(null);
-  const [odds, setOdds] = useState(null);
-  const [fk, setFk] = useState(1);
-  const rank = useFetch(`/api/races/${raceId}/ranking`, jsonFetcher)
-  const odd = useFetch(`/api/races/${raceId}/${fk}`, jsonFetcher)
-  useEffect(() => {
-    setRanking(rank.data)
-  }, [rank.data])
-  useEffect(() => {
-    setOdds(odd.data)
-  }, [odd.data])
-  const setFirstKey = useCallback((key) => {
-    if (key !== fk) {
-      setFk(key)
-      setOdds(null);
-    }
-  })
+
 
 
   const handleClickOdds = useCallback(
@@ -125,24 +109,22 @@ export const Odds = () => {
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        {odds ? <OddsTable
+        <OddsTable
           entries={data.entries}
           isRaceClosed={isRaceClosed}
-          setFK={setFirstKey}
-          oddsMap={odds}
           onClickOdds={handleClickOdds}
-          firstKey={fk}
-        /> : <Container>Loading...</Container>}
+          raceId={raceId}
+        />
 
         <Spacer mt={Space * 4} />
         <Heading as="h2">人気順</Heading>
 
         <Spacer mt={Space * 2} />
-        {ranking ? <OddsRankingList
+        <OddsRankingList
           isRaceClosed={isRaceClosed}
-          ranking={ranking}
+          raceId={raceId}
           onClickOdds={handleClickOdds}
-        /> : <Container>Loading...</Container>}
+        />
       </Section>
 
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
