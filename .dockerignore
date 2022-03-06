@@ -10,7 +10,6 @@
 Dockerfile
 docs
 heroku.yml
-nginx.conf
 node_modules
 Procfile
 README.md
