@@ -18,6 +18,7 @@ import { Heading } from "../../components/typographies/Heading";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
+import { useFetch2 } from "../../hooks/useFetch2";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
@@ -96,8 +97,6 @@ function useTodayRacesWithAnimation(races) {
   return racesToShow;
 }
 
-const UNIXTIME_PER_DAY = 86400;
-
 /** @type {React.VFC} */
 export const Top = () => {
   const [ChargeDialog, setChargeDialog] = useState();
@@ -120,21 +119,9 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const todayUnixTime = useMemo(() => {
-    const date = new Date();
-    date.setHours(0);
-    date.setMinutes(0);
-    date.setSeconds(0);
+  const { data: raceData } = useFetch2(`/api/races`, jsonFetcher);
 
-    return Math.floor(date.getTime() / 1000);
-  }, []);
-
-  const { data: raceData } = useFetch(
-    `/api/races?since=${todayUnixTime}&until=${
-      todayUnixTime + UNIXTIME_PER_DAY
-    }`,
-    jsonFetcher,
-  );
+  console.log({ raceData });
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
