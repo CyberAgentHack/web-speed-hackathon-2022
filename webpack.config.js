@@ -20,7 +20,7 @@ module.exports = [
   {
     // devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "develop",
+    mode: "development",
     module: {
       rules: [
         {
@@ -77,7 +77,7 @@ module.exports = [
     // devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
-    mode: "develop",
+    mode: "development",
     module: {
       rules: [
         {
