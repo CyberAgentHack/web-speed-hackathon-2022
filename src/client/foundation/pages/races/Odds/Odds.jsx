@@ -40,7 +40,7 @@ const Callout = styled.aside`
 `;
 
 /** @type {React.VFC} */
-export const Odds = React.memo(() => {
+export const Odds = () => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
@@ -124,4 +124,4 @@ export const Odds = React.memo(() => {
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
     </Container>
   );
-});
+};

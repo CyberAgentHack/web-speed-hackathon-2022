@@ -1,14 +1,23 @@
 import * as React from "react";
+import loadable from '@loadable/component'
 import { Route, Routes as RouterRoutes } from "react-router-dom";
-
 import { CommonLayout } from "./layouts/CommonLayout";
-import { Top } from "./pages/Top";
-import { Odds } from "./pages/races/Odds";
-import { RaceCard } from "./pages/races/RaceCard";
-import { RaceResult } from "./pages/races/RaceResult";
+
+const Top = loadable(() => import("./pages/Top"), {
+  resolveComponent: (Top) => Top.Top,
+})
+const Odds = loadable(() => import("./pages/races/Odds"), {
+  resolveComponent: (Odds) => Odds.Odds,
+})
+const RaceCard = loadable(() => import("./pages/races/RaceCard"), {
+  resolveComponent: (RaceCard) => RaceCard.RaceCard, 
+})
+const RaceResult = loadable(() => import("./pages/races/RaceResult"), {
+  resolveComponent: (RaceResult) => RaceResult.RaceResult,
+})
 
 /** @type {React.VFC} */
-export const Routes = React.memo(() => {
+export const Routes = () => {
   return (
     <RouterRoutes>
       <Route element={<CommonLayout />} path="/">
@@ -22,4 +31,4 @@ export const Routes = React.memo(() => {
       </Route>
     </RouterRoutes>
   );
-});
+};
