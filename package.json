@@ -32,7 +32,6 @@
     "@types/styled-components": "^5.1.19",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
-    "babel-loader": "^8.2.3",
     "copy-webpack-plugin": "^10.2.0",
     "csstype": "^3.0.10",
     "eslint": "^8.10.0",

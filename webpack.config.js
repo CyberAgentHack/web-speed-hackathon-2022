@@ -30,25 +30,25 @@ module.exports = [
           },
           type: "asset/source",
         },
-        {
-          exclude: /\/esm\//,
-          test: /\.jsx?$/,
-          use: {
-            loader: "babel-loader",
-            options: {
-              presets: [
-                [
-                  "@babel/preset-env",
-                  {
-                    modules: "cjs",
-                    spec: true,
-                  },
-                ],
-                "@babel/preset-react",
-              ],
-            },
-          },
-        },
+        // {
+        //   exclude: /\/esm\//,
+        //   test: /\.jsx?$/,
+        //   use: {
+        //     loader: "babel-loader",
+        //     options: {
+        //       presets: [
+        //         [
+        //           "@babel/preset-env",
+        //           {
+        //             modules: "cjs",
+        //             spec: true,
+        //           },
+        //         ],
+        //         "@babel/preset-react",
+        //       ],
+        //     },
+        //   },
+        // },
       ],
     },
     name: "client",
