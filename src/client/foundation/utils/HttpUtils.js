@@ -1,9 +1,13 @@
 import axios from "axios";
-
 export const jsonFetcher = async (/** @type {string} */ url) => {
-  const res = await axios.get(url, { responseType: "json" });
-  // const res = await (await fetch(url, { responseType: "json" })).json();
-  return res.data;
+  // const res = await axios.get(url, { responseType: "json" });
+  const res = await fetch(url, { responseType: "json" })
+  // console.log(res)
+  if (res.ok) {
+    const text = await res.text();
+    return JSON.parse(text || "null")
+  }
+  return null
 };
 
 /**

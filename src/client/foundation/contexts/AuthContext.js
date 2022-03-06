@@ -48,8 +48,13 @@ export const useRegister = () => {
   const { setUserId } = useContext(AuthContext);
 
   const register = useCallback(async () => {
-    const res = await axios.get("/api/users/me");
-    setUserId(res.data.id);
+    // const res = await axios.get("/api/users/me");
+    const res = await fetch("/api/users/me")
+    if (res.ok) {
+      const text = await res.text();
+      const data = JSON.parse(text || "null")
+      if (data != null) setUserId(data.id);
+    }
   }, [setUserId]);
 
   return register;

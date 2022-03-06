@@ -38,8 +38,7 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.addHook("onRequest", async (req, res) => {
-  // res.header("Cache-Control", "no-cache, no-store, no-transform");
-  res.header("Cache-Control", "public, max-age=604800, immutable");
+  res.header("Cache-Control", "no-cache, no-store, no-transform");
   // res.header("Connection", "close");
 });
 

@@ -44,16 +44,27 @@ export function useMutation(apiPath, { auth, method }) {
       }));
 
       try {
+        console.log(data)
         const res = await axios.request({
           data,
           headers: auth
             ? {
-                "x-app-userid": userId,
-              }
+              "x-app-userid": userId,
+            }
             : {},
           method,
           url: apiPath,
         });
+
+        // const res = await fetch(apiPath, {
+        //   body: JSON.stringify(data),
+        //   headers: auth
+        //     ? {
+        //       "x-app-userid": userId,
+        //     }
+        //     : {},
+        //   method: method
+        // });
 
         setResult((cur) => ({
           ...cur,

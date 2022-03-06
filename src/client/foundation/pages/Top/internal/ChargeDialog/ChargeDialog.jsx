@@ -86,7 +86,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     if (data == null || data == '') {
       return undefined
     }
-    console.log(data)
+    // console.log(data)
     return data
   }
 

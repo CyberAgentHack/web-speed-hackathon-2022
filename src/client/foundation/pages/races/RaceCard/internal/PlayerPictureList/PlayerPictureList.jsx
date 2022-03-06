@@ -34,7 +34,7 @@ const Item = ({ image, name, number }) => {
         src={image}
         width={100}
       /> */}
-      <img alt={`${name}選手のプロフィール写真`} src={`${image.slice(0, -5)}-${100}_${100}.webp`} width={100} />;
+      <img alt={`${name}選手のプロフィール写真`} src={`${image.slice(0, -5)}-${100}_${100}.webp`} width={100} />
 
 
       <Stack horizontal alignItems="center" gap={Space / 2} wrap="wrap">
