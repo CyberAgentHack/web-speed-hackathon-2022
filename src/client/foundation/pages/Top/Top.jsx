@@ -1,57 +1,52 @@
-import { endOfDay, parse, startOfDay } from "date-fns";
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import useSWR from "swr";
 
 import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
-import { useFetch } from "../../hooks/useFetch";
+import { useLaterFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
+import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
-/**
- * @param {Model.Race[]} todayRaces
- * @returns {string | null}
- */
-function useHeroImage(todayRaces) {
-  const firstRaceId = todayRaces[0]?.id;
-  const url =
-    firstRaceId !== undefined
-      ? `/api/hero?firstRaceId=${firstRaceId}`
-      : "/api/hero";
-  const { data } = useFetch(url, jsonFetcher);
+const formatDate = (date) => {
+  return `
+    ${date.getFullYear()}-${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}
+  `.replace(/\n|\r| /g, "");
+};
 
-  if (firstRaceId === undefined || data === null) {
-    return null;
-  }
-
-  const imageUrl = `${data.url}?${data.hash}`;
-  return imageUrl;
-}
-
-const ChargeButton = styled.button`
-  background: ${Color.mono[700]};
-  border-radius: ${Radius.MEDIUM};
-  color: ${Color.mono[0]};
-  padding: ${Space * 1}px ${Space * 2}px;
-
-  &:hover {
-    background: ${Color.mono[800]};
-  }
-`;
+const mockRace = {
+  closeAt: new Date(),
+  id: "1",
+  image: "",
+  name: "Loading...",
+};
 
 /** @type {React.VFC} */
 export const Top = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const date = useParams().date ? parse(useParams().date, "yyyy-MM-dd", new Date()) : new Date();
+  const { date = formatDate(new Date()) } = useParams();
+  const todayUnix = Date.parse(date) / 1000 - 60 * 60 * 9;
+  const tomorrowUnix = todayUnix + 24 * 60 * 60;
+
+  const ChargeButton = styled.button`
+    background: ${Color.mono[700]};
+    border-radius: ${Radius.MEDIUM};
+    color: ${Color.mono[0]};
+    padding: ${Space * 1}px ${Space * 2}px;
+
+    &:hover {
+      background: ${Color.mono[800]};
+    }
+  `;
 
   const chargeDialogRef = useRef(null);
 
@@ -60,7 +55,10 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useSWR(`/api/races?since=${Math.round(startOfDay(date) / 1000)}&until=${Math.round(endOfDay(date) / 1000)}`, jsonFetcher);
+  const { data: raceData } = useLaterFetch(
+    `/api/races/${todayUnix}/${tomorrowUnix}/data`,
+    jsonFetcher,
+  );
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -74,20 +72,21 @@ export const Top = () => {
     revalidate();
   }, [revalidate]);
 
-  const todayRaces = useMemo(
-    () => (raceData != null
+  const todayRaces =
+    raceData != null
       ? [...raceData.races]
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              new Date(a.startAt) - new Date(b.startAt),
+              Date.parse(a.startAt) - Date.parse(b.startAt),
           )
-      : []), [raceData]);
-
-  const heroImageUrl = useHeroImage(todayRaces);
+          .filter((/** @type {Model.Race} */ race) =>
+            isSameDay(race.startAt, date),
+          )
+      : [];
 
   return (
     <Container>
-      <HeroImage url={heroImageUrl ?? ""} />
+      <HeroImage url="/assets/images/hero.webp" />
 
       <Spacer mt={Space * 2} />
       {userData && (
@@ -107,11 +106,20 @@ export const Top = () => {
       <section>
         <Heading as="h1">本日のレース</Heading>
         <RecentRaceList>
-          {todayRaces.map((race, i) => <RecentRaceList.Item key={race.id} delay={i * 100} race={race} />)}
+          {(raceData != null ? todayRaces : [...Array(24).keys()]).map(
+            (race, index) => (
+              <RecentRaceList.Item
+                key={race.id ?? index}
+                delay={index * 100}
+                race={todayRaces.length > 0 ? race : mockRace}
+              />
+            ),
+          )}
         </RecentRaceList>
       </section>
-
-      {userData && (<ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />)}
+      {userData && (
+        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      )}
     </Container>
   );
 };

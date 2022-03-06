@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import useSWR from "swr";
 
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
@@ -10,6 +9,7 @@ import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../../hooks/useAuthorizedFetch";
+import { useLaterFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../../utils/HttpUtils";
@@ -29,7 +29,7 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceResult = () => {
   const { raceId } = useParams();
-  const { data } = useSWR(`/api/races/${raceId}/subset`, jsonFetcher);
+  const { data } = useLaterFetch(`/api/races/${raceId}/entry`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher,
@@ -38,9 +38,10 @@ export const RaceResult = () => {
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data?.name ?? "読み込み中"}</Heading>
+      <Heading as="h1">{data ? data.name : "Loading..."}</Heading>
       <p>
-        {data ? <>開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}</> : "読み込み中"}
+        開始 {data ? formatTime(data.startAt) : "0:00"} 締切{" "}
+        {data ? formatTime(data.closeAt) : "0:00"}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -48,7 +49,7 @@ export const RaceResult = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data ? `${data.image}_small.avif` : undefined} width={400} />
+        <TrimmedImage height={225} src={data ? data.image : ""} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />

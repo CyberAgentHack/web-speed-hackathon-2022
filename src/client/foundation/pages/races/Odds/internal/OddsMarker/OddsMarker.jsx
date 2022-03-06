@@ -12,14 +12,10 @@ const Wrapper = styled.span`
 
 /**
  * @typedef Props
- * @property {number | undefined} odds
+ * @property {number} odds
  */
 
 /** @type {React.FC<Props>} */
 export const OddsMarker = ({ odds }) => {
-  if (odds === undefined) {
-    return <Wrapper $odds={1000}>{" "}</Wrapper>
-  } else {
-    return <Wrapper $odds={odds}> {odds.toFixed(1)}</Wrapper>;
-  }
+  return <Wrapper $odds={odds}> {odds?.toFixed(1)}</Wrapper>;
 };

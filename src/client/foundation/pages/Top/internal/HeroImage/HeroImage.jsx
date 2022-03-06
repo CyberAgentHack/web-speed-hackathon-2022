@@ -1,11 +1,11 @@
-import React, { memo } from "react";
+import React from "react";
 import styled from "styled-components";
 
-
-const Picture = styled.picture`
+const Image = styled.img`
   display: block;
   margin: 0 auto;
-  aspect-ratio: 4320 / 3099;
+  aspect-ratio: 1024 / 735;
+  height: auto;
 `;
 
 /**
@@ -15,17 +15,6 @@ const Picture = styled.picture`
  */
 
 /** @type {React.VFC<Props>} */
-// eslint-disable-next-line react/display-name
-export const HeroImage = memo(({ url }) => {
-  const smaller = (suffix) => {
-    return url.replace(".jpg", `.jpg_${suffix}.avif`);
-  }
-
-  return (
-    <Picture alt="" src={url}>
-        <source media="(max-width: 600px)" srcSet={smaller("small")} />
-        <source media="(min-width: 601px)" srcSet={smaller("1024")} />
-        <img alt="" src={url} />
-    </Picture>
-  )
-});
+export const HeroImage = ({ url }) => {
+  return <Image alt="" src={url} width="1024" />;
+};
