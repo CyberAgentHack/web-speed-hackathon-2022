@@ -46,63 +46,6 @@ export const apiRoute = async (fastify) => {
     res.send({ hash, url });
   });
 
-  fastify.get("/todaysRaces", async (req, res) => {
-    const since =
-      req.query.since != null ? moment.unix(req.query.since) : undefined;
-    const until =
-      req.query.until != null ? moment.unix(req.query.until) : undefined;
-
-    if (since != null && !since.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
-    if (until != null && !until.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
-
-    const repo = (await createConnection()).getRepository(Race);
-
-    const where = {};
-    if (since != null && until != null) {
-      Object.assign(where, {
-        startAt: Between(
-          since.utc().format("YYYY-MM-DD HH:mm:ss"),
-          until.utc().format("YYYY-MM-DD HH:mm:ss"),
-        ),
-      });
-    } else if (since != null) {
-      Object.assign(where, {
-        startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
-      });
-    } else if (until != null) {
-      Object.assign(where, {
-        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
-      });
-    }
-
-    const races = await repo.find({
-      where,
-    });
-
-    const date = moment().format("YYYY-MM-DD");
-    const isSameDay = (dateLeft, dateRight) => {
-      return moment(dateLeft).isSame(moment(dateRight), "day");
-    };
-
-    const todayRaces =
-      races != null
-        ? [...races]
-            .sort(
-              (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-                moment(a.startAt) - moment(b.startAt),
-            )
-            .filter((/** @type {Model.Race} */ race) =>
-              isSameDay(race.startAt, date),
-            )
-        : [];
-
-    res.send({ races: todayRaces });
-  });
-
   fastify.get("/races", async (req, res) => {
     const since =
       req.query.since != null ? moment.unix(req.query.since) : undefined;
