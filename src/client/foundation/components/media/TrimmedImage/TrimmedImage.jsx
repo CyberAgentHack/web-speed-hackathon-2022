@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const Img = styled.img`
   aspect-ratio: ${({ $height, $width }) => `${$width} / ${$height}`};
   height: auto;
+  object-fit: ${({ $fit }) => $fit};
 `;
 /**
  * @typedef Props
@@ -14,33 +15,41 @@ const Img = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
-  const [dataUrl, setDataUrl] = useState(null);
+  // const [dataUrl, setDataUrl] = useState(null);
+  const imgsrc = src.replace(".jpg", ".webp");
+  const fit = width <= height ? "cover" : "contain";
 
-  useEffect(() => {
-    const img = new Image();
-    const imgsrc = src.replace(".jpg", ".webp");
-    img.src = imgsrc;
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
+  // useEffect(() => {
+  //   const img = new Image();
 
-      const isWidthSmaller = img.width <= img.height;
-      const ratio = isWidthSmaller ? width / img.width : height / img.height;
+  //   img.src = imgsrc;
+  //   img.onload = () => {
+  //     const canvas = document.createElement("canvas");
+  //     canvas.width = width;
+  //     canvas.height = height;
 
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(
-        img,
-        -(img.width * ratio - width) / 2,
-        -(img.height * ratio - height) / 2,
-        img.width * ratio,
-        img.height * ratio,
-      );
-      setDataUrl(canvas.toDataURL());
-    };
-  }, [height, src, width]);
+  //     const isWidthSmaller = img.width <= img.height;
+  //     const ratio = isWidthSmaller ? width / img.width : height / img.height;
+
+  //     const ctx = canvas.getContext("2d");
+  //     ctx.drawImage(
+  //       img,
+  //       -(img.width * ratio - width) / 2,
+  //       -(img.height * ratio - height) / 2,
+  //       img.width * ratio,
+  //       img.height * ratio,
+  //     );
+  //     setDataUrl(canvas.toDataURL());
+  //   };
+  // }, [height, src, width]);
 
   return (
-    <Img $height={height} $width={width} src={dataUrl} width={width}></Img>
+    <Img
+      $fit={fit}
+      $height={height}
+      $width={width}
+      src={imgsrc}
+      width={width}
+    ></Img>
   );
 };
