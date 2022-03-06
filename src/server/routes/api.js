@@ -1,4 +1,5 @@
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import zenginCode from "zengin-code";
 
 import { getUTCFormatString } from "../../client/foundation/utils/DateUtils";
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
@@ -209,5 +210,28 @@ export const apiRoute = async (fastify) => {
   fastify.post("/initialize", async (_req, res) => {
     await initialize();
     res.status(204).send();
+  });
+
+  fastify.get("/banks", async (_req, res) => {
+    const banks = Object.keys(zenginCode).reduce((prev, curr) => {
+      return [
+        ...prev,
+        { code: zenginCode[curr].code, name: zenginCode[curr].name },
+      ];
+    }, []);
+
+    res.send({ banks });
+  });
+
+  fastify.get("/banks/:bankCode", async (req, res) => {
+    const bankCode = req.params.bankCode;
+
+    if (bankCode == null) {
+      throw fastify.httpErrors.badRequest();
+    }
+
+    const targetBank = zenginCode[bankCode];
+
+    res.send({ branches: targetBank.branches });
   });
 };
