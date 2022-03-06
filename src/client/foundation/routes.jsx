@@ -2,8 +2,7 @@ import React, { Suspense } from "react";
 import { Route, Routes as RouterRoutes } from "react-router-dom";
 
 import { CommonLayout } from "./layouts/CommonLayout";
-
-import Top from "./pages/Top";
+const Top = React.lazy(() => import("./pages/Top"));
 import Odds from "./pages/races/Odds";
 const RaceCard = React.lazy(() => import("./pages/races/RaceCard"));
 const RaceResult = React.lazy(() => import("./pages/races/RaceResult"));
