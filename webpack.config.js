@@ -35,7 +35,7 @@ module.exports = [
           type: "asset/source",
         },
         {
-          exclude: /(\/esm\/|node_modules)/,
+          exclude: /(\/esm\/|node_modules|original)/,
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
