@@ -1,6 +1,7 @@
 import _ from "lodash";
 import moment from "moment-timezone";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+// import {useQuery} from 'react-query'
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -88,8 +89,9 @@ function useHeroImage(todayRaces) {
       ? `/api/hero?firstRaceId=${firstRaceId}`
       : "/api/hero";
   const { data } = useFetch(url, jsonFetcher);
+  // const { data, isLoading } = useQuery(url, jsonFetcher);
 
-  if (firstRaceId === undefined || data === null) {
+  if (firstRaceId === undefined || data == null) {
     return null;
   }
 
@@ -120,6 +122,7 @@ export const Top = () => {
   );
 
   const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  // const { data: raceData } = useQuery("/api/races", jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {

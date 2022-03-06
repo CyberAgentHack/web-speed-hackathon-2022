@@ -1,4 +1,5 @@
 import React from "react";
+// import {useQuery} from 'react-query'
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -30,6 +31,7 @@ const LiveBadge = styled.span`
 export const RaceResult = () => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  // const { data } = useQuery(`/api/races/${raceId}`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher,

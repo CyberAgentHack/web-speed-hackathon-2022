@@ -1,5 +1,6 @@
 import moment from "moment-timezone";
 import React, { useCallback, useRef, useState } from "react";
+// import {useQuery} from 'react-query'
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -43,6 +44,7 @@ const Callout = styled.aside`
 export const Odds = () => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  // const {data, isLoading} = useQuery(`/api/races/${raceId}`, jsonFetcher)
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 

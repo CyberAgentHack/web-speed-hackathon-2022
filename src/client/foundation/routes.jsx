@@ -9,10 +9,11 @@ import { RaceResult } from "./pages/races/RaceResult";
 
 /** @type {React.VFC} */
 export const Routes = () => {
+
   return (
     <RouterRoutes>
       <Route element={<CommonLayout />} path="/">
-        <Route index element={<Top />} />
+        <Route index element={<Top />}/>
         <Route element={<Top />} path=":date" />
         <Route path="races/:raceId">
           <Route element={<RaceCard />} path="race-card" />

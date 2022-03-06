@@ -1,4 +1,5 @@
 import React from "react";
+// import {useQuery} from 'react-query'
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -28,6 +29,7 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceCard = () => {
   const { raceId } = useParams();
+  // const {data, isLoading} = useQuery(`/api/races/${raceId}`, jsonFetcher)
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
 
   if (data == null) {
