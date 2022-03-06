@@ -151,11 +151,7 @@ export const Top = () => {
     <Container>
       <picture>
         {heroImageUrl !== null && (
-          <HeroImage
-            url={heroImageUrl}
-            alt={"CyberTicketトップ画像"}
-            loading="lazy"
-          />
+          <HeroImage url={heroImageUrl} loading="lazy" />
         )}
       </picture>
 

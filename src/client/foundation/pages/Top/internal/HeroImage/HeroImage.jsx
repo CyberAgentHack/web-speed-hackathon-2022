@@ -14,5 +14,5 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
-  return <Image src={url} />;
+  return <Image src={url} alt="CyberTicketトップ画像" />;
 };
