@@ -66,7 +66,13 @@ const RankNo = styled.div`
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
   // oddsでソートした後に前から50個とってくる
-  const sortedOdds = odds.sort((a, b) => (a.odds === b.odds) ? a.id < b.id : a.odds - b.odds).slice(0, 50);
+  const sortedOdds = odds.sort((a, b) => {
+    if (a.odds < b.odds) return -1;
+    if (a.odds > b.odds) return 1;
+    if (a.id < b.id) return -1;
+    if (a.id > b.id) return 1;
+    return 0;
+  }).slice(0, 50);
 
   return (
     <Wrapper>
