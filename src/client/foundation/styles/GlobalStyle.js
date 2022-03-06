@@ -27,6 +27,6 @@ export const GlobalStyle = createGlobalStyle`
     font-family: "Senobi-Gothic";
     font-weight: bold;
     font-display: swap;
-    src: url("/assets/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Bold.woff2") format("truetype");
+    src: url("/assets/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Bold-Subset-Numbers.woff2") format("woff2");
   }
 `;
