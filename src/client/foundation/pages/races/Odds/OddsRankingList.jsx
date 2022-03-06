@@ -2,10 +2,10 @@ import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
 
-import { BaseButton } from "../../../../components/buttons/BaseButton";
-import { EntryCombination } from "../../../../components/displays/EntryCombination";
-import { Stack } from "../../../../components/layouts/Stack";
-import { BreakPoint, Color, Space } from "../../../../styles/variables";
+import { BaseButton } from "../../../components/buttons/BaseButton";
+import { EntryCombination } from "../../../components/displays/EntryCombination";
+import { Stack } from "../../../components/layouts/Stack";
+import { BreakPoint, Color, Space } from "../../../styles/variables";
 
 import { OddsMarker } from "./OddsMarker";
 

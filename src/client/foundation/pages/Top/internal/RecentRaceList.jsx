@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { LinkButton } from "../../../components/buttons/LinkButton";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Stack } from "../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
@@ -24,6 +24,10 @@ const ItemWrapper = styled.li`
   border-radius: ${Radius.MEDIUM};
   opacity: ${({ $opacity }) => $opacity};
   padding: ${Space * 3}px;
+`;
+
+const LinkButton = styled(Link)`
+  display: block;
 `;
 
 const RaceButton = styled(LinkButton)`

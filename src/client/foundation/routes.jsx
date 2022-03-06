@@ -3,7 +3,7 @@ import { Route, Routes as RouterRoutes } from "react-router-dom";
 
 import { CommonLayout } from "./layouts/CommonLayout";
 import { Top } from "./pages/Top";
-import { RaceHome } from "./pages/races/RaceTop";
+import { RaceHome } from "./pages/races";
 
 /** @type {React.VFC} */
 export const Routes = () => {

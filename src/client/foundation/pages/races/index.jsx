@@ -3,24 +3,25 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import { Container } from "../../../components/layouts/Container";
-import { Section } from "../../../components/layouts/Section";
-import { Spacer } from "../../../components/layouts/Spacer";
-import { Stack } from "../../../components/layouts/Stack";
-import { TrimmedImage } from "../../../components/media/TrimmedImage";
-import { Heading } from "../../../components/typographies/Heading.jsx";
-import { useAuthorizedFetch } from "../../../hooks/useAuthorizedFetch";
-import { useFetch } from "../../../hooks/useFetch";
-import { BreakPoint, Color, Radius, Space } from "../../../styles/variables";
-import { formatTime } from "../../../utils/DateUtils";
-import { authorizedJsonFetcher, jsonFetcher } from "../../../utils/HttpUtils";
-import { OddsRankingList } from "../Odds/internal/OddsRankingList";
-import { OddsTable } from "../Odds/internal/OddsTable";
-import { TicketVendingModal } from "../Odds/internal/TicketVendingModal";
-import { EntryTable } from "../RaceCard/internal/EntryTable";
-import { PlayerPictureList } from "../RaceCard/internal/PlayerPictureList";
-import { BettingTicketList } from "../RaceResult/internal/BettingTicketList";
-import { RaceResultSection } from "../RaceResult/internal/RaceResultSection";
+import { Container } from "../../components/layouts/Container";
+import { Section } from "../../components/layouts/Section";
+import { Spacer } from "../../components/layouts/Spacer";
+import { Stack } from "../../components/layouts/Stack";
+import { TrimmedImage } from "../../components/media/TrimmedImage";
+import { Heading } from "../../components/typographies/Heading.jsx";
+import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
+import { useFetch } from "../../hooks/useFetch";
+import { BreakPoint, Color, Radius, Space } from "../../styles/variables";
+import { formatTime } from "../../utils/DateUtils";
+import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
+
+import { OddsRankingList } from "./Odds/OddsRankingList";
+import { OddsTable } from "./Odds/OddsTable";
+import { TicketVendingModal } from "./Odds/TicketVendingModal";
+import { EntryTable } from "./RaceCard/EntryTable";
+import { PlayerPictureList } from "./RaceCard/PlayerPictureList";
+import { BettingTicketList } from "./RaceResult/BettingTicketList";
+import { RaceResultSection } from "./RaceResult/RaceResultSection";
 
 const LiveBadge = styled.span`
   background: ${Color.red};

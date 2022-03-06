@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Color, FontSize, Space } from "../../../../styles/variables";
+import { Color, FontSize, Space } from "../../../styles/variables";
 
 const Wrapper = styled.div`
   align-items: center;
