@@ -1,7 +1,6 @@
 import { join } from "path";
 
 
-import fastifyCompress from "fastify-compress";
 import fastifyStatic from "fastify-static";
 
 /**
@@ -11,11 +10,6 @@ export const spaRoute = async (fastify) => {
   fastify.addHook("onRequest", async (req, res) => {
     res.header("Cache-Control", "max-age=3600, s-maxage=86400, public, immutable");
   });
-
-  fastify.register(
-    fastifyCompress,
-    { threshold: 2048 }
-  )
 
   fastify.register(fastifyStatic, {
     root: join(__dirname, "public"),

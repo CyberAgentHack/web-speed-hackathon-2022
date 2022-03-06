@@ -26,7 +26,8 @@ function useHeroImage(todayRaces) {
   const url =
     firstRaceId !== undefined
       ? `/api/hero?firstRaceId=${firstRaceId}`
-      : "/api/hero";
+      : undefined;
+
   const { data } = useFetch(url, jsonFetcher);
 
   if (firstRaceId === undefined || data === null) {

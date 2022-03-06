@@ -28,6 +28,10 @@ export function useFetch(apiPath, fetcher) {
       loading: true,
     }));
 
+    if (apiPath === undefined) {
+      return;
+    }
+
     const promise = fetcher(apiPath);
 
     promise.then((data) => {
