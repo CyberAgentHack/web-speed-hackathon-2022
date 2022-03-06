@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from "lodash-es";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
