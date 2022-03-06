@@ -1,7 +1,8 @@
 import React from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import styled from "styled-components";
 
-const Image = styled.img`
+const Image = styled(LazyLoadImage)`
   display: block;
   margin: 0 auto;
 `;

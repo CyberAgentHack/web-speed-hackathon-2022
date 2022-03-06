@@ -61,7 +61,7 @@ module.exports = [
     name: "client",
     optimization: {
       minimize: true,
-      minimizer: [new CssMinimizerPlugin()],
+      minimizer: ["...", new CssMinimizerPlugin()],
       splitChunks: {
         cacheGroups: {
           vendor: {
