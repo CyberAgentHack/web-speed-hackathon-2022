@@ -1,0 +1,10 @@
+Dockerfile
+.dockerignore
+node_modules
+
+.eslint*
+.prettier*
+stylelint*
+
+.gitignore
+README.md
