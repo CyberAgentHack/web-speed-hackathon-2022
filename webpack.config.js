@@ -6,7 +6,7 @@ const nodeExternals = require("webpack-node-externals");
 const LoadablePlugin = require("@loadable/webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 
-import zopfli from "node-zopfli";
+const zopfli = require("node-zopfli");
 
 function abs(...args) {
   return path.join(__dirname, ...args);
