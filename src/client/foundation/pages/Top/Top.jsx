@@ -1,5 +1,5 @@
-import lazy from "preact-lazy"
-import React, { useCallback, useRef } from "react";
+import moment from "moment";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -8,60 +8,74 @@ import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
-import { useLaterFetch } from "../../hooks/useFetch";
+import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
+import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
-const ChargeDialog = lazy(() => import("./internal/ChargeDialog"));
+/**
+ * @param {Model.Race[]} races
+ * @returns {Model.Race[]}
+ */
 
-const formatDate = (date) => {
-  return `
-    ${date.getFullYear()}-${(date.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}
-  `.replace(/\n|\r| /g, "");
-};
-
-const mockRace = {
-  closeAt: new Date(),
-  id: "1",
-  image: "",
-  name: "Loading...",
-};
-
-/** @type {React.VFC} */
-export const Top = () => {
-  const { date = formatDate(new Date()) } = useParams();
-  const todayUnix = Date.parse(date) / 1000 - 60 * 60 * 9;
-  const tomorrowUnix = todayUnix + 24 * 60 * 60;
-
-  const ChargeButton = styled.button`
-    background: ${Color.mono[700]};
-    border-radius: ${Radius.MEDIUM};
-    color: ${Color.mono[0]};
-    padding: ${Space * 1}px ${Space * 2}px;
-
-    &:hover {
-      background: ${Color.mono[800]};
+function useCountUp(max) {
+  const [num, setNum] = useState(0);
+  const numRef = useRef(num);
+  const interval = useRef(0)
+  const count = useRef(0)
+  const countup = useCallback(() =>
+    {
+      if(numRef.current>=max){
+        clearInterval(interval.current);
+        return;
+      }
+      count.current += 1;
+      setNum(count.current)
+  },[max])
+  useEffect(()=>{
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setNum(max);
+      return;
     }
-  `;
+    interval.current = setInterval(countup,100)
+    return () => clearInterval(interval.current)
+  },[countup, max])
+  return num;
+}
+
+const ChargeButton = styled.button`
+  background: ${Color.mono[700]};
+  border-radius: ${Radius.MEDIUM};
+  color: ${Color.mono[0]};
+  padding: ${Space * 1}px ${Space * 2}px;
+  border-width: 0;
+
+  &:hover {
+    background: ${Color.mono[800]};
+  }
+`;
+/** @type {React.VFC} */
+export default function Top() {
+  console.log('pya2')
+  const { date = moment().format("YYYY-MM-DD") } = useParams();
 
   const chargeDialogRef = useRef(null);
 
   const { data: userData, revalidate } = useAuthorizedFetch(
     "/api/users/me",
-    authorizedJsonFetcher,
+    authorizedJsonFetcher
   );
 
-  const { data: raceData } = useLaterFetch(
-    `/api/races/${todayUnix}/${tomorrowUnix}/data`,
-    jsonFetcher,
-  );
-
+  let { data: raceData } = useFetch(`/api/todayraces/${date}`, jsonFetcher);
+  // let { data: raceData } = useFetch(`/api/races`, jsonFetcher);
+  if(raceData){ 
+    raceData.races = raceData.races.filter((race)=>isSameDay(race.startAt,date))
+    // console.log(raceData.races.length)
+  }
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
       return;
@@ -73,22 +87,10 @@ export const Top = () => {
   const handleCompleteCharge = useCallback(() => {
     revalidate();
   }, [revalidate]);
-
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              Date.parse(a.startAt) - Date.parse(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
-          )
-      : [];
-
+   const cursor = useCountUp(raceData?raceData.races.length:0)
   return (
     <Container>
-      <HeroImage url="/assets/images/hero.webp" />
+      <HeroImage />
 
       <Spacer mt={Space * 2} />
       {userData && (
@@ -107,22 +109,16 @@ export const Top = () => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        <RecentRaceList>
-          {(raceData != null ? todayRaces : [...Array(24).keys()]).map(
-            (race, index) => (
-              <RecentRaceList.Item
-                key={race.id ?? index}
-                delay={index * 100}
-                lazy={index > 3}
-                race={todayRaces.length > 0 ? race : mockRace}
-              />
-            ),
-          )}
-        </RecentRaceList>
+        {raceData && (
+          <RecentRaceList>
+            {raceData.races.slice(0,cursor).map((race) => (
+              <RecentRaceList.Item key={race.id} race={race} />
+            ))}
+          </RecentRaceList>
+        )}
       </section>
-      {userData && (
-        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
-      )}
+
+      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
     </Container>
   );
-};
+}

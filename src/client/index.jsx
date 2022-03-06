@@ -1,3 +1,5 @@
+import "./foundation/side-effects";
+
 import React from "react";
 import ReactDOM from "react-dom";
 

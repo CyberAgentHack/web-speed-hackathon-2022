@@ -1,6 +1,5 @@
+import axios from "axios";
 import React, { useCallback, useContext, useMemo, useState } from "react";
-
-import { createFetchError } from "../utils/HttpUtils";
 
 /**
  * @typedef AuthContextValues
@@ -49,9 +48,8 @@ export const useRegister = () => {
   const { setUserId } = useContext(AuthContext);
 
   const register = useCallback(async () => {
-    const res = await fetch("/api/users/me");
-    if (!res.ok) throw createFetchError(res);
-    setUserId((await res.json()).id);
+    const res = await axios.get("/api/users/me");
+    setUserId(res.data.id);
   }, [setUserId]);
 
   return register;

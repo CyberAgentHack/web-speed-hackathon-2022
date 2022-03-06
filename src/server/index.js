@@ -1,6 +1,6 @@
 import "regenerator-runtime/runtime";
 import fastify from "fastify";
-import fastifyCompress from "fastify-compress";
+import compression from 'fastify-compress';
 import fastifySensible from "fastify-sensible";
 
 import { User } from "../model/index.js";
@@ -23,12 +23,13 @@ const server = fastify({
       },
 });
 server.register(fastifySensible);
+server.register(compression)
 
 server.addHook("onRequest", async (req, res) => {
+  const repo = (await createConnection()).getRepository(User);
+
   const userId = req.headers["x-app-userid"];
   if (userId !== undefined) {
-    const repo = (await createConnection()).getRepository(User);
-
     const user = await repo.findOne(userId);
     if (user === undefined) {
       res.unauthorized();
@@ -39,14 +40,12 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.addHook("onRequest", async (req, res) => {
-  res.header("Cache-Control", "no-cache, no-store");
-  res.header("Connection", "Keep-Alive");
+  res.header("Cache-Control", "no-cache, no-store, no-transform");
+  res.header("Connection", "close");
 });
 
 server.register(apiRoute, { prefix: "/api" });
 server.register(spaRoute);
-
-server.register(fastifyCompress, { global: false });
 
 const start = async () => {
   try {

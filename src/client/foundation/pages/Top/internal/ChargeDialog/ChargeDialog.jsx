@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
@@ -34,26 +35,8 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
   const [amount, setAmount] = useState(0);
-  const [zenginCode, setZenginCode] = useState({});
-  const [bankList, setBankList] = useState([]);
-  const [bank, setBank] = useState(null);
-  const [branch, setBranch] = useState(null);
-
-  useEffect(() => {
-    const getZenginCode = async () => {
-      const res = await fetch("/assets/data/banks.json");
-      const data = await res.json();
-      setZenginCode(data);
-      setBankList([
-        ...Object.entries(data).map(([code, { name }]) => ({
-          code,
-          name,
-        })),
-      ]);
-    };
-    getZenginCode();
-  }, []);
-
+  const [banklist, setBanklist] = useState([])
+  const [bank, setBank] = useState(null)
   const clearForm = useCallback(() => {
     setBankCode("");
     setBranchCode("");
@@ -63,10 +46,10 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
   const [charge] = useMutation("/api/users/me/charge", {
     auth: true,
+    method: "POST",
   });
 
   const handleCodeChange = useCallback((e) => {
-    setBank(null);
     setBankCode(e.currentTarget.value);
     setBranchCode("");
   }, []);
@@ -97,34 +80,18 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
 
-  useEffect(() => {
-    if (bankCode === "" || bankCode.length != 4) {
-      return;
-    }
-    const getBranch = async () => {
-      const res = await fetch("/assets/data/branches/" + bankCode + ".json");
-      if (res.status !== 200) return;
-      const data = await res.json();
-      setBank({
-        ...zenginCode[bankCode],
-        branches: data,
-      });
-    };
+  useEffect(()=>{
+    axios.get('/api/banklist').then((res)=>{
+      setBanklist(res.data)
+    })
+  },[])
+  useEffect(()=>{
+    if(bankCode !== "")axios.get(`/api/bank/${bankCode}`).then((res)=>{
+      setBank(res.data)
+    })
+  },[banklist, bankCode])
 
-    if (zenginCode[bankCode] !== undefined) {
-      getBranch();
-    }
-  }, [bankCode, zenginCode]);
-
-  useEffect(() => {
-    if (bank === null) return;
-    if (branchCode === "") return;
-    if (bank.branches[branchCode]) {
-      setBranch(bank.branches[branchCode]);
-    } else {
-      setBranch(null);
-    }
-  }, [bank, branchCode]);
+  const branch = bank ? bank.branches[branchCode] : {};
 
   return (
     <Dialog ref={ref} onClose={handleCloseDialog}>
@@ -144,7 +111,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </label>
 
             <datalist id="ChargeDialog-bank-list">
-              {bankList.map(({ code, name }) => (
+              {banklist.map(({ code, name }) => (
                 <option key={code} value={code}>{`${name} (${code})`}</option>
               ))}
             </datalist>
@@ -173,7 +140,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
                 ))}
             </datalist>
 
-            {branch != null && (
+            {branch && (
               <FadeIn>
                 支店名: {branch.name}
               </FadeIn>

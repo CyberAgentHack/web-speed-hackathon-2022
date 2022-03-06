@@ -105,29 +105,27 @@ export const EntryTable = ({ entries }) => {
           </tr>
         </thead>
         <tbody>
-          {(entries ?? [...Array(12).keys()]).map((entry) => (
-            <tr key={entry.id ?? entry}>
-              <TableCell>{entry.number ?? entry}</TableCell>
+          {entries.map((entry) => (
+            <tr key={entry.id}>
+              <TableCell>{entry.number}</TableCell>
               <TableCell $bold $align="left">
-                {entry.player?.name ?? "〇〇〇〇"}
+                {entry.player.name}
               </TableCell>
-              <TableCell>{entry.predictionMark ?? ""}</TableCell>
+              <TableCell>{entry.predictionMark}</TableCell>
 
-              <TableCell>{entry.rockWin ?? "0"}</TableCell>
-              <TableCell>{entry.scissorsWin ?? "0"}</TableCell>
-              <TableCell>{entry.paperWin ?? "0"}</TableCell>
+              <TableCell>{entry.rockWin}</TableCell>
+              <TableCell>{entry.scissorsWin}</TableCell>
+              <TableCell>{entry.paperWin}</TableCell>
 
-              <TableCell>{entry.first ?? "0"}</TableCell>
-              <TableCell>{entry.second ?? "0"}</TableCell>
-              <TableCell>{entry.third ?? "0"}</TableCell>
-              <TableCell>{entry.others ?? "0"}</TableCell>
+              <TableCell>{entry.first}</TableCell>
+              <TableCell>{entry.second}</TableCell>
+              <TableCell>{entry.third}</TableCell>
+              <TableCell>{entry.others}</TableCell>
 
-              <TableCell>{entry.firstRate?.toFixed(1) ?? "00.0"}</TableCell>
-              <TableCell>{entry.thirdRate?.toFixed(1) ?? "00.0"}</TableCell>
+              <TableCell>{entry.firstRate.toFixed(1)}</TableCell>
+              <TableCell>{entry.thirdRate.toFixed(1)}</TableCell>
 
-              <TableCell $align="left">
-                {entry.comment ?? "Loading..."}
-              </TableCell>
+              <TableCell $align="left">{entry.comment}</TableCell>
             </tr>
           ))}
         </tbody>

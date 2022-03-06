@@ -1,28 +1,27 @@
-import lazy from "preact-lazy";
-import React, { Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Routes as RouterRoutes } from "react-router-dom";
 
 import { CommonLayout } from "./layouts/CommonLayout";
-import Top from "./pages/Top";
-const Odds = lazy(() => import("./pages/races/Odds"));
-const RaceCard = lazy(() => import("./pages/races/RaceCard"));
-const RaceResult = lazy(() => import("./pages/races/RaceResult"));
+
+const Top = lazy(()=>import('./pages/Top/Top'))
+const Odds = lazy(()=>import('./pages/races/Odds/Odds'))
+const RaceCard = lazy(()=>import('./pages/races/RaceCard/RaceCard'))
+const RaceResult = lazy(()=>import('./pages/races/RaceResult/RaceResult'))
 
 /** @type {React.VFC} */
 export const Routes = () => {
   return (
-    <Suspense fallback={null}>
-      <RouterRoutes>
-        <Route element={<CommonLayout />} path="/">
-          <Route index element={<Top />} />
-          <Route element={<Top />} path=":date" />
+    <RouterRoutes>
+      <Route element={<CommonLayout />} path="/">
+        
+          <Route index element={<Suspense fallback={<div style={{height:"100vh", marginTop:"16px"}}>loading...</div>}><Top /></Suspense>} />
+          <Route element={<Suspense fallback={<div style={{height:"100vh", marginTop:"16px"}}>loading...</div>}><Top /></Suspense>} path=":date" />
           <Route path="races/:raceId">
-            <Route element={<RaceCard />} path="race-card" />
-            <Route element={<Odds />} path="odds" />
-            <Route element={<RaceResult />} path="result" />
+            <Route element={<Suspense fallback={<div style={{height:"100vh", marginTop:"16px"}}>loading...</div>}><RaceCard /></Suspense>} path="race-card" />
+            <Route element={<Suspense fallback={<div style={{height:"100vh", marginTop:"16px"}}>loading...</div>}><Odds /></Suspense>} path="odds" />
+            <Route element={<Suspense fallback={<div style={{height:"100vh", marginTop:"16px"}}>loading...</div>}><RaceResult /></Suspense>} path="result" />
           </Route>
-        </Route>
-      </RouterRoutes>
-    </Suspense>
+      </Route>
+    </RouterRoutes>
   );
 };

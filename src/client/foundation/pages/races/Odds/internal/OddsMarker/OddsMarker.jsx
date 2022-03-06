@@ -17,5 +17,5 @@ const Wrapper = styled.span`
 
 /** @type {React.FC<Props>} */
 export const OddsMarker = ({ odds }) => {
-  return <Wrapper $odds={odds}> {odds?.toFixed(1)}</Wrapper>;
+  return <Wrapper $odds={odds}> {odds.toFixed(1)}</Wrapper>;
 };

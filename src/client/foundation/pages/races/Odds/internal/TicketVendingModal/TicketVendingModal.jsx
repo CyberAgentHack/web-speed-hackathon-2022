@@ -33,6 +33,7 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
     `/api/races/${raceId}/betting-tickets`,
     {
       auth: true,
+      method: "POST",
     },
   );
   const { data: userData, revalidate } = useAuthorizedFetch(

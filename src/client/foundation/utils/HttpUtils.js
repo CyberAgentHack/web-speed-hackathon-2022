@@ -1,10 +1,8 @@
-export const createFetchError = (res) =>
-  new Error(`Failed to fetch(${res.status}): ${res.statusText}`);
+import axios from "axios";
 
 export const jsonFetcher = async (/** @type {string} */ url) => {
-  const res = await fetch(url, { responseType: "json" });
-  if (!res.ok) throw createFetchError(res);
-  return res.json();
+  const res = await axios.get(url, { responseType: "json" });
+  return res.data;
 };
 
 /**
@@ -12,10 +10,9 @@ export const jsonFetcher = async (/** @type {string} */ url) => {
  * @param {string} userId
  */
 export const authorizedJsonFetcher = async (url, userId) => {
-  const res = await fetch(url, {
+  const res = await axios.get(url, {
     headers: { "x-app-userid": userId },
     responseType: "json",
   });
-  if (!res.ok) throw createFetchError(res);
-  return res.json();
+  return res.data;
 };

@@ -1,37 +1,11 @@
-import moment from "moment-timezone";
+import moment from "moment";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import zenginCode from "zengin-code";
 
-import { assets } from "../../client/foundation/utils/UrlUtils.js";
-import { BettingTicket, OddsItem, Race, User } from "../../model/index.js";
+import { isSameDay } from "../../client/foundation/utils/DateUtils.js";
+import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
-
-const getRaces = async (since, until) => {
-  const repo = (await createConnection()).getRepository(Race);
-
-  const where = {};
-  if (since != null && until != null) {
-    Object.assign(where, {
-      startAt: Between(
-        since.utc().format("YYYY-MM-DD HH:mm:ss"),
-        until.utc().format("YYYY-MM-DD HH:mm:ss"),
-      ),
-    });
-  } else if (since != null) {
-    Object.assign(where, {
-      startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
-    });
-  } else if (until != null) {
-    Object.assign(where, {
-      startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
-    });
-  }
-
-  const races = await repo.find({
-    where,
-  });
-  return races;
-};
 
 /**
  * @type {import('fastify').FastifyPluginCallback}
@@ -47,6 +21,21 @@ export const apiRoute = async (fastify) => {
       res.send(user);
     }
   });
+
+  fastify.get("/banklist", async (req,res)=>{
+    const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
+      code,
+      name,
+    }));
+    res.send(bankList
+    )
+  });
+
+  fastify.get("/bank/:code", async (req,res)=>{
+    const bank = zenginCode[req.params.code];
+    res.send(bank
+    )
+  })
 
   fastify.post("/users/me/charge", async (req, res) => {
     if (req.user == null) {
@@ -66,74 +55,11 @@ export const apiRoute = async (fastify) => {
     res.status(204).send();
   });
 
-  fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.webp");
-    const hash = Math.random().toFixed(10).substring(2);
-
-    res.send({ hash, url });
-  });
-
-  fastify.get(
-    "/races",
-    {
-      compress: {
-        inflateIfDeflated: true,
-        threshold: 128,
-      },
-    },
-    async (req, res) => {
-      const since =
-        req.query.since != null ? moment.unix(req.query.since) : undefined;
-      const until =
-        req.query.until != null ? moment.unix(req.query.until) : undefined;
-
-      if (since != null && !since.isValid()) {
-        throw fastify.httpErrors.badRequest();
-      }
-      if (until != null && !until.isValid()) {
-        throw fastify.httpErrors.badRequest();
-      }
-
-      const races = await getRaces(since, until);
-
-      res.send({ races });
-    },
-  );
-
-  // for edge cache
-  fastify.get(
-    "/races/:since/:until/data.json",
-    {
-      compress: {
-        inflateIfDeflated: true,
-        threshold: 128,
-      },
-    },
-    async (req, res) => {
-      const since =
-        req.params.since != null ? moment.unix(req.params.since) : undefined;
-      const until =
-        req.params.until != null ? moment.unix(req.params.until) : undefined;
-
-      if (since != null && !since.isValid()) {
-        throw fastify.httpErrors.badRequest();
-      }
-      if (until != null && !until.isValid()) {
-        throw fastify.httpErrors.badRequest();
-      }
-
-      const races = await getRaces(since, until);
-
-      res.send({ races });
-    },
-  );
-
-  // for update
-  fastify.get("/races/:since/:until/data", async (req, res) => {
+  fastify.get("/races", async (req, res) => {
     const since =
-      req.params.since != null ? moment.unix(req.params.since) : undefined;
+      req.query.since != null ? moment.unix(req.query.since) : undefined;
     const until =
-      req.params.until != null ? moment.unix(req.params.until) : undefined;
+      req.query.until != null ? moment.unix(req.query.until) : undefined;
 
     if (since != null && !since.isValid()) {
       throw fastify.httpErrors.badRequest();
@@ -142,243 +68,77 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.badRequest();
     }
 
-    const races = await getRaces(since, until);
+    const repo = (await createConnection()).getRepository(Race);
 
+    const where = {};
+    if (since != null && until != null) {
+      Object.assign(where, {
+        startAt: Between(
+          since.utc().format("YYYY-MM-DD HH:mm:ss"),
+          until.utc().format("YYYY-MM-DD HH:mm:ss"),
+        ),
+      });
+    } else if (since != null) {
+      Object.assign(where, {
+        startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+      });
+    } else if (until != null) {
+      Object.assign(where, {
+        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+      });
+    }
+
+    const races = await repo.find({
+      where,
+    })
+    races.sort((a,b)=>moment(b.startAt)-moment(b.startAt))
+    res.send({ races });
+  });
+
+  fastify.get("/todayraces/:date", async (req, res) => {
+    const date = moment(req.params.date);
+
+    const repo = (await createConnection()).getRepository(Race);
+
+    const where = {};
+
+      const races = await repo.find({
+        where,
+      })
+
+    races.filter((race)=>isSameDay(race.startAt,date)).sort((a,b)=>moment(b.startAt)-moment(b.startAt))
     res.send({ races });
   });
 
   fastify.get("/races/:raceId", async (req, res) => {
     const repo = (await createConnection()).getRepository(Race);
 
-    const race = await repo.findOne(
-      { id: req.params.raceId },
-      {
-        relations: ["entries", "entries.player", "trifectaOdds"],
-      },
-    );
-
-    if (race === undefined) {
-      throw fastify.httpErrors.notFound();
-    }
-
-    res.send(race);
-  });
-
-  fastify.get("/races/:raceId/entry", async (req, res) => {
-    const repo = (await createConnection()).getRepository(Race);
-
-    const race = await repo.findOne(
-      { id: req.params.raceId },
-      {
-        relations: ["entries", "entries.player"],
-      },
-    );
-
-    if (race === undefined) {
-      throw fastify.httpErrors.notFound();
-    }
-
-    res.send(race);
-  });
-
-  // for edge cache
-  fastify.get(
-    "/races/:raceId/entry.json",
-    {
-      compress: {
-        inflateIfDeflated: true,
-        threshold: 128,
-      },
-    },
-    async (req, res) => {
-      const repo = (await createConnection()).getRepository(Race);
-
-      const race = await repo.findOne(
-        { id: req.params.raceId },
-        {
-          relations: ["entries", "entries.player"],
-        },
-      );
-
-      if (race === undefined) {
-        throw fastify.httpErrors.notFound();
-      }
-
-      res.send(race);
-    },
-  );
-
-  fastify.get("/races/:raceId/odds-items", async (req, res) => {
-    const repo = (await createConnection()).getRepository(OddsItem);
-    const odds = await repo.find({
-      where: {
-        race: {
-          id: req.params.raceId,
-        },
-      },
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["entries", "entries.player", "trifectaOdds"],
     });
 
-    if (odds === undefined) {
+    if (race === undefined) {
       throw fastify.httpErrors.notFound();
     }
-    res.send(odds);
+    const sorted = race.trifectaOdds.sort((a,b)=>a.odds-b.odds).splice(0,50);
+    race.trifectaOdds = sorted;
+    res.send(race);
   });
 
-  // for edge cache
-  fastify.get(
-    "/races/:raceId/odds-items.json",
-    {
-      compress: {
-        inflateIfDeflated: true,
-        threshold: 128,
-      },
-    },
-    async (req, res) => {
-      const repo = (await createConnection()).getRepository(OddsItem);
-      const odds = await repo.find({
-        where: {
-          race: {
-            id: req.params.raceId,
-          },
-        },
-      });
+  fastify.get("/races/odds/:raceId/:first", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
 
-      if (odds === undefined) {
-        throw fastify.httpErrors.notFound();
-      }
-      res.send(odds);
-    },
-  );
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["trifectaOdds"],
+    });
 
-  fastify.get(
-    "/races/:raceId/:key/odds-filterd-item.json",
-    {
-      compress: {
-        inflateIfDeflated: true,
-        threshold: 128,
-      },
-    },
-    async (req, res) => {
-      const repo = (await createConnection()).getRepository(OddsItem);
-      const odds = await repo.find({
-        where: {
-          race: {
-            id: req.params.raceId,
-          },
-        },
-      });
-
-      if (odds === undefined) {
-        throw fastify.httpErrors.notFound();
-      }
-
-      const filteredOdds = odds.filter((item) => item.key[0] == req.params.key);
-      res.send(filteredOdds);
-    },
-  );
-
-  fastify.get(
-    "/races/:raceId/:key/odds-filterd-item",
-    {
-      compress: {
-        inflateIfDeflated: true,
-        threshold: 128,
-      },
-    },
-    async (req, res) => {
-      const repo = (await createConnection()).getRepository(OddsItem);
-      const odds = await repo.find({
-        where: {
-          race: {
-            id: req.params.raceId,
-          },
-        },
-      });
-
-      if (odds === undefined) {
-        throw fastify.httpErrors.notFound();
-      }
-
-      const filteredOdds = odds.filter((item) => item.key[0] == req.params.key);
-      res.send(filteredOdds);
-    },
-  );
-
-  fastify.get(
-    "/races/:raceId/sorted-odds-rank.json",
-    {
-      compress: {
-        inflateIfDeflated: true,
-        threshold: 128,
-      },
-    },
-    async (req, res) => {
-      const repo = (await createConnection()).getRepository(OddsItem);
-      const odds = await repo.find({
-        where: {
-          race: {
-            id: req.params.raceId,
-          },
-        },
-      });
-
-      if (odds === undefined) {
-        throw fastify.httpErrors.notFound();
-      }
-
-      const sortedOdds = odds
-        .sort((a, b) => {
-          if (a.odds != b.odds) {
-            return a.odds - b.odds;
-          }
-          if (a.id != b.id) {
-            if (a.id > b.id) return 1;
-            if (a.id < b.id) return -1;
-          }
-          return 0;
-        })
-        .slice(0, 50);
-      res.send(sortedOdds);
-    },
-  );
-
-  fastify.get(
-    "/races/:raceId/sorted-odds-rank",
-    {
-      compress: {
-        inflateIfDeflated: true,
-        threshold: 128,
-      },
-    },
-    async (req, res) => {
-      const repo = (await createConnection()).getRepository(OddsItem);
-      const odds = await repo.find({
-        where: {
-          race: {
-            id: req.params.raceId,
-          },
-        },
-      });
-
-      if (odds === undefined) {
-        throw fastify.httpErrors.notFound();
-      }
-
-      const sortedOdds = odds
-        .sort((a, b) => {
-          if (a.odds != b.odds) {
-            return a.odds - b.odds;
-          }
-          if (a.id != b.id) {
-            if (a.id > b.id) return 1;
-            if (a.id < b.id) return -1;
-          }
-          return 0;
-        })
-        .slice(0, 50);
-      res.send(sortedOdds);
-    },
-  );
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+    const first = parseInt(req.params.first)
+    const filtered = race.trifectaOdds.filter(value=>value.key[0]===first)
+    res.send(filtered)
+  });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
     if (req.user == null) {
