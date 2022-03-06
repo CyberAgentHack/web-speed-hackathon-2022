@@ -1,4 +1,4 @@
-import moment from "moment-timezone";
+import moment from "moment";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
