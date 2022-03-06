@@ -1,4 +1,6 @@
 import fastify from "fastify";
+import cors from "fastify-cors";
+import "regenerator-runtime/runtime";
 import fastifySensible from "fastify-sensible";
 
 import { User } from "../model/index.js";
@@ -20,9 +22,9 @@ const server = fastify({
       },
 });
 
-server.register(require("fastify-cors"));
-
 server.register(fastifySensible);
+
+server.register(cors);
 
 server.addHook("onRequest", async (req, res) => {
   const repo = (await createConnection()).getRepository(User);
