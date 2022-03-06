@@ -76,6 +76,7 @@
     "lodash": "^4.17.21",
     "modern-css-reset": "^1.4.0",
     "moment-timezone": "^0.5.34",
+    "node-zopfli": "^2.1.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "6",
