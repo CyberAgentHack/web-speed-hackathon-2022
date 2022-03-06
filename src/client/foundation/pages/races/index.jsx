@@ -76,7 +76,7 @@ const ItemWrapper = styled.li`
 `;
 
 /** @type {React.VFC} */
-export const RaceHome = () => {
+export const RaceHome = memo(() => {
   const navigate = useNavigate();
   const location = useLocation();
   const { raceId } = useParams();
@@ -157,7 +157,7 @@ export const RaceHome = () => {
     },
   );
   Item.displayName = "Item";
-  
+
   return (
     <Container>
       <Spacer mt={Space * 2} />
@@ -258,4 +258,5 @@ export const RaceHome = () => {
       )}
     </Container>
   );
-};
+});
+RaceHome.displayName = "RaceHome";
