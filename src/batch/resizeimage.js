@@ -63,7 +63,7 @@ function main() {
   const src = HERO_IMAGE_DIR
   const imageData = fs.readFileSync(src)
   sharp(imageData)
-    .resize(800)
+    // .resize(800)
     .webp({
       quality: 30
     })
