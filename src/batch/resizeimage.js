@@ -65,7 +65,7 @@ function main() {
   sharp(imageData)
     // .resize(1000)
     .avif({
-      quality: 40
+      quality: 20
     })
     .toFile(src + ".avif");
 
