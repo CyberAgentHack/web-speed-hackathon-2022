@@ -153,7 +153,7 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
                             </InactiveBuyButton>
                           ) : (
                             <BuyButton
-                              disabled={item != undefined}
+                              disabled={item == undefined}
                               onClick={() => onClickOdds(item)}
                             >
                               <OddsMarker odds={item ? item.odds : 0} />
