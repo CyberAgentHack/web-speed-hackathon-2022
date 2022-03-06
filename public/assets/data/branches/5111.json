@@ -1,0 +1,16 @@
+{
+  "001":{
+    "code":"001",
+    "name":"本店",
+    "kana":"ホンテン",
+    "hira":"ほんてん",
+    "roma":"honten"
+  },
+  "061":{
+    "code":"061",
+    "name":"小笠原父島",
+    "kana":"オガサワラチチジマ",
+    "hira":"おがさわらちちじま",
+    "roma":"ogasawarachichijima"
+  }
+}

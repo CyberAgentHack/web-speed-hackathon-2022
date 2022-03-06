@@ -1,0 +1,30 @@
+{
+  "001":{
+    "code":"001",
+    "name":"本店",
+    "kana":"ホンテン",
+    "hira":"ほんてん",
+    "roma":"honten"
+  },
+  "003":{
+    "code":"003",
+    "name":"深谷北",
+    "kana":"フカヤキタ",
+    "hira":"ふかやきた",
+    "roma":"fukayakita"
+  },
+  "005":{
+    "code":"005",
+    "name":"深谷南",
+    "kana":"フカヤミナミ",
+    "hira":"ふかやみなみ",
+    "roma":"fukayaminami"
+  },
+  "014":{
+    "code":"014",
+    "name":"寄居中央",
+    "kana":"ヨリイチユウオウ",
+    "hira":"よりいちゆうおう",
+    "roma":"yoriichiyuuou"
+  }
+}

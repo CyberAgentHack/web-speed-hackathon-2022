@@ -1,0 +1,23 @@
+{
+  "001":{
+    "code":"001",
+    "name":"本店",
+    "kana":"ホンテン",
+    "hira":"ほんてん",
+    "roma":"honten"
+  },
+  "002":{
+    "code":"002",
+    "name":"鴨宮",
+    "kana":"カモノミヤ",
+    "hira":"かものみや",
+    "roma":"kamonomiya"
+  },
+  "003":{
+    "code":"003",
+    "name":"南足柄",
+    "kana":"ミナミアシガラ",
+    "hira":"みなみあしがら",
+    "roma":"minamiashigara"
+  }
+}
