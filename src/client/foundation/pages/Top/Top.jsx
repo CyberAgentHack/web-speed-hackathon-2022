@@ -72,7 +72,9 @@ export default function Top() {
   );
 
   let { data: raceData } = useFetch(`/api/races?since=${since}&until=${until}`, jsonFetcher);
-  raceData = raceData.filter((race)=>isSameDay(race.startAt,date))
+  if(raceData){ 
+    raceData.race = raceData.races.filter((race)=>isSameDay(race.startAt,date))
+  }
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
       return;
@@ -84,7 +86,6 @@ export default function Top() {
   const handleCompleteCharge = useCallback(() => {
     revalidate();
   }, [revalidate]);
-  useEffect(()=>console.log(since,until, raceData),[raceData])
    const cursor = useCountUp(raceData?raceData.races.length:0)
   return (
     <Container>
