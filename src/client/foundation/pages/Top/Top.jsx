@@ -60,7 +60,7 @@ const ChargeButton = styled.button`
 `;
 /** @type {React.VFC} */
 export default function Top() {
-  console.log('pya')
+  console.log('pya2')
   const since = moment(moment().format("YYYY-MM-DD") + " 00:00:00").unix()
   const until = moment(moment().format("YYYY-MM-DD") + " 23:59:59").unix()
   const { date = moment().format("YYYY-MM-DD") } = useParams();
@@ -73,8 +73,10 @@ export default function Top() {
   );
 
   let { data: raceData } = useFetch(`/api/races?since=${since}&until=${until}`, jsonFetcher);
+  // let { data: raceData } = useFetch(`/api/races`, jsonFetcher);
   if(raceData){ 
-    raceData.race = raceData.races.filter((race)=>isSameDay(race.startAt,date))
+    raceData.races = raceData.races.filter((race)=>isSameDay(race.startAt,date))
+    // console.log(raceData.races.length)
   }
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
