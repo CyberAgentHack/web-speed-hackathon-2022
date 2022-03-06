@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../components/media/TrimmedImage";
 import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
-import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
+import {  Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 
 export const RecentRaceList = ({ children }) => {
@@ -16,29 +15,6 @@ export const RecentRaceList = ({ children }) => {
     </Stack>
   );
 };
-
-const ItemWrapper = styled.li`
-  background: ${Color.mono[0]};
-  border-radius: ${Radius.MEDIUM};
-  opacity: ${({ $opacity }) => $opacity};
-  padding: ${Space * 3}px;
-`;
-
-const RaceButton = styled(LinkButton)`
-  background: ${Color.mono[700]};
-  border-radius: ${Radius.MEDIUM};
-  color: ${Color.mono[0]};
-  padding: ${Space * 1}px ${Space * 2}px;
-
-  &:hover {
-    background: ${Color.mono[800]};
-  }
-`;
-
-const RaceTitle = styled.h2`
-  font-size: ${FontSize.LARGE};
-  font-weight: bold;
-`;
 
 /**
  * @typedef ItemProps
@@ -82,10 +58,10 @@ const Item = ({ race }) => {
   }, [race.id, startAnimation, abortAnimation, resetAnimation]);
 
   return (
-    <ItemWrapper $opacity={opacity}>
+    <div className="item-wrapper"  style={{opacity: opacity, padding: `${Space * 3}px`}}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
-          <RaceTitle>{race.name}</RaceTitle>
+          <h2 className="race-title">{race.name}</h2>
           <p>{closeAtText}</p>
         </Stack>
 
@@ -94,11 +70,11 @@ const Item = ({ race }) => {
         <Stack.Item grow={0} shrink={0}>
           <Stack horizontal alignItems="center" gap={Space * 2}>
             <TrimmedImage height={100} src={race.image.substring(0,race.image.length-3)+'webp'} width={100} />
-            <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>
+            <LinkButton className="race-button" style={{padding: `${Space * 1}px ${Space * 2}px`}} to={`/races/${race.id}/race-card`}>投票</LinkButton>
           </Stack>
         </Stack.Item>
       </Stack>
-    </ItemWrapper>
+    </div>
   );
 };
 RecentRaceList.Item = Item;
