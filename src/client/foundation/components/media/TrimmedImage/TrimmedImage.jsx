@@ -11,10 +11,11 @@ import React, { useEffect, useState, memo } from "react";
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = memo(({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
+  const wbepUrl = `${src.substring(0, src.indexOf("."))}.webp`;
 
   useEffect(() => {
     const img = new Image();
-    img.src = src;
+    img.src = wbepUrl;
     img.onload = () => {
       const canvas = document.createElement("canvas");
       canvas.width = width;
