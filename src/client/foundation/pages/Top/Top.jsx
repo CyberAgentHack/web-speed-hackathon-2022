@@ -7,7 +7,7 @@ import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
-import { useFetch } from "../../hooks/useFetch";
+import { useLaterFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
@@ -55,8 +55,8 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch(
-    `/api/races?since=${todayUnix}&until=${tomorrowUnix}`,
+  const { data: raceData } = useLaterFetch(
+    `/api/races/${todayUnix}/${tomorrowUnix}/data`,
     jsonFetcher,
   );
 

@@ -6,6 +6,33 @@ import { BettingTicket, OddsItem, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
 
+const getRaces = async (since, until) => {
+  const repo = (await createConnection()).getRepository(Race);
+
+  const where = {};
+  if (since != null && until != null) {
+    Object.assign(where, {
+      startAt: Between(
+        since.utc().format("YYYY-MM-DD HH:mm:ss"),
+        until.utc().format("YYYY-MM-DD HH:mm:ss"),
+      ),
+    });
+  } else if (since != null) {
+    Object.assign(where, {
+      startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+    });
+  } else if (until != null) {
+    Object.assign(where, {
+      startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+    });
+  }
+
+  const races = await repo.find({
+    where,
+  });
+  return races;
+};
+
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */
@@ -59,29 +86,45 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.badRequest();
     }
 
-    const repo = (await createConnection()).getRepository(Race);
+    const races = await getRaces(since, until);
 
-    const where = {};
-    if (since != null && until != null) {
-      Object.assign(where, {
-        startAt: Between(
-          since.utc().format("YYYY-MM-DD HH:mm:ss"),
-          until.utc().format("YYYY-MM-DD HH:mm:ss"),
-        ),
-      });
-    } else if (since != null) {
-      Object.assign(where, {
-        startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
-      });
-    } else if (until != null) {
-      Object.assign(where, {
-        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
-      });
+    res.send({ races });
+  });
+
+  // for edge cache
+  fastify.get("/races/:since/:until/data.json", async (req, res) => {
+    const since =
+      req.params.since != null ? moment.unix(req.params.since) : undefined;
+    const until =
+      req.params.until != null ? moment.unix(req.params.until) : undefined;
+
+    if (since != null && !since.isValid()) {
+      throw fastify.httpErrors.badRequest();
+    }
+    if (until != null && !until.isValid()) {
+      throw fastify.httpErrors.badRequest();
     }
 
-    const races = await repo.find({
-      where,
-    });
+    const races = await getRaces(since, until);
+
+    res.send({ races });
+  });
+
+  // for update
+  fastify.get("/races/:since/:until/data", async (req, res) => {
+    const since =
+      req.params.since != null ? moment.unix(req.params.since) : undefined;
+    const until =
+      req.params.until != null ? moment.unix(req.params.until) : undefined;
+
+    if (since != null && !since.isValid()) {
+      throw fastify.httpErrors.badRequest();
+    }
+    if (until != null && !until.isValid()) {
+      throw fastify.httpErrors.badRequest();
+    }
+
+    const races = await getRaces(since, until);
 
     res.send({ races });
   });
