@@ -149,11 +149,12 @@ export const Top = () => {
   const heroImageUrl = useHeroImage(todayRaces);
   return (
     <Container>
-      <picture>
+      <img alt decoding="async" src="/assets/images/hero.webp" />
+      {/* <picture>
         {heroImageUrl !== null && (
           <HeroImage url={heroImageUrl} decoding="async" />
         )}
-      </picture>
+      </picture> */}
 
       <Spacer mt={Space * 2} />
       {userData && (
