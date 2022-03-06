@@ -1,6 +1,5 @@
-import { motion } from "framer-motion";
-import React, { forwardRef, useCallback, useState } from "react";
-import zenginCode from "zengin-code";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import styled from "styled-components";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -12,19 +11,58 @@ import { Space } from "../../../../styles/variables";
 const CANCEL = "cancel";
 const CHARGE = "charge";
 
+const Animate = styled.div`
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  animation: fadeIn 0.5s;
+`;
+
 /**
  * @typedef Props
  * @type {object}
  */
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
-export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
+export const ChargeDialog = forwardRef(({ onComplete, userData }, ref) => {
+  const [bankList, setBankList] = useState([]);
+  const [bank, setBank] = useState(null);
+
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
   const [amount, setAmount] = useState(0);
 
+  useEffect(() => {
+    const init = async () => {
+      const res = await fetch(`assets/banks/banks.json`);
+      const data = await res.json();
+      setBankList(data);
+    };
+    if (userData) init();
+  }, [userData]);
+
+  useEffect(() => {
+    const init = async () => {
+      const res = await fetch(`assets/banks/list/${bankCode}.json`);
+      try {
+        const data = await res.json();
+        setBank(data);
+      } catch (e) {
+        setBank(null);
+      }
+    };
+    if (bankCode !== "") init();
+    else setBank(null);
+  }, [bankCode]);
+
   const clearForm = useCallback(() => {
+    setBank(null);
     setBankCode("");
     setBranchCode("");
     setAccountNo("");
@@ -67,11 +105,6 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
 
-  const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
-    code,
-    name,
-  }));
-  const bank = zenginCode[bankCode];
   const branch = bank?.branches[branchCode];
 
   return (
@@ -98,9 +131,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </datalist>
 
             {bank != null && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+              <Animate>
                 銀行名: {bank.name}銀行
-              </motion.div>
+              </Animate>
             )}
 
             <label>
@@ -122,9 +155,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </datalist>
 
             {branch && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+              <Animate>
                 支店名: {branch.name}
-              </motion.div>
+              </Animate>
             )}
 
             <label>

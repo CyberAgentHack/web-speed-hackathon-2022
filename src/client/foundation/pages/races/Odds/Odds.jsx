@@ -1,4 +1,5 @@
-import moment from "moment-timezone";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -6,7 +7,7 @@ import styled from "styled-components";
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
-import { TrimmedImage } from "../../../components/media/TrimmedImage";
+import { ThmImg } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
@@ -42,7 +43,8 @@ const Callout = styled.aside`
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data } = useFetch(`/api/races/${raceId}/card`, jsonFetcher);
+  const { data: oddsData } = useFetch(`/api/races/${raceId}/odds`, jsonFetcher);
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 
@@ -57,11 +59,13 @@ export const Odds = () => {
     [],
   );
 
-  if (data == null) {
+  if (data == null || oddsData == null) {
     return <Container>Loading...</Container>;
   }
 
-  const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  // 同じ時間は flase
+  // const _isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  const isRaceClosed = Date.parse(data.closeAt) < Date.now();
 
   return (
     <Container>
@@ -76,7 +80,7 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <ThmImg height={225} loading="lazy" src={data.image} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -93,7 +97,7 @@ export const Odds = () => {
         <Spacer mt={Space * 4} />
 
         <Callout $closed={isRaceClosed}>
-          <i className="fas fa-info-circle" />
+          <FontAwesomeIcon icon={faInfoCircle}/>
           {isRaceClosed
             ? "このレースの投票は締め切られています"
             : "オッズをクリックすると拳券が購入できます"}
@@ -106,7 +110,7 @@ export const Odds = () => {
         <OddsTable
           entries={data.entries}
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
+          odds={oddsData.trifectaOdds}
           onClickOdds={handleClickOdds}
         />
 
@@ -116,7 +120,7 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
+          odds={oddsData.trifectaOdds}
           onClickOdds={handleClickOdds}
         />
       </Section>
