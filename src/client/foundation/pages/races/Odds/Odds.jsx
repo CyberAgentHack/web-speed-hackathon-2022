@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React, { useCallback, useRef, useState } from "react";
+import React, { Suspense, useCallback, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 
@@ -87,7 +87,13 @@ export const Odds = () => {
         odds={popularOddsList ?? dummyOdds}
         onClickOdds={handleClickOdds}
       />
-      <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
+      <Suspense fallback={null}>
+        <TicketVendingModal
+          ref={modalRef}
+          odds={oddsKeyToBuy}
+          raceId={raceId}
+        />
+      </Suspense>
     </>
   );
 };
