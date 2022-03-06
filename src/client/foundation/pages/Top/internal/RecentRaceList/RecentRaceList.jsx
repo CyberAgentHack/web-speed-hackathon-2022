@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../components/media/TrimmedImage";
-import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
 import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 
@@ -18,6 +17,17 @@ export const RecentRaceList = ({ children }) => {
 };
 
 const ItemWrapper = styled.li`
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.2, 0.6, 0.35, 1);
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
   opacity: ${({ $opacity }) => $opacity};
@@ -47,46 +57,12 @@ const RaceTitle = styled.h2`
 
 /** @type {React.VFC<ItemProps>} */
 const Item = ({ race }) => {
-  const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
-
-  // 締切はリアルタイムで表示したい
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCloseAtText(formatCloseAt(race.closeAt));
-    }, 0);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [race.closeAt]);
-
-  const {
-    abortAnimation,
-    resetAnimation,
-    startAnimation,
-    value: opacity,
-  } = useAnimation({
-    duration: 500,
-    end: 1,
-    start: 0,
-    timingFunction: easeOutCubic,
-  });
-
-  useEffect(() => {
-    resetAnimation();
-    startAnimation();
-
-    return () => {
-      abortAnimation();
-    };
-  }, [race.id, startAnimation, abortAnimation, resetAnimation]);
-
   return (
-    <ItemWrapper $opacity={opacity}>
+    <ItemWrapper>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
-          <p>{closeAtText}</p>
+          <p>{formatCloseAt(race.closeAt)}</p>
         </Stack>
 
         <Spacer mr={Space * 2} />

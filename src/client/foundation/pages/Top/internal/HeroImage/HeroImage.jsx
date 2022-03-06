@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 const Image = styled.img`
+  aspect-ratio: auto 1024 / 735;
+  height: auto;
   display: block;
   margin: 0 auto;
 `;
@@ -14,5 +16,5 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
-  return <Image alt="" src={url} />;
+  return <Image alt="" src={url} width={1024} />;
 };

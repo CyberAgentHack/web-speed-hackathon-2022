@@ -40,7 +40,7 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.jpg");
+    const url = assets("/images/hero.webp");
     const hash = Math.random().toFixed(10).substring(2);
 
     res.send({ hash, url });
@@ -80,6 +80,7 @@ export const apiRoute = async (fastify) => {
     }
 
     const races = await repo.find({
+      order: { startAt: "ASC" },
       where,
     });
 
