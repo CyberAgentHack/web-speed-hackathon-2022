@@ -7,7 +7,6 @@ import { Fa } from "../../../components/icons/Fa";
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
-import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
@@ -58,18 +57,14 @@ export default function Odds()  {
     [],
   );
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
-  const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  const isRaceClosed = data?moment(data.closeAt).isBefore(new Date()):true;
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{data?data.name:'title'}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        開始 {formatTime(data?data.startAt:'0:00')} 締切 {data?formatTime(data.closeAt):'0:00'}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -77,7 +72,7 @@ export default function Odds()  {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <img src={data?data.image.substring(0,data.image.length-4)+'-live.webp':''} style={{aspectRatio:"400/225"}} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -104,22 +99,22 @@ export default function Odds()  {
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsTable
+        {data?<OddsTable
           entries={data.entries}
           isRaceClosed={isRaceClosed}
           odds={data.trifectaOdds}
           onClickOdds={handleClickOdds}
-        />
+        />:<></>}
 
         <Spacer mt={Space * 4} />
         <Heading as="h2">人気順</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsRankingList
+        {data?<OddsRankingList
           isRaceClosed={isRaceClosed}
           odds={data.trifectaOdds}
           onClickOdds={handleClickOdds}
-        />
+        />:<></>}
       </Section>
 
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
