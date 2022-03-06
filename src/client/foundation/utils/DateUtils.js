@@ -1,12 +1,16 @@
-import { add, differenceInMinutes, isSameDay as isSameDayDFNS } from "date-fns";
-import { format } from "date-fns-tz";
 /**
  * @param {string} dateLeft
  * @param {string} dateRight
  * @returns {boolean}
  */
 export const isSameDay = (dateLeft, dateRight) => {
-  return isSameDayDFNS(dateLeft, dateRight);
+  const left = new Date(dateLeft);
+  const right = new Date(dateRight);
+  return (
+    left.getFullYear() === right.getFullYear() &&
+    left.getMonth() === right.getMonth() &&
+    left.getDate() === right.getDate()
+  );
 };
 
 /**
@@ -15,7 +19,8 @@ export const isSameDay = (dateLeft, dateRight) => {
  * @returns {string}
  */
 export const formatTime = (ts) => {
-  return format(new Date(ts), "H:mm", { timeZone: "Asia/Tokyo" });
+  const date = new Date(ts);
+  return date.getHours() + ":" + date.getMinutes().toString().padStart(2, "0");
 };
 
 /**
@@ -24,13 +29,19 @@ export const formatTime = (ts) => {
  * @returns {string}
  */
 export const formatCloseAt = (closeAt, now = new Date()) => {
-  if (new Date(closeAt) < new Date(now)) {
+  const closeDate = new Date(closeAt);
+  if (closeDate.getTime() < now.getTime()) {
     return "投票締切";
   }
 
-  if ((new Date(closeAt)) > add(new Date(now), {hours: 2})) {
+  // if (moment(closeAt).isAfter(moment(now).add(2, "hours"))) {
+  //   return "投票受付中";
+  // }
+  if (closeDate.getTime() - now.getTime() > 1000 * 60 * 60 * 2) {
     return "投票受付中";
   }
 
-  return `締切${differenceInMinutes(new Date(closeAt), new Date(now))}分前`;
+  return `締切${Math.floor(
+    (closeDate.getTime() - now.getTime()) / 1000 / 60,
+  )}分前`;
 };
