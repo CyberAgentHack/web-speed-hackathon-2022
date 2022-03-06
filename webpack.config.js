@@ -22,7 +22,6 @@ module.exports = [
       process.env.NODE_ENV === "production" ? false : "inline-source-map",
     entry: {
       main: [
-        "core-js",
         "regenerator-runtime/runtime",
         path.join(SRC_ROOT, "client/index.jsx"),
       ],
