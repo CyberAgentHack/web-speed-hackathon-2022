@@ -38,7 +38,8 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.addHook("onRequest", async (req, res) => {
-  res.header("Cache-Control", "max-get=0");
+  // res.header("Cache-Control", "no-cache, no-store, no-transform");
+  res.header("Cache-Control", "max-age=0");
   // res.header("Connection", "close");
 });
 

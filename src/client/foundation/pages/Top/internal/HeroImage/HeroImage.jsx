@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { BreakPoint } from "../../../../styles/variables";
 
 const Image = styled.img`
   display: block;
@@ -14,5 +15,5 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
-  return <Image alt="" src={url} />;
+  return <Image alt="" src={url} width={1440} />;
 };

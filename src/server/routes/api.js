@@ -11,8 +11,9 @@ import zenginCode from "../../batch/fmt-zengin-code.json";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
+  const connection = await createConnection();
   fastify.get("/users/me", async (req, res) => {
-    const repo = (await createConnection()).getRepository(User);
+    const repo = connection.getRepository(User);
 
     if (req.user != null) {
       res.send(req.user);
@@ -32,7 +33,7 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.badRequest();
     }
 
-    const repo = (await createConnection()).getRepository(User);
+    const repo = connection.getRepository(User);
 
     req.user.balance += amount;
     await repo.save(req.user);
@@ -60,7 +61,7 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.badRequest();
     }
 
-    const repo = (await createConnection()).getRepository(Race);
+    const repo = connection.getRepository(Race);
 
     const where = {};
     if (since != null && until != null) {
@@ -88,7 +89,7 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.get("/races/:raceId", async (req, res) => {
-    const repo = (await createConnection()).getRepository(Race);
+    const repo = connection.getRepository(Race);
 
     const race = await repo.findOne(req.params.raceId, {
       relations: ["entries", "entries.player", "trifectaOdds"],
@@ -106,7 +107,7 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.unauthorized();
     }
 
-    const repo = (await createConnection()).getRepository(BettingTicket);
+    const repo = connection.getRepository(BettingTicket);
     const bettingTickets = await repo.find({
       where: {
         race: {
@@ -143,7 +144,7 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.badRequest();
     }
 
-    const bettingTicketRepo = (await createConnection()).getRepository(
+    const bettingTicketRepo = connection.getRepository(
       BettingTicket,
     );
     const bettingTicket = await bettingTicketRepo.save(
@@ -159,7 +160,7 @@ export const apiRoute = async (fastify) => {
       }),
     );
 
-    const userRepo = (await createConnection()).getRepository(User);
+    const userRepo = connection.getRepository(User);
     req.user.balance -= 100;
     await userRepo.save(req.user);
 

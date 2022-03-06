@@ -55,7 +55,8 @@ module.exports = [
     },
     name: "client",
     output: {
-      path: DIST_PUBLIC,
+      // filename: '[name]-[contenthash:8].js',
+      path: DIST_PUBLIC
     },
     plugins: [
       new CopyPlugin({
@@ -72,7 +73,7 @@ module.exports = [
       }),
 
       new HtmlWebpackPlugin({
-        inject: true,
+        inject: false,
         template: path.resolve(SRC_ROOT, "./index.html")
       })
 

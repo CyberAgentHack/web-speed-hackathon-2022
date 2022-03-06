@@ -20,7 +20,9 @@ import { jsonFetcher } from "../../../utils/HttpUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
-import { TicketVendingModal } from "./internal/TicketVendingModal";
+// import { TicketVendingModal } from "./internal/TicketVendingModal";
+
+const TicketVendingModal = React.lazy(() => import("./internal/TicketVendingModal"))
 const LiveBadge = styled.span`
   background: ${Color.red};
   border-radius: ${Radius.SMALL};
@@ -124,7 +126,7 @@ export const Odds = () => {
         />
       </Section>
 
-      <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
+      <React.Suspense fallback={<p></p>}><TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} /></React.Suspense>
     </Container>
   );
 };

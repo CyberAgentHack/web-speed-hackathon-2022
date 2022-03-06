@@ -37,5 +37,5 @@ export const TrimmedImage = ({ height, src, width }) => {
   if (src == null) {
     return "Loading"
   }
-  return <img src={`${src.slice(0, -5)}-${width}_${height}.webp`} />;
+  return <img height={height} src={`${src.slice(0, -5)}-${width}_${height}.webp`} width={width} />;
 };

@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { Color, Space } from "../../../styles/variables";
 
+
+
 const Wrapper = styled.div`
   display: flex;
 
