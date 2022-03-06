@@ -97,20 +97,20 @@ function useHeroImage(todayRaces) {
   return imageUrl;
 }
 
+const ChargeButton = styled.button`
+  background: ${Color.mono[700]};
+  border-radius: ${Radius.MEDIUM};
+  color: ${Color.mono[0]};
+  padding: ${Space * 1}px ${Space * 2}px;
+
+  &:hover {
+    background: ${Color.mono[800]};
+  }
+`;
+
 /** @type {React.VFC} */
 export const Top = () => {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
-
-  const ChargeButton = styled.button`
-    background: ${Color.mono[700]};
-    border-radius: ${Radius.MEDIUM};
-    color: ${Color.mono[0]};
-    padding: ${Space * 1}px ${Space * 2}px;
-
-    &:hover {
-      background: ${Color.mono[800]};
-    }
-  `;
 
   const chargeDialogRef = useRef(null);
 
@@ -136,12 +136,12 @@ export const Top = () => {
   const todayRaces =
     raceData != null
       ? [...raceData.races]
+          .filter((/** @type {Model.Race} */ race) =>
+            isSameDay(race.startAt, date),
+          )
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
               moment(a.startAt) - moment(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
           )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);

@@ -7567,6 +7567,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-image@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "react-image@npm:4.0.3"
+  peerDependencies:
+    "@babel/runtime": ">=7"
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 80f22af0b625a43344bc26421128a6204dce098098f14b2e3b0570cef88f94452fbd093ef50aa6e1e786b6009666b11a11a652431cd87fb6cace2d00ff305d19
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1, react-is@npm:^16.7.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -9772,6 +9783,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-helmet: ^6.1.0
+    react-image: ^4.0.3
     react-router-dom: 6
     regenerator-runtime: ^0.13.9
     rimraf: ^3.0.2

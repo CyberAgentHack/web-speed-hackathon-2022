@@ -25,10 +25,10 @@ export const TrimmedImage = ({ height, src, width }) => {
       const ctx = canvas.getContext("2d");
       ctx.drawImage(
         img,
-        -(img.width * ratio - width) / 2,
-        -(img.height * ratio - height) / 2,
-        img.width * ratio,
-        img.height * ratio,
+        Math.round(-(img.width * ratio - width) / 2),
+        Math.round(-(img.height * ratio - height) / 2),
+        Math.round(img.width * ratio),
+        Math.round(img.height * ratio),
       );
       setDataUrl(canvas.toDataURL());
     };
