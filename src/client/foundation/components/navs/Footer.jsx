@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -51,7 +51,7 @@ const WarningText = styled.p`
 `;
 
 /** @type {React.VFC} */
-export const Footer = () => {
+export const Footer = memo(() => {
   return (
     <Wrapper>
       <List>
@@ -73,4 +73,5 @@ export const Footer = () => {
       </WarningText>
     </Wrapper>
   );
-};
+});
+Footer.displayName = "Footer";

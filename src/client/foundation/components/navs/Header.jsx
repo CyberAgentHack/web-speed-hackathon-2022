@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -39,7 +39,7 @@ const LoginButton = styled(BaseButton)`
 `;
 
 /** @type {React.VFC} */
-export const Header = () => {
+export const Header = memo(() => {
   const { loggedIn } = useAuth();
   const register = useRegister();
 
@@ -60,4 +60,5 @@ export const Header = () => {
       )}
     </Wrapper>
   );
-};
+});
+Header.displayName = "Header";

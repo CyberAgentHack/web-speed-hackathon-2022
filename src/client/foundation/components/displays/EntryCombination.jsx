@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
 import { Color, Space } from "../../styles/variables";
@@ -35,7 +35,7 @@ const Wrapper = styled.div`
  */
 
 /** @type {React.VFC<Props>} */
-export const EntryCombination = ({ numbers }) => {
+export const EntryCombination = memo(({ numbers }) => {
   return (
     <Wrapper>
       {numbers.map((key, j) => (
@@ -43,4 +43,5 @@ export const EntryCombination = ({ numbers }) => {
       ))}
     </Wrapper>
   );
-};
+});
+EntryCombination.displayName = "EntryCombination";
