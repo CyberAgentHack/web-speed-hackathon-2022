@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
 import { EntryCombination } from "../../../components/displays/EntryCombination";
@@ -57,7 +57,7 @@ const Placeholder = styled.div`
   padding: ${Space * 2}px;
 `;
 
-export const BettingTicketList = ({ children }) => {
+export const BettingTicketList = memo(({ children }) => {
   if (React.Children.count(children) === 0) {
     return (
       <Placeholder>
@@ -81,5 +81,6 @@ export const BettingTicketList = ({ children }) => {
       <tbody>{children}</tbody>
     </Table>
   );
-};
+});
 BettingTicketList.Item = Item;
+BettingTicketList.displayName = "BettingTicketList";

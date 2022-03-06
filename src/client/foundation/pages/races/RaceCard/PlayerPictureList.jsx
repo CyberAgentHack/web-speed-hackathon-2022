@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
 import { Stack } from "../../../components/layouts/Stack";
@@ -43,11 +43,12 @@ const Item = ({ image, name, number }) => {
   );
 };
 
-export const PlayerPictureList = ({ children }) => {
+export const PlayerPictureList = memo(({ children }) => {
   return (
     <Stack horizontal gap={Space * 2} wrap="wrap">
       {children}
     </Stack>
   );
-};
+});
 PlayerPictureList.Item = Item;
+PlayerPictureList.displayName = "PlayerPictureList";

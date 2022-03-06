@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
 import { Color, FontSize, Space } from "../../../styles/variables";
@@ -57,7 +57,7 @@ const TableCell = styled.td`
  */
 
 /** @type {React.VFC<Props>} */
-export const EntryTable = ({ entries }) => {
+export const EntryTable = memo(({ entries }) => {
   return (
     <Wrapper>
       <Table>
@@ -132,4 +132,6 @@ export const EntryTable = ({ entries }) => {
       </Table>
     </Wrapper>
   );
-};
+});
+
+EntryTable.displayName = "EntryTable";
