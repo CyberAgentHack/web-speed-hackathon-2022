@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -16,13 +16,22 @@ export const RecentRaceList = ({ children }) => {
   );
 };
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`
+
 const ItemWrapper = styled.li`
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
-  opacity: ${({ $opacity }) => $opacity};
+
+  animation: ${fadeIn} 500ms ${({$delay}) => $delay}ms ease-out both;
   padding: ${Space * 3}px;
-  transition: opacity ${({ $duration }) => $duration}s
-    cubic-bezier(0.2, 0.6, 0.35, 1);
 `;
 
 const RaceButton = styled(LinkButton)`
@@ -44,15 +53,13 @@ const RaceTitle = styled.h2`
 /**
  * @typedef ItemProps
  * @property {Model.Race} race
- * @property number delay
  */
 
 /** @type {React.VFC<ItemProps>} */
 const Item = ({ delay, race }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
-  const [opacity, setOpacity] = useState(0);
-  const [duration, setDuration] = useState(0.5);
 
+  // TODO
   // 締切はリアルタイムで表示したい
   useEffect(() => {
     const timer = setInterval(() => {
@@ -64,21 +71,8 @@ const Item = ({ delay, race }) => {
     };
   }, [race.closeAt]);
 
-  useEffect(() => {
-    setDuration(0.5);
-    const timer = setTimeout(() => {
-      setOpacity(1);
-    }, delay);
-
-    return () => {
-      clearTimeout(timer);
-      setDuration(0);
-      setOpacity(0);
-    };
-  }, [race.id, delay]);
-
   return (
-    <ItemWrapper $duration={duration} $opacity={opacity}>
+    <ItemWrapper $delay={delay}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
@@ -89,11 +83,7 @@ const Item = ({ delay, race }) => {
 
         <Stack.Item grow={0} shrink={0}>
           <Stack horizontal alignItems="center" gap={Space * 2}>
-            <TrimmedImage
-              height={100}
-              src={race.image.substring(0, race.image.length - 3) + "avif"}
-              width={100}
-            />
+            <TrimmedImage height={100} src={`${race.image}_thumb.avif`} width={100} />
             <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>
           </Stack>
         </Stack.Item>

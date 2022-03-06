@@ -15,14 +15,6 @@ const Wrapper = styled.h1`
   margin-bottom: ${Space * 1}px;
 `;
 
-const PlaceHolderWrapper = styled.h1`
-  ${({ as }) => styles[as]}
-  font-weight: bold;
-  margin-bottom: ${Space * 1}px;
-  color: rgba(0, 0, 0, 0);
-  user-select: none;
-`;
-
 /**
  * @typedef Props
  * @property {'h1' | 'h2' | 'h3'} as
@@ -30,6 +22,5 @@ const PlaceHolderWrapper = styled.h1`
 
 /** @type {React.FC<Props>} */
 export const Heading = ({ as, children }) => {
-  if (children) return <Wrapper as={as}>{children}</Wrapper>;
-  else return <PlaceHolderWrapper as={as}>PlaceHolder</PlaceHolderWrapper>;
+  return <Wrapper as={as}>{children}</Wrapper>;
 };
