@@ -20,7 +20,7 @@ module.exports = [
   {
     // devtool: "inline-source-map", // TODO: 消す
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "production",
+    mode: "development",
     module: {
       rules: [
         {
