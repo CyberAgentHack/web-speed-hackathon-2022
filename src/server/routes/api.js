@@ -27,6 +27,7 @@ export const apiRoute = async (fastify) => {
     }
 
     const { amount } = req.body;
+
     if (typeof amount !== "number" || amount <= 0) {
       throw fastify.httpErrors.badRequest();
     }
