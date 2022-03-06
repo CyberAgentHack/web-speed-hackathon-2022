@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 
 import { AuthContextProvider } from "./contexts/AuthContext";
@@ -12,9 +11,7 @@ export const App = () => {
     <StyleSheetManager disableCSSOMInjection>
       <AuthContextProvider>
         <GlobalStyle />
-        <BrowserRouter>
-          <Routes />
-        </BrowserRouter>
+        <Routes />
       </AuthContextProvider>
     </StyleSheetManager>
   );
