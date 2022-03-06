@@ -3428,7 +3428,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.10.4":
+"dayjs@npm:^1.10.4, dayjs@npm:^1.10.8":
   version: 1.10.8
   resolution: "dayjs@npm:1.10.8"
   checksum: 5a6b358a0646a780b7dbbec07b8c4400425143f88bf127f456bd2e75a854046f54808d65da2bf964c8267b82dbde0530e990376757ce7d961349d9cde8716a1d
@@ -9760,6 +9760,7 @@ __metadata:
     copy-webpack-plugin: ^10.2.0
     core-js: ^3.21.1
     csstype: ^3.0.10
+    dayjs: ^1.10.8
     es5-shim: ^4.6.5
     es6-shim: ^0.35.6
     es7-shim: ^6.0.0
