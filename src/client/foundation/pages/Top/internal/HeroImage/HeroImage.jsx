@@ -16,5 +16,5 @@ const Image = styled.img`
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
   // url = getFetchSRC(url, null)
-  return <Image alt="" src={url} />;
+  return <Image alt="" width="1024" src={url} />;
 };
