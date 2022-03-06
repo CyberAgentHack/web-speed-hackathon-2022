@@ -122,8 +122,8 @@ export const EntryTable = ({ entries }) => {
               <TableCell>{entry.third}</TableCell>
               <TableCell>{entry.others}</TableCell>
 
-              <TableCell>{entry.firstRate.toFixed(1)}</TableCell>
-              <TableCell>{entry.thirdRate.toFixed(1)}</TableCell>
+              <TableCell>{entry.firstRate?.toFixed(1)}</TableCell>
+              <TableCell>{entry.thirdRate?.toFixed(1)}</TableCell>
 
               <TableCell $align="left">{entry.comment}</TableCell>
             </tr>

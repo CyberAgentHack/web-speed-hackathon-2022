@@ -51,6 +51,8 @@ module.exports = [
     },
     name: "client",
     output: {
+      chunkFilename: "[name].bundle.js",
+      filename: "[name].bundle.js",
       path: DIST_PUBLIC,
     },
     plugins: [
@@ -59,6 +61,10 @@ module.exports = [
       }),
     ],
     resolve: {
+      alias: {
+        react: "preact/compat",
+        "react-dom": "preact/compat",
+      },
       extensions: [".js", ".jsx"],
     },
     target: "web",

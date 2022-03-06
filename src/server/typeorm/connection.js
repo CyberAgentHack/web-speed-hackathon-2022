@@ -1,4 +1,4 @@
-import * as typeorm from "typeorm";
+import { createConnection as typeOrmCreateConnection } from "typeorm";
 
 import {
   BettingTicket,
@@ -10,14 +10,14 @@ import {
 } from "../../model/index.js";
 import { DATABASE_PATH } from "../paths.js";
 
-const connectionPromise = typeorm.createConnection({
+const connectionPromise = typeOrmCreateConnection({
   database: DATABASE_PATH,
   entities: [
+    Race.schema,
     User.schema,
     OddsItem.schema,
     Player.schema,
     RaceEntry.schema,
-    Race.schema,
     BettingTicket.schema,
   ],
   synchronize: false,

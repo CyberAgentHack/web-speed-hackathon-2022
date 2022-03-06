@@ -4,6 +4,7 @@ import styled from "styled-components";
 const Image = styled.img`
   display: block;
   margin: 0 auto;
+  aspect-ratio: 1024 / 735;
 `;
 
 /**
@@ -14,5 +15,5 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
-  return <Image alt="" src={url} />;
+  return <Image alt="" decoding="async" src={url} />;
 };

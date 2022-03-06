@@ -2,9 +2,7 @@ import "regenerator-runtime/runtime";
 import fastify from "fastify";
 import fastifySensible from "fastify-sensible";
 
-import { User } from "../model/index.js";
-
-import { apiRoute } from "./routes/api.js";
+import { authApiRoute, unAuthApiRoute } from "./routes/api.js";
 import { spaRoute } from "./routes/spa.js";
 import { createConnection } from "./typeorm/connection.js";
 import { initialize } from "./typeorm/initialize.js";
@@ -23,18 +21,9 @@ const server = fastify({
 });
 server.register(fastifySensible);
 
-server.addHook("onRequest", async (req, res) => {
-  const repo = (await createConnection()).getRepository(User);
-
-  const userId = req.headers["x-app-userid"];
-  if (userId !== undefined) {
-    const user = await repo.findOne(userId);
-    if (user === undefined) {
-      res.unauthorized();
-      return;
-    }
-    req.user = user;
-  }
+const connectionPromise = createConnection();
+server.addHook("onRequest", async (req) => {
+  req.dbConnection = await connectionPromise;
 });
 
 server.addHook("onRequest", async (req, res) => {
@@ -42,7 +31,8 @@ server.addHook("onRequest", async (req, res) => {
   res.header("Connection", "close");
 });
 
-server.register(apiRoute, { prefix: "/api" });
+server.register(authApiRoute, { prefix: "/api" });
+server.register(unAuthApiRoute, { prefix: "/api" });
 server.register(spaRoute);
 
 const start = async () => {
@@ -54,4 +44,5 @@ const start = async () => {
     process.exit(1);
   }
 };
+
 start();

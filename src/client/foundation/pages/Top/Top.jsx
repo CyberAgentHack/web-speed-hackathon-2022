@@ -1,6 +1,12 @@
-import _ from "lodash";
-import moment from "moment-timezone";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import dayjs from "dayjs";
+import difference from "lodash.difference";
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -11,12 +17,12 @@ import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
-import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
-import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
+
+const ChargeDialog = React.lazy(() => import("./internal/ChargeDialog"));
 
 /**
  * @param {Model.Race[]} races
@@ -31,7 +37,7 @@ function useTodayRacesWithAnimation(races) {
 
   useEffect(() => {
     const isRacesUpdate =
-      _.difference(
+      difference(
         races.map((e) => e.id),
         prevRaces.current.map((e) => e.id),
       ).length !== 0;
@@ -62,7 +68,7 @@ function useTodayRacesWithAnimation(races) {
       }
 
       numberOfRacesToShow.current++;
-      setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
+      setRacesToShow(races.slice(0, numberOfRacesToShow.current));
     }, 100);
   }, [isRacesUpdate, races]);
 
@@ -77,41 +83,20 @@ function useTodayRacesWithAnimation(races) {
   return racesToShow;
 }
 
-/**
- * @param {Model.Race[]} todayRaces
- * @returns {string | null}
- */
-function useHeroImage(todayRaces) {
-  const firstRaceId = todayRaces[0]?.id;
-  const url =
-    firstRaceId !== undefined
-      ? `/api/hero?firstRaceId=${firstRaceId}`
-      : "/api/hero";
-  const { data } = useFetch(url, jsonFetcher);
+const ChargeButton = styled.button`
+  background: ${Color.mono[700]};
+  border-radius: ${Radius.MEDIUM};
+  color: ${Color.mono[0]};
+  padding: ${Space * 1}px ${Space * 2}px;
 
-  if (firstRaceId === undefined || data === null) {
-    return null;
+  &:hover {
+    background: ${Color.mono[800]};
   }
-
-  const imageUrl = `${data.url}?${data.hash}`;
-  return imageUrl;
-}
+`;
 
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
-
-  const ChargeButton = styled.button`
-    background: ${Color.mono[700]};
-    border-radius: ${Radius.MEDIUM};
-    color: ${Color.mono[0]};
-    padding: ${Space * 1}px ${Space * 2}px;
-
-    &:hover {
-      background: ${Color.mono[800]};
-    }
-  `;
-
+  const { date = dayjs().format("YYYY-MM-DD") } = useParams();
   const chargeDialogRef = useRef(null);
 
   const { data: userData, revalidate } = useAuthorizedFetch(
@@ -119,7 +104,12 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const { data: raceData } = useFetch(
+    `/api/races?since=${dayjs(date).startOf("day").unix()}&until=${dayjs(date)
+      .endOf("day")
+      .unix()}`,
+    jsonFetcher,
+  );
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -133,23 +123,12 @@ export const Top = () => {
     revalidate();
   }, [revalidate]);
 
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
-          )
-      : [];
+  const todayRaces = raceData?.races ?? [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
-  const heroImageUrl = useHeroImage(todayRaces);
 
   return (
     <Container>
-      {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
+      <HeroImage url="/assets/images/hero.webp" />
 
       <Spacer mt={Space * 2} />
       {userData && (
@@ -170,14 +149,19 @@ export const Top = () => {
         <Heading as="h1">本日のレース</Heading>
         {todayRacesToShow.length > 0 && (
           <RecentRaceList>
-            {todayRacesToShow.map((race) => (
-              <RecentRaceList.Item key={race.id} race={race} />
+            {todayRacesToShow.map((race, index) => (
+              <RecentRaceList.Item
+                key={race.id}
+                imgLazyLoad={3 < index}
+                race={race}
+              />
             ))}
           </RecentRaceList>
         )}
       </section>
-
-      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      <Suspense fallback={null}>
+        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      </Suspense>
     </Container>
   );
 };

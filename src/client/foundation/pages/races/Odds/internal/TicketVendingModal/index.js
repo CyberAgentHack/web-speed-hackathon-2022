@@ -1,1 +1,1 @@
-export * from "./TicketVendingModal";
+export { TicketVendingModal as default } from "./TicketVendingModal";
