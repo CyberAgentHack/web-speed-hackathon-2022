@@ -3,7 +3,6 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
-const LoadablePlugin = require("@loadable/webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 
 function abs(...args) {
@@ -30,25 +29,25 @@ module.exports = [
           },
           type: "asset/source",
         },
-        // {
-        //   exclude: /\/esm\//,
-        //   test: /\.jsx?$/,
-        //   use: {
-        //     loader: "babel-loader",
-        //     options: {
-        //       presets: [
-        //         [
-        //           "@babel/preset-env",
-        //           {
-        //             modules: "cjs",
-        //             spec: true,
-        //           },
-        //         ],
-        //         "@babel/preset-react",
-        //       ],
-        //     },
-        //   },
-        // },
+        {
+          exclude: /\/esm\//,
+          test: /\.jsx?$/,
+          use: {
+            // // loader: "babel-loader",
+            options: {
+              presets: [
+                [
+                  "@babel/preset-env",
+                  {
+                    modules: "cjs",
+                    spec: true,
+                  },
+                ],
+                "@babel/preset-react",
+              ],
+            },
+          },
+        },
       ],
     },
     name: "client",
@@ -59,7 +58,6 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
-      new LoadablePlugin(),
       new CompressionPlugin({
         algorithm: "gzip",
       }),
@@ -80,7 +78,7 @@ module.exports = [
           exclude: /node_modules/,
           test: /\.(js|mjs|jsx)$/,
           use: {
-            loader: "babel-loader",
+            //   // loader: "babel-loader",
             options: {
               presets: [
                 [
