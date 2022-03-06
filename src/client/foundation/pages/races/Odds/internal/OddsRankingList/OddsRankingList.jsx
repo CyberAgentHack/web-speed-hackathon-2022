@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
 
@@ -72,8 +71,8 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
     sortedOdds = [...Array(50).keys()];
   } else {
     /* loading done */
-    sortedOdds = _.take(
-      odds.sort((a, b) => {
+    sortedOdds = odds
+      .sort((a, b) => {
         if (a.odds != b.odds) {
           return a.odds - b.odds;
         }
@@ -82,9 +81,8 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
           if (a.id < b.id) return -1;
         }
         return 0;
-      }),
-      50,
-    );
+      })
+      .slice(0, 50);
   }
 
   return (
