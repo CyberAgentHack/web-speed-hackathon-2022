@@ -34,5 +34,9 @@ export const TrimmedImage = ({ height, src, width }) => {
     };
   }, [height, src, width]);
 
-  return <img alt="" src={dataUrl} style={{height: height+'px', width: width+'px'}} />;
+  if (height === width) {
+    return <img alt="" decoding='async' loading='async' src={dataUrl} style={{height: height+'px', width: width+'px'}} />;
+  } else {
+    return <img alt="" decoding='async' loading='async' src={dataUrl} />;
+  }
 };
