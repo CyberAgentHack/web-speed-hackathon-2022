@@ -83,6 +83,7 @@ export default function Top() {
   const handleCompleteCharge = useCallback(() => {
     revalidate();
   }, [revalidate]);
+  useEffect(()=>console.log(raceData),[raceData])
    const cursor = useCountUp(raceData?raceData.races.length:0)
   return (
     <Container>
