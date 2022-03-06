@@ -3,7 +3,7 @@ import fastify from "fastify";
 import fastifySensible from "fastify-sensible";
 
 import { authApiRoute, unAuthApiRoute } from "./routes/api.js";
-import { spaRoute } from "./routes/spa.jsx";
+import { spaRoute } from "./routes/spa.js";
 import { createConnection } from "./typeorm/connection.js";
 import { initialize } from "./typeorm/initialize.js";
 
