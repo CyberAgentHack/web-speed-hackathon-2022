@@ -50,7 +50,7 @@ const RaceTitle = styled.h2`
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ delay, race }) => {
+const Item = ({ delay, lazy, race }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
   const [opacity, setOpacity] = useState(0);
   const [duration, setDuration] = useState(0.5);
@@ -92,7 +92,12 @@ const Item = ({ delay, race }) => {
 
         <Stack.Item grow={0} shrink={0}>
           <Stack horizontal alignItems="center" gap={Space * 2}>
-            <TrimmedImage height={100} src={race.image} width={100} />
+            <TrimmedImage
+              height={100}
+              lazy={lazy}
+              src={race.image}
+              width={100}
+            />
             <RaceButton
               disabled={race.id === "1"}
               to={`/races/${race.id}/race-card`}
