@@ -11,8 +11,7 @@ import styled from "styled-components";
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, type, width }) => {
   const StyledImage = styled.img`
-    max-height: 100%;
-    height: ${height}px;
+    height: 100%;
     aspect-ratio: ${width} / ${height};
     object-fit: ${type};`
 
