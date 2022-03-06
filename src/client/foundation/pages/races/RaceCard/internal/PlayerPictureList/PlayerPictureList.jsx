@@ -31,7 +31,7 @@ const Item = ({ image, name, number }) => {
       <TrimmedImage
         alt={`${name}選手のプロフィール写真`}
         height={100}
-        src={image}
+        src={`${image}_thumb.avif`}
         width={100}
       />
 
