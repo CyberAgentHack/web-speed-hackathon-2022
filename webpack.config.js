@@ -2,7 +2,6 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -53,13 +52,11 @@ module.exports = [
     name: "client",
     output: {
       path: DIST_PUBLIC,
-      filename: "bundle.js",
     },
     plugins: [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
-      new UglifyJSPlugin(),
     ],
     resolve: {
       extensions: [".js", ".jsx"],
