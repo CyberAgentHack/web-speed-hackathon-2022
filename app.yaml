@@ -3,11 +3,12 @@ runtime: nodejs16
 env: standard
 instance_class: F4
 
+entrypoint: npm run start:gce
+
 automatic_scaling:
   min_idle_instances: 1
   max_idle_instances: 1
   min_pending_latency: 3s
   max_pending_latency: automatic
   max_instances: 1
-change: 
-entrypoint: npm run start:gce
+
