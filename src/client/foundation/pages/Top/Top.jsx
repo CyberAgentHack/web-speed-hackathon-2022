@@ -98,7 +98,6 @@ function useHeroImage(todayRaces) {
 
 /** @type {React.VFC} */
 export const Top = () => {
-  console.log("TOPRENERRRRRRRRRRR");
   const { date = moment().format("YYYY-MM-DD") } = useParams();
 
   const ChargeButton = styled.button`
@@ -120,7 +119,6 @@ export const Top = () => {
   );
 
   const { data: raceData } = useFetch("/api/races", jsonFetcher);
-  console.log(raceData);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
