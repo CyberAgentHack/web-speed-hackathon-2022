@@ -99,7 +99,7 @@ export const RaceResult = () => {
         <Spacer mt={Space * 2} />
         <TrimmedImage
           height={225}
-          src={data.image.slice(0, -3) + "webp"}
+          src={data.image.slice(0, -3) + "avif"}
           width={400}
         />
       </Section>

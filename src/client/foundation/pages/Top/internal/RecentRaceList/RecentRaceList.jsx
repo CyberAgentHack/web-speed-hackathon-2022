@@ -97,7 +97,7 @@ const Item = ({ race }) => {
               height={100}
               lazy={true}
               length={true}
-              src={race.image.slice(0, -3) + "webp"}
+              src={race.image.slice(0, -3) + "avif"}
               width={100}
             />
             <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>

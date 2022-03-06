@@ -33,7 +33,7 @@ const Item = ({ image, name, number }) => {
         height={100}
         lazy={true}
         length={true}
-        src={image.slice(0, -3) + "webp"}
+        src={image.slice(0, -3) + "avif"}
         width={100}
       />
 
