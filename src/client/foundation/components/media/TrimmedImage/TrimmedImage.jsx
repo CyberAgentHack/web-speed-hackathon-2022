@@ -13,7 +13,6 @@ export const TrimmedImage = ({ height, src, width }) => {
 
   useEffect(() => {
     const loadImage = () => {
-      console.log("loadImage");
       return new Promise((resolve, reject) => {
         const img = new Image();
         img.onload = () => resolve(img);
@@ -22,8 +21,6 @@ export const TrimmedImage = ({ height, src, width }) => {
       });
     };
     loadImage().then((res) => {
-      console.log("resWidth = ", res.width);
-      console.log("Width = ", width);
       const canvas = document.createElement("canvas");
       canvas.width = width;
       canvas.height = height;
