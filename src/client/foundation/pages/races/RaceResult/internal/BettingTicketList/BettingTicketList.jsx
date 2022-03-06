@@ -1,10 +1,13 @@
-import { faTicketAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import React from "react";
 import styled from "styled-components";
 
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
+import IcoMoon from "react-icomoon";
+import iconSet from "./selection.json";
+
+const Icon = (props) => <IcoMoon iconSet={iconSet} {...props} />;
 
 const ItemWrapper = styled.tr`
   padding: ${Space * 1}px ${Space * 2}px;
@@ -62,7 +65,7 @@ export const BettingTicketList = ({ children }) => {
   if (React.Children.count(children) === 0) {
     return (
       <Placeholder>
-        <FontAwesomeIcon icon={faTicketAlt} />
+        <Icon icon="ticket-alt" size={20} />
         <div>購入した拳券はありません</div>
       </Placeholder>
     );
