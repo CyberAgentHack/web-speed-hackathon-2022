@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
@@ -57,25 +57,12 @@ const RaceTitle = styled.h2`
 
 /** @type {React.VFC<ItemProps>} */
 const Item = ({ race }) => {
-  const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
-
-  // 締切はリアルタイムで表示したい
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCloseAtText(formatCloseAt(race.closeAt));
-    }, 0);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [race.closeAt]);
-
   return (
     <ItemWrapper>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
-          <p>{closeAtText}</p>
+          <p>{formatCloseAt(race.closeAt)}</p>
         </Stack>
 
         <Spacer mr={Space * 2} />
