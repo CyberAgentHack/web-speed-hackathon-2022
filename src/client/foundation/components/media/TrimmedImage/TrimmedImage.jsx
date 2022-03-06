@@ -9,9 +9,9 @@ import styled from "styled-components";
  */
 
 const ContainImage = styled.img`
-  height: 100%;
+  object-fit: contain;
   aspect-ratio: ${props => props.w} / ${props => props.h};
-  object-fit: contain;`
+  height: 100%;`
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
