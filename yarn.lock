@@ -3275,18 +3275,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"compression-webpack-plugin@npm:^9.2.0":
-  version: 9.2.0
-  resolution: "compression-webpack-plugin@npm:9.2.0"
-  dependencies:
-    schema-utils: ^4.0.0
-    serialize-javascript: ^6.0.0
-  peerDependencies:
-    webpack: ^5.1.0
-  checksum: 50ef78d0973f87ed8d7c30fdb31b009d409c288a77ee842d9b3b5b2348048f55148f510d3a0bd30b5c954e6701ed9fc08c3616ce46ad1eec8e0954b336a5f4b9
-  languageName: node
-  linkType: hard
-
 "concat-map@npm:0.0.1":
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
@@ -10673,7 +10661,6 @@ __metadata:
     axios: ^0.25.0
     babel-loader: ^8.2.3
     bezier-easing: ^2.1.0
-    compression-webpack-plugin: ^9.2.0
     copy-webpack-plugin: ^10.2.0
     core-js: ^3.21.1
     css-minimizer-webpack-plugin: ^3.4.1
