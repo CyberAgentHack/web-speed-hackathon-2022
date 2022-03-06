@@ -1,6 +1,6 @@
-import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
+import { getUTCFormatString } from "../../client/foundation/utils/DateUtils";
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
@@ -41,41 +41,27 @@ export const apiRoute = async (fastify) => {
 
   fastify.get("/hero", async (_req, res) => {
     const url = assets("/images/hero.avif");
-    const hash = Math.random().toFixed(10).substring(2);
-
-    res.send({ hash, url });
+    res.send({ url });
   });
 
   fastify.get("/races", async (req, res) => {
-    const since =
-      req.query.since != null ? moment.unix(req.query.since) : undefined;
-    const until =
-      req.query.until != null ? moment.unix(req.query.until) : undefined;
-
-    if (since != null && !since.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
-    if (until != null && !until.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
+    const since = req.query.since ? new Date(req.query.since * 1000) : null;
+    const until = req.query.until ? new Date(req.query.until * 1000) : null;
 
     const repo = (await createConnection()).getRepository(Race);
 
     const where = {};
     if (since != null && until != null) {
       Object.assign(where, {
-        startAt: Between(
-          since.utc().format("YYYY-MM-DD HH:mm:ss"),
-          until.utc().format("YYYY-MM-DD HH:mm:ss"),
-        ),
+        startAt: Between(getUTCFormatString(since), getUTCFormatString(until)),
       });
     } else if (since != null) {
       Object.assign(where, {
-        startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+        startAt: MoreThanOrEqual(getUTCFormatString(since)),
       });
     } else if (until != null) {
       Object.assign(where, {
-        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+        startAt: LessThanOrEqual(getUTCFormatString(since)),
       });
     }
 

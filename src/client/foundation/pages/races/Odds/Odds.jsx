@@ -1,4 +1,3 @@
-import moment from "moment-timezone";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -14,7 +13,7 @@ import { TrimmedImagePlaceholder } from "../../../components/placeholders/Trimme
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
-import { formatTime } from "../../../utils/DateUtils";
+import { formatTime, isBefore } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
@@ -84,7 +83,7 @@ export const Odds = () => {
 
   const isRaceClosed = useMemo(() => {
     if (!entriesData) return false;
-    return moment(entriesData.closeAt).isBefore(new Date());
+    return isBefore(new Date(entriesData.closeAt), new Date());
   }, [entriesData]);
 
   return (
