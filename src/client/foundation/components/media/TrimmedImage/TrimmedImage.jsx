@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 /**
  * @typedef Props
@@ -35,5 +34,11 @@ export const TrimmedImage = ({ alt, height, src, width }) => {
     };
   }, [alt, height, src, width]);
 
-  return <LazyLoadImage alt={alt} src={dataUrl} type="image/webp" />;
+  return (
+    <img
+      alt={alt}
+      src={dataUrl}
+      type="image/webp"
+    />
+  );
 };
