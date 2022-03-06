@@ -10,6 +10,7 @@ const sharp = require('sharp');
 
 const PLAYERS_IMAGE_DIR = path.join(__dirname, "../../public/assets/images/players/");
 const RACE_IMAGE_DIR = path.join(__dirname, "../../public/assets/images/races/");
+const HERO_IMAGE_DIR = path.join(__dirname, "../../public/assets/images/hero.jpg");
 
 const RESIZE_PLAYERS_IMAGE_DIR = path.join(__dirname, "../../public/assets/images/resized/players/");
 const RESIZE_RACE_IMAGE_DIR = path.join(__dirname, "../../public/assets/images/resized/races/");
@@ -59,7 +60,17 @@ function jpgToPngSRC(src) {
 }
 
 function main() {
-  console.log(PLAYERS_IMAGE_DIR)
+  const src = HERO_IMAGE_DIR
+  const imageData = fs.readFileSync(src)
+  sharp(imageData)
+    .resize(800)
+    .webp({
+      quality: 30
+    })
+    .toFile(src + ".webp");
+
+  return
+
   // const imageData = resizeImage(src, width, height)
   let files = fs.readdirSync(PLAYERS_IMAGE_DIR);
   const player_width = 100;

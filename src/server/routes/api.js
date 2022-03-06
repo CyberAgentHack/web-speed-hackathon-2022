@@ -6,7 +6,7 @@ import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
 import fastifyResponseCaching from 'fastify-response-caching';
-
+import zenginCode from "zengin-code";
 
 /**
  * @type {import('fastify').FastifyPluginCallback}
@@ -42,8 +42,12 @@ export const apiRoute = async (fastify) => {
     res.status(204).send();
   });
 
+  fastify.get("/banks.json", async (req, res) => {
+    res.send(zenginCode)
+  })
+
   fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.jpg");
+    const url = assets("/images/hero.jpg.webp");
     const hash = Math.random().toFixed(10).substring(2);
 
     res.send({ hash, url });
