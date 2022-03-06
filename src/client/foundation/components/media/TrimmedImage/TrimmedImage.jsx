@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
 /**
  * @typedef Props
@@ -7,6 +8,16 @@ import React, { useEffect, useState } from "react";
  * @property {height} height
  */
 
+
+const ImageH = styled.img`
+  height: 100%;
+  width: auto;
+`
+
+const ImageW = styled.img`
+  height: auto;
+  width: 100%;
+`
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width, nolazy }) => {
   const [dataUrl, setDataUrl] = useState(null);
@@ -34,5 +45,8 @@ export const TrimmedImage = ({ height, src, width, nolazy }) => {
     };
   }, [height, src, width]);
 
-  return nolazy ? <img height={height} width={width} src={dataUrl} /> : <img height={height} width={width} loading="lazy" src={dataUrl} />;
+  return nolazy ? (
+    width > height ? <ImageW width={width} height={height} src={dataUrl} /> : <ImageH height={height} width={width} src={dataUrl} />)
+    : (
+      width > height ? <ImageW width={width} height={height} src={dataUrl} /> : <ImageH height={height} width={width} src={dataUrl} />);
 };
