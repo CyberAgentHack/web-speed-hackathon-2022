@@ -68,8 +68,8 @@ const placeholder = [...new Array(50)].map((_, i) => ({id: i, key: [undefined, u
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, onClickOdds, raceId }) => {
-  const sortedOdds = useSWR(`/api/races/${raceId}/odds_popular`, jsonFetcher)?.data ?? placeholder;
+export const OddsRankingList = ({ isRaceClosed, onClickOdds, sortedOdds: maySortedOdds }) => {
+  const sortedOdds = maySortedOdds || placeholder;
 
   return (
     <Wrapper>
