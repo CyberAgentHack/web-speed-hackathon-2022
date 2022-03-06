@@ -21,7 +21,14 @@ const server = fastify({
         },
       },
 });
+
 server.register(fastifySensible);
+
+// server.register(
+//   require('fastify-compress'),
+//   { global: true,encoding: 
+//     ['deflate','gzip'],zlipOptions: { level: 5 } }
+// )
 
 server.addHook("onRequest", async (req, res) => {
   const repo = (await createConnection()).getRepository(User);
