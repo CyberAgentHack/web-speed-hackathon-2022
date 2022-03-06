@@ -74,6 +74,7 @@
     "framer-motion": "^6.2.8",
     "lodash.difference": "^4.5.0",
     "modern-css-reset": "^1.4.0",
+    "preact": "^10.6.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",

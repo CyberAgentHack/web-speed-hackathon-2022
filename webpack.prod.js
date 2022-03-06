@@ -3,7 +3,7 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 // const BundleAnalyzerPlugin =
-//   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+// require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -65,6 +65,10 @@ module.exports = [
       // new BundleAnalyzerPlugin(),
     ],
     resolve: {
+      alias: {
+        react: "preact/compat",
+        "react-dom": "preact/compat",
+      },
       extensions: [".js", ".jsx"],
     },
     target: "web",
