@@ -2,7 +2,7 @@ import "regenerator-runtime/runtime";
 import fastify from "fastify";
 import fastifySensible from "fastify-sensible";
 
-import { User } from "../model/index.js";
+import { User } from "../model/User.js";
 
 import { apiRoute } from "./routes/api.js";
 import { spaRoute } from "./routes/spa.js";

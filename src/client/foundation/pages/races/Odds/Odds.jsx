@@ -1,4 +1,3 @@
-import moment from "moment-timezone";
 import React, { useCallback, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -13,6 +12,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
+import { jpg2avif } from "../../../utils/UrlUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
@@ -61,7 +61,8 @@ export const Odds = () => {
     return <Container>Loading...</Container>;
   }
 
-  const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  import("moment-timezone").then(moment => {
+    const isRaceClosed = moment(data.closeAt).isBefore(new Date());
 
   return (
     <Container>
@@ -76,7 +77,7 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <TrimmedImage height={225} src={jpg2avif(data.image)} width={400}/>
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -124,4 +125,5 @@ export const Odds = () => {
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
     </Container>
   );
+  });
 };

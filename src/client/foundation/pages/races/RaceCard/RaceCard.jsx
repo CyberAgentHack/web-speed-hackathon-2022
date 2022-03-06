@@ -12,6 +12,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
+import { jpg2avif } from "../../../utils/UrlUtils";
 
 import { EntryTable } from "./internal/EntryTable";
 import { PlayerPictureList } from "./internal/PlayerPictureList";
@@ -28,7 +29,7 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceCard = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data } = useFetch(`/api/races/${raceId}/only`, jsonFetcher);
 
   if (data == null) {
     return <Container>Loading...</Container>;
@@ -47,7 +48,7 @@ export const RaceCard = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <TrimmedImage height={225} src={jpg2avif(data.image)} width={400}/>
       </Section>
 
       <Spacer mt={Space * 2} />
