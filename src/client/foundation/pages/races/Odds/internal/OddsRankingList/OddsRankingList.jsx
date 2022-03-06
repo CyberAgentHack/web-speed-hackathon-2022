@@ -68,7 +68,7 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
   return (
     <Wrapper>
       {odds.map((item, i) => (
-        <li key={item.id}>
+        <li key={i}>
           {isRaceClosed ? (
             <InactiveBuyButton>
               <Stack horizontal alignItems="center" gap={Space * 2}>

@@ -3,7 +3,7 @@ import utc from "dayjs/plugin/utc";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import zenginCode from "zengin-code";
 
-import { BettingTicket, Race, User } from "../../model/index.js";
+import { BettingTicket, OddsItem, Race, User } from "../../model/index.js";
 import { initialize } from "../typeorm/initialize.js";
 
 dayjs.extend(utc);
@@ -97,55 +97,60 @@ export const unAuthApiRoute = async (fastify) => {
       throw fastify.httpErrors.notFound();
     }
 
-    console.log(race);
-
     res.send(race);
   });
 
   fastify.get("/races/:raceId/first/:firstKey", async (req, res) => {
-    const repo = req.dbConnection.getRepository(Race);
-
-    const race = await repo.findOne(req.params.raceId, {
-      relations: ["trifectaOdds"],
+    const repo = req.dbConnection.getRepository(OddsItem);
+    const odds = await repo.find({
+      join: { alias: "odds2", innerJoin: { race: "odds2.race" } },
+      order: {
+        odds: "ASC",
+      },
+      select: ["key", "odds"],
+      where: (qb) => {
+        qb.where("race.id = :raceId", { raceId: req.params.raceId });
+      },
     });
 
-    if (race === undefined) {
+    if (odds === undefined) {
       throw fastify.httpErrors.notFound();
     }
 
-    const odds = race.trifectaOdds.filter(
+    const filteredOdds = odds.filter(
       ({ key }) => key[0] === parseInt(req.params.firstKey, 10),
     );
 
-    const converted = odds.reduce((acc, cur) => {
+    const converted = filteredOdds.reduce((acc, cur) => {
       const [, second, third] = cur.key;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id: __, key: _, ...obj } = cur;
-      acc[`${second}.${third}`] = obj;
+      acc[`${second}.${third}`] = cur;
       return acc;
     }, {});
-
-    console.log(converted);
 
     res.send(converted);
   });
 
-  fastify.get("/races/:raceId/popular", async (req, res) => {
-    const repo = req.dbConnection.getRepository(Race);
-
-    // TODO: クエリ改善
-    const race = await repo.findOne(req.params.raceId, {
-      relations: ["trifectaOdds"],
+  fastify.get("/races/:raceId/popular", async (req, reply) => {
+    const repo = req.dbConnection.getRepository(OddsItem);
+    const odds = await repo.find({
+      join: { alias: "odds2", innerJoin: { race: "odds2.race" } },
+      order: {
+        odds: "ASC",
+      },
+      take: 50,
+      where: (qb) => {
+        qb.where("race.id = :raceId", { raceId: req.params.raceId });
+      },
     });
 
-    if (race === undefined) {
+    if (odds === undefined) {
       throw fastify.httpErrors.notFound();
     }
-    race.trifectaOdds.sort((a, b) =>
-      a.odds - b.odds > 0 ? 1 : a.odds < b.odds ? -1 : 0,
-    );
 
-    res.send(race.trifectaOdds.slice(0, 50));
+    const res = odds.map(({ key, odds }) => ({ key, odds }));
+
+    reply.send(res);
   });
 
   fastify.post("/initialize", async (_req, res) => {
