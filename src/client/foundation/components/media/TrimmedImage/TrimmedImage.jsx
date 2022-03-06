@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width, lazy }) => {
+export const TrimmedImage = ({ height, src, width, nolazy }) => {
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {
@@ -34,5 +34,5 @@ export const TrimmedImage = ({ height, src, width, lazy }) => {
     };
   }, [height, src, width]);
 
-  return nolazy ? <img src={dataUrl} /> : <img loading="lazy" src={dataUrl} />;
+  return nolazy ? <img width={width} height={height} src={dataUrl} /> : <img width={width} height={height} loading="lazy" src={dataUrl} />;
 };
