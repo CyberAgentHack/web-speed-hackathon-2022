@@ -13,7 +13,11 @@ export const TrimmedImage = ({ height, src, width }) => {
 
   useEffect(() => {
     const img = new Image();
-    img.src = src;
+    if (height === width) {
+      img.src = src.slice(0,-4)+'s.webp';
+    } else {
+      img.src = src.slice(0,-3)+'webp';
+    }
     img.onload = () => {
       const canvas = document.createElement("canvas");
       canvas.width = width;
@@ -34,5 +38,9 @@ export const TrimmedImage = ({ height, src, width }) => {
     };
   }, [height, src, width]);
 
-  return <img src={dataUrl} />;
+  if (height === width) {
+    return <img alt="" decoding='async' loading='async' src={dataUrl} style={{height: height+'px', width: width+'px'}} />;
+  } else {
+    return <img alt="" decoding='async' loading='async' src={dataUrl} />;
+  }
 };
