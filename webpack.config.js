@@ -2,8 +2,11 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
+const TerserPlugin = require("terser-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
+const smp = new SpeedMeasurePlugin()
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -15,18 +18,11 @@ const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
 
 /** @type {Array<import('webpack').Configuration>} */
-module.exports = [
+module.exports = smp.wrap([
   {
-    devtool:
-      process.env.NODE_ENV === "production" ? false : "inline-source-map",
-    entry: {
-      main: [
-        "core-js",
-        "regenerator-runtime/runtime",
-        path.join(SRC_ROOT, "client/index.jsx"),
-      ],
-    },
-    mode: process.env.NODE_ENV,
+    devtool: false,
+    entry: path.join(SRC_ROOT, "client/index.jsx"),
+    mode: "production",
     module: {
       rules: [
         {
@@ -37,7 +33,7 @@ module.exports = [
           type: "asset/source",
         },
         {
-          exclude: [/[\\/]esm[\\/]/, /[\\/]node_modules[\\/]/],
+          exclude: /[\\/]esm[\\/]/,
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
@@ -66,6 +62,9 @@ module.exports = [
       ],
     },
     name: "client",
+    optimization: {
+      minimizer: [new TerserPlugin({ /* additional options here */ })],
+    },
     output: {
       filename: "main-[contenthash:8].js",
       path: DIST_PUBLIC,
@@ -80,7 +79,6 @@ module.exports = [
         scriptLoading: "defer",
         template: path.resolve(SRC_ROOT, "./client", "./index.html"),
       }),
-      // new BundleAnalyzerPlugin(),
     ],
     resolve: {
       alias: {
@@ -122,6 +120,9 @@ module.exports = [
       ],
     },
     name: "server",
+    optimization: {
+      minimizer: [new TerserPlugin({ /* additional options here */ })],
+    },
     output: {
       filename: "server.js",
       path: DIST_ROOT,
@@ -131,4 +132,4 @@ module.exports = [
     },
     target: "node",
   },
-];
+]);
