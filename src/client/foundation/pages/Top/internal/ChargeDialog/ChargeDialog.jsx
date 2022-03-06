@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React, { forwardRef, useCallback, useState } from "react";
-import zenginCode from "zengin-code";
 
+import { zenginCode } from "../../../../../zengin-data"
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
@@ -114,8 +114,8 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
             <datalist id="ChargeDialog-branch-list">
               {bank != null &&
-                Object.values(bank.branches).map((branch) => (
-                  <option key={branch.code} value={branch.code}>
+                Object.entries(bank.branches).map(([code, branch]) => (
+                  <option key={code} value={code}>
                     {branch.name}
                   </option>
                 ))}

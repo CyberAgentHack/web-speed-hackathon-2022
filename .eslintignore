@@ -2,3 +2,4 @@ node_modules
 dist
 .yarn
 !.*.js
+src/client/zengin-data.js
