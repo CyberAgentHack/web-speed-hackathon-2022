@@ -13,7 +13,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../../utils/HttpUtils";
-import { convertToWebP } from "../../../utils/ImageConvertUtils";
+import { convertToAVIFMain } from "../../../utils/ImageConvertUtils";
 
 import { BettingTicketList } from "./internal/BettingTicketList";
 import { RaceResultSection } from "./internal/RaceResultSection";
@@ -53,7 +53,11 @@ export const RaceResult = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage2 src={convertToWebP(data.image, "jpg")} width={400} />
+        <TrimmedImage2
+          height={225}
+          src={convertToAVIFMain(data.image, "jpg")}
+          width={400}
+        />
       </Section>
 
       <Spacer mt={Space * 2} />

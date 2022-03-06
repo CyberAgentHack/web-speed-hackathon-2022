@@ -57,7 +57,6 @@ export function useMutation(apiPath, { auth, method }) {
               },
           method: method,
         });
-        console.log(res);
 
         setResult((cur) => ({
           ...cur,

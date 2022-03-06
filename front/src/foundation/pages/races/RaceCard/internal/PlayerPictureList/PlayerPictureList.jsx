@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Stack } from "../../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../../components/media/TrimmedImage";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
-import { convertToWebP } from "../../../../../utils/ImageConvertUtils";
+import { convertToAVIF } from "../../../../../utils/ImageConvertUtils";
 
 const PlayerNumber = styled.span`
   border: 1px solid ${Color.mono[900]};
@@ -32,7 +32,7 @@ const Item = ({ image, name, number }) => {
       <TrimmedImage
         alt={`${name}選手のプロフィール写真`}
         height={100}
-        src={convertToWebP(image, "jpg")}
+        src={convertToAVIF(image, "jpg")}
         width={100}
       />
 

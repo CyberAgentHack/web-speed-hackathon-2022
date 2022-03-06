@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { convertToWebP } from "../../../../utils/ImageConvertUtils";
+import { convertToAVIF } from "../../../../utils/ImageConvertUtils";
 
 const Image = styled.img`
   display: block;
@@ -16,5 +16,5 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
-  return <Image alt="" src={convertToWebP(url, "jpg")} />;
+  return <Image alt="" src={convertToAVIF(url, "jpg")} />;
 };

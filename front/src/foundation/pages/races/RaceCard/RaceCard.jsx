@@ -12,7 +12,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
-import { convertToWebP } from "../../../utils/ImageConvertUtils";
+import { convertToAVIFMain } from "../../../utils/ImageConvertUtils";
 
 import { EntryTable } from "./internal/EntryTable";
 import { PlayerPictureList } from "./internal/PlayerPictureList";
@@ -48,7 +48,11 @@ export const RaceCard = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage2 src={convertToWebP(data.image, "jpg")} width={400} />
+        <TrimmedImage2
+          src={convertToAVIFMain(data.image, "jpg")}
+          height={225}
+          width={400}
+        />
       </Section>
 
       <Spacer mt={Space * 2} />
