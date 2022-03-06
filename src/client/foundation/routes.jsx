@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Route, Routes as RouterRoutes } from "react-router-dom";
 
 import { CommonLayout } from "./layouts/CommonLayout";

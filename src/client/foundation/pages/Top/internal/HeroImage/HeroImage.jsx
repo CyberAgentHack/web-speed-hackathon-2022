@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import styled from "styled-components";
 
 const Image = styled.img`
@@ -14,5 +14,5 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
-  return <Image alt="" src={url} />;
+  return <Image alt="" src={url} defer/>;
 };

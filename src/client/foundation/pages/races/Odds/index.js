@@ -1,1 +1,1 @@
-export {Odds} from "./Odds";
+export * from "./Odds";

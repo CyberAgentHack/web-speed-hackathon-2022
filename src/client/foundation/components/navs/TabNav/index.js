@@ -1,1 +1,1 @@
-export {TabNav} from "./TabNav";
+export * from "./TabNav";

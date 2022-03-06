@@ -1,1 +1,1 @@
-export {EntryCombination} from "./EntryCombination";
+export * from "./EntryCombination";
