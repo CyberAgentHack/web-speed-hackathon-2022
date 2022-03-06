@@ -8,17 +8,19 @@ import styled from "styled-components";
  * @property {height} height
  */
 
-const ContainImage = styled.img`
-  height: 100%;
-  object-fit: "contain";`
-const CoverImage = styled.img`
-  object-fit: "cover";`
-
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
-  return <ContainImage aspect-ratio={width / height} loading="lazy" src={src} />;
+  const ContainImage = styled.img`
+    height: 100%;
+    aspect-ratio: ${props => props.width} / ${props => props.height};
+    object-fit: contain;`
+  return <ContainImage height={height} loading="lazy" src={src} width={width} />;
 };
 
+const CoverImage = styled.img`
+  object-fit: cover;`
+
+/** @type {React.VFC<Props>} */
 export const FixedImage = ({ height, src, width }) => {
   return <CoverImage height={height} loading="lazy" src={src} width={width} />;
 };
