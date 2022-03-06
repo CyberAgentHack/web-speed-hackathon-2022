@@ -106,7 +106,6 @@ export const Top = () => {
     border-radius: ${Radius.MEDIUM};
     color: ${Color.mono[0]};
     padding: ${Space * 1}px ${Space * 2}px;
-
     &:hover {
       background: ${Color.mono[800]};
     }

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/display-name */
+import React, { useEffect, useState, memo } from "react";
 
 /**
  * @typedef Props
@@ -8,12 +9,13 @@ import React, { useEffect, useState } from "react";
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
+export const TrimmedImage = memo(({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
+  const wbepUrl = `${src.substring(0, src.indexOf("."))}.webp`;
 
   useEffect(() => {
     const img = new Image();
-    img.src = src;
+    img.src = wbepUrl;
     img.onload = () => {
       const canvas = document.createElement("canvas");
       canvas.width = width;
@@ -35,4 +37,4 @@ export const TrimmedImage = ({ height, src, width }) => {
   }, [height, src, width]);
 
   return <img src={dataUrl} />;
-};
+});
