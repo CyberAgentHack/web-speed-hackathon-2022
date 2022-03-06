@@ -2,6 +2,8 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -14,11 +16,11 @@ const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
 
 /** @type {Array<import('webpack').Configuration>} */
-module.exports = [
+module.exports = ([
   {
-    devtool: "inline-source-map",
+    devtool: false,
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
@@ -38,11 +40,19 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
-                    spec: true,
+                    corejs: "3",
+                    modules: "auto",
+                    targets: "last 1 Chrome major version",
+                    useBuiltIns: "usage",
                   },
                 ],
-                "@babel/preset-react",
+                [
+                  "@babel/preset-react",
+                  {
+                    development: process.env.NODE_ENV !== "production",
+                    useSpread: true,
+                  },
+                ],
               ],
             },
           },
@@ -50,21 +60,37 @@ module.exports = [
       ],
     },
     name: "client",
+    optimization: {
+      minimizer: [new TerserPlugin({ /* additional options here */ })],
+    },
     output: {
+      filename: "main-[contenthash:8].js",
       path: DIST_PUBLIC,
+      publicPath: "/",
     },
     plugins: [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      new HtmlWebpackPlugin({
+        inject: "body",
+        scriptLoading: "defer",
+        template: path.resolve(SRC_ROOT, "./client", "./index.html"),
+      }),
     ],
     resolve: {
+      alias: {
+        react: "preact/compat",
+        "react-dom": "preact/compat",
+        "react-dom/test-utils": "preact/test-utils", // Must be below test-utils
+        "react/jsx-runtime": "preact/jsx-runtime",
+      },
       extensions: [".js", ".jsx"],
     },
     target: "web",
   },
   {
-    devtool: "inline-source-map",
+    devtool: false,
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
     mode: "development",
@@ -92,6 +118,9 @@ module.exports = [
       ],
     },
     name: "server",
+    optimization: {
+      minimizer: [new TerserPlugin({ /* additional options here */ })],
+    },
     output: {
       filename: "server.js",
       path: DIST_ROOT,
@@ -101,4 +130,4 @@ module.exports = [
     },
     target: "node",
   },
-];
+]);

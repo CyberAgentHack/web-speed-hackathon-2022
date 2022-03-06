@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 
 /**
  * @typedef Props
@@ -7,11 +7,12 @@ import React, { useEffect, useState } from "react";
  * @property {height} height
  */
 
-/** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
+
+ export const TrimmedImage = ({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {
+    if(height===width)return;
     const img = new Image();
     img.src = src;
     img.onload = () => {
@@ -33,6 +34,18 @@ export const TrimmedImage = ({ height, src, width }) => {
       setDataUrl(canvas.toDataURL());
     };
   }, [height, src, width]);
-
-  return <img src={dataUrl} />;
+  if(height===width)return <img height={height} src={src} style={{objectFit:'cover'}} width={width} />
+  return <img height={height} src={dataUrl} width={width} />;
 };
+// export const TrimmedImage = ({ height, src, width }) => {
+//   const img = useRef();
+//   const [fit, setFit] = useState("")
+//   useEffect(()=>{
+//     const imgAspect = img.current.naturalWidth / img.current.naturalHeight
+//     const trimmedAspect = width/ height;
+//     if(trimmedAspect > imgAspect){
+//       setFit('contain')
+//     }else setFit('cover')
+//   },[])
+//   return <img ref={img} height={height} src={src} style={{objectFit:fit}} width={width} />;
+// };

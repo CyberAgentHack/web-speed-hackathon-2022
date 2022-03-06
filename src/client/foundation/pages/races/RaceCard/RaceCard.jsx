@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
-import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
@@ -26,7 +25,7 @@ const LiveBadge = styled.span`
 `;
 
 /** @type {React.VFC} */
-export const RaceCard = () => {
+export default function RaceCard () {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
 
@@ -37,9 +36,9 @@ export const RaceCard = () => {
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{data?data.name:'title'}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        開始 {formatTime(data?data.startAt:'0:00')} 締切 {formatTime(data?data.closeAt:'0:00')}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -47,7 +46,7 @@ export const RaceCard = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <img src={data?data.image.substring(0,data.image.length-4)+'-live.webp':''} style={{aspectRatio:"400/225"}} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -63,18 +62,18 @@ export const RaceCard = () => {
 
         <Spacer mt={Space * 2} />
         <PlayerPictureList>
-          {data.entries.map((entry) => (
+          {data?data.entries.map((entry) => (
             <PlayerPictureList.Item
               key={entry.id}
-              image={entry.player.image}
+              image={entry.player.image.substring(0,entry.player.image.length-3)+'webp'}
               name={entry.player.name}
               number={entry.number}
             />
-          ))}
+          )):<></>}
         </PlayerPictureList>
 
         <Spacer mt={Space * 4} />
-        <EntryTable entries={data.entries} />
+        {data?<EntryTable entries={data.entries} />:<></>}
       </Section>
     </Container>
   );
