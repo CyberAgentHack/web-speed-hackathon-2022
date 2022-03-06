@@ -16,7 +16,6 @@ const Table = styled.table`
   min-width: calc(1024px - ${Space * 3}px * 2);
   text-align: center;
   width: 100%;
-  table-layout: fixed;
 
   th,
   td {

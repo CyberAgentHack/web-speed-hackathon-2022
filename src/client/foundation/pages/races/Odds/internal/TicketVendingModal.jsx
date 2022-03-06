@@ -27,98 +27,101 @@ const ErrorText = styled.p`
  */
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
-export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
-  const { loggedIn } = useAuth();
-  const [buyTicket, buyTicketResult] = useMutation(
-    `/api/races/${raceId}/betting-tickets`,
-    {
-      auth: true,
-      method: "POST",
-    },
-  );
-  const { data: userData, revalidate } = useAuthorizedFetch(
-    "/api/users/me",
-    authorizedJsonFetcher,
-  );
-  const [error, setError] = useState(null);
+export const TicketVendingModal = forwardRef(
+  ({ odds, raceId, setDone }, ref) => {
+    const { loggedIn } = useAuth();
+    const [buyTicket, buyTicketResult] = useMutation(
+      `/api/races/${raceId}/betting-tickets`,
+      {
+        auth: true,
+        method: "POST",
+      },
+    );
+    const { data: userData, revalidate } = useAuthorizedFetch(
+      "/api/users/me",
+      authorizedJsonFetcher,
+    );
+    const [error, setError] = useState(null);
 
-  const handleCloseDialog = useCallback(
-    async (e) => {
-      setError("");
+    const handleCloseDialog = useCallback(
+      async (e) => {
+        setError("");
 
-      if (e.currentTarget.returnValue === CANCEL) {
+        if (e.currentTarget.returnValue === CANCEL) {
+          return;
+        }
+
+        await buyTicket({
+          key: odds,
+          type: "trifecta",
+        });
+        setDone(true);
+      },
+      [odds, buyTicket],
+    );
+
+    useEffect(() => {
+      if (buyTicketResult === null || buyTicketResult.loading === true) {
         return;
       }
 
-      await buyTicket({
-        key: odds,
-        type: "trifecta",
-      });
-    },
-    [odds, buyTicket],
-  );
+      const err = buyTicketResult.error;
 
-  useEffect(() => {
-    if (buyTicketResult === null || buyTicketResult.loading === true) {
-      return;
-    }
+      if (err === null) {
+        revalidate();
+        return;
+      }
 
-    const err = buyTicketResult.error;
+      ref.current?.showModal();
 
-    if (err === null) {
-      revalidate();
-      return;
-    }
+      if (err.response?.status === 412) {
+        setError("残高が不足しています");
+        return;
+      }
 
-    ref.current?.showModal();
+      setError(err.message);
+      console.error(err);
+    }, [buyTicketResult, revalidate, ref]);
 
-    if (err.response?.status === 412) {
-      setError("残高が不足しています");
-      return;
-    }
+    const shouldShowForm = loggedIn && userData !== null && odds !== null;
 
-    setError(err.message);
-    console.error(err);
-  }, [buyTicketResult, revalidate, ref]);
+    return (
+      <Dialog ref={ref} onClose={handleCloseDialog}>
+        <Heading as="h1">拳券の購入</Heading>
 
-  const shouldShowForm = loggedIn && userData !== null && odds !== null;
+        <Spacer mt={Space * 2} />
 
-  return (
-    <Dialog ref={ref} onClose={handleCloseDialog}>
-      <Heading as="h1">拳券の購入</Heading>
-
-      <Spacer mt={Space * 2} />
-
-      <form method="dialog">
-        <Stack gap={Space * 1}>
-          {!shouldShowForm ? (
-            <>
-              <ErrorText>購入するにはログインしてください</ErrorText>
-              <menu>
-                <button value={CANCEL}>閉じる</button>
-              </menu>
-            </>
-          ) : (
-            <>
-              <div>
-                <Stack horizontal>
-                  購入する買い目: <EntryCombination numbers={odds} />
-                </Stack>
-              </div>
-              <div>使用ポイント: 100pt</div>
-              <div>所持しているポイント: {userData.balance}pt</div>
-              <div>購入後に残るポイント: {userData.balance - 100}pt</div>
-              {error && <ErrorText>{error}</ErrorText>}
-              <menu>
-                <button value={CANCEL}>キャンセル</button>
-                <button value={BUY}>購入する</button>
-              </menu>
-            </>
-          )}
-        </Stack>
-      </form>
-    </Dialog>
-  );
-});
+        <form method="dialog">
+          <Stack gap={Space * 1}>
+            {!shouldShowForm ? (
+              <>
+                <ErrorText>購入するにはログインしてください</ErrorText>
+                <menu>
+                  <button value={CANCEL}>閉じる</button>
+                </menu>
+              </>
+            ) : (
+              <>
+                <div>
+                  <Stack horizontal>
+                    購入する買い目: <EntryCombination numbers={odds} />
+                  </Stack>
+                </div>
+                <div>使用ポイント: 100pt</div>
+                <div>所持しているポイント: {userData.balance}pt</div>
+                <div>購入後に残るポイント: {userData.balance - 100}pt</div>
+                {error && <ErrorText>{error}</ErrorText>}
+                <menu>
+                  <button value={CANCEL}>キャンセル</button>
+                  <button value={BUY}>購入する</button>
+                </menu>
+              </>
+            )}
+          </Stack>
+        </form>
+      </Dialog>
+    );
+  },
+);
 
 TicketVendingModal.displayName = "TicketVendingModal";

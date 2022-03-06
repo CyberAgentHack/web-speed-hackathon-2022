@@ -1,5 +1,5 @@
 import moment from "moment-timezone";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -78,13 +78,14 @@ const ItemWrapper = styled.li`
 export const RaceHome = () => {
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
-  const { data: ticketData } = useAuthorizedFetch(
+  const { data: ticketData, revalidate } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher,
   );
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [done, setDone] = useState(false);
 
   const handleClickOdds = useCallback(
     /**
@@ -96,6 +97,10 @@ export const RaceHome = () => {
     },
     [],
   );
+
+  useEffect(() => {
+    revalidate();
+  }, [done]);
 
   if (data == null) {
     return <Container>Loading...</Container>;
@@ -215,6 +220,7 @@ export const RaceHome = () => {
             ref={modalRef}
             odds={oddsKeyToBuy}
             raceId={raceId}
+            setDone={setDone}
           />
         </>
       )}
