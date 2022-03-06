@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes as RouterRoutes } from "react-router-dom";
 
-const CommonLayout = React.lazy(() => import("./layouts/CommonLayout"));
 const Top = React.lazy(() => import("./pages/Top"));
 const Odds = React.lazy(() => import("./pages/races/Odds"));
 const RaceCard = React.lazy(() => import("./pages/races/RaceCard"));
@@ -14,53 +13,44 @@ export const Routes = () => {
       <Route
         element={
           <React.Suspense fallback={<p></p>}>
-            <CommonLayout />
+            <Top />
           </React.Suspense>
         }
         path="/"
-      >
+      />
+      <Route
+        element={
+          <React.Suspense fallback={<p></p>}>
+            <Top />
+          </React.Suspense>
+        }
+        path="/:date"
+      />
+      <Route path="/races/:raceId">
         <Route
-          index
           element={
             <React.Suspense fallback={<p></p>}>
-              <Top />
+              <RaceCard />
             </React.Suspense>
           }
+          path="race-card"
         />
         <Route
           element={
             <React.Suspense fallback={<p></p>}>
-              <Top />
+              <Odds />
             </React.Suspense>
           }
-          path=":date"
+          path="odds"
         />
-        <Route path="races/:raceId">
-          <Route
-            element={
-              <React.Suspense fallback={<p></p>}>
-                <RaceCard />
-              </React.Suspense>
-            }
-            path="race-card"
-          />
-          <Route
-            element={
-              <React.Suspense fallback={<p></p>}>
-                <Odds />
-              </React.Suspense>
-            }
-            path="odds"
-          />
-          <Route
-            element={
-              <React.Suspense fallback={<p></p>}>
-                <RaceResult />
-              </React.Suspense>
-            }
-            path="result"
-          />
-        </Route>
+        <Route
+          element={
+            <React.Suspense fallback={<p></p>}>
+              <RaceResult />
+            </React.Suspense>
+          }
+          path="result"
+        />
       </Route>
     </RouterRoutes>
   );

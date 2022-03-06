@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import { CommonLayout } from "../../../layouts/CommonLayout";
 import { BreakPoint, Space } from "../../../styles/variables";
 
 const Wrapper = styled.div`
@@ -19,5 +20,9 @@ const Wrapper = styled.div`
 
 /** @type {React.FC} */
 export const Container = ({ children }) => {
-  return <Wrapper>{children}</Wrapper>;
+  return (
+    <CommonLayout>
+      <Wrapper>{children}</Wrapper>
+    </CommonLayout>
+  );
 };
