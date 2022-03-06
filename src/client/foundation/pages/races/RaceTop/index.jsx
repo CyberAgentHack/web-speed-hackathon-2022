@@ -1,6 +1,6 @@
 import moment from "moment-timezone";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { Container } from "../../../components/layouts/Container";
@@ -76,6 +76,8 @@ const ItemWrapper = styled.li`
 
 /** @type {React.VFC} */
 export const RaceHome = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { raceId } = useParams();
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const { data: ticketData, revalidate } = useAuthorizedFetch(
@@ -86,6 +88,31 @@ export const RaceHome = () => {
   const modalRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [done, setDone] = useState(false);
+  const query = location.pathname.split(`${raceId}`)[1];
+  let isFirstRendering = useRef(false);
+  useEffect(() => {
+    isFirstRendering.current = true;
+  }, []);
+  useEffect(() => {
+    if (!isFirstRendering.current) {
+      if (currentPage == 0) {
+        navigate(`/races/${raceId}/race-card`);
+      } else if (currentPage == 1) {
+        navigate(`/races/${raceId}/odds`);
+      } else {
+        navigate(`/races/${raceId}/result`);
+      }
+    } else {
+      if (query == "/race-card") {
+        setCurrentPage(0);
+      } else if (query == "/odds") {
+        setCurrentPage(1);
+      } else {
+        setCurrentPage(2);
+      }
+      isFirstRendering.current = false;
+    }
+  }, [currentPage]);
 
   const handleClickOdds = useCallback(
     /**
@@ -111,6 +138,7 @@ export const RaceHome = () => {
   /** @type {React.FC<ItemProps & React.AnchorHTMLAttributes>} */
   const Item = ({ "aria-current": ariaCurrent, children, status, ...rest }) => {
     ariaCurrent = status == currentPage;
+
     return (
       <ItemWrapper>
         {ariaCurrent ? (

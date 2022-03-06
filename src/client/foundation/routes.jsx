@@ -13,7 +13,9 @@ export const Routes = () => {
         <Route index element={<Top />} />
         <Route element={<Top />} path=":date" />
         <Route path="races/:raceId">
-          <Route element={<RaceHome />} path="race-top" />
+          <Route element={<RaceHome />} path="race-card" />
+          <Route element={<RaceHome />} path="odds" />
+          <Route element={<RaceHome />} path="result" />
         </Route>
       </Route>
     </RouterRoutes>
