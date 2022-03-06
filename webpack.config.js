@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 
-// eslint-disable-next-line import/order
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyPlugin = require("copy-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -14,17 +10,22 @@ function abs(...args) {
 
 const SRC_ROOT = abs("./src");
 const PUBLIC_ROOT = abs("./public");
-const IMAGES_ROOT = abs("./images");
 const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
-const DIST_IMAGES = abs("./dist/images");
 
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: false,
-    entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "production",
+    devtool:
+      process.env.NODE_ENV === "production" ? false : "inline-source-map",
+    entry: {
+      main: [
+        "core-js",
+        "regenerator-runtime/runtime",
+        path.join(SRC_ROOT, "client/index.jsx"),
+      ],
+    },
+    mode: process.env.NODE_ENV,
     module: {
       rules: [
         {
@@ -35,7 +36,7 @@ module.exports = [
           type: "asset/source",
         },
         {
-          exclude: /[\\/]esm[\\/]/,
+          exclude: [/[\\/]esm[\\/]/, /[\\/]node_modules[\\/]/],
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
@@ -50,7 +51,12 @@ module.exports = [
                     useBuiltIns: "usage",
                   },
                 ],
-                "@babel/preset-react",
+                [
+                  "@babel/preset-react",
+                  {
+                    development: process.env.NODE_ENV !== "production",
+                  },
+                ],
               ],
             },
           },
@@ -58,24 +64,14 @@ module.exports = [
       ],
     },
     name: "client",
-    optimization: {
-      minimize: true,
-      minimizer: [new TerserPlugin()],
-    },
     output: {
-      filename: "main.[fullhash].js",
       path: DIST_PUBLIC,
-      publicPath: "/"
     },
     plugins: [
-      ...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : []),
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
-      new HtmlWebpackPlugin({
-        filename: 'index_alt.html',
-        title: "CyberTicket" // NOTE: ヘッダ設定のためのワークアラウンド。
-      })
+      // new BundleAnalyzerPlugin(),
     ],
     resolve: {
       alias: {
@@ -101,7 +97,6 @@ module.exports = [
           use: {
             loader: "babel-loader",
             options: {
-              plugins: ["@babel/plugin-syntax-dynamic-import"],
               presets: [
                 [
                   "@babel/preset-env",
@@ -111,7 +106,7 @@ module.exports = [
                   },
                 ],
                 "@babel/preset-react",
-              ]
+              ],
             },
           },
         },
@@ -122,11 +117,6 @@ module.exports = [
       filename: "server.js",
       path: DIST_ROOT,
     },
-    plugins: [
-      new CopyPlugin({
-        patterns: [{ from: IMAGES_ROOT, to: DIST_IMAGES }],
-      }),
-    ],
     resolve: {
       extensions: [".mjs", ".js", ".jsx"],
     },
