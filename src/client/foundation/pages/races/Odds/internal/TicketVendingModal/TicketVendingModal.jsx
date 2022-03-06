@@ -71,7 +71,7 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
 
     ref.current?.showModal();
 
-    if (err.response?.status === 412) {
+    if (err.response?.status === "412") {
       setError("残高が不足しています");
       return;
     }
