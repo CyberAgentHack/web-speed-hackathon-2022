@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "dora <31735614+dora1998@users.noreply.github.com>",
   "scripts": {
-    "build": "webpack",
+    "build": "NODE_OPTIONS=\"--max-old-space-size=2048\" webpack",
     "build:watch": "yarn build --watch --progress",
     "serve": "node --enable-source-maps dist/server.js",
     "serve:dev": "wait-on dist/server.js && NODE_OPTIONS=--enable-source-maps nodemon dist/server.js",
@@ -58,6 +58,7 @@
     "stylelint-config-recommended": "^7.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-order": "^5.0.0",
+    "terser-webpack-plugin": "^5.3.1",
     "typescript": "^4.6.2",
     "wait-on": "^6.0.0",
     "webpack": "^5.65.0",

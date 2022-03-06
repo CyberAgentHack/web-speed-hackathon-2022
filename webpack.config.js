@@ -7,6 +7,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 // const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -62,7 +63,15 @@ module.exports = [
     name: "client",
     optimization: {
       minimize: true,
-      minimizer: [new CssMinimizerPlugin()],
+      minimizer: [
+        new CssMinimizerPlugin(),
+        new TerserPlugin({
+          extractComments: "all",
+          terserOptions: {
+            compress: { drop_console: true },
+          },
+        }),
+      ],
       splitChunks: {
         cacheGroups: {
           vendor: {
