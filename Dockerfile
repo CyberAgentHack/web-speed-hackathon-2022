@@ -9,7 +9,7 @@ RUN yarn build
 EXPOSE 3000
 
 FROM nginx:alpine
-COPY --from=build /app/dist /var/www
+COPY --from=builder /app/dist /var/www
 COPY /app/nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /usr/share/nginx/html
