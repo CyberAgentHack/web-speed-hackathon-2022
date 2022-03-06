@@ -11,7 +11,6 @@ import zenginCode from "../../batch/fmt-zengin-code.json";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
-  // const connection = await createConnection();
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
@@ -172,7 +171,6 @@ export const apiRoute = async (fastify) => {
       code,
       name,
     }));
-    // res.header("Cache-Control", "public, max-age=604800, immutable");
     res.send(JSON.stringify(result));
   })
 

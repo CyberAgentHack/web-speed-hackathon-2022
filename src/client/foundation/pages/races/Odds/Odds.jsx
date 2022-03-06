@@ -10,7 +10,6 @@ import styled from "styled-components";
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
-// import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
@@ -20,7 +19,6 @@ import { jsonFetcher } from "../../../utils/HttpUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
-// import { TicketVendingModal } from "./internal/TicketVendingModal";
 
 const TicketVendingModal = React.lazy(() => import("./internal/TicketVendingModal"))
 const LiveBadge = styled.span`

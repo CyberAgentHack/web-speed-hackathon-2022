@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
-// import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
@@ -43,7 +42,6 @@ export const RaceCard = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        {/* <TrimmedImage height={225} src={data.image} width={400} /> */}
         <img alt="" src={`${data.image.slice(0, -5)}-${400}_${225}.webp`} width={400} />
       </Section>
 

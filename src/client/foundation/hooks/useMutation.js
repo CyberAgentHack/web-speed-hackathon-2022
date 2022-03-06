@@ -55,16 +55,6 @@ export function useMutation(apiPath, { auth, method }) {
           url: apiPath,
         });
 
-        // const res = await fetch(apiPath, {
-        //   body: JSON.stringify(data),
-        //   headers: auth
-        //     ? {
-        //       "x-app-userid": userId,
-        //     }
-        //     : {},
-        //   method: method
-        // });
-
         setResult((cur) => ({
           ...cur,
           data: res.data,

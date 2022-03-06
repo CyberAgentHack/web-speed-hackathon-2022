@@ -76,11 +76,6 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
     50,
   )
 
-  // const sortedOdds = take(
-  //   _.sortBy(odds, (item) => item.odds),
-  //   50,
-  // );
-
   return (
     <Wrapper>
       {sortedOdds.map((item, i) => (

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { BreakPoint } from "../../../../styles/variables";
+
 
 const Image = styled.img`
   display: block;

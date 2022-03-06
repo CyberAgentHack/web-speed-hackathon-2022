@@ -18,82 +18,6 @@ import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
-/**
- * @param {Model.Race[]} races
- * @returns {Model.Race[]}
- */
-// function useTodayRacesWithAnimation(races) {
-//   const [isRacesUpdate, setIsRacesUpdate] = useState(false);
-//   const [racesToShow, setRacesToShow] = useState([]);
-//   const numberOfRacesToShow = useRef(0);
-//   const prevRaces = useRef(races);
-//   const timer = useRef(null);
-
-//   const difference = (ary1, ary2) => [ary1, ary2].reduce((a, b) => a.filter(c => !b.includes(c)))
-
-//   useEffect(() => {
-//     const isRacesUpdate =
-//       difference(
-//         races.map((e) => e.id),
-//         prevRaces.current.map((e) => e.id),
-//       ).length !== 0;
-
-//     prevRaces.current = races;
-//     setIsRacesUpdate(isRacesUpdate);
-//   }, [races]);
-
-//   useEffect(() => {
-//     if (!isRacesUpdate) {
-//       return;
-//     }
-//     // 視覚効果 off のときはアニメーションしない
-//     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-//       setRacesToShow(races);
-//       return;
-//     }
-
-//     numberOfRacesToShow.current = 0;
-//     if (timer.current !== null) {
-//       clearInterval(timer.current);
-//     }
-
-//     timer.current = setInterval(() => {
-//       if (numberOfRacesToShow.current >= races.length) {
-//         clearInterval(timer.current);
-//         return;
-//       }
-
-//       numberOfRacesToShow.current++;
-//       setRacesToShow(races.slice(0, numberOfRacesToShow.current));
-//     }, 0);
-//   }, [isRacesUpdate, races]);
-
-//   useEffect(() => {
-//     return () => {
-//       if (timer.current !== null) {
-//         clearInterval(timer.current);
-//       }
-//     };
-//   }, []);
-
-//   return racesToShow;
-// }
-
-/**
- * @returns {string | null}
- */
-// function useHeroImage() {
-//   const url = "/api/hero";
-//   const { data } = useFetch(url, jsonFetcher);
-
-//   if (data === null) {
-//     return null;
-//   }
-
-//   const imageUrl = `${data.url}`;
-//   return imageUrl;
-// }
-
 /** @type {React.VFC} */
 export const Top = () => {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
@@ -142,9 +66,7 @@ export const Top = () => {
           isSameDay(race.startAt, date),
         )
       : [];
-  // const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
   const todayRacesToShow = todayRaces;
-  // const heroImageUrl = useHeroImage(todayRaces);
 
   return (
     <Container>
