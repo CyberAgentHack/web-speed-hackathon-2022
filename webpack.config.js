@@ -2,11 +2,9 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
-const TerserPlugin = require("terser-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
-const smp = new SpeedMeasurePlugin()
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -18,7 +16,7 @@ const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
 
 /** @type {Array<import('webpack').Configuration>} */
-module.exports = smp.wrap([
+module.exports = ([
   {
     devtool: false,
     entry: path.join(SRC_ROOT, "client/index.jsx"),
