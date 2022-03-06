@@ -63,9 +63,9 @@ function main() {
   const src = HERO_IMAGE_DIR
   const imageData = fs.readFileSync(src)
   sharp(imageData)
-    // .resize(1000)
+    .resize(1024)
     .avif({
-      quality: 20
+      quality: 30
     })
     .toFile(src + ".avif");
 
