@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const Svg = styled.svg`
   fill: currentColor;
-  width: 15.5px;
-  height: 15.5px;
+  width: 16px;
+  height: 16px;
 `;
 
 export const InfoCircle = () => {
