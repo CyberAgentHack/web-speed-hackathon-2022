@@ -6,6 +6,8 @@ const nodeExternals = require("webpack-node-externals");
 const LoadablePlugin = require("@loadable/webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 
+import zopfli from "node-zopfli";
+
 function abs(...args) {
   return path.join(__dirname, ...args);
 }
@@ -60,13 +62,11 @@ module.exports = [
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
       new CompressionPlugin({
+        test: /\.js$|\.css$|\.html$/,
         filename: "[path][base].gz",
         algorithm: (source, compressionOptions, callback) => {
           return zopfli.gzip(Buffer.from(source), compressionOptions, callback);
         },
-        test: /\.js$|\.css$|\.html$/,
-        threshold: 10240,
-        minRatio: 0.8,
       }),
       new LoadablePlugin(),
     ],
