@@ -84,7 +84,7 @@ export const apiRoute = async (fastify) => {
     res.send(filtteredOdds);
   });
 
-  fastify.get("/odds/:raceId", async (req, res) => {
+  fastify.get("/oddsrank/:raceId", async (req, res) => {
     const { raceId } = req.params;
 
     const repo = (await createConnection()).getRepository(Race);
@@ -94,7 +94,10 @@ export const apiRoute = async (fastify) => {
     });
 
     const sortedOdds = _.take(
-      _.sortBy(odds, (item) => item.odds),
+      _.sortBy(
+        _.sortBy(odds, (item) => item.odds),
+        (item) => item.id,
+      ),
       50,
     );
 
@@ -115,7 +118,6 @@ export const apiRoute = async (fastify) => {
     }
 
     const repo = (await createConnection()).getRepository(Race);
-
 
     /*
     if (since != null && until != null) {

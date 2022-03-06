@@ -69,7 +69,7 @@ const RankNo = styled.div`
 
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, onClickOdds, raceId }) => {
-  const { data: sortedOdds } = useFetch(`/api/odds/${raceId}`, jsonFetcher);
+  const { data: sortedOdds } = useFetch(`/api/oddsrank/${raceId}`, jsonFetcher);
 
   return (
     <Wrapper>
