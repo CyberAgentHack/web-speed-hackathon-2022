@@ -149,9 +149,15 @@ export const Top = () => {
   const heroImageUrl = useHeroImage(todayRaces);
   return (
     <Container>
-      {heroImageUrl !== null && (
-        <HeroImage url={heroImageUrl} alt={heroImageUrl} loading="lazy" />
-      )}
+      <picture>
+        {heroImageUrl !== null && (
+          <HeroImage
+            url={heroImageUrl}
+            alt={"CyberTicketトップ画像"}
+            loading="lazy"
+          />
+        )}
+      </picture>
 
       <Spacer mt={Space * 2} />
       {userData && (
