@@ -89,8 +89,27 @@ export const apiRoute = async (fastify) => {
 
     const races = await repo.find({
       where,
-    });
+    })
+    races.sort((a,b)=>moment(b.startAt)-moment(b.startAt))
+    res.send({ races });
+  });
 
+  fastify.get("/todayraces", async (req, res) => {
+
+    const repo = (await createConnection()).getRepository(Race);
+
+    const where = {};
+      Object.assign(where, {
+        startAt: Between(
+          moment().format("YYYY-MM-DD") + " 00:00:00",
+          moment().format("YYYY-MM-DD") + " 23:59:59",
+        ),
+      });
+
+    const races = await repo.find({
+      where,
+    })
+    races.sort((a,b)=>moment(b.startAt)-moment(b.startAt))
     res.send({ races });
   });
 

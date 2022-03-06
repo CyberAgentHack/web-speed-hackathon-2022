@@ -21,53 +21,30 @@ import { RecentRaceList } from "./internal/RecentRaceList";
  * @param {Model.Race[]} races
  * @returns {Model.Race[]}
  */
-function useTodayRacesWithAnimation(races) {
-  const [isRacesUpdate, setIsRacesUpdate] = useState(false);
-  const [racesToShow, setRacesToShow] = useState([]);
-  const numberOfRacesToShow = useRef(0);
-  const prevRaces = useRef(races);
-  const timer = useRef(null);
 
-  useEffect(() => {
-    const isRacesUpdate = races.filter((e)=>!prevRaces.current.some((prevE)=>e.id===prevE.id)).length !== 0
-    prevRaces.current = races;
-    setIsRacesUpdate(isRacesUpdate);
-  }, [races]);
-
-  useEffect(() => {
-    if (!isRacesUpdate) {
-      return;
-    }
-    // 視覚効果 off のときはアニメーションしない
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRacesToShow(races);
-      return;
-    }
-
-    numberOfRacesToShow.current = 0;
-    if (timer.current !== null) {
-      clearInterval(timer.current);
-    }
-
-    timer.current = setInterval(() => {
-      if (numberOfRacesToShow.current >= races.length) {
-        clearInterval(timer.current);
+function useCountUp(max) {
+  const [num, setNum] = useState(0);
+  const numRef = useRef(num);
+  const interval = useRef(0)
+  const count = useRef(0)
+  const countup = useCallback(() =>
+    {
+      if(numRef.current>=max){
+        clearInterval(interval.current);
         return;
       }
-      numberOfRacesToShow.current++;
-      setRacesToShow(races.slice(0,numberOfRacesToShow.current));
-    }, 100);
-  }, [isRacesUpdate, races]);
-
-  useEffect(() => {
-    return () => {
-      if (timer.current !== null) {
-        clearInterval(timer.current);
-      }
-    };
-  }, []);
-
-  return racesToShow;
+      count.current += 1;
+      setNum(count.current)
+  },[max])
+  useEffect(()=>{
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setNum(max);
+      return;
+    }
+    interval.current = setInterval(countup,100)
+    return () => clearInterval(interval.current)
+  },[countup, max])
+  return num;
 }
 
 const ChargeButton = styled.button`
@@ -83,8 +60,8 @@ const ChargeButton = styled.button`
 `;
 /** @type {React.VFC} */
 export default function Top() {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
-
+  const since = moment(moment().format("YYYY-MM-DD") + " 00:00:00").unix()
+  const until = moment(moment().format("YYYY-MM-DD") + " 23:59:59").unix()
 
   const chargeDialogRef = useRef(null);
 
@@ -93,7 +70,7 @@ export default function Top() {
     authorizedJsonFetcher
   );
 
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const { data: raceData } = useFetch(`/api/races?since=${since}&until=${until}`, jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -106,17 +83,7 @@ export default function Top() {
   const handleCompleteCharge = useCallback(() => {
     revalidate();
   }, [revalidate]);
-
-  const todayRaces = raceData != null
-    ? [...raceData.races]
-      .sort(
-        (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) => moment(a.startAt) - moment(b.startAt)
-      )
-      .filter((/** @type {Model.Race} */ race) => isSameDay(race.startAt, date)
-      )
-    : [];
-  const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
-
+   const cursor = useCountUp(raceData?raceData.races.length:0)
   return (
     <Container>
       <HeroImage />
@@ -138,9 +105,9 @@ export default function Top() {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        {todayRacesToShow.length > 0 && (
+        {raceData && (
           <RecentRaceList>
-            {todayRacesToShow.map((race) => (
+            {raceData.races.slice(0,cursor).map((race) => (
               <RecentRaceList.Item key={race.id} race={race} />
             ))}
           </RecentRaceList>
