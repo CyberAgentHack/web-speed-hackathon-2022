@@ -29,7 +29,7 @@ const Animate = styled.div`
  */
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
-export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
+export const ChargeDialog = forwardRef(({ onComplete, userData }, ref) => {
   const [bankList, setBankList] = useState([]);
   const [bank, setBank] = useState(null);
 
@@ -44,8 +44,8 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
       const data = await res.json();
       setBankList(data);
     };
-    init();
-  }, []);
+    if (userData) init();
+  }, [userData]);
 
   useEffect(() => {
     const init = async () => {
