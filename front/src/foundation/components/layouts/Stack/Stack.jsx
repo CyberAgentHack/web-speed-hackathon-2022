@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -38,11 +38,11 @@ export const Stack = (
   );
 };
 
-const ItemWrapper = styled.div.attrs((props) => ({
-  flexBasis: props.basis,
-  flexGrow: props.grow,
-  flexShrink: props.shrink,
-}))``;
+const ItemWrapper = styled.div`
+  flex-basis: ${({ $basis }) => $basis};
+  flex-grow: ${({ $grow }) => $grow};
+  flex-shrink: ${({ $shrink }) => $shrink};
+`;
 
 /**
  * @typedef ItemProps
