@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 
+// eslint-disable-next-line import/order
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyPlugin = require("copy-webpack-plugin");
-const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const nodeExternals = require("webpack-node-externals");
-const smp = new SpeedMeasurePlugin();
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -14,11 +14,13 @@ function abs(...args) {
 
 const SRC_ROOT = abs("./src");
 const PUBLIC_ROOT = abs("./public");
+const IMAGES_ROOT = abs("./images");
 const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
+const DIST_IMAGES = abs("./dist/images");
 
 /** @type {Array<import('webpack').Configuration>} */
-module.exports = smp.wrap([
+module.exports = [
   {
     devtool: false,
     entry: path.join(SRC_ROOT, "client/index.jsx"),
@@ -57,20 +59,23 @@ module.exports = smp.wrap([
     },
     name: "client",
     optimization: {
-      minimizer: [
-        new TerserPlugin({
-          /* additional options here */
-        }),
-      ],
+      minimize: true,
+      minimizer: [new TerserPlugin()],
     },
     output: {
+      filename: "main.[fullhash].js",
       path: DIST_PUBLIC,
+      publicPath: "/"
     },
     plugins: [
+      ...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : []),
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
-      // new BundleAnalyzerPlugin()
+      new HtmlWebpackPlugin({
+        filename: 'index_alt.html',
+        title: "CyberTicket" // NOTE: ヘッダ設定のためのワークアラウンド。
+      })
     ],
     resolve: {
       alias: {
@@ -96,6 +101,7 @@ module.exports = smp.wrap([
           use: {
             loader: "babel-loader",
             options: {
+              plugins: ["@babel/plugin-syntax-dynamic-import"],
               presets: [
                 [
                   "@babel/preset-env",
@@ -105,27 +111,25 @@ module.exports = smp.wrap([
                   },
                 ],
                 "@babel/preset-react",
-              ],
+              ]
             },
           },
         },
       ],
     },
     name: "server",
-    optimization: {
-      minimizer: [
-        new TerserPlugin({
-          /* additional options here */
-        }),
-      ],
-    },
     output: {
       filename: "server.js",
       path: DIST_ROOT,
     },
+    plugins: [
+      new CopyPlugin({
+        patterns: [{ from: IMAGES_ROOT, to: DIST_IMAGES }],
+      }),
+    ],
     resolve: {
       extensions: [".mjs", ".js", ".jsx"],
     },
     target: "node",
   },
-]);
+];
