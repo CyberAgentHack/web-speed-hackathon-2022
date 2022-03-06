@@ -59,11 +59,10 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
-      new LoadablePlugin(),
       new CompressionPlugin({
         filename: "[path][base].br",
         algorithm: "brotliCompress",
-        test: /\.(js|css|html|svg)$/,
+        test: /\.(js|jsx|css|html|svg|webp|jpg)$/,
         compressionOptions: {
           params: {
             [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
@@ -73,6 +72,7 @@ module.exports = [
         minRatio: 0.8,
         deleteOriginalAssets: false,
       }),
+      new LoadablePlugin(),
     ],
     resolve: {
       extensions: [".js", ".jsx"],
