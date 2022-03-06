@@ -1,6 +1,6 @@
 FROM node:16.13.1 AS builder
 
-ENV NODE_OPTIONS="--max-old-space-size=4096"
+ENV NODE_OPTIONS="--max-old-space-size=8192"
 
 WORKDIR /usr/src/app
 
