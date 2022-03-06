@@ -14,5 +14,5 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
-  return <Image alt="" src={url} defer/>;
+  return <Image alt="" src={url} loading="lazy"/>;
 };
