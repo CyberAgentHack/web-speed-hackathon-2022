@@ -2,6 +2,7 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentTimezoneDataPlugin = require('moment-timezone-data-webpack-plugin')
 const webpack = require("webpack")
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -68,6 +69,11 @@ module.exports = [
       new webpack.IgnorePlugin({
         contextRegExp: /moment$/,
         resourceRegExp: /^\.\/locale$/,
+      }),
+
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: path.resolve(SRC_ROOT, "./index.html")
       })
 
     ],

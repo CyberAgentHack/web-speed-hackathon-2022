@@ -15,11 +15,11 @@ const server = fastify({
   logger: IS_PRODUCTION
     ? false
     : {
-        prettyPrint: {
-          ignore: "pid,hostname",
-          translateTime: "SYS:HH:MM:ss",
-        },
+      prettyPrint: {
+        ignore: "pid,hostname",
+        translateTime: "SYS:HH:MM:ss",
       },
+    },
 });
 server.register(fastifySensible);
 
@@ -38,8 +38,8 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.addHook("onRequest", async (req, res) => {
-  res.header("Cache-Control", "no-cache, no-store, no-transform");
-  res.header("Connection", "close");
+  res.header("Cache-Control", "max-get=0");
+  // res.header("Connection", "close");
 });
 
 server.register(apiRoute, { prefix: "/api" });
