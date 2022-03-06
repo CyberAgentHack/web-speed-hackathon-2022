@@ -1,4 +1,6 @@
-import React, { useCallback, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
@@ -70,8 +72,6 @@ const InactiveBuyButton = styled.div`
  */
 const mapKey = (second, third) => `${second}.${third}`;
 const without = (arr, ...args) => arr.filter((item) => !args.includes(item));
-// WARNING: This is not a drop in replacement solution and
-// it might not work for some edge cases. Test your code!
 const range = (start, end, increment) => {
   const isEndDef = typeof end !== "undefined";
   end = isEndDef ? end : start;
@@ -93,24 +93,34 @@ const range = (start, end, increment) => {
 
 /**
  * @typedef Props
- * @property {Model.OddsItem[]} odds
+ * @property {Model.OddsItem[]} preOdds
  * @property {Model.RaceEntry[]} entries
  * @property {boolean} isRaceClosed
  * @property {(odds: Model.OddsItem) => void} onClickOdds
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
+export const OddsTable = ({ entries, isRaceClosed, onClickOdds, preOdds }) => {
   const [firstKey, setFirstKey] = useState(1);
-
-  const handleChange = useCallback((e) => {
-    setFirstKey(parseInt(e.currentTarget.value, 10));
+  const { raceId } = useParams();
+  const [odds, setOdds] = useState(preOdds);
+  useEffect(() => {
+    axios.get(`/api/odds/${raceId}/1`).then((res) => {
+      setOdds(res.data.trifectaOdds);
+    });
   }, []);
+
+  const handleChange = async (e) => {
+    await axios.get(`/api/odds/${raceId}/${key}`).then((res) => {
+      setOdds(res.data.trifectaOdds);
+    });
+    setFirstKey(parseInt(e.currentTarget.value, 10));
+    const key = parseInt(e.currentTarget.value, 10);
+  };
 
   const headNumbers = without(range(1, entries.length + 1), firstKey);
 
-  const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
-  const oddsMap = filteredOdds.reduce((acc, cur) => {
+  const oddsMap = odds.reduce((acc, cur) => {
     const [, second, third] = cur.key;
     acc[mapKey(second, third)] = cur;
     return acc;
