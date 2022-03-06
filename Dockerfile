@@ -1,6 +1,6 @@
 FROM node:16.13.1 AS builder
 
-ENV NODE_OPTIONS="--max-old-space-size=2048"
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 WORKDIR /usr/src/app
 
@@ -31,5 +31,5 @@ EXPOSE 3000
 CMD yarn serve
 
 FROM nginx:stable
-COPY ./nginx.config /etc/nginx/nginx.template
+COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /opt/web/build /usr/share/nginx/html
