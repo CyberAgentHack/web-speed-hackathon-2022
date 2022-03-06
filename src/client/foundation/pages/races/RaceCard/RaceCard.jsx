@@ -47,7 +47,8 @@ export const RaceCard = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        {/* <TrimmedImage height={225} src={data.image} width={400} /> */}
+        <TrimmedImage height={225} src={`${data.image}.webp`} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />

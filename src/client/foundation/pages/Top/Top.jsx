@@ -1,4 +1,5 @@
-import _ from "lodash";
+import difference from "lodash/difference";
+import slice from "lodash/slice";
 import moment from "moment-timezone";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -15,7 +16,7 @@ import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
-import { HeroImage } from "./internal/HeroImage";
+// import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
 /**
@@ -31,7 +32,7 @@ function useTodayRacesWithAnimation(races) {
 
   useEffect(() => {
     const isRacesUpdate =
-      _.difference(
+      difference(
         races.map((e) => e.id),
         prevRaces.current.map((e) => e.id),
       ).length !== 0;
@@ -45,10 +46,10 @@ function useTodayRacesWithAnimation(races) {
       return;
     }
     // 視覚効果 off のときはアニメーションしない
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRacesToShow(races);
-      return;
-    }
+    // if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    //   setRacesToShow(races);
+    //   return;
+    // }
 
     numberOfRacesToShow.current = 0;
     if (timer.current !== null) {
@@ -62,7 +63,7 @@ function useTodayRacesWithAnimation(races) {
       }
 
       numberOfRacesToShow.current++;
-      setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
+      setRacesToShow(slice(races, 0, numberOfRacesToShow.current));
     }, 100);
   }, [isRacesUpdate, races]);
 
@@ -146,10 +147,14 @@ export const Top = () => {
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
   const heroImageUrl = useHeroImage(todayRaces);
-
   return (
     <Container>
-      {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
+      <img alt decoding="async" src="/assets/images/hero.webp" />
+      {/* <picture>
+        {heroImageUrl !== null && (
+          <HeroImage url={heroImageUrl} decoding="async" />
+        )}
+      </picture> */}
 
       <Spacer mt={Space * 2} />
       {userData && (

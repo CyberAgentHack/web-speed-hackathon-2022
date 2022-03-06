@@ -5,18 +5,24 @@ import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
-
+const fs = require("fs");
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */
-export const apiRoute = async (fastify) => {
+export const apiRoute = async (fastify, opts) => {
+  module.exports.options = {
+    http2: true,
+  };
+  fastify.register(require("fastify-compress"), { requestEncodings: ["gzip"] });
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
     if (req.user != null) {
+      // res.compress(fs.createReadStream("./file.gz"));
       res.send(req.user);
     } else {
       const user = await repo.save(new User());
+      // res.compress(fs.createReadStream("./file.gz"));
       res.send(user);
     }
   });
@@ -40,7 +46,7 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.jpg");
+    const url = assets("/images/hero.webp");
     const hash = Math.random().toFixed(10).substring(2);
 
     res.send({ hash, url });
@@ -117,9 +123,7 @@ export const apiRoute = async (fastify) => {
       },
     });
 
-    res.send({
-      bettingTickets,
-    });
+    res.send({ bettingTickets });
   });
 
   fastify.post("/races/:raceId/betting-tickets", async (req, res) => {
