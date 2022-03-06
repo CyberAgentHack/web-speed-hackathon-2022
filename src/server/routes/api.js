@@ -13,7 +13,7 @@ export const apiRoute = async (fastify, opts) => {
   module.exports.options = {
     http2: true,
   };
-  fastify.register(require("fastify-compress"), { global: false });
+  fastify.register(require("fastify-compress"), { requestEncodings: ["gzip"] });
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
@@ -89,7 +89,6 @@ export const apiRoute = async (fastify, opts) => {
       where,
     });
 
-    // res.compress(fs.createReadStream("./"));
     res.send({ races });
   });
 
@@ -104,7 +103,6 @@ export const apiRoute = async (fastify, opts) => {
       throw fastify.httpErrors.notFound();
     }
 
-    // res.compress(fs.createReadStream("./"));
     res.send(race);
   });
 
@@ -125,7 +123,6 @@ export const apiRoute = async (fastify, opts) => {
       },
     });
 
-    // res.compress(fs.createReadStream("./"));
     res.send({ bettingTickets });
   });
 
