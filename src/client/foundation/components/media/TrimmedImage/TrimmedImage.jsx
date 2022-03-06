@@ -43,7 +43,7 @@ const getTrimmedSRC = (src, height, width) => {
 // }
 export const TrimmedImage = ({ height, src, width }) => {
   src = getFetchSRC(src, width)
-  src = src + ".webp"
+  src = src + ".avif"
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {

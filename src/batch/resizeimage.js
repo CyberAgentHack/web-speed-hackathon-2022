@@ -63,13 +63,11 @@ function main() {
   const src = HERO_IMAGE_DIR
   const imageData = fs.readFileSync(src)
   sharp(imageData)
-    .resize(1000)
-    // .webp({
-    //   quality: 10
-    // })
-    .toFile(src + ".webp");
-
-  return
+    // .resize(1000)
+    .webp({
+      quality: 40
+    })
+    .toFile(src + ".avif");
 
   // const imageData = resizeImage(src, width, height)
   let files = fs.readdirSync(PLAYERS_IMAGE_DIR);
@@ -77,13 +75,16 @@ function main() {
   const player_height = 100;
   files.forEach(function (file) {
     const src = PLAYERS_IMAGE_DIR + file
+    if (!file.endsWith(".jpg")) {
+      return
+    }
     const imageData = fs.readFileSync(src)
     sharp(imageData)
       .resize(400)
       .webp({
         quality: 30
       })
-      .toFile(src+".webp");
+      .toFile(src +".avif");
     // const resizedData = resizeImage(imageData, player_width, player_height)
 
     // const newFileName = `${player_width}_${player_height}_${file}`
@@ -94,13 +95,16 @@ function main() {
   files = fs.readdirSync(RACE_IMAGE_DIR);
   files.forEach(function (file) {
     const src = RACE_IMAGE_DIR + file
+    if (!file.endsWith(".jpg")) {
+      return
+    }
     const imageData = fs.readFileSync(src)
     sharp(imageData)
       .resize(400)
       .webp({
         quality: 30
       })
-      .toFile(src + ".webp");
+      .toFile(src + ".avif");
     // const resizedData = resizeImage(imageData, player_width, player_height)
 
     // const newFileName = `${player_width}_${player_height}_${file}`
