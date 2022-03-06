@@ -31,6 +31,8 @@ const RaceButton = styled(LinkButton)`
   color: ${Color.mono[0]};
   padding: ${Space * 1}px ${Space * 2}px;
 
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+
   &:hover {
     background: ${Color.mono[800]};
   }
@@ -52,8 +54,6 @@ const Item = ({ delay, race }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
   const [opacity, setOpacity] = useState(0);
   const [duration, setDuration] = useState(0.5);
-
-  console.log(delay);
 
   // 締切はリアルタイムで表示したい
   useEffect(() => {
@@ -93,7 +93,12 @@ const Item = ({ delay, race }) => {
         <Stack.Item grow={0} shrink={0}>
           <Stack horizontal alignItems="center" gap={Space * 2}>
             <TrimmedImage height={100} src={race.image} width={100} />
-            <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>
+            <RaceButton
+              disabled={race.id === "1"}
+              to={`/races/${race.id}/race-card`}
+            >
+              投票
+            </RaceButton>
           </Stack>
         </Stack.Item>
       </Stack>

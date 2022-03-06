@@ -24,6 +24,13 @@ const formatDate = (date) => {
   `.replace(/\n|\r| /g, "");
 };
 
+const mockRace = {
+  closeAt: new Date(),
+  id: "1",
+  image: "",
+  name: "Loading...",
+};
+
 /** @type {React.VFC} */
 export const Top = () => {
   const { date = formatDate(new Date()) } = useParams();
@@ -98,17 +105,17 @@ export const Top = () => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        {todayRaces.length > 0 && (
-          <RecentRaceList>
-            {todayRaces.map((race, index) => (
+        <RecentRaceList>
+          {(todayRaces.length > 0 ? todayRaces : [...Array(24).keys()]).map(
+            (race, index) => (
               <RecentRaceList.Item
-                key={race.id}
+                key={race.id ?? index}
                 delay={index * 100}
-                race={race}
+                race={todayRaces.length > 0 ? race : mockRace}
               />
-            ))}
-          </RecentRaceList>
-        )}
+            ),
+          )}
+        </RecentRaceList>
       </section>
       {userData && (
         <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
