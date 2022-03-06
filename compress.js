@@ -9,7 +9,7 @@ const brotliSettings = {
   quality: 10, // 0 - 11,
   lgwin: 12, // default
 };
-var dirs = ["src/server"];
+var dirs = ["src/server/routes"];
 dirs.forEach((dir) => {
   fs.readdirSync(dir).forEach((file) => {
     if (

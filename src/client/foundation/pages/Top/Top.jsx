@@ -29,7 +29,11 @@ function useTodayRacesWithAnimation(races) {
   const timer = useRef(null);
 
   useEffect(() => {
-    const isRacesUpdate = races !== prevRaces.current;
+    const isRacesUpdate =
+      _.difference(
+        races.map((e) => e.id),
+        prevRaces.current.map((e) => e.id),
+      ).length !== 0;
 
     prevRaces.current = races;
     setIsRacesUpdate(isRacesUpdate);
@@ -94,6 +98,7 @@ function useHeroImage(todayRaces) {
 
 /** @type {React.VFC} */
 export const Top = () => {
+  console.log("TOPRENERRRRRRRRRRR");
   const { date = moment().format("YYYY-MM-DD") } = useParams();
 
   const ChargeButton = styled.button`
@@ -115,6 +120,7 @@ export const Top = () => {
   );
 
   const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  console.log(raceData);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
