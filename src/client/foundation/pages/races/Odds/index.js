@@ -1,1 +1,2 @@
-export { Odds as default } from "./Odds";
+export * from "./Odds";
+export {Odds as default} from "./Odds"

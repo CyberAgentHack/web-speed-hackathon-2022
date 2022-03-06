@@ -1,1 +1,2 @@
-export { RaceResult as default } from "./RaceResult";
+export * from "./RaceResult";
+export {RaceResult as default} from "./RaceResult"
