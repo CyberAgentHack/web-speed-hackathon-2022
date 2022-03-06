@@ -1,6 +1,4 @@
-import _ from "lodash";
-import moment from "moment-timezone";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -9,7 +7,7 @@ import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
-import { useFetch } from "../../hooks/useFetch";
+import { useLaterFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
@@ -18,88 +16,26 @@ import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
-/**
- * @param {Model.Race[]} races
- * @returns {Model.Race[]}
- */
-function useTodayRacesWithAnimation(races) {
-  const [isRacesUpdate, setIsRacesUpdate] = useState(false);
-  const [racesToShow, setRacesToShow] = useState([]);
-  const numberOfRacesToShow = useRef(0);
-  const prevRaces = useRef(races);
-  const timer = useRef(null);
+const formatDate = (date) => {
+  return `
+    ${date.getFullYear()}-${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}
+  `.replace(/\n|\r| /g, "");
+};
 
-  useEffect(() => {
-    const isRacesUpdate =
-      _.difference(
-        races.map((e) => e.id),
-        prevRaces.current.map((e) => e.id),
-      ).length !== 0;
-
-    prevRaces.current = races;
-    setIsRacesUpdate(isRacesUpdate);
-  }, [races]);
-
-  useEffect(() => {
-    if (!isRacesUpdate) {
-      return;
-    }
-    // 視覚効果 off のときはアニメーションしない
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRacesToShow(races);
-      return;
-    }
-
-    numberOfRacesToShow.current = 0;
-    if (timer.current !== null) {
-      clearInterval(timer.current);
-    }
-
-    timer.current = setInterval(() => {
-      if (numberOfRacesToShow.current >= races.length) {
-        clearInterval(timer.current);
-        return;
-      }
-
-      numberOfRacesToShow.current++;
-      setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
-    }, 100);
-  }, [isRacesUpdate, races]);
-
-  useEffect(() => {
-    return () => {
-      if (timer.current !== null) {
-        clearInterval(timer.current);
-      }
-    };
-  }, []);
-
-  return racesToShow;
-}
-
-/**
- * @param {Model.Race[]} todayRaces
- * @returns {string | null}
- */
-function useHeroImage(todayRaces) {
-  const firstRaceId = todayRaces[0]?.id;
-  const url =
-    firstRaceId !== undefined
-      ? `/api/hero?firstRaceId=${firstRaceId}`
-      : "/api/hero";
-  const { data } = useFetch(url, jsonFetcher);
-
-  if (firstRaceId === undefined || data === null) {
-    return null;
-  }
-
-  const imageUrl = `${data.url}?${data.hash}`;
-  return imageUrl;
-}
+const mockRace = {
+  closeAt: new Date(),
+  id: "1",
+  image: "",
+  name: "Loading...",
+};
 
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
+  const { date = formatDate(new Date()) } = useParams();
+  const todayUnix = Date.parse(date) / 1000 - 60 * 60 * 9;
+  const tomorrowUnix = todayUnix + 24 * 60 * 60;
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
@@ -119,7 +55,10 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const { data: raceData } = useLaterFetch(
+    `/api/races/${todayUnix}/${tomorrowUnix}/data`,
+    jsonFetcher,
+  );
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -133,23 +72,24 @@ export const Top = () => {
     revalidate();
   }, [revalidate]);
 
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
-          )
-      : [];
-  const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
-  const heroImageUrl = useHeroImage(todayRaces);
+  const todayRaces = useMemo(
+    () =>
+      raceData != null
+        ? [...raceData.races]
+            .sort(
+              (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
+                Date.parse(a.startAt) - Date.parse(b.startAt),
+            )
+            .filter((/** @type {Model.Race} */ race) =>
+              isSameDay(race.startAt, date),
+            )
+        : [],
+    [date, raceData],
+  );
 
   return (
     <Container>
-      {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
+      <HeroImage url="/assets/images/hero.webp" />
 
       <Spacer mt={Space * 2} />
       {userData && (
@@ -168,16 +108,22 @@ export const Top = () => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        {todayRacesToShow.length > 0 && (
-          <RecentRaceList>
-            {todayRacesToShow.map((race) => (
-              <RecentRaceList.Item key={race.id} race={race} />
-            ))}
-          </RecentRaceList>
-        )}
+        <RecentRaceList>
+          {(raceData != null ? todayRaces : [...Array(24).keys()]).map(
+            (race, index) => (
+              <RecentRaceList.Item
+                key={race.id ?? index}
+                delay={index * 100}
+                lazy={index > 3}
+                race={todayRaces.length > 0 ? race : mockRace}
+              />
+            ),
+          )}
+        </RecentRaceList>
       </section>
-
-      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      {userData && (
+        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      )}
     </Container>
   );
 };

@@ -1,0 +1,23 @@
+{
+  "001":{
+    "code":"001",
+    "name":"本所",
+    "kana":"ホンシヨ",
+    "hira":"ほんしよ",
+    "roma":"honshiyo"
+  },
+  "080":{
+    "code":"080",
+    "name":"室戸",
+    "kana":"ムロト",
+    "hira":"むろと",
+    "roma":"muroto"
+  },
+  "670":{
+    "code":"670",
+    "name":"すくも湾",
+    "kana":"スクモワン",
+    "hira":"すくもわん",
+    "roma":"sukumowan"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "008":{
+    "code":"008",
+    "name":"南部",
+    "kana":"ナンブ",
+    "hira":"なんぶ",
+    "roma":"nambu"
+  },
+  "021":{
+    "code":"021",
+    "name":"中部",
+    "kana":"チユウブ",
+    "hira":"ちゆうぶ",
+    "roma":"chiyuubu"
+  },
+  "023":{
+    "code":"023",
+    "name":"北部",
+    "kana":"ホクブ",
+    "hira":"ほくぶ",
+    "roma":"hokubu"
+  },
+  "100":{
+    "code":"100",
+    "name":"本所",
+    "kana":"ホンシヨ",
+    "hira":"ほんしよ",
+    "roma":"honshiyo"
+  }
+}

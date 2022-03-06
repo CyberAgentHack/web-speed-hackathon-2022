@@ -1,11 +1,12 @@
-import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useLaterFetch } from "../../../../../hooks/useFetch";
 import { BreakPoint, Color, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const Wrapper = styled.ol`
@@ -65,30 +66,31 @@ const RankNo = styled.div`
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = _.take(
-    _.sortBy(odds, (item) => item.odds),
-    50,
+export const OddsRankingList = ({ isRaceClosed, onClickOdds, raceId }) => {
+  const { data: oddsRank } = useLaterFetch(
+    `/api/races/${raceId}/sorted-odds-rank`,
+    jsonFetcher,
   );
+  const sortedOdds = oddsRank ?? [...Array(50).keys()];
 
   return (
     <Wrapper>
       {sortedOdds.map((item, i) => (
-        <li key={item.id}>
-          {isRaceClosed ? (
+        <li key={item?.id}>
+          {isRaceClosed || oddsRank === null ? (
             <InactiveBuyButton>
               <Stack horizontal alignItems="center" gap={Space * 2}>
                 <RankNo>{i + 1}.</RankNo>
-                <EntryCombination numbers={item.key} />
-                <OddsMarker as="div" odds={item.odds} />
+                <EntryCombination numbers={item?.key ?? [0, 0, 0]} />
+                <OddsMarker as="div" odds={item?.odds ?? 0} />
               </Stack>
             </InactiveBuyButton>
           ) : (
             <BuyButton onClick={() => onClickOdds(item)}>
               <Stack horizontal alignItems="center" gap={Space * 2}>
                 <RankNo>{i + 1}.</RankNo>
-                <EntryCombination numbers={item.key} />
-                <OddsMarker as="div" odds={item.odds} />
+                <EntryCombination numbers={item ? item.key : []} />
+                <OddsMarker as="div" odds={item ? item.odds : 0} />
               </Stack>
             </BuyButton>
           )}

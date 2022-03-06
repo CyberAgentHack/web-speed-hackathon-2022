@@ -1,0 +1,37 @@
+{
+  "001":{
+    "code":"001",
+    "name":"本店",
+    "kana":"ホンテン",
+    "hira":"ほんてん",
+    "roma":"honten"
+  },
+  "009":{
+    "code":"009",
+    "name":"朝日",
+    "kana":"アサヒ",
+    "hira":"あさひ",
+    "roma":"asahi"
+  },
+  "011":{
+    "code":"011",
+    "name":"関川",
+    "kana":"セキカワ",
+    "hira":"せきかわ",
+    "roma":"sekikawa"
+  },
+  "021":{
+    "code":"021",
+    "name":"荒川",
+    "kana":"アラカワ",
+    "hira":"あらかわ",
+    "roma":"arakawa"
+  },
+  "051":{
+    "code":"051",
+    "name":"山北",
+    "kana":"サンポク",
+    "hira":"さんぽく",
+    "roma":"sampoku"
+  }
+}

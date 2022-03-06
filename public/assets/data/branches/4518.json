@@ -1,0 +1,37 @@
+{
+  "110":{
+    "code":"110",
+    "name":"本店",
+    "kana":"ホンテン",
+    "hira":"ほんてん",
+    "roma":"honten"
+  },
+  "112":{
+    "code":"112",
+    "name":"南那須",
+    "kana":"ミナミナス",
+    "hira":"みなみなす",
+    "roma":"minaminasu"
+  },
+  "115":{
+    "code":"115",
+    "name":"烏山",
+    "kana":"カラスヤマ",
+    "hira":"からすやま",
+    "roma":"karasuyama"
+  },
+  "121":{
+    "code":"121",
+    "name":"馬頭",
+    "kana":"バトウ",
+    "hira":"ばとう",
+    "roma":"batou"
+  },
+  "126":{
+    "code":"126",
+    "name":"小川",
+    "kana":"オガワ",
+    "hira":"おがわ",
+    "roma":"ogawa"
+  }
+}

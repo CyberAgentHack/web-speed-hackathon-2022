@@ -2,6 +2,8 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -16,9 +18,16 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: "inline-source-map",
-    entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    devtool:
+      process.env.NODE_ENV === "production" ? false : "inline-source-map",
+    entry: {
+      main: [
+        "core-js",
+        "regenerator-runtime/runtime",
+        path.join(SRC_ROOT, "client/index.jsx"),
+      ],
+    },
+    mode: process.env.NODE_ENV,
     module: {
       rules: [
         {
@@ -29,7 +38,7 @@ module.exports = [
           type: "asset/source",
         },
         {
-          exclude: /[\\/]esm[\\/]/,
+          exclude: [/[\\/]esm[\\/]/, /[\\/]node_modules[\\/]/],
           test: /\.jsx?$/,
           use: {
             loader: "babel-loader",
@@ -38,11 +47,18 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
-                    spec: true,
+                    corejs: "3",
+                    modules: "auto",
+                    targets: "last 1 Chrome major version",
+                    useBuiltIns: "usage",
                   },
                 ],
-                "@babel/preset-react",
+                [
+                  "@babel/preset-react",
+                  {
+                    development: process.env.NODE_ENV !== "production",
+                  },
+                ],
               ],
             },
           },
@@ -57,6 +73,7 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      // new BundleAnalyzerPlugin(),
     ],
     resolve: {
       extensions: [".js", ".jsx"],
@@ -64,7 +81,7 @@ module.exports = [
     target: "web",
   },
   {
-    devtool: "inline-source-map",
+    devtool: false,
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
     mode: "development",

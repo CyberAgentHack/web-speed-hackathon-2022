@@ -1,0 +1,37 @@
+{
+  "001":{
+    "code":"001",
+    "name":"本所",
+    "kana":"ホンシヨ",
+    "hira":"ほんしよ",
+    "roma":"honshiyo"
+  },
+  "006":{
+    "code":"006",
+    "name":"紫波",
+    "kana":"シワ",
+    "hira":"しわ",
+    "roma":"shiwa"
+  },
+  "020":{
+    "code":"020",
+    "name":"矢巾",
+    "kana":"ヤハバ",
+    "hira":"やはば",
+    "roma":"yahaba"
+  },
+  "024":{
+    "code":"024",
+    "name":"都南",
+    "kana":"トナン",
+    "hira":"となん",
+    "roma":"tonan"
+  },
+  "032":{
+    "code":"032",
+    "name":"盛岡",
+    "kana":"モリオカ",
+    "hira":"もりおか",
+    "roma":"morioka"
+  }
+}

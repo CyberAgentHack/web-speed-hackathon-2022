@@ -8,7 +8,7 @@ import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
-import { useFetch } from "../../../hooks/useFetch";
+import { useLaterFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
@@ -28,18 +28,15 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceCard = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
-
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
+  const { data } = useLaterFetch(`/api/races/${raceId}/entry`, jsonFetcher);
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{data == null ? "Loading..." : data.name}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        開始 {data ? formatTime(data.startAt) : "0:00"} 締切{" "}
+        {data ? formatTime(data.closeAt) : "0:00"}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -47,7 +44,7 @@ export const RaceCard = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <TrimmedImage height={225} src={data ? data.image : ""} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -63,18 +60,27 @@ export const RaceCard = () => {
 
         <Spacer mt={Space * 2} />
         <PlayerPictureList>
-          {data.entries.map((entry) => (
-            <PlayerPictureList.Item
-              key={entry.id}
-              image={entry.player.image}
-              name={entry.player.name}
-              number={entry.number}
-            />
-          ))}
+          {data
+            ? data?.entries.map((entry) => (
+                <PlayerPictureList.Item
+                  key={entry.id}
+                  image={entry.player.image}
+                  name={entry.player.name}
+                  number={entry.number}
+                />
+              ))
+            : [...Array(12).keys()].map((id) => (
+                <PlayerPictureList.Item
+                  key={id}
+                  image={""}
+                  name={"〇〇〇〇"}
+                  number={id + 1}
+                />
+              ))}
         </PlayerPictureList>
 
         <Spacer mt={Space * 4} />
-        <EntryTable entries={data.entries} />
+        <EntryTable entries={data ? data.entries : null} />
       </Section>
     </Container>
   );

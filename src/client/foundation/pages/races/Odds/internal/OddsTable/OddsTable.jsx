@@ -1,11 +1,12 @@
-import _ from "lodash";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useLaterFetch } from "../../../../../hooks/useFetch";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const ScrollWrapper = styled.div`
@@ -80,30 +81,41 @@ const mapKey = (second, third) => `${second}.${third}`;
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
+export const OddsTable = ({ entries, isRaceClosed, onClickOdds, raceId }) => {
   const [firstKey, setFirstKey] = useState(1);
+
+  const { data: filteredOdds } = useLaterFetch(
+    `/api/races/${raceId}/${firstKey}/odds-filterd-item`,
+    jsonFetcher,
+  );
 
   const handleChange = useCallback((e) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
 
-  const headNumbers = _.without(_.range(1, entries.length + 1), firstKey);
+  const headNumbers = entries
+    ? [...Array(entries.length - 1).keys()].map((i) =>
+        i + 1 < firstKey ? i + 1 : i + 2,
+      )
+    : [...Array(11).keys()].map((i) => i + 2);
 
-  const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
-  const oddsMap = filteredOdds.reduce((acc, cur) => {
-    const [, second, third] = cur.key;
-    acc[mapKey(second, third)] = cur;
-    return acc;
-  }, {});
+  const oddsMap =
+    filteredOdds?.reduce((acc, cur) => {
+      const [, second, third] = cur.key;
+      acc[mapKey(second, third)] = cur;
+      return acc;
+    }, {}) ?? {};
 
   return (
     <div>
       <Stack horizontal>
         <RankLabel>1位軸</RankLabel>
         <select onChange={handleChange} value={firstKey}>
-          {entries.map((entry) => (
-            <option key={entry.id} value={entry.number}>
-              {entry.number}. {entry.player.name}
+          {(entries ?? [1]).map((entry) => (
+            <option key={entry.id ?? entry} value={entry.number ?? entry}>
+              {entries
+                ? `${entry.number}. ${entry.player?.name}`
+                : "1. 〇〇〇〇"}
             </option>
           ))}
         </select>
@@ -141,11 +153,11 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
                         {second !== third ? (
                           isRaceClosed ? (
                             <InactiveBuyButton>
-                              <OddsMarker odds={item.odds} />
+                              <OddsMarker odds={item ? item.odds : 0} />
                             </InactiveBuyButton>
                           ) : (
                             <BuyButton onClick={() => onClickOdds(item)}>
-                              <OddsMarker odds={item.odds} />
+                              <OddsMarker odds={item ? item.odds : 0} />
                             </BuyButton>
                           )
                         ) : (
