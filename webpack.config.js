@@ -60,11 +60,13 @@ module.exports = [
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
       new CompressionPlugin({
-        test: /\.js$/,
-        filename: "[path].gz[query]",
+        filename: "[path][base].gz",
         algorithm: (source, compressionOptions, callback) => {
           return zopfli.gzip(Buffer.from(source), compressionOptions, callback);
         },
+        test: /\.js$|\.css$|\.html$/,
+        threshold: 10240,
+        minRatio: 0.8,
       }),
       new LoadablePlugin(),
     ],
