@@ -1,17 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Color, FontSize, Space } from "../../../../../styles/variables";
-
 const Wrapper = styled.div`
   align-items: center;
-  color: ${Color.mono[400]};
+  color: #a8a29e;
   display: flex;
-  font-size: ${FontSize.LARGE};
+  font-size: 1.25rem;
   font-weight: bold;
-  gap: ${Space * 2}px;
+  gap: ${16}px;
   justify-content: center;
-  padding: ${Space * 2}px;
+  padding: ${16}px;
 `;
 
 /**

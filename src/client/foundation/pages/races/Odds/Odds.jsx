@@ -1,4 +1,4 @@
-import moment from "moment-timezone";
+import moment from "moment";
 import React, { useCallback, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -10,7 +10,6 @@ import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
-import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
 
@@ -19,24 +18,23 @@ import { OddsTable } from "./internal/OddsTable";
 import { TicketVendingModal } from "./internal/TicketVendingModal";
 
 const LiveBadge = styled.span`
-  background: ${Color.red};
-  border-radius: ${Radius.SMALL};
-  color: ${Color.mono[0]};
+  background: #ff0000;
+  border-radius: 4px;
+  color: #fff;
   font-weight: bold;
-  padding: ${Space * 1}px;
+  padding: ${8}px;
   text-transform: uppercase;
 `;
 
 const Callout = styled.aside`
   align-items: center;
-  background: ${({ $closed }) =>
-    $closed ? Color.mono[200] : Color.green[100]};
-  color: ${({ $closed }) => ($closed ? Color.mono[600] : Color.green[500])};
+  background: ${({ $closed }) => ($closed ? "#e7e5e4" : "#dcfce7")};
+  color: ${({ $closed }) => ($closed ? "#57534e" : "#22c55e")};
   display: flex;
   font-weight: bold;
-  gap: ${Space * 2}px;
+  gap: ${16}px;
   justify-content: left;
-  padding: ${Space * 1}px ${Space * 2}px;
+  padding: ${8}px ${16}px;
 `;
 
 /** @type {React.VFC} */
@@ -65,21 +63,21 @@ export const Odds = () => {
 
   return (
     <Container>
-      <Spacer mt={Space * 2} />
+      <Spacer mt={16} />
       <Heading as="h1">{data.name}</Heading>
       <p>
         開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
       </p>
 
-      <Spacer mt={Space * 2} />
+      <Spacer mt={16} />
 
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
-        <Spacer mt={Space * 2} />
+        <Spacer mt={16} />
         <TrimmedImage height={225} src={data.image} width={400} />
       </Section>
 
-      <Spacer mt={Space * 2} />
+      <Spacer mt={16} />
 
       <Section>
         <TabNav>
@@ -90,7 +88,7 @@ export const Odds = () => {
           <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
         </TabNav>
 
-        <Spacer mt={Space * 4} />
+        <Spacer mt={32} />
 
         <Callout $closed={isRaceClosed}>
           <i className="fas fa-info-circle" />
@@ -99,10 +97,10 @@ export const Odds = () => {
             : "オッズをクリックすると拳券が購入できます"}
         </Callout>
 
-        <Spacer mt={Space * 4} />
+        <Spacer mt={32} />
         <Heading as="h2">オッズ表</Heading>
 
-        <Spacer mt={Space * 2} />
+        <Spacer mt={16} />
         <OddsTable
           entries={data.entries}
           isRaceClosed={isRaceClosed}
@@ -110,10 +108,10 @@ export const Odds = () => {
           onClickOdds={handleClickOdds}
         />
 
-        <Spacer mt={Space * 4} />
+        <Spacer mt={32} />
         <Heading as="h2">人気順</Heading>
 
-        <Spacer mt={Space * 2} />
+        <Spacer mt={16} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
           odds={data.trifectaOdds}

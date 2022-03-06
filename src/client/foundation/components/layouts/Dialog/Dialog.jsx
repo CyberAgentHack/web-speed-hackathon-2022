@@ -1,10 +1,8 @@
 import React, { forwardRef } from "react";
 import styled from "styled-components";
 
-import { Color } from "../../../styles/variables";
-
 const StyledDialog = styled.dialog`
-  border: 1px solid ${Color.mono[400]};
+  border: 1px solid #a8a29e;
 
   &::backdrop {
     background-color: rgba(0, 0, 0, 0.25);

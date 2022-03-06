@@ -1,5 +1,5 @@
 import _ from "lodash";
-import moment from "moment-timezone";
+import moment from "moment";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -10,7 +10,6 @@ import { Stack } from "../../components/layouts/Stack";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
-import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
@@ -102,13 +101,13 @@ export const Top = () => {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
 
   const ChargeButton = styled.button`
-    background: ${Color.mono[700]};
-    border-radius: ${Radius.MEDIUM};
-    color: ${Color.mono[0]};
-    padding: ${Space * 1}px ${Space * 2}px;
+    background: #44403c;
+    border-radius: 12px;
+    color: #fff;
+    padding: ${8}px ${16}px;
 
     &:hover {
-      background: ${Color.mono[800]};
+      background: #292524;
     }
   `;
 
@@ -151,7 +150,7 @@ export const Top = () => {
     <Container>
       {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
 
-      <Spacer mt={Space * 2} />
+      <Spacer mt={16} />
       {userData && (
         <Stack horizontal alignItems="center" justifyContent="space-between">
           <div>
@@ -165,7 +164,7 @@ export const Top = () => {
         </Stack>
       )}
 
-      <Spacer mt={Space * 2} />
+      <Spacer mt={16} />
       <section>
         <Heading as="h1">本日のレース</Heading>
         {todayRacesToShow.length > 0 && (

@@ -6,37 +6,36 @@ import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../components/media/TrimmedImage";
 import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
-import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 
 export const RecentRaceList = ({ children }) => {
   return (
-    <Stack as="ul" gap={Space * 2}>
+    <Stack as="ul" gap={16}>
       {children}
     </Stack>
   );
 };
 
 const ItemWrapper = styled.li`
-  background: ${Color.mono[0]};
-  border-radius: ${Radius.MEDIUM};
+  background: #fff;
+  border-radius: 12px;
   opacity: ${({ $opacity }) => $opacity};
-  padding: ${Space * 3}px;
+  padding: ${24}px;
 `;
 
 const RaceButton = styled(LinkButton)`
-  background: ${Color.mono[700]};
-  border-radius: ${Radius.MEDIUM};
-  color: ${Color.mono[0]};
-  padding: ${Space * 1}px ${Space * 2}px;
+  background: #44403c;
+  border-radius: 12px;
+  color: #fff;
+  padding: ${8}px ${16}px;
 
   &:hover {
-    background: ${Color.mono[800]};
+    background: #292524;
   }
 `;
 
 const RaceTitle = styled.h2`
-  font-size: ${FontSize.LARGE};
+  font-size: 1.25rem;
   font-weight: bold;
 `;
 
@@ -84,15 +83,15 @@ const Item = ({ race }) => {
   return (
     <ItemWrapper $opacity={opacity}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
-        <Stack gap={Space * 1}>
+        <Stack gap={8}>
           <RaceTitle>{race.name}</RaceTitle>
           <p>{closeAtText}</p>
         </Stack>
 
-        <Spacer mr={Space * 2} />
+        <Spacer mr={16} />
 
         <Stack.Item grow={0} shrink={0}>
-          <Stack horizontal alignItems="center" gap={Space * 2}>
+          <Stack horizontal alignItems="center" gap={16}>
             <TrimmedImage height={100} src={race.image} width={100} />
             <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>
           </Stack>

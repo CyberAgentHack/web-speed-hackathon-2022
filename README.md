@@ -18,7 +18,7 @@
 
 ## 提出方法
 
-評価対象となる環境（URL）を作成し、以下のレポジトリから参加登録を行なってください。
+評価対象となる環境（URL）を作成し、以下のレポジトリから参加登録を行なってください
 
 https://github.com/CyberAgentHack/web-speed-hackathon-2022-leaderboard
 

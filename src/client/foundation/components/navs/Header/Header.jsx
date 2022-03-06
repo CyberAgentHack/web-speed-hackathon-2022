@@ -3,22 +3,21 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { useAuth, useRegister } from "../../../contexts/AuthContext";
-import { Color, FontSize, Radius, Space } from "../../../styles/variables";
 import { BaseButton } from "../../buttons/BaseButton";
 
 const Wrapper = styled.div`
   align-items: center;
-  background: ${Color.mono[600]};
-  color: ${Color.mono[0]};
+  background: #57534e;
+  color: #fff;
   display: flex;
   height: 80px;
   justify-content: space-between;
-  padding: 0 ${Space * 2}px;
+  padding: 0 ${16}px;
 `;
 
 const NameText = styled.h1`
-  color: ${Color.green[400]};
-  font-size: ${FontSize.LARGE};
+  color: #4ade80;
+  font-size: 1.25rem;
   font-weight: bold;
 
   a {
@@ -28,13 +27,13 @@ const NameText = styled.h1`
 `;
 
 const LoginButton = styled(BaseButton)`
-  background: ${Color.mono[0]};
-  border-radius: ${Radius.MEDIUM};
-  color: ${Color.mono[800]};
-  padding: ${Space * 1}px ${Space * 2}px;
+  background: #fff;
+  border-radius: 12px;
+  color: #292524;
+  padding: ${8}px ${16}px;
 
   &:hover {
-    background: ${Color.mono[200]};
+    background: #e7e5e4;
   }
 `;
 

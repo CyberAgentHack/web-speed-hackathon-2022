@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
-import { Color, FontSize, Space } from "../../../../../styles/variables";
 import { OddsMarker } from "../OddsMarker";
 
 const ScrollWrapper = styled.div`
@@ -18,19 +17,19 @@ const RankLabel = styled.label`
 
 const Table = styled.table`
   border-collapse: collapse;
-  border-color: ${Color.mono[800]};
+  border-color: #292524;
   border-style: solid;
   border-width: 2px 0 2px;
-  font-size: ${FontSize.SMALL};
+  font-size: 0.875rem;
   height: 100%;
-  min-width: calc(1024px - ${Space * 3}px * 2);
+  min-width: calc(1024px - ${24}px * 2);
   table-layout: fixed;
   text-align: center;
   width: 100%;
 
   th,
   td {
-    border-color: ${Color.mono[800]};
+    border-color: #292524;
     border-style: solid;
     border-width: 1px;
     height: 100%;
@@ -39,28 +38,28 @@ const Table = styled.table`
 
   th {
     font-weight: normal;
-    padding: 0 ${Space * 1}px;
+    padding: 0 ${8}px;
   }
 `;
 
 const BuyButton = styled(BaseButton)`
   height: 100%;
-  padding: ${Space * 2}px;
+  padding: ${16}px;
   width: 100%;
 
   &:disabled {
-    background: ${Color.mono[100]};
+    background: #f5f5f4;
   }
 
   &:not(:disabled):hover {
-    background: ${Color.mono[200]};
+    background: #e7e5e4;
   }
 `;
 
 const InactiveBuyButton = styled.div`
   cursor: default;
   height: 100%;
-  padding: ${Space * 2}px;
+  padding: ${16}px;
   width: 100%;
 `;
 
@@ -109,7 +108,7 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
         </select>
       </Stack>
 
-      <Spacer mt={Space * 2} />
+      <Spacer mt={16} />
       <ScrollWrapper>
         <div>
           <Table>

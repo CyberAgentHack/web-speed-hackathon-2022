@@ -7,7 +7,6 @@ import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { Heading } from "../../../../components/typographies/Heading";
 import { useMutation } from "../../../../hooks/useMutation";
-import { Space } from "../../../../styles/variables";
 
 const CANCEL = "cancel";
 const CHARGE = "charge";
@@ -79,9 +78,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
       <section>
         <Heading as="h1">チャージ</Heading>
 
-        <Spacer mt={Space * 2} />
+        <Spacer mt={16} />
         <form method="dialog">
-          <Stack gap={Space * 1}>
+          <Stack gap={8}>
             <label>
               銀行コード
               <input

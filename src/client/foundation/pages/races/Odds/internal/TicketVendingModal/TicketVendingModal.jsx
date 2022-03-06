@@ -9,14 +9,13 @@ import { Heading } from "../../../../../components/typographies/Heading";
 import { useAuth } from "../../../../../contexts/AuthContext";
 import { useAuthorizedFetch } from "../../../../../hooks/useAuthorizedFetch";
 import { useMutation } from "../../../../../hooks/useMutation";
-import { Color, Space } from "../../../../../styles/variables";
 import { authorizedJsonFetcher } from "../../../../../utils/HttpUtils";
 
 const CANCEL = "cancel";
 const BUY = "buy";
 
 const ErrorText = styled.p`
-  color: ${Color.red};
+  color: #ff0000;
 `;
 
 /**
@@ -87,10 +86,10 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
     <Dialog ref={ref} onClose={handleCloseDialog}>
       <Heading as="h1">拳券の購入</Heading>
 
-      <Spacer mt={Space * 2} />
+      <Spacer mt={16} />
 
       <form method="dialog">
-        <Stack gap={Space * 1}>
+        <Stack gap={8}>
           {!shouldShowForm ? (
             <>
               <ErrorText>購入するにはログインしてください</ErrorText>
