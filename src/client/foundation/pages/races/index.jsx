@@ -136,6 +136,102 @@ export const RaceHome = memo(() => {
 
   const isRaceClosed = moment(data.closeAt).isBefore(new Date());
 
+  const ReceHeader = memo(() => {
+    return (
+      <>
+        <Spacer mt={Space * 2} />
+        <Heading as="h1">{data.name}</Heading>
+        <p>
+          開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        </p>
+
+        <Spacer mt={Space * 2} />
+
+        <Section dark shrink>
+          <LiveBadge>Live</LiveBadge>
+          <Spacer mt={Space * 2} />
+          <TrimmedImage height={225} src={data.image} width={400} />
+        </Section>
+
+        <Spacer mt={Space * 2} />
+      </>
+    );
+  });
+  ReceHeader.displayName = "ReceHeader";
+
+  const RaceCard = memo(() => {
+    return (
+      <>
+        <Spacer mt={Space * 2} />
+        <PlayerPictureList>
+          {data.entries.map((entry) => (
+            <PlayerPictureList.Item
+              key={entry.id}
+              image={entry.player.image}
+              name={entry.player.name}
+              number={entry.number}
+            />
+          ))}
+        </PlayerPictureList>
+        <Spacer mt={Space * 4} />
+        <EntryTable entries={data.entries} />
+      </>
+    );
+  });
+  RaceCard.displayName = "RaceCard";
+
+  const Odds = memo(() => {
+    return (
+      <>
+        <Spacer mt={Space * 4} />
+        <Callout $closed={isRaceClosed}>
+          <i className="fas fa-info-circle" />
+          {isRaceClosed
+            ? "このレースの投票は締め切られています"
+            : "オッズをクリックすると拳券が購入できます"}
+        </Callout>
+        <Spacer mt={Space * 4} />
+        <Heading as="h2">オッズ表</Heading>
+        <Spacer mt={Space * 2} />
+        <OddsTable
+          entries={data.entries}
+          isRaceClosed={isRaceClosed}
+          odds={data.trifectaOdds}
+          onClickOdds={handleClickOdds}
+        />
+        <Spacer mt={Space * 4} />
+        <Heading as="h2">人気順</Heading>
+        <Spacer mt={Space * 2} />
+        <OddsRankingList
+          isRaceClosed={isRaceClosed}
+          odds={data.trifectaOdds}
+          onClickOdds={handleClickOdds}
+        />
+      </>
+    );
+  });
+  Odds.displayName = "Odds";
+
+  const Result = memo(() => {
+    return (
+      <>
+        <Spacer mt={Space * 4} />
+        <Heading as="h2">購入した買い目</Heading>
+        <Spacer mt={Space * 2} />
+        <BettingTicketList>
+          {(ticketData?.bettingTickets ?? []).map((ticket) => (
+            <BettingTicketList.Item key={ticket.id} ticket={ticket} />
+          ))}
+        </BettingTicketList>
+        <Spacer mt={Space * 4} />
+        <Heading as="h2">勝負結果</Heading>
+        <Spacer mt={Space * 2} />
+        <RaceResultSection />
+      </>
+    );
+  });
+  Result.displayName = "Result";
+
   /** @type {React.FC<ItemProps & React.AnchorHTMLAttributes>} */
   const Item = memo(
     ({ "aria-current": ariaCurrent, children, status, ...rest }) => {
@@ -160,21 +256,7 @@ export const RaceHome = memo(() => {
 
   return (
     <Container>
-      <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
-      <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
-      </p>
-
-      <Spacer mt={Space * 2} />
-
-      <Section dark shrink>
-        <LiveBadge>Live</LiveBadge>
-        <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
-      </Section>
-
-      <Spacer mt={Space * 2} />
+      <ReceHeader />
 
       <Section>
         <nav>
@@ -185,65 +267,12 @@ export const RaceHome = memo(() => {
           </Stack>
         </nav>
 
-        {/* race-card */}
         {currentPage == 0 ? (
-          <>
-            <Spacer mt={Space * 2} />
-            <PlayerPictureList>
-              {data.entries.map((entry) => (
-                <PlayerPictureList.Item
-                  key={entry.id}
-                  image={entry.player.image}
-                  name={entry.player.name}
-                  number={entry.number}
-                />
-              ))}
-            </PlayerPictureList>
-            <Spacer mt={Space * 4} />
-            <EntryTable entries={data.entries} />
-          </>
+          <RaceCard />
         ) : currentPage == 1 ? (
-          <>
-            <Spacer mt={Space * 4} />
-            <Callout $closed={isRaceClosed}>
-              <i className="fas fa-info-circle" />
-              {isRaceClosed
-                ? "このレースの投票は締め切られています"
-                : "オッズをクリックすると拳券が購入できます"}
-            </Callout>
-            <Spacer mt={Space * 4} />
-            <Heading as="h2">オッズ表</Heading>
-            <Spacer mt={Space * 2} />
-            <OddsTable
-              entries={data.entries}
-              isRaceClosed={isRaceClosed}
-              odds={data.trifectaOdds}
-              onClickOdds={handleClickOdds}
-            />
-            <Spacer mt={Space * 4} />
-            <Heading as="h2">人気順</Heading>
-            <Spacer mt={Space * 2} />
-            <OddsRankingList
-              isRaceClosed={isRaceClosed}
-              odds={data.trifectaOdds}
-              onClickOdds={handleClickOdds}
-            />
-          </>
+          <Odds />
         ) : (
-          <>
-            <Spacer mt={Space * 4} />
-            <Heading as="h2">購入した買い目</Heading>
-            <Spacer mt={Space * 2} />
-            <BettingTicketList>
-              {(ticketData?.bettingTickets ?? []).map((ticket) => (
-                <BettingTicketList.Item key={ticket.id} ticket={ticket} />
-              ))}
-            </BettingTicketList>
-            <Spacer mt={Space * 4} />
-            <Heading as="h2">勝負結果</Heading>
-            <Spacer mt={Space * 2} />
-            <RaceResultSection />
-          </>
+          <Result />
         )}
       </Section>
       {currentPage == 1 && (
