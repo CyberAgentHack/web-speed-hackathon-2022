@@ -4,6 +4,7 @@ body {
   color: #1c1917;
   background: #f5f5f4;
   font-family: san-serif;
+  text-rendering: optimizeSpeed;
 }
 a {
   color: inherit;
