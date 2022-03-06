@@ -94,10 +94,7 @@ export const apiRoute = async (fastify) => {
     });
 
     const sortedOdds = _.take(
-      _.sortBy(
-        _.sortBy(odds, (item) => item.odds),
-        (item) => item.id,
-      ),
+      _.sortBy(odds, ["odds", "id"]),
       50,
     );
 
