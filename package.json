@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "author": "dora <31735614+dora1998@users.noreply.github.com>",
   "scripts": {
+    "deploy:gce": "npm run build && gcloud app deploy",
+    "start:gce": "PORT=8080 DB_PATH=/tmp/db.sqlite node dist/server.js",
+    "deploy:heroku": "git push heroku",
     "build": "NODE_ENV=production webpack",
     "build:watch": "NODE_ENV=development webpack --watch --progress",
     "serve": "node --enable-source-maps dist/server.js",
