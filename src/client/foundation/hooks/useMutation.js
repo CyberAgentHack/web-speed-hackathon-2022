@@ -58,9 +58,11 @@ export function useMutation(apiPath, { auth }) {
           method: "POST",
         });
 
+        const resData = await res.json();
+
         setResult((cur) => ({
           ...cur,
-          data: await res.json(),
+          data: resData,
           loading: false,
         }));
       } catch (error) {
