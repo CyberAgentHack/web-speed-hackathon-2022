@@ -11,7 +11,11 @@ import { defaultEntries, dummyOdds } from "../../../utils/DummyData";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { DummyOddsTable, OddsTable } from "./internal/OddsTable";
-import { TicketVendingModal } from "./internal/TicketVendingModal";
+// import { TicketVendingModal } from "./internal/TicketVendingModal";
+
+const TicketVendingModal = React.lazy(() =>
+  import("./internal/TicketVendingModal"),
+);
 
 const Callout = styled.aside`
   align-items: center;

@@ -1,1 +1,1 @@
-export * from "./ChargeDialog";
+export { ChargeDialog as default } from "./ChargeDialog";
