@@ -4,6 +4,8 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
+const CompressionPlugin = require("compression-webpack-plugin");
+
 function abs(...args) {
   return path.join(__dirname, ...args);
 }
@@ -16,9 +18,9 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: "inline-source-map",
+    //devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
@@ -42,7 +44,12 @@ module.exports = [
                     spec: true,
                   },
                 ],
-                "@babel/preset-react",
+                [
+                  "@babel/preset-react",
+                  {
+                    development: false,
+                  },
+                ]
               ],
             },
           },
@@ -54,6 +61,13 @@ module.exports = [
       path: DIST_PUBLIC,
     },
     plugins: [
+      new CompressionPlugin({
+        filename: "[path][base].gz",
+        algorithm: "gzip",
+        test: /\.js$|\.css$|\.html$/,
+        threshold: 10240,
+        minRatio: 0.8,
+      }),
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
@@ -64,7 +78,7 @@ module.exports = [
     target: "web",
   },
   {
-    devtool: "inline-source-map",
+    //devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
     mode: "development",
