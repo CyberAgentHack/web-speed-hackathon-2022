@@ -25,6 +25,22 @@ module.exports = [
       app: path.join(SRC_ROOT, "client/foundation/App.jsx"),
       main: path.join(SRC_ROOT, "client/index.jsx"),
     },
+    externals: {
+      react: {
+        amd: "react",
+        commonjs: "react",
+        commonjs2: "react",
+        root: "React",
+        umd: "react",
+      },
+      "react-dom": {
+        amd: "react-dom",
+        commonjs: "react-dom",
+        commonjs2: "react-dom",
+        root: "ReactDOM",
+        umd: "react-dom",
+      },
+    },
     mode: "production",
     module: {
       rules: [
