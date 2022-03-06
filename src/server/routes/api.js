@@ -36,6 +36,12 @@ export const apiRoute = async (fastify) => {
   fastify.register(fastifyCors, {
     origin: ["https://wsh-2022-cathiecode.tk", "https://wsh-2022-cathiecode.herokuapp.com", "http://localhost:3000"]
   });
+
+  server.register(
+    fastifyCompress,
+    { threshold: 2048 }
+  )
+
   fastify.addHook("onRequest", async (req, res) => {
     res.header("Cache-Control", "no-cache, no-store");
   });

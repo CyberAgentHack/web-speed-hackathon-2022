@@ -39,11 +39,6 @@ server.addHook("onRequest", async (req, res) => {
   }
 });
 
-server.register(
-  fastifyCompress,
-  { threshold: 2048 }
-)
-
 server.register(apiRoute, { prefix: "/api" });
 server.register(imageRoute);
 server.register(spaRoute);
