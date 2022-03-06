@@ -63,10 +63,10 @@ function main() {
   const src = HERO_IMAGE_DIR
   const imageData = fs.readFileSync(src)
   sharp(imageData)
-    // .resize(800)
-    .webp({
-      quality: 30
-    })
+    .resize(1000)
+    // .webp({
+    //   quality: 10
+    // })
     .toFile(src + ".webp");
 
   return
