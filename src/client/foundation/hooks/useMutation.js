@@ -55,6 +55,17 @@ export function useMutation(apiPath, { auth, method }) {
           url: apiPath,
         });
 
+        // const res = await fetch(apiPath, {
+        //   method: method, // *GET, POST, PUT, DELETE, etc.
+        //   mode: "cors", // no-cors, *cors, same-origin
+        //   headers: auth
+        //     ? {
+        //         "x-app-userid": userId,
+        //       }
+        //     : {},
+        //   body: JSON.stringify(data), // 本文のデータ型は "Content-Type" ヘッダーと一致させる必要があります
+        // });
+
         setResult((cur) => ({
           ...cur,
           data: res.data,
