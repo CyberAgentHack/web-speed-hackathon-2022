@@ -10,7 +10,7 @@ EXPOSE 3000
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /var/www
-COPY /app/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]
