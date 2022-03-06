@@ -36,8 +36,8 @@ export const RaceLayout = () => {
       <Heading as="h1">{data?.name ?? "　"}</Heading>
       <p>
         {/* TODO: replace correct placeholder */}
-        開始 {data == null ? "     " : formatTime(data.startAt)} 締切{" "}
-        {data == null ? "     " : formatTime(data.closeAt)}
+        開始 {data == null ? "0:00" : formatTime(data.startAt)} 締切{" "}
+        {data == null ? "0:00" : formatTime(data.closeAt)}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -47,9 +47,9 @@ export const RaceLayout = () => {
         <Spacer mt={Space * 2} />
         <TrimmedImage
           height={225}
+          objectFit="contain"
           src={data == null ? null : data.image.split(".jpg")[0] + "_md.webp"}
           width={400}
-          objectFit="contain"
         />
       </Section>
 

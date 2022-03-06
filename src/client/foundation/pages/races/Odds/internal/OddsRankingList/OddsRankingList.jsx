@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
@@ -65,15 +65,9 @@ const RankNo = styled.div`
 
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = useMemo(() => {
-    const _odds = [...odds];
-    _odds.sort((a, b) => (a.odds - b.odds > 0 ? 1 : a.odds < b.odds ? -1 : 0));
-    return _odds.slice(0, 50);
-  }, [odds]);
-
   return (
     <Wrapper>
-      {sortedOdds.map((item, i) => (
+      {odds.map((item, i) => (
         <li key={item.id}>
           {isRaceClosed ? (
             <InactiveBuyButton>

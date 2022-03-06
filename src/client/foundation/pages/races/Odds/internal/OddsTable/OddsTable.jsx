@@ -1,10 +1,13 @@
 import React, { useCallback, useMemo, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useFetch } from "../../../../../hooks/useFetch";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const ScrollWrapper = styled.div`
@@ -79,8 +82,15 @@ const mapKey = (second, third) => `${second}.${third}`;
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
+export const OddsTable = ({ entries, isRaceClosed, /*odds,*/ onClickOdds }) => {
+  const { raceId } = useOutletContext();
   const [firstKey, setFirstKey] = useState(1);
+
+  const { data: oddsMap } = useFetch(
+    `/api/races/${raceId}/first/${firstKey}`,
+    jsonFetcher,
+    true,
+  );
 
   const handleChange = useCallback((e) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
@@ -95,12 +105,12 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
     [entries.length, firstKey],
   );
 
-  const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
-  const oddsMap = filteredOdds.reduce((acc, cur) => {
-    const [, second, third] = cur.key;
-    acc[mapKey(second, third)] = cur;
-    return acc;
-  }, {});
+  // const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
+  // const oddsMap = filteredOdds.reduce((acc, cur) => {
+  //   const [, second, third] = cur.key;
+  //   acc[mapKey(second, third)] = cur;
+  //   return acc;
+  // }, {});
 
   return (
     <div>
@@ -140,12 +150,12 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
                   <th>{third}</th>
 
                   {headNumbers.map((second) => {
-                    const item = oddsMap[mapKey(second, third)];
+                    const item = oddsMap?.[mapKey(second, third)];
 
                     return (
                       <td key={second} width="auto">
                         {second !== third ? (
-                          isRaceClosed ? (
+                          item == null ? null : isRaceClosed ? (
                             <InactiveBuyButton>
                               <OddsMarker odds={item.odds} />
                             </InactiveBuyButton>

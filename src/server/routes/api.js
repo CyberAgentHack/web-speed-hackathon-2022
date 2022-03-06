@@ -89,14 +89,63 @@ export const unAuthApiRoute = async (fastify) => {
     const repo = req.dbConnection.getRepository(Race);
 
     const race = await repo.findOne(req.params.raceId, {
-      relations: ["entries", "entries.player", "trifectaOdds"],
+      // relations: ["entries", "entries.player", "trifectaOdds"],
+      relations: ["entries", "entries.player"],
     });
 
     if (race === undefined) {
       throw fastify.httpErrors.notFound();
     }
 
+    console.log(race);
+
     res.send(race);
+  });
+
+  fastify.get("/races/:raceId/first/:firstKey", async (req, res) => {
+    const repo = req.dbConnection.getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    const odds = race.trifectaOdds.filter(
+      ({ key }) => key[0] === parseInt(req.params.firstKey, 10),
+    );
+
+    const converted = odds.reduce((acc, cur) => {
+      const [, second, third] = cur.key;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { id: __, key: _, ...obj } = cur;
+      acc[`${second}.${third}`] = obj;
+      return acc;
+    }, {});
+
+    console.log(converted);
+
+    res.send(converted);
+  });
+
+  fastify.get("/races/:raceId/popular", async (req, res) => {
+    const repo = req.dbConnection.getRepository(Race);
+
+    // TODO: クエリ改善
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+    race.trifectaOdds.sort((a, b) =>
+      a.odds - b.odds > 0 ? 1 : a.odds < b.odds ? -1 : 0,
+    );
+
+    res.send(race.trifectaOdds.slice(0, 50));
   });
 
   fastify.post("/initialize", async (_req, res) => {
