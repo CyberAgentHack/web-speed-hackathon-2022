@@ -2,7 +2,11 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
+const TerserPlugin = require("terser-webpack-plugin");
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const nodeExternals = require("webpack-node-externals");
+const smp = new SpeedMeasurePlugin()
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -14,11 +18,11 @@ const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
 
 /** @type {Array<import('webpack').Configuration>} */
-module.exports = [
+module.exports = smp.wrap([
   {
-    devtool: "inline-source-map",
+    devtool: false,
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
@@ -50,13 +54,17 @@ module.exports = [
       ],
     },
     name: "client",
+    optimization: {
+      minimizer: [new TerserPlugin({ /* additional options here */ })],
+    },
     output: {
       path: DIST_PUBLIC,
     },
     plugins: [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
-      }),
+      })
+      // new BundleAnalyzerPlugin()
     ],
     resolve: {
       extensions: [".js", ".jsx"],
@@ -64,7 +72,7 @@ module.exports = [
     target: "web",
   },
   {
-    devtool: "inline-source-map",
+    devtool: false,
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
     mode: "development",
@@ -92,6 +100,9 @@ module.exports = [
       ],
     },
     name: "server",
+    optimization: {
+      minimizer: [new TerserPlugin({ /* additional options here */ })],
+    },
     output: {
       filename: "server.js",
       path: DIST_ROOT,
@@ -101,4 +112,4 @@ module.exports = [
     },
     target: "node",
   },
-];
+]);

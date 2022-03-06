@@ -1,5 +1,6 @@
 import "regenerator-runtime/runtime";
 import fastify from "fastify";
+import compression from 'fastify-compress';
 import fastifySensible from "fastify-sensible";
 
 import { User } from "../model/index.js";
@@ -22,6 +23,7 @@ const server = fastify({
       },
 });
 server.register(fastifySensible);
+server.register(compression)
 
 server.addHook("onRequest", async (req, res) => {
   const repo = (await createConnection()).getRepository(User);
@@ -48,7 +50,7 @@ server.register(spaRoute);
 const start = async () => {
   try {
     await initialize();
-    await server.listen(process.env.PORT || 3000, "0.0.0.0");
+    await server.listen(process.env.PORT || 80, "0.0.0.0");
   } catch (err) {
     server.log.error(err);
     process.exit(1);

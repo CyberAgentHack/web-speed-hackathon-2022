@@ -1,7 +1,8 @@
-import moment from "moment-timezone";
+import moment from "moment";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import zenginCode from "zengin-code";
 
-import { assets } from "../../client/foundation/utils/UrlUtils.js";
+import { isSameDay } from "../../client/foundation/utils/DateUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
@@ -21,6 +22,21 @@ export const apiRoute = async (fastify) => {
     }
   });
 
+  fastify.get("/banklist", async (req,res)=>{
+    const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
+      code,
+      name,
+    }));
+    res.send(bankList
+    )
+  });
+
+  fastify.get("/bank/:code", async (req,res)=>{
+    const bank = zenginCode[req.params.code];
+    res.send(bank
+    )
+  })
+
   fastify.post("/users/me/charge", async (req, res) => {
     if (req.user == null) {
       throw fastify.httpErrors.unauthorized();
@@ -37,13 +53,6 @@ export const apiRoute = async (fastify) => {
     await repo.save(req.user);
 
     res.status(204).send();
-  });
-
-  fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.jpg");
-    const hash = Math.random().toFixed(10).substring(2);
-
-    res.send({ hash, url });
   });
 
   fastify.get("/races", async (req, res) => {
@@ -81,8 +90,23 @@ export const apiRoute = async (fastify) => {
 
     const races = await repo.find({
       where,
-    });
+    })
+    races.sort((a,b)=>moment(b.startAt)-moment(b.startAt))
+    res.send({ races });
+  });
 
+  fastify.get("/todayraces/:date", async (req, res) => {
+    const date = moment(req.params.date);
+
+    const repo = (await createConnection()).getRepository(Race);
+
+    const where = {};
+
+      const races = await repo.find({
+        where,
+      })
+
+    races.filter((race)=>isSameDay(race.startAt,date)).sort((a,b)=>moment(b.startAt)-moment(b.startAt))
     res.send({ races });
   });
 
@@ -96,8 +120,24 @@ export const apiRoute = async (fastify) => {
     if (race === undefined) {
       throw fastify.httpErrors.notFound();
     }
-
+    const sorted = race.trifectaOdds.sort((a,b)=>a.odds-b.odds).splice(0,50);
+    race.trifectaOdds = sorted;
     res.send(race);
+  });
+
+  fastify.get("/races/odds/:raceId/:first", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+    const first = parseInt(req.params.first)
+    const filtered = race.trifectaOdds.filter(value=>value.key[0]===first)
+    res.send(filtered)
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
