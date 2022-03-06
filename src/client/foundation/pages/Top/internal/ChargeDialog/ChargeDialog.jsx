@@ -58,9 +58,11 @@ export const ChargeDialog = forwardRef(({ onComplete, userData }, ref) => {
       }
     };
     if (bankCode !== "") init();
+    else setBank(null);
   }, [bankCode]);
 
   const clearForm = useCallback(() => {
+    setBank(null);
     setBankCode("");
     setBranchCode("");
     setAccountNo("");
