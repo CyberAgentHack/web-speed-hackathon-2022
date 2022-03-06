@@ -70,20 +70,21 @@ function useTodayRacesWithAnimation(races) {
   return racesToShow;
 }
 
+const ChargeButton = styled.button`
+  background: ${Color.mono[700]};
+  border-radius: ${Radius.MEDIUM};
+  color: ${Color.mono[0]};
+  padding: ${Space * 1}px ${Space * 2}px;
+  border-width: 0;
+
+  &:hover {
+    background: ${Color.mono[800]};
+  }
+`;
 /** @type {React.VFC} */
 export default function Top() {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
 
-  const ChargeButton = styled.button`
-    background: ${Color.mono[700]};
-    border-radius: ${Radius.MEDIUM};
-    color: ${Color.mono[0]};
-    padding: ${Space * 1}px ${Space * 2}px;
-
-    &:hover {
-      background: ${Color.mono[800]};
-    }
-  `;
 
   const chargeDialogRef = useRef(null);
 
