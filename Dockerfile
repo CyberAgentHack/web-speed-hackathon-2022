@@ -1,3 +1,4 @@
+
 FROM nginx:alpine
 
 # COPY default.conf.template /etc/nginx/conf.d/default.conf.template
@@ -6,6 +7,8 @@ COPY nginx.conf /etc/nginx/nginx.conf
 CMD /bin/sh -c "envsubst '\$PORT' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf" && nginx -g 'daemon off;'
 
 FROM node:16.13.1 AS builder
+
+WORKDIR /app
 
 COPY . .
 
