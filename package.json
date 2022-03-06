@@ -58,7 +58,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "axios": "^0.25.0",
     "bezier-easing": "^2.1.0",
     "core-js": "^3.21.1",
     "fastify": "^3.25.3",

@@ -9719,7 +9719,6 @@ __metadata:
     "@types/styled-components": ^5.1.19
     "@typescript-eslint/eslint-plugin": ^5.13.0
     "@typescript-eslint/parser": ^5.13.0
-    axios: ^0.25.0
     babel-loader: ^8.2.3
     bezier-easing: ^2.1.0
     copy-webpack-plugin: ^10.2.0
