@@ -2,8 +2,9 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
-
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 function abs(...args) {
   return path.join(__dirname, ...args);
 }
@@ -16,9 +17,40 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "production",
+    plugins: [
+      new BundleAnalyzerPlugin(),
+      new CompressionPlugin({
+        filename: "[path].gz[query]",
+        algorithm: "gzip",
+        test: /\.(js|css)$/,
+      }),
+    ],
+    optimization: {
+      minimize: true,
+      splitChunks: {
+        chunks: 'async',
+        minSize: 20000,
+        minRemainingSize: 0,
+        minChunks: 1,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+        enforceSizeThreshold: 50000,
+        cacheGroups: {
+          defaultVendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+        },
+      },
+    },
     module: {
       rules: [
         {

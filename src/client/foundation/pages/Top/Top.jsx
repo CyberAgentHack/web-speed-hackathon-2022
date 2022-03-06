@@ -1,5 +1,4 @@
-import _ from "lodash";
-import moment from "moment-timezone";
+import dayjs from "dayjs";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -14,7 +13,7 @@ import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
-import { ChargeDialog } from "./internal/ChargeDialog";
+const ChargeDialog = React.lazy(() => import("./internal/ChargeDialog"));
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
@@ -30,11 +29,7 @@ function useTodayRacesWithAnimation(races) {
   const timer = useRef(null);
 
   useEffect(() => {
-    const isRacesUpdate =
-      _.difference(
-        races.map((e) => e.id),
-        prevRaces.current.map((e) => e.id),
-      ).length !== 0;
+    const isRacesUpdate = races.map((e) => e.id).filter(x => !prevRaces.current.map((e) => e.id).includes(x)).length !== 0;
 
     prevRaces.current = races;
     setIsRacesUpdate(isRacesUpdate);
@@ -62,7 +57,7 @@ function useTodayRacesWithAnimation(races) {
       }
 
       numberOfRacesToShow.current++;
-      setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
+      setRacesToShow(races.slice(0, numberOfRacesToShow.current));
     }, 100);
   }, [isRacesUpdate, races]);
 
@@ -99,7 +94,7 @@ function useHeroImage(todayRaces) {
 
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
+  const { date = dayjs().format("YYYY-MM-DD") } = useParams();
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
@@ -118,8 +113,9 @@ export const Top = () => {
     "/api/users/me",
     authorizedJsonFetcher,
   );
-
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const startDay = dayjs(date).startOf("day").unix();
+  const endDay = dayjs(date).endOf("day").unix();
+  const { data: raceData } = useFetch(`/api/races?since=${startDay}&until=${endDay}`, jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -136,13 +132,13 @@ export const Top = () => {
   const todayRaces =
     raceData != null
       ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
-          )
+        .sort(
+          (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
+            dayjs(a.startAt) - dayjs(b.startAt),
+        )
+        .filter((/** @type {Model.Race} */ race) =>
+          isSameDay(race.startAt, date),
+        )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
   const heroImageUrl = useHeroImage(todayRaces);
@@ -177,7 +173,7 @@ export const Top = () => {
         )}
       </section>
 
-      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      <React.Suspense fallback={<p></p>}><ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} /></React.Suspense>
     </Container>
   );
 };

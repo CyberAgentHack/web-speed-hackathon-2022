@@ -29,22 +29,19 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceResult = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  // 重い部分の情報にはアクセスしてない
+  const { data } = useFetch(`/api/races/${raceId}/small`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher,
   );
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{data ? data.name : "Loading..."}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        開始 {data ? formatTime(data.startAt) : ""} 締切 {data ? formatTime(data.closeAt) : ""}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -52,7 +49,7 @@ export const RaceResult = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <TrimmedImage height={225} src={data ? data.image : ""} width={400} nolazy={true} />
       </Section>
 
       <Spacer mt={Space * 2} />

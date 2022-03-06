@@ -1,11 +1,13 @@
-import _ from "lodash";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
+import { Container } from "../../../../../components/layouts/Container";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useFetch } from "../../../../../hooks/useFetch";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const ScrollWrapper = styled.div`
@@ -64,13 +66,51 @@ const InactiveBuyButton = styled.div`
   width: 100%;
 `;
 
+// WARNING: This is not a drop in replacement solution and
+// it might not work for some edge cases. Test your code! 
+const range = (start, end, increment) => {
+  // if the end is not defined...
+  const isEndDef = typeof end !== 'undefined'
+  // ...the first argument should be the end of the range...
+  end = isEndDef ? end : start
+  // ...and 0 should be the start
+  start = isEndDef ? start : 0
+
+  // if the increment is not defined, we could need a +1 or -1
+  // depending on whether we are going up or down
+  if (typeof increment === 'undefined') {
+    increment = Math.sign(end - start)
+  }
+
+  // calculating the lenght of the array, which has always to be positive
+  const length = Math.abs((end - start) / (increment || 1))
+
+  // In order to return the right result, we need to create a new array
+  // with the calculated length and fill it with the items starting from
+  // the start value + the value of increment.
+  const { result } = Array.from({ length }).reduce(
+    ({ result, current }) => ({
+      // append the current value to the result array
+      result: [...result, current],
+      // adding the increment to the current item
+      // to be used in the next iteration
+      current: current + increment,
+    }),
+    { current: start, result: [] }
+  )
+
+  return result
+}
+
 /**
  * @param {number} second
  * @param {number} third
  * @returns {string}
  */
 const mapKey = (second, third) => `${second}.${third}`;
-
+// WARNING: This is not a drop in replacement solution and
+// it might not work for some edge cases. Test your code! 
+const without = (arr, ...args) => arr.filter(item => !args.includes(item))
 /**
  * @typedef Props
  * @property {Model.OddsItem[]} odds
@@ -80,32 +120,32 @@ const mapKey = (second, third) => `${second}.${third}`;
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
-  const [firstKey, setFirstKey] = useState(1);
-
+export const OddsTable = ({ entries, isRaceClosed, raceId, onClickOdds }) => {
+  const [firstKey, setFk] = useState(1);
+  const [oddsMap, setOdds] = useState(null);
   const handleChange = useCallback((e) => {
-    setFirstKey(parseInt(e.currentTarget.value, 10));
+    setFk(parseInt(e.currentTarget.value, 10));
+    setOdds(null);
   }, []);
 
-  const headNumbers = _.without(_.range(1, entries.length + 1), firstKey);
+  const headNumbers = without(range(1, entries.length + 1), firstKey);
 
-  const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
-  const oddsMap = filteredOdds.reduce((acc, cur) => {
-    const [, second, third] = cur.key;
-    acc[mapKey(second, third)] = cur;
-    return acc;
-  }, {});
+  const odd = useFetch(`/api/races/${raceId}/${firstKey}`, jsonFetcher)
+
+  useEffect(() => {
+    setOdds(odd.data)
+  }, [odd.data])
 
   return (
     <div>
       <Stack horizontal>
         <RankLabel>1位軸</RankLabel>
         <select onChange={handleChange} value={firstKey}>
-          {entries.map((entry) => (
+          {(entries.map((entry) => (
             <option key={entry.id} value={entry.number}>
               {entry.number}. {entry.player.name}
             </option>
-          ))}
+          )))}
         </select>
       </Stack>
 
@@ -127,7 +167,7 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
             </thead>
 
             <tbody>
-              {headNumbers.map((third, i) => (
+              {!oddsMap ? <Container>Loading...</Container> : headNumbers.map((third, i) => (
                 <tr key={third}>
                   {i === 0 && <th rowSpan={headNumbers.length}>3位</th>}
 
