@@ -65,11 +65,10 @@ const RankNo = styled.div`
 
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = odds.sort((a,b)=>a.odds-b.odds).splice(0,50);
 
   return (
     <Wrapper>
-      {sortedOdds.map((item, i) => (
+      {odds.map((item, i) => (
         <li key={item.id}>
           {isRaceClosed ? (
             <InactiveBuyButton>

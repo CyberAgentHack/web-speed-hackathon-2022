@@ -4,7 +4,9 @@ import styled from "styled-components";
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useFetch } from "../../../../../hooks/useFetch";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const ScrollWrapper = styled.div`
@@ -68,7 +70,6 @@ const InactiveBuyButton = styled.div`
  * @param {number} third
  * @returns {string}
  */
-const mapKey = (second, third) => `${second}.${third}`;
 
 /**
  * @typedef Props
@@ -79,22 +80,23 @@ const mapKey = (second, third) => `${second}.${third}`;
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
+export const OddsTable = ({ entries, isRaceClosed, onClickOdds, raceId }) => {
   const [firstKey, setFirstKey] = useState(1);
-
+  
   const handleChange = useCallback((e) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
-
-  const headNumbers = [... new Array(entries.length+1).keys()].splice(1).filter((e)=>e!==firstKey)
-
-  const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
-  const oddsMap = filteredOdds.reduce((acc, cur) => {
-    const [, second, third] = cur.key;
-    acc[mapKey(second, third)] = cur;
-    return acc;
-  }, {});
-
+  const {data:odds} = useFetch(`/api/races/odds/${raceId}?first=${firstKey}`, jsonFetcher);
+  console.log(odds,`/api/races/odds/${raceId}?first=${firstKey}`)
+  const headNumbers = [... new Array(entries.length+1).keys()].slice(1).filter((e)=>e!==firstKey)
+  const oddsMap = {}
+  if(odds) odds.map((val)=>{
+    oddsMap[`${val.key[0]},${val.key[1]},${val.key[2]}`] = val
+  })
+  console.log('first', firstKey)
+  console.log('heads', headNumbers)
+  console.log('map', oddsMap)
+  if(odds && Object.keys(oddsMap)[0][0]!=firstKey)return <></>
   return (
     <div>
       <Stack horizontal>
@@ -133,8 +135,7 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
                   <th>{third}</th>
 
                   {headNumbers.map((second) => {
-                    const item = oddsMap[mapKey(second, third)];
-
+                    const item = odds?oddsMap[`${firstKey},${second},${third}`]:{odds:0};
                     return (
                       <td key={second} width="auto">
                         {second !== third ? (

@@ -104,8 +104,24 @@ export const apiRoute = async (fastify) => {
     if (race === undefined) {
       throw fastify.httpErrors.notFound();
     }
-
+    const sorted = race.trifectaOdds.sort((a,b)=>a.odds-b.odds).splice(0,50);
+    race.trifectaOdds = sorted;
     res.send(race);
+  });
+
+  fastify.get("/races/odds/:raceId", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+    const first = parseInt(req.query.first)
+    const filtered = race.trifectaOdds.filter(value=>value.key[0]===first)
+    res.send(filtered)
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {

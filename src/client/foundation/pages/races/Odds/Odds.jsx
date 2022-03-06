@@ -99,12 +99,12 @@ export default function Odds()  {
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        {data?<OddsTable
-          entries={data.entries}
+        {<OddsTable
+          entries={data?data.entries:[]}
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
           onClickOdds={handleClickOdds}
-        />:<></>}
+          raceId={raceId}
+        />}
 
         <Spacer mt={Space * 4} />
         <Heading as="h2">人気順</Heading>
