@@ -99,7 +99,7 @@ module.exports = [
           // },
           level: 9,
         },
-        filename: "[path][base].br",
+        filename: "[path][base].gz",
         minRatio: 1,
         test: /\.(js|css|html|svg)$/,
         threshold: 860,

@@ -21,6 +21,4 @@ RUN yarn
 
 EXPOSE 3000
 
-WORKDIR /app
-
-CMD yarn serve
+CMD cd /app && yarn serve
