@@ -1,6 +1,7 @@
-import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import zenginCode from "zengin-code";
 
+import { getUTCFormatString } from "../../client/foundation/utils/DateUtils";
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
@@ -27,6 +28,7 @@ export const apiRoute = async (fastify) => {
     }
 
     const { amount } = req.body;
+
     if (typeof amount !== "number" || amount <= 0) {
       throw fastify.httpErrors.badRequest();
     }
@@ -40,50 +42,44 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.jpg");
-    const hash = Math.random().toFixed(10).substring(2);
-
-    res.send({ hash, url });
+    const url = assets("/images/hero.avif");
+    res.send({ url });
   });
 
   fastify.get("/races", async (req, res) => {
-    const since =
-      req.query.since != null ? moment.unix(req.query.since) : undefined;
-    const until =
-      req.query.until != null ? moment.unix(req.query.until) : undefined;
-
-    if (since != null && !since.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
-    if (until != null && !until.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
+    const since = req.query.since ? new Date(req.query.since * 1000) : null;
+    const until = req.query.until ? new Date(req.query.until * 1000) : null;
 
     const repo = (await createConnection()).getRepository(Race);
 
     const where = {};
     if (since != null && until != null) {
       Object.assign(where, {
-        startAt: Between(
-          since.utc().format("YYYY-MM-DD HH:mm:ss"),
-          until.utc().format("YYYY-MM-DD HH:mm:ss"),
-        ),
+        startAt: Between(getUTCFormatString(since), getUTCFormatString(until)),
       });
     } else if (since != null) {
       Object.assign(where, {
-        startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+        startAt: MoreThanOrEqual(getUTCFormatString(since)),
       });
     } else if (until != null) {
       Object.assign(where, {
-        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+        startAt: LessThanOrEqual(getUTCFormatString(since)),
       });
     }
 
     const races = await repo.find({
+      order: {
+        startAt: "ASC",
+      },
       where,
     });
 
-    res.send({ races });
+    const newRaces = Array.from(races).map((race) => {
+      const newFileName = race.image.replace(".jpg", ".avif");
+      return { ...race, image: newFileName };
+    });
+
+    res.send({ races: newRaces });
   });
 
   fastify.get("/races/:raceId", async (req, res) => {
@@ -97,7 +93,53 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.notFound();
     }
 
-    res.send(race);
+    const newRace = {
+      ...race,
+      entries: race.entries.map((entry) => {
+        const newFileName = entry.player.image.replace(".jpg", ".avif");
+        return { ...entry, player: { ...entry.player, image: newFileName } };
+      }),
+      image: race.image.replace(".jpg", ".avif"),
+    };
+
+    res.send(newRace);
+  });
+
+  fastify.get("/races/:raceId/entries", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["entries", "entries.player"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    const newRace = {
+      ...race,
+      entries: race.entries.map((entry) => {
+        const newFileName = entry.player.image.replace(".jpg", ".avif");
+        return { ...entry, player: { ...entry.player, image: newFileName } };
+      }),
+      image: race.image.replace(".jpg", ".avif"),
+    };
+
+    res.send(newRace);
+  });
+
+  fastify.get("/races/:raceId/trifectaOdds", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    res.send(race.trifectaOdds);
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
@@ -168,5 +210,28 @@ export const apiRoute = async (fastify) => {
   fastify.post("/initialize", async (_req, res) => {
     await initialize();
     res.status(204).send();
+  });
+
+  fastify.get("/banks", async (_req, res) => {
+    const banks = Object.keys(zenginCode).reduce((prev, curr) => {
+      return [
+        ...prev,
+        { code: zenginCode[curr].code, name: zenginCode[curr].name },
+      ];
+    }, []);
+
+    res.send({ banks });
+  });
+
+  fastify.get("/banks/:bankCode", async (req, res) => {
+    const bankCode = req.params.bankCode;
+
+    if (bankCode == null) {
+      throw fastify.httpErrors.badRequest();
+    }
+
+    const targetBank = zenginCode[bankCode];
+
+    res.send({ branches: targetBank.branches });
   });
 };

@@ -11,6 +11,7 @@ import {
 import { DATABASE_PATH } from "../paths.js";
 
 const connectionPromise = typeorm.createConnection({
+  cache: true,
   database: DATABASE_PATH,
   entities: [
     User.schema,

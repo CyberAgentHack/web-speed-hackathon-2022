@@ -7,6 +7,9 @@ import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
+import { HeadingPlaceholder } from "../../../components/placeholders/HeadingPlaceholder";
+import { PeriodPlaceholder } from "../../../components/placeholders/PeriodPlaceholder";
+import { TrimmedImagePlaceholder } from "../../../components/placeholders/TrimmedImagePlaceholder";
 import { Heading } from "../../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../../hooks/useFetch";
@@ -29,30 +32,39 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceResult = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data } = useFetch(`/api/races/${raceId}/entries`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher,
   );
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
-      <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
-      </p>
+      {data ? <Heading as="h1">{data.name}</Heading> : <HeadingPlaceholder />}
+      {data ? (
+        <p>
+          開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        </p>
+      ) : (
+        <PeriodPlaceholder />
+      )}
 
       <Spacer mt={Space * 2} />
 
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        {data ? (
+          <TrimmedImage
+            height={225}
+            lazy={false}
+            src={data.image}
+            width={400}
+          />
+        ) : (
+          <TrimmedImagePlaceholder />
+        )}
       </Section>
 
       <Spacer mt={Space * 2} />

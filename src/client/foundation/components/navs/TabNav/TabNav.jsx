@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -37,7 +37,8 @@ const ItemWrapper = styled.li`
 `;
 
 /** @type {React.FC<ItemProps & React.AnchorHTMLAttributes>} */
-const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
+// eslint-disable-next-line react/display-name
+const Item = memo(({ "aria-current": ariaCurrent, children, to, ...rest }) => {
   return (
     <ItemWrapper>
       {ariaCurrent ? (
@@ -51,9 +52,10 @@ const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
       )}
     </ItemWrapper>
   );
-};
+});
 
-export const TabNav = ({ children }) => {
+// eslint-disable-next-line react/display-name
+export const TabNav = memo(({ children }) => {
   return (
     <nav>
       <Stack horizontal as="ul" gap={Space * 2}>
@@ -61,5 +63,6 @@ export const TabNav = ({ children }) => {
       </Stack>
     </nav>
   );
-};
+});
+
 TabNav.Item = Item;

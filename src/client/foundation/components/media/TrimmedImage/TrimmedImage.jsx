@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+
+const Img = styled.img`
+  aspect-ratio: ${({ $height, $width }) => `${$width} / ${$height}`};
+  height: auto;
+`;
 
 /**
  * @typedef Props
  * @property {string} src
  * @property {number} width
- * @property {height} height
+ * @property {number} height
+ * @property {boolean} lazy
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
+export const TrimmedImage = ({ height, lazy, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
 
   useEffect(() => {
@@ -34,5 +41,13 @@ export const TrimmedImage = ({ height, src, width }) => {
     };
   }, [height, src, width]);
 
-  return <img src={dataUrl} />;
+  return (
+    <Img
+      $height={height}
+      $width={width}
+      loading={lazy ? "lazy" : "eager"}
+      src={dataUrl}
+      width={width}
+    />
+  );
 };

@@ -2,6 +2,7 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -12,13 +13,14 @@ const SRC_ROOT = abs("./src");
 const PUBLIC_ROOT = abs("./public");
 const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
+const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
 
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: "inline-source-map",
+    devtool: IS_DEVELOPMENT ? "inline-source-map" : false,
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
@@ -38,11 +40,19 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
-                    spec: true,
+                    bugfixes: true,
+                    corejs: "3",
+                    loose: true,
+                    useBuiltIns: "usage",
                   },
                 ],
-                "@babel/preset-react",
+                [
+                  "@babel/preset-react",
+                  {
+                    development: process.env.BABEL_ENV === "development",
+                    useSpread: true,
+                  },
+                ],
               ],
             },
           },
@@ -51,11 +61,18 @@ module.exports = [
     },
     name: "client",
     output: {
+      filename: "main-[contenthash:8].js",
       path: DIST_PUBLIC,
+      publicPath: "/",
     },
     plugins: [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
+      }),
+      new HtmlWebpackPlugin({
+        inject: "body",
+        scriptLoading: "defer",
+        template: path.resolve(SRC_ROOT, "./client", "./index.html"),
       }),
     ],
     resolve: {
@@ -64,7 +81,6 @@ module.exports = [
     target: "web",
   },
   {
-    devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
     mode: "development",
@@ -80,11 +96,20 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
+                    bugfixes: true,
+                    corejs: "3",
+                    loose: true,
                     modules: "cjs",
-                    spec: true,
+                    useBuiltIns: "usage",
                   },
                 ],
-                "@babel/preset-react",
+                [
+                  "@babel/preset-react",
+                  {
+                    development: process.env.BABEL_ENV === "development",
+                    useSpread: true,
+                  },
+                ],
               ],
             },
           },

@@ -9,7 +9,6 @@
     "serve:dev": "wait-on dist/server.js && NODE_OPTIONS=--enable-source-maps nodemon dist/server.js",
     "dev": "npm-run-all -s clean -p build:watch serve:dev",
     "clean": "rimraf dist",
-    "gen": "scaffdog generate",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "npm-run-all lint:eslint lint:stylelint",
@@ -20,13 +19,12 @@
     "lint:stylelint:fix": "stylelint --ignore-path .gitignore --fix './**/*.css' './**/*.jsx'"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.7",
     "@babel/preset-env": "^7.16.7",
     "@babel/preset-react": "^7.16.7",
     "@stylelint/postcss-css-in-js": "^0.37.2",
-    "@types/lodash": "^4.14.178",
-    "@types/react": "^17.0.38",
-    "@types/react-dom": "^17.0.11",
+    "@types/lodash-es": "^4.17.6",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.13",
     "@types/styled-components": "^5.1.19",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
@@ -39,13 +37,12 @@
     "eslint-plugin-react": "^7.29.3",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-sort": "^2.4.0",
+    "html-webpack-plugin": "^5.5.0",
     "nodemon": "^2.0.15",
     "npm-run-all": "^4.1.5",
-    "pino-pretty": "^7.3.0",
     "postcss-syntax": "^0.36.2",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
-    "scaffdog": "^1.1.0",
     "stylelint": "^14.5.3",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-recommended": "^7.0.0",
@@ -58,26 +55,14 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.17.2",
-    "@fortawesome/fontawesome-free": "^5.15.4",
-    "axios": "^0.25.0",
-    "bezier-easing": "^2.1.0",
-    "core-js": "^3.21.1",
-    "es5-shim": "^4.6.5",
-    "es6-shim": "^0.35.6",
-    "es7-shim": "^6.0.0",
     "fastify": "^3.25.3",
     "fastify-sensible": "^3.1.2",
     "fastify-static": "^4.5.0",
-    "framer-motion": "^6.2.8",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "modern-css-reset": "^1.4.0",
-    "moment-timezone": "^0.5.34",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-helmet": "^6.1.0",
     "react-router-dom": "6",
-    "regenerator-runtime": "^0.13.9",
     "sqlite3": "^5.0.2",
     "styled-components": "^5.3.3",
     "typeorm": "^0.2.44",
@@ -86,5 +71,8 @@
   },
   "engines": {
     "node": "16.x.x"
-  }
+  },
+  "browserslist": [
+    "last 1 chrome version"
+  ]
 }

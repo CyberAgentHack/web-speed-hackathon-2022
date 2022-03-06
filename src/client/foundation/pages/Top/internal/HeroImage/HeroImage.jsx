@@ -4,6 +4,9 @@ import styled from "styled-components";
 const Image = styled.img`
   display: block;
   margin: 0 auto;
+  height: auto;
+  width: 100%;
+  object-fit: cover;
 `;
 
 /**
