@@ -149,7 +149,9 @@ export const Top = () => {
   const heroImageUrl = useHeroImage(todayRaces);
   return (
     <Container>
-      {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
+      {heroImageUrl !== null && (
+        <HeroImage url={heroImageUrl} alt={heroImageUrl} loading="lazy" />
+      )}
 
       <Spacer mt={Space * 2} />
       {userData && (
