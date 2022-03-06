@@ -25,13 +25,6 @@ export const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: "Senobi-Gothic";
-    font-weight: normal;
-    font-display: swap;
-    src: url("/assets/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Regular.woff2") format("truetype");
-  }
-
-  @font-face {
-    font-family: "Senobi-Gothic";
     font-weight: bold;
     font-display: swap;
     src: url("/assets/fonts/MODI_Senobi-Gothic_2017_0702/Senobi-Gothic-Bold.woff2") format("truetype");
