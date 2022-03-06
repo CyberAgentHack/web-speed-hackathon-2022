@@ -1,0 +1,29 @@
+import * as React from "react";
+import styled from "styled-components";
+
+import { convertToAVIF } from "../../../../utils/ImageConvertUtils";
+
+const Image = styled.img`
+  display: block;
+  margin: 0 auto;
+  height: auto;
+`;
+
+/**
+ * @typedef Props
+ * @type {object}
+ * @property {string} url
+ */
+
+/** @type {React.VFC<Props>} */
+export const HeroImage = ({ url }) => {
+  return (
+    <Image
+      alt=""
+      height={735}
+      loading="eager"
+      src={convertToAVIF(url, "jpg")}
+      width={1024}
+    />
+  );
+};
