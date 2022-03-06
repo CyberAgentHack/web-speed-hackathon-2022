@@ -113,8 +113,9 @@ export const Top = () => {
     "/api/users/me",
     authorizedJsonFetcher,
   );
-
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const startDay = dayjs(date).startOf("day").unix();
+  const endDay = dayjs(date).endOf("day").unix();
+  const { data: raceData } = useFetch(`/api/races?since=${startDay}&until=${endDay}`, jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
