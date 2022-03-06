@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import React, { forwardRef, useCallback, useState } from "react";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import styled from "styled-components";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -12,6 +13,26 @@ import { jsonFetcher } from "../../../../utils/HttpUtils";
 
 const CANCEL = "cancel";
 const CHARGE = "charge";
+
+const Div = styled.div`
+  opacity: ${({ $opacity }) => $opacity};
+  transition: opacity 0.3s;
+`;
+
+const AnimatedDiv = ({ children, visible }) => {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setShow(visible);
+    }, 0);
+  }, [visible]);
+
+  if (visible) {
+    return <Div $opacity={show ? 1 : 0}>{children}</Div>;
+  } else {
+    return null;
+  }
+};
 
 /**
  * @typedef Props
@@ -108,6 +129,10 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
               </motion.div>
             )}
 
+            <AnimatedDiv visible={bank != null}>
+              銀行名: {bank?.name}銀行
+            </AnimatedDiv>
+
             <label>
               支店コード
               <input
@@ -131,6 +156,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
                 支店名: {branch.name}
               </motion.div>
             )}
+            <AnimatedDiv visible={branch != null}>
+              支店名: {branch?.name}
+            </AnimatedDiv>
 
             <label>
               口座番号
