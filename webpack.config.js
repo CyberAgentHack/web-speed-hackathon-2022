@@ -3,7 +3,10 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
+const PurgecssPlugin = require('purgecss-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const glob = require("glob");
 function abs(...args) {
   return path.join(__dirname, ...args);
 }
@@ -16,9 +19,9 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: "inline-source-map",
+    // devtool: "eval",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "production",
     module: {
       rules: [
         {
@@ -38,8 +41,11 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
-                    spec: true,
+                    modules: false,
+                    spec: false,
+                    targets: {
+                      "node": "current",
+                    }
                   },
                 ],
                 "@babel/preset-react",
@@ -54,6 +60,10 @@ module.exports = [
       path: DIST_PUBLIC,
     },
     plugins: [
+      // new BundleAnalyzerPlugin(),
+      new PurgecssPlugin({
+        paths: glob.sync(`${DIST_PUBLIC}/**/*`,  { nodir: true }),
+      }),
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
@@ -64,7 +74,7 @@ module.exports = [
     target: "web",
   },
   {
-    devtool: "inline-source-map",
+    // devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
     mode: "development",

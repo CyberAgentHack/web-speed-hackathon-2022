@@ -60,7 +60,7 @@ export const BettingTicketList = ({ children }) => {
   if (React.Children.count(children) === 0) {
     return (
       <Placeholder>
-        <i className="fas fa-ticket-alt" />
+        <i className="fas fa-ticket-alt icon-ticket" />
         <div>購入した拳券はありません</div>
       </Placeholder>
     );

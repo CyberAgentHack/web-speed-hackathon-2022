@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 export const RaceResultSection = () => {
   return (
     <Wrapper>
-      <i className="far fa-hand-peace" />
+      <i className="far fa-hand-peace icon-hand-peace" />
       <div>結果はまだありません</div>
     </Wrapper>
   );

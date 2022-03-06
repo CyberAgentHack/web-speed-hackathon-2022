@@ -10,6 +10,7 @@ import { initialize } from "../typeorm/initialize.js";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
+
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
@@ -41,7 +42,7 @@ export const apiRoute = async (fastify) => {
 
   fastify.get("/hero", async (_req, res) => {
     const url = assets("/images/hero.jpg");
-    const hash = Math.random().toFixed(10).substring(2);
+    const hash = '6666666666'
 
     res.send({ hash, url });
   });
@@ -98,6 +99,46 @@ export const apiRoute = async (fastify) => {
     }
 
     res.send(race);
+  });
+
+  fastify.get("/races/info/:raceId", async (req, res) => {
+    const since =
+    req.query.since != null ? moment.unix(req.query.since) : undefined;
+  const until =
+    req.query.until != null ? moment.unix(req.query.until) : undefined;
+
+  if (since != null && !since.isValid()) {
+    throw fastify.httpErrors.badRequest();
+  }
+  if (until != null && !until.isValid()) {
+    throw fastify.httpErrors.badRequest();
+  }
+
+  const repo = (await createConnection()).getRepository(Race);
+
+  const where = {};
+  if (since != null && until != null) {
+    Object.assign(where, {
+      startAt: Between(
+        since.utc().format("YYYY-MM-DD HH:mm:ss"),
+        until.utc().format("YYYY-MM-DD HH:mm:ss"),
+      ),
+    });
+  } else if (since != null) {
+    Object.assign(where, {
+      startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+    });
+  } else if (until != null) {
+    Object.assign(where, {
+      startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+    });
+  }
+
+  const races = await repo.find({
+    where,
+  });
+
+  res.send({ races });
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
