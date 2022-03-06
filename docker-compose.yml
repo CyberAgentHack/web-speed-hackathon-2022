@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  nginx:
+    build:
+      context: .
+      args:
+        ENABLED_MODULES: brotli
+    image: nginx-with-brotli:v1
+    container_name: "brotli-nginx"
+    ports:
+      - "3002:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf

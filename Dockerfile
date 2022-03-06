@@ -1,4 +1,4 @@
-FROM node:14-alpine AS builder
+FROM node:16.13.1 AS builder
 
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 
@@ -15,12 +15,9 @@ ENV COMMIT_HASH $COMMIT_HASH
 RUN yarn
 RUN yarn build
 
-FROM node:14-alpine
-
 COPY ./public ./public
 COPY ./package.json ./package.json
 COPY ./yarn.lock ./yarn.lock
-COPY --from=builder ./dist ./dist
 
 RUN yarn
 
@@ -29,4 +26,3 @@ CMD yarn serve
 
 FROM nginx:stable
 COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder /opt/web/build /usr/share/nginx/html
