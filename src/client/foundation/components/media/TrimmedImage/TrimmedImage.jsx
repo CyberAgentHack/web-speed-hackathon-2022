@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
   const [dataUrl, setDataUrl] = useState(null);
+  const [onLoading, setOnLoading] = useState(true);
 
   useEffect(() => {
     const img = new Image();
@@ -31,8 +32,13 @@ export const TrimmedImage = ({ height, src, width }) => {
         img.height * ratio,
       );
       setDataUrl(canvas.toDataURL());
+      setOnLoading(false);
     };
   }, [height, src, width]);
 
-  return <img src={dataUrl} />;
+  return(
+    <>
+      { !onLoading && (<img loading={"lazy"} src={dataUrl} />)}
+    </>
+  )
 };
