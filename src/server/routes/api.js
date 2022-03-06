@@ -18,11 +18,11 @@ export const apiRoute = async (fastify, opts) => {
     const repo = (await createConnection()).getRepository(User);
 
     if (req.user != null) {
-      res.compress(fs.createReadStream("./file.gz"));
+      // res.compress(fs.createReadStream("./file.gz"));
       res.send(req.user);
     } else {
       const user = await repo.save(new User());
-      res.compress(fs.createReadStream("./file.gz"));
+      // res.compress(fs.createReadStream("./file.gz"));
       res.send(user);
     }
   });
@@ -89,7 +89,7 @@ export const apiRoute = async (fastify, opts) => {
       where,
     });
 
-    res.compress(fs.createReadStream("./file.gz"));
+    // res.compress(fs.createReadStream("./"));
     res.send({ races });
   });
 
@@ -104,7 +104,7 @@ export const apiRoute = async (fastify, opts) => {
       throw fastify.httpErrors.notFound();
     }
 
-    res.compress(fs.createReadStream("./file.gz"));
+    // res.compress(fs.createReadStream("./"));
     res.send(race);
   });
 
@@ -125,7 +125,7 @@ export const apiRoute = async (fastify, opts) => {
       },
     });
 
-    res.compress(fs.createReadStream("./file.gz"));
+    // res.compress(fs.createReadStream("./"));
     res.send({ bettingTickets });
   });
 
