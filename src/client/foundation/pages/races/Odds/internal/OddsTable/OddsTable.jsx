@@ -141,11 +141,11 @@ export const OddsTable = ({ entries, isRaceClosed, raceId, onClickOdds }) => {
       <Stack horizontal>
         <RankLabel>1位軸</RankLabel>
         <select onChange={handleChange} value={firstKey}>
-          {entries.map((entry) => (
+          {(entries.map((entry) => (
             <option key={entry.id} value={entry.number}>
               {entry.number}. {entry.player.name}
             </option>
-          ))}
+          )))}
         </select>
       </Stack>
 
