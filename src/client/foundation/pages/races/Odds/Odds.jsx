@@ -139,7 +139,7 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
-          odds={trifectaOdds ?? []}
+          odds={trifectaOdds ?? null}
           onClickOdds={handleClickOdds}
         />
       </Section>

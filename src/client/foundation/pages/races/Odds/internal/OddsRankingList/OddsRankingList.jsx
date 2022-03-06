@@ -66,21 +66,28 @@ const RankNo = styled.div`
 
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = _.take(
-    _.sortBy(odds, (item) => item?.odds),
-    50,
-  );
+  let sortedOdds;
+
+  if (odds === null) {
+    sortedOdds = [...Array(50).keys()];
+  } else {
+    /* loading done */
+    sortedOdds = _.take(
+      _.sortBy(odds, (item) => item?.odds),
+      50,
+    );
+  }
 
   return (
     <Wrapper>
       {sortedOdds.map((item, i) => (
-        <li key={item.id}>
-          {isRaceClosed ? (
+        <li key={item?.id}>
+          {isRaceClosed || odds === null ? (
             <InactiveBuyButton>
               <Stack horizontal alignItems="center" gap={Space * 2}>
                 <RankNo>{i + 1}.</RankNo>
-                <EntryCombination numbers={item ? item.key : []} />
-                <OddsMarker as="div" odds={item ? item.odds : 0} />
+                <EntryCombination numbers={item?.key ?? [0, 0, 0]} />
+                <OddsMarker as="div" odds={item?.odds ?? 0} />
               </Stack>
             </InactiveBuyButton>
           ) : (
