@@ -3,7 +3,22 @@
   <component name="StickySelectionHighlights">
     <option name="editorHighlights">
       <map>
+        <entry key="$PROJECT_DIR$/.idea/StickySelectionHighlights.xml">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/.idea/workspace.xml">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/package.json">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/client/foundation/layouts/CommonLayout/CommonLayout.jsx">
           <value>
             <PaintGroupHighlightMap />
           </value>
@@ -19,6 +34,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/client/foundation/pages/races/Odds/internal/OddsTable/OddsTable.jsx">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/client/foundation/side-effects.js">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/client/foundation/styles/variables.js">
+          <value>
+            <PaintGroupHighlightMap />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/server/routes/api.js">
           <value>
             <PaintGroupHighlightMap />
           </value>
