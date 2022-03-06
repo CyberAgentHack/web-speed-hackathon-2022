@@ -72,13 +72,19 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
 
     ref.current?.showModal();
 
-    if (err.response?.status === 412) {
+    console.log(err.text);
+
+    if (err.status === 412) {
       setError("残高が不足しています");
       return;
     }
-
-    setError(err.message);
-    console.error(err);
+    
+    const errfun = async (err) => {
+      const { message } = await err.json();
+      setError(message);
+      console.error(err);
+    };
+    errfun(err);
   }, [buyTicketResult, revalidate, ref]);
 
   const shouldShowForm = loggedIn && userData !== null && odds !== null;
