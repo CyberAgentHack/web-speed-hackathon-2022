@@ -6263,6 +6263,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.difference@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.difference@npm:4.5.0"
+  checksum: ecee276aa578f300e79350805a14a51be8d1f12b3c1389a19996d8ab516f814211a5f65c68331571ecdad96522b863ccc484b55504ce8c9947212a29f8857d5a
+  languageName: node
+  linkType: hard
+
 "lodash.memoize@npm:^4.1.2":
   version: 4.1.2
   resolution: "lodash.memoize@npm:4.1.2"
@@ -6714,6 +6721,18 @@ __metadata:
   version: 1.4.0
   resolution: "modern-css-reset@npm:1.4.0"
   checksum: b515d1b669251ec767d948304386c74375da694355ae1508db06f2e79e271083925b6181f95ca988f58c6d749cde0648df7826b36e5494c32a623c2fd3b19476
+  languageName: node
+  linkType: hard
+
+"moment-locales-webpack-plugin@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "moment-locales-webpack-plugin@npm:1.2.0"
+  dependencies:
+    lodash.difference: ^4.5.0
+  peerDependencies:
+    moment: ^2.8.0
+    webpack: ^1 || ^2 || ^3 || ^4 || ^5
+  checksum: bb5daebfc2f2bd0c003b9d576893531edc6ac3c884c77fc4c3a7c8d228340c9a26a5c7676c8e4505922eebb1309f2defbcf619a1706d7d7e579039690df2487b
   languageName: node
   linkType: hard
 
@@ -10662,6 +10681,7 @@ __metadata:
     fs: ^0.0.1-security
     lodash.sortby: ^4.7.0
     modern-css-reset: ^1.4.0
+    moment-locales-webpack-plugin: ^1.2.0
     moment-timezone: ^0.5.34
     nodemon: ^2.0.15
     npm-run-all: ^4.1.5

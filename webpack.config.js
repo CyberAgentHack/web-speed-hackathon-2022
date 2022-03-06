@@ -5,6 +5,7 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 // const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -79,6 +80,7 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      new MomentLocalesPlugin({ localesToKeep: ["ja"] }),
       // new CompressionPlugin({
       //   algorithm: "brotliCompress",
       //   compressionOptions: {
