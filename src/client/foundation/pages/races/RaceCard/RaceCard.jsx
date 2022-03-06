@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import useSWR from "swr";
 
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
@@ -8,7 +9,6 @@ import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
-import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
@@ -28,18 +28,14 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceCard = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}/card`, jsonFetcher);
-
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
+  const { data } = useSWR(`/api/races/${raceId}/subset`, jsonFetcher);
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{data ? data.name : "読み込み中…"}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+      {data ? <>開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}</> : "読み込み中"}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -47,11 +43,7 @@ export const RaceCard = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage
-          height={225}
-          src={data.image.substring(0, data.image.length - 3) + "avif"}
-          width={400}
-        />
+        <TrimmedImage height={225} src={data ? `${data.image}_small.avif` : undefined} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -66,22 +58,21 @@ export const RaceCard = () => {
         </TabNav>
 
         <Spacer mt={Space * 2} />
-        <PlayerPictureList>
-          {data.entries.map((entry) => (
-            <PlayerPictureList.Item
-              key={entry.id}
-              image={
-                entry.player.image.substring(0, entry.player.image.length - 3) +
-                "avif"
-              }
-              name={entry.player.name}
-              number={entry.number}
-            />
-          ))}
-        </PlayerPictureList>
+        {data ? (<>
+          <PlayerPictureList>
+            {data.entries.map((entry) => (
+              <PlayerPictureList.Item
+                key={entry.id}
+                image={entry.player.image}
+                name={entry.player.name}
+                number={entry.number}
+              />
+            ))}
+          </PlayerPictureList>
 
-        <Spacer mt={Space * 4} />
-        <EntryTable entries={data.entries} />
+          <Spacer mt={Space * 4} />
+          <EntryTable entries={data.entries} />
+        </>) : "読み込み中…"}
       </Section>
     </Container>
   );
