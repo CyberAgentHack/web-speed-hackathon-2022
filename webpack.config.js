@@ -3,7 +3,8 @@ const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
-
+const PurgecssPlugin = require('purgecss-webpack-plugin')
+const glob = require("glob");
 function abs(...args) {
   return path.join(__dirname, ...args);
 }
@@ -38,8 +39,8 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
-                    spec: true,
+                    modules: false,
+                    spec: false,
                   },
                 ],
                 "@babel/preset-react",
@@ -54,6 +55,9 @@ module.exports = [
       path: DIST_PUBLIC,
     },
     plugins: [
+      new PurgecssPlugin({
+        paths: glob.sync(`${DIST_PUBLIC}/**/*`,  { nodir: true }),
+      }),
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
