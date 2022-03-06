@@ -2,7 +2,7 @@
 const path = require("path");
 
 const TerserPlugin = require("terser-webpack-plugin");
-// const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 // const BundleAnalyzerPlugin =
 //   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 // const ImageminWebpWebpackPlugin = require("imagemin-webp-webpack-plugin");
@@ -12,7 +12,7 @@ function abs(...args) {
 }
 
 const SRC_ROOT = abs("./src");
-// const PUBLIC_ROOT = abs("./public");
+const PUBLIC_ROOT = abs("./public");
 const DIST_PUBLIC = abs("./dist/public");
 
 /** @type {Array<import('webpack').Configuration>} */
@@ -60,9 +60,9 @@ module.exports = [
       path: DIST_PUBLIC,
     },
     plugins: [
-      // new CopyPlugin({
-      //   patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
-      // }),
+      new CopyPlugin({
+        patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
+      }),
       // https://www.npmjs.com/package/imagemin-webp
       // new ImageminWebpWebpackPlugin({
       //   config: [
