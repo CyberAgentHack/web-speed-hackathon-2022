@@ -12,16 +12,15 @@ RUN yarn build
 
 FROM nginx:alpine
 
-WORKDIR /app
-
 # COPY default.conf.template /etc/nginx/conf.d/default.conf.template
 COPY nginx.conf /etc/nginx/nginx.conf
 
 FROM node:16.13.1
 
-WORKDIR /app
-
 RUN yarn
 
 EXPOSE 3000
+
+WORKDIR /app
+
 CMD yarn serve

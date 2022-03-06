@@ -22,7 +22,7 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: "inline-source-map",
+    devtool: "source-map",
     entry: {
       app: path.join(SRC_ROOT, "client/foundation/App.jsx"),
       main: path.join(SRC_ROOT, "client/index.jsx"),
