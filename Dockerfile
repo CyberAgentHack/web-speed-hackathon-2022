@@ -16,7 +16,7 @@ ENV COMMIT_HASH $COMMIT_HASH
 
 RUN yarn
 RUN yarn clean
-RUN yarn build
+RUN yarn build:watch
 
 FROM node:16.13.1
 
