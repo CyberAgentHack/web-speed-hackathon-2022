@@ -155,11 +155,11 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.get("/races/:raceId/odds_popular", async (req, res) => {
-    const repo = (await createConnection()).getRepository(OddsItem);
+    const repo = (await createConnection()).getRepository(Race);
 
-    const odds = await repo.find({
-      race: req.params["raceId"]
-    });
+    const odds = (await repo.findOne(req.params.raceId, {
+      relations: ["entries", "entries.player", "trifectaOdds"],
+    }))?.trifectaOdds;
 
     if (odds === undefined) {
       throw fastify.httpErrors.notFound();
