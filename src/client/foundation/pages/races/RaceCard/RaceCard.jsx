@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import useSWR from "swr";
 
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
@@ -9,6 +8,7 @@ import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
+import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
@@ -28,7 +28,7 @@ const LiveBadge = styled.span`
 /** @type {React.VFC} */
 export const RaceCard = () => {
   const { raceId } = useParams();
-  const { data } = useSWR(`/api/races/${raceId}/subset`, jsonFetcher);
+  const { data } = useFetch(`/api/races/${raceId}/subset`, jsonFetcher);
 
   return (
     <Container>
