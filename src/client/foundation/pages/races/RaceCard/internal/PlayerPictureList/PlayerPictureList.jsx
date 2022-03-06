@@ -26,6 +26,7 @@ const PlayerName = styled.span`
 
 /** @type {React.VFC<ItemProps>} */
 const Item = ({ image, name, number }) => {
+  image = image + ".webp";
   return (
     <Stack gap={Space * 1}>
       <TrimmedImage
