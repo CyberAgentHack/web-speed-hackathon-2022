@@ -8,11 +8,11 @@ import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
-import { useFetch } from "../../hooks/useFetch";
+// import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
-
+import useSWR from 'swr'
 import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
@@ -86,7 +86,7 @@ function useHeroImage(todayRaces) {
     firstRaceId !== undefined
       ? `/api/hero?firstRaceId=${firstRaceId}`
       : "/api/hero";
-  const { data } = useFetch(url, jsonFetcher);
+  const { data } = useSWR(url, jsonFetcher);
 
   if (firstRaceId === undefined || data === null) {
     return null;
@@ -123,7 +123,7 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const { data: raceData } = useSWR("/api/races", jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {

@@ -9824,6 +9824,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"swr@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "swr@npm:1.2.2"
+  peerDependencies:
+    react: ^16.11.0 || ^17.0.0 || ^18.0.0
+  checksum: 723747c7c263536d8c9ee8b38039462395ba09a7925508f22c8fc940a1ae72e1f05ef678767b2197ce337e170f4812563281bc4b5f9ad7e4eec895cd7139fb8e
+  languageName: node
+  linkType: hard
+
 "table@npm:^6.8.0":
   version: 6.8.0
   resolution: "table@npm:6.8.0"
@@ -10636,6 +10645,7 @@ __metadata:
     stylelint-config-recommended: ^7.0.0
     stylelint-config-styled-components: ^0.1.1
     stylelint-order: ^5.0.0
+    swr: ^1.2.2
     terser-webpack-plugin: ^5.3.1
     typeorm: ^0.2.44
     typescript: ^4.6.2
