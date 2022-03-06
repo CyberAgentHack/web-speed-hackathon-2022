@@ -2,8 +2,6 @@ FROM node:16.13.1 AS builder
 
 ENV NODE_OPTIONS="--max-old-space-size=8192"
 
-WORKDIR /usr/src/app
-
 COPY ./.yarn ./.yarn
 COPY ./src ./src
 COPY ./package.json ./package.json
@@ -16,7 +14,7 @@ ENV COMMIT_HASH $COMMIT_HASH
 
 RUN yarn
 RUN yarn clean
-RUN yarn build:watch
+RUN yarn build
 
 FROM node:16.13.1
 
