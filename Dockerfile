@@ -10,7 +10,7 @@ RUN yarn build
 FROM nginx:alpine
 
 # COPY default.conf.template /etc/nginx/conf.d/default.conf.template
-COPY --from=builder ./dist /var/www
+COPY --from=builder /app/dist /var/www
 COPY nginx.conf /etc/nginx/nginx.conf
 
 FROM node:16.13.1
