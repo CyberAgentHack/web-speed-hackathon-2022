@@ -1,4 +1,5 @@
-import moment from "moment-timezone";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -42,7 +43,7 @@ const Callout = styled.aside`
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data } = useFetch(`/api/races/${raceId}/subset`, jsonFetcher);
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 
@@ -51,24 +52,24 @@ export const Odds = () => {
      * @param {Model.OddsItem} odds
      */
     (odds) => {
+      if (odds === undefined) {
+        return;
+      }
       setOddsKeyToBuy(odds.key);
       modalRef.current?.showModal();
     },
     [],
   );
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
-  const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  // const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  const isRaceClosed = data ? (new Date(data.closeAt)) < new Date() : true;
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{data?.name ?? "読み込み中"}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+      {data ? <>開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}</> : "読み込み中"}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -76,7 +77,7 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <TrimmedImage height={225} src={data ? `${data.image}_small.avif` : undefined} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -93,22 +94,23 @@ export const Odds = () => {
         <Spacer mt={Space * 4} />
 
         <Callout $closed={isRaceClosed}>
-          <i className="fas fa-info-circle" />
-          {isRaceClosed
+          <FontAwesomeIcon icon={faInfoCircle} />
+          {data ? isRaceClosed
             ? "このレースの投票は締め切られています"
-            : "オッズをクリックすると拳券が購入できます"}
+            : "オッズをクリックすると拳券が購入できます"
+            : "読み込み中…"}
         </Callout>
 
         <Spacer mt={Space * 4} />
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsTable
+        {data ? <OddsTable
           entries={data.entries}
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
           onClickOdds={handleClickOdds}
-        />
+          raceId={raceId}
+        /> : "読み込み中"}
 
         <Spacer mt={Space * 4} />
         <Heading as="h2">人気順</Heading>
@@ -116,8 +118,8 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
           onClickOdds={handleClickOdds}
+          raceId={raceId}
         />
       </Section>
 

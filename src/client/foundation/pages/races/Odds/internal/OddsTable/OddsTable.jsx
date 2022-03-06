@@ -1,11 +1,12 @@
-import _ from "lodash";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
+import useSWR from "swr";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const ScrollWrapper = styled.div`
@@ -44,7 +45,6 @@ const Table = styled.table`
 `;
 
 const BuyButton = styled(BaseButton)`
-  height: 100%;
   padding: ${Space * 2}px;
   width: 100%;
 
@@ -59,8 +59,8 @@ const BuyButton = styled(BaseButton)`
 
 const InactiveBuyButton = styled.div`
   cursor: default;
-  height: 100%;
   padding: ${Space * 2}px;
+
   width: 100%;
 `;
 
@@ -73,28 +73,37 @@ const mapKey = (second, third) => `${second}.${third}`;
 
 /**
  * @typedef Props
- * @property {Model.OddsItem[]} odds
+ * @property {string} raceId
  * @property {Model.RaceEntry[]} entries
  * @property {boolean} isRaceClosed
  * @property {(odds: Model.OddsItem) => void} onClickOdds
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
+export const OddsTable = ({ entries, isRaceClosed, onClickOdds, raceId }) => {
   const [firstKey, setFirstKey] = useState(1);
+
+  const { data: oddsMap } = useSWR(`/api/races/${raceId}/odds_map/${firstKey}`, jsonFetcher);
 
   const handleChange = useCallback((e) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
 
-  const headNumbers = _.without(_.range(1, entries.length + 1), firstKey);
+  const headNumbers = [...Array(entries.length)].map((_, i) => i + 1).filter(i => i != firstKey);
 
-  const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
-  const oddsMap = filteredOdds.reduce((acc, cur) => {
-    const [, second, third] = cur.key;
-    acc[mapKey(second, third)] = cur;
-    return acc;
-  }, {});
+  /*
+    const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
+    const oddsMap = filteredOdds.reduce((acc, cur) => {
+      const [, second, third] = cur.key;
+      acc[mapKey(second, third)] = cur;
+      return acc;
+    }, {});
+  */
+
+  // FIXME
+  /*if (!oddsMap) {
+    return null;
+  }*/
 
   return (
     <div>
@@ -134,18 +143,18 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
                   <th>{third}</th>
 
                   {headNumbers.map((second) => {
-                    const item = oddsMap[mapKey(second, third)];
+                    const item = oddsMap?.[mapKey(second, third)];
 
                     return (
                       <td key={second} width="auto">
                         {second !== third ? (
                           isRaceClosed ? (
                             <InactiveBuyButton>
-                              <OddsMarker odds={item.odds} />
+                              <OddsMarker odds={item?.odds} />
                             </InactiveBuyButton>
                           ) : (
                             <BuyButton onClick={() => onClickOdds(item)}>
-                              <OddsMarker odds={item.odds} />
+                              <OddsMarker odds={item?.odds} />
                             </BuyButton>
                           )
                         ) : (

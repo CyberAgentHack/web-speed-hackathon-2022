@@ -2,6 +2,9 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -10,15 +13,16 @@ function abs(...args) {
 
 const SRC_ROOT = abs("./src");
 const PUBLIC_ROOT = abs("./public");
+const IMAGES_ROOT = abs("./images");
 const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
+const DIST_IMAGES = abs("./dist/images");
 
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: process.env.NODE_ENV,
     module: {
       rules: [
         {
@@ -38,7 +42,7 @@ module.exports = [
                 [
                   "@babel/preset-env",
                   {
-                    modules: "cjs",
+                    modules: false,
                     spec: true,
                   },
                 ],
@@ -50,13 +54,24 @@ module.exports = [
       ],
     },
     name: "client",
+    optimization: {
+      minimize: true,
+      minimizer: [new TerserPlugin()],
+    },
     output: {
+      filename: "main.[fullhash].js",
       path: DIST_PUBLIC,
+      publicPath: "/"
     },
     plugins: [
+      ...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : []),
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      new HtmlWebpackPlugin({
+        filename: 'index_alt.html',
+        title: "CyberTicket" // NOTE: ヘッダ設定のためのワークアラウンド。
+      })
     ],
     resolve: {
       extensions: [".js", ".jsx"],
@@ -64,7 +79,6 @@ module.exports = [
     target: "web",
   },
   {
-    devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
     mode: "development",
@@ -76,6 +90,7 @@ module.exports = [
           use: {
             loader: "babel-loader",
             options: {
+              plugins: ["@babel/plugin-syntax-dynamic-import"],
               presets: [
                 [
                   "@babel/preset-env",
@@ -85,7 +100,7 @@ module.exports = [
                   },
                 ],
                 "@babel/preset-react",
-              ],
+              ]
             },
           },
         },
@@ -96,6 +111,11 @@ module.exports = [
       filename: "server.js",
       path: DIST_ROOT,
     },
+    plugins: [
+      new CopyPlugin({
+        patterns: [{ from: IMAGES_ROOT, to: DIST_IMAGES }],
+      }),
+    ],
     resolve: {
       extensions: [".mjs", ".js", ".jsx"],
     },

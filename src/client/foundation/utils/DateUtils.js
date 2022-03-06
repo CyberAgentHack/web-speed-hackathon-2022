@@ -1,11 +1,12 @@
-import moment from "moment-timezone";
+import { add, differenceInMinutes, isSameDay as isSameDayDFNS } from "date-fns";
+import { format } from "date-fns-tz";
 /**
  * @param {string} dateLeft
  * @param {string} dateRight
  * @returns {boolean}
  */
 export const isSameDay = (dateLeft, dateRight) => {
-  return moment(dateLeft).isSame(moment(dateRight), "day");
+  return isSameDayDFNS(dateLeft, dateRight);
 };
 
 /**
@@ -14,7 +15,7 @@ export const isSameDay = (dateLeft, dateRight) => {
  * @returns {string}
  */
 export const formatTime = (ts) => {
-  return moment(ts).format("H:mm");
+  return format(new Date(ts), "H:mm", { timeZone: "Asia/Tokyo" });
 };
 
 /**
@@ -23,13 +24,13 @@ export const formatTime = (ts) => {
  * @returns {string}
  */
 export const formatCloseAt = (closeAt, now = new Date()) => {
-  if (moment(closeAt).isBefore(now)) {
+  if (new Date(closeAt) < new Date(now)) {
     return "投票締切";
   }
 
-  if (moment(closeAt).isAfter(moment(now).add(2, "hours"))) {
+  if ((new Date(closeAt)) > add(new Date(now), {hours: 2})) {
     return "投票受付中";
   }
 
-  return `締切${moment(closeAt).diff(now, "minutes")}分前`;
+  return `締切${differenceInMinutes(new Date(closeAt), new Date(now))}分前`;
 };

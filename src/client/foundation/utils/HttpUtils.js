@@ -1,8 +1,9 @@
-import axios from "axios";
+//const origin = process.env.NODE_ENV === "development" ? "" : "https://wsh-2022-cathiecode.herokuapp.com"
+const origin = "";
 
 export const jsonFetcher = async (/** @type {string} */ url) => {
-  const res = await axios.get(url, { responseType: "json" });
-  return res.data;
+  const res = await (await fetch(origin + url)).json();
+  return res;
 };
 
 /**
@@ -10,9 +11,8 @@ export const jsonFetcher = async (/** @type {string} */ url) => {
  * @param {string} userId
  */
 export const authorizedJsonFetcher = async (url, userId) => {
-  const res = await axios.get(url, {
+  const res = await (await fetch(origin + url, {
     headers: { "x-app-userid": userId },
-    responseType: "json",
-  });
-  return res.data;
+  })).json();
+  return res;
 };

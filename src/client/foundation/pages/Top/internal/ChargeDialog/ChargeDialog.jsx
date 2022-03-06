@@ -1,6 +1,5 @@
-import { motion } from "framer-motion";
-import React, { forwardRef, useCallback, useState } from "react";
-import zenginCode from "zengin-code";
+import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import styled, {keyframes} from "styled-components";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -12,6 +11,20 @@ import { Space } from "../../../../styles/variables";
 const CANCEL = "cancel";
 const CHARGE = "charge";
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`
+
+const FadeInDiv = styled.div`
+  animation: ${fadeIn} 500ms linear both;
+`;
+
 /**
  * @typedef Props
  * @type {object}
@@ -19,6 +32,7 @@ const CHARGE = "charge";
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
 export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
+  const [zenginCode, setZenginCode] = useState(null);
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
@@ -66,94 +80,108 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     },
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
+  
+  useEffect(() => {
+    fetch("/api/zengin-data").then(result => result.json()).then((value) => setZenginCode(value));
+  }, []);
 
-  const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
-    code,
-    name,
-  }));
-  const bank = zenginCode[bankCode];
-  const branch = bank?.branches[branchCode];
+  const inner = (() => {
+    if (zenginCode) {
+      const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
+        code,
+        name,
+      }));
+      const bank = zenginCode[bankCode];
+      const branch = bank?.branches[branchCode];
+    
+      return (
+        <section>
+          <Heading as="h1">チャージ</Heading>
+
+          <Spacer mt={Space * 2} />
+          <form method="dialog">
+            <Stack gap={Space * 1}>
+              <label>
+                銀行コード
+                <input
+                  list="ChargeDialog-bank-list"
+                  onChange={handleCodeChange}
+                  value={bankCode}
+                />
+              </label>
+
+              <datalist id="ChargeDialog-bank-list">
+                {bankList.map(({ code, name }) => (
+                  <option key={code} value={code}>{`${name} (${code})`}</option>
+                ))}
+              </datalist>
+
+              {bank != null && (
+                <FadeInDiv>
+                  銀行名: {bank.name}銀行
+                </FadeInDiv>
+              )}
+
+              <label>
+                支店コード
+                <input
+                  list="ChargeDialog-branch-list"
+                  onChange={handleBranchChange}
+                  value={branchCode}
+                />
+              </label>
+
+              <datalist id="ChargeDialog-branch-list">
+                {bank != null &&
+                  Object.values(bank.branches).map((branch) => (
+                    <option key={branch.code} value={branch.code}>
+                      {branch.name}
+                    </option>
+                  ))}
+              </datalist>
+
+              {branch && (
+                <FadeInDiv>
+                  支店名: {branch.name}
+                </FadeInDiv>
+              )}
+
+              <label>
+                口座番号
+                <input
+                  onChange={handleAccountNoChange}
+                  type="text"
+                  value={accountNo}
+                />
+              </label>
+
+              <label>
+                金額
+                <input
+                  min={0}
+                  onChange={handleAmountChange}
+                  type="number"
+                  value={amount}
+                />
+                円
+              </label>
+
+              <menu>
+                <button value={CANCEL}>キャンセル</button>
+                <button value={CHARGE}>チャージ</button>
+              </menu>
+            </Stack>
+          </form>
+        </section>
+      );
+    } else {
+      return <>ロード中です…</>;
+    }
+  })()
 
   return (
     <Dialog ref={ref} onClose={handleCloseDialog}>
-      <section>
-        <Heading as="h1">チャージ</Heading>
-
-        <Spacer mt={Space * 2} />
-        <form method="dialog">
-          <Stack gap={Space * 1}>
-            <label>
-              銀行コード
-              <input
-                list="ChargeDialog-bank-list"
-                onChange={handleCodeChange}
-                value={bankCode}
-              />
-            </label>
-
-            <datalist id="ChargeDialog-bank-list">
-              {bankList.map(({ code, name }) => (
-                <option key={code} value={code}>{`${name} (${code})`}</option>
-              ))}
-            </datalist>
-
-            {bank != null && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
-                銀行名: {bank.name}銀行
-              </motion.div>
-            )}
-
-            <label>
-              支店コード
-              <input
-                list="ChargeDialog-branch-list"
-                onChange={handleBranchChange}
-                value={branchCode}
-              />
-            </label>
-
-            <datalist id="ChargeDialog-branch-list">
-              {bank != null &&
-                Object.values(bank.branches).map((branch) => (
-                  <option key={branch.code} value={branch.code}>
-                    {branch.name}
-                  </option>
-                ))}
-            </datalist>
-
-            {branch && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
-                支店名: {branch.name}
-              </motion.div>
-            )}
-
-            <label>
-              口座番号
-              <input
-                onChange={handleAccountNoChange}
-                type="text"
-                value={accountNo}
-              />
-            </label>
-
-            <label>
-              金額
-              <input
-                min={0}
-                onChange={handleAmountChange}
-                type="number"
-                value={amount}
-              />
-              円
-            </label>
-
-            <menu>
-              <button value={CANCEL}>キャンセル</button>
-              <button value={CHARGE}>チャージ</button>
-            </menu>
-          </Stack>
-        </form>
-      </section>
+      {inner}
     </Dialog>
   );
 });

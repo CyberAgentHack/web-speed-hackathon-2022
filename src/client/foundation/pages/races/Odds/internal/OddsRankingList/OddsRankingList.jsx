@@ -1,11 +1,12 @@
-import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
+import useSWR from "swr";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Stack } from "../../../../../components/layouts/Stack";
 import { BreakPoint, Color, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const Wrapper = styled.ol`
@@ -57,19 +58,18 @@ const RankNo = styled.div`
   width: 32px;
 `;
 
+const placeholder = [...new Array(50)].map((_, i) => ({id: i, key: [undefined, undefined, undefined], odds: 1000}));
+
 /**
  * @typedef Props
- * @property {Model.OddsItem[]} odds
+ * @property {string} raceId
  * @property {boolean} isRaceClosed
  * @property {(odds: Model.OddsItem) => void} onClickOdds
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = _.take(
-    _.sortBy(odds, (item) => item.odds),
-    50,
-  );
+export const OddsRankingList = ({ isRaceClosed, onClickOdds, raceId }) => {
+  const sortedOdds = useSWR(`/api/races/${raceId}/odds_popular`, jsonFetcher)?.data ?? placeholder;
 
   return (
     <Wrapper>

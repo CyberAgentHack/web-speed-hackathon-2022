@@ -5,6 +5,7 @@ import fastifySensible from "fastify-sensible";
 import { User } from "../model/index.js";
 
 import { apiRoute } from "./routes/api.js";
+import { imageRoute } from "./routes/image.js";
 import { spaRoute } from "./routes/spa.js";
 import { createConnection } from "./typeorm/connection.js";
 import { initialize } from "./typeorm/initialize.js";
@@ -37,12 +38,8 @@ server.addHook("onRequest", async (req, res) => {
   }
 });
 
-server.addHook("onRequest", async (req, res) => {
-  res.header("Cache-Control", "no-cache, no-store, no-transform");
-  res.header("Connection", "close");
-});
-
 server.register(apiRoute, { prefix: "/api" });
+server.register(imageRoute);
 server.register(spaRoute);
 
 const start = async () => {
