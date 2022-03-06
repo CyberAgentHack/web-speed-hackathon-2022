@@ -6,6 +6,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const CopyPlugin = require("copy-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -73,6 +74,10 @@ module.exports = [
       extensions: [".js", ".jsx"],
     },
     target: "web",
+    optimization: {
+      minimize: true,
+      minimizer: [new TerserPlugin()],
+    },
   },
   {
     entry: path.join(SRC_ROOT, "server/index.js"),
