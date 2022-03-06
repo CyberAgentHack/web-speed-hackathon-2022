@@ -34,7 +34,7 @@ export const TrimmedImage = ({ height, src, width }) => {
     };
   }, [height, src, width]);
 
-  if ((height === width)||(window.parent.screen.width > 400)) {
+  if (height === width) {
     return <img alt="" decoding='async' loading='async' src={dataUrl} style={{height: height+'px', width: width+'px'}} />;
   } else {
     return <img alt="" decoding='async' loading='async' src={dataUrl} />;
