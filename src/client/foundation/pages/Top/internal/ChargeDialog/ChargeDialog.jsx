@@ -1,5 +1,5 @@
-import { m } from "framer-motion";
 import React, { forwardRef, useCallback, useState } from "react";
+import styled from "styled-components";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -12,6 +12,18 @@ import { jsonFetcher } from "../../../../utils/HttpUtils";
 
 const CANCEL = "cancel";
 const CHARGE = "charge";
+
+const Animate = styled.div`
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  animation: fadeIn 0.8s;
+`;
 
 /**
  * @typedef Props
@@ -97,9 +109,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </datalist>
 
             {bank != null && (
-              <m.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+              <Animate animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
                 銀行名: {bank.name}銀行
-              </m.div>
+              </Animate>
             )}
 
             <label>
@@ -121,9 +133,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </datalist>
 
             {branch && (
-              <m.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+              <Animate animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
                 支店名: {branch.name}
-              </m.div>
+              </Animate>
             )}
 
             <label>
