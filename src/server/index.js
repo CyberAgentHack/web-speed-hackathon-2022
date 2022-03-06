@@ -38,7 +38,7 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.addHook("onRequest", async (req, res) => {
-  res.header("Cache-Control", "1000");
+  // res.header("Cache-Control", "1000");
   res.header("Connection", "close");
 });
 
