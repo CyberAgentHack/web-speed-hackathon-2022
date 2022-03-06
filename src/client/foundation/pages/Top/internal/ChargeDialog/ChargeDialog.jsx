@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
@@ -10,6 +9,7 @@ import { useFetch } from "../../../../hooks/useFetch";
 import { Space } from "../../../../styles/variables";
 import { jsonFetcher } from "../../../../utils/HttpUtils";
 import { Container } from "../../../../components/layouts/Container";
+import styled, { keyframes } from "styled-components";
 
 const CANCEL = "cancel";
 const CHARGE = "charge";
@@ -19,6 +19,17 @@ const CHARGE = "charge";
  * @type {object}
  */
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+const FadeIn = styled.div`
+  animation: ${fadeIn} .5s ease-in-out;
+`;
 /** @type {React.ForwardRefExoticComponent<{Props>} */
 export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const [bankCode, setBankCode] = useState("");
@@ -118,9 +129,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </datalist>
 
             {bank != null && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+              <FadeIn>
                 銀行名: {bank.name}銀行
-              </motion.div>
+              </FadeIn>
             )}
 
             <label>
@@ -142,9 +153,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </datalist>
 
             {branch && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+              <FadeIn>
                 支店名: {branch.name}
-              </motion.div>
+              </FadeIn>
             )}
 
             <label>
