@@ -34,5 +34,5 @@ export const TrimmedImage = ({ height, src, width, nolazy }) => {
     };
   }, [height, src, width]);
 
-  return nolazy ? <img width={width} height={height} src={dataUrl} /> : <img width={width} height={height} loading="lazy" src={dataUrl} />;
+  return nolazy ? <img src={dataUrl} /> : <img loading="lazy" src={dataUrl} />;
 };
