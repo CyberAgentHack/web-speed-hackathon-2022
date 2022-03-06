@@ -250,6 +250,136 @@ export const apiRoute = async (fastify) => {
     },
   );
 
+  fastify.get(
+    "/races/:raceId/:key/odds-filterd-item.json",
+    {
+      compress: {
+        inflateIfDeflated: true,
+        threshold: 128,
+      },
+    },
+    async (req, res) => {
+      const repo = (await createConnection()).getRepository(OddsItem);
+      const odds = await repo.find({
+        where: {
+          race: {
+            id: req.params.raceId,
+          },
+        },
+      });
+
+      if (odds === undefined) {
+        throw fastify.httpErrors.notFound();
+      }
+
+      const filteredOdds = odds.filter((item) => item.key[0] == req.params.key);
+      res.send(filteredOdds);
+    },
+  );
+
+  fastify.get(
+    "/races/:raceId/:key/odds-filterd-item",
+    {
+      compress: {
+        inflateIfDeflated: true,
+        threshold: 128,
+      },
+    },
+    async (req, res) => {
+      const repo = (await createConnection()).getRepository(OddsItem);
+      const odds = await repo.find({
+        where: {
+          race: {
+            id: req.params.raceId,
+          },
+        },
+      });
+
+      if (odds === undefined) {
+        throw fastify.httpErrors.notFound();
+      }
+
+      const filteredOdds = odds.filter((item) => item.key[0] == req.params.key);
+      res.send(filteredOdds);
+    },
+  );
+
+  fastify.get(
+    "/races/:raceId/sorted-odds-rank.json",
+    {
+      compress: {
+        inflateIfDeflated: true,
+        threshold: 128,
+      },
+    },
+    async (req, res) => {
+      const repo = (await createConnection()).getRepository(OddsItem);
+      const odds = await repo.find({
+        where: {
+          race: {
+            id: req.params.raceId,
+          },
+        },
+      });
+
+      if (odds === undefined) {
+        throw fastify.httpErrors.notFound();
+      }
+
+      const sortedOdds = odds
+        .sort((a, b) => {
+          if (a.odds != b.odds) {
+            return a.odds - b.odds;
+          }
+          if (a.id != b.id) {
+            if (a.id > b.id) return 1;
+            if (a.id < b.id) return -1;
+          }
+          return 0;
+        })
+        .slice(0, 50);
+      res.send(sortedOdds);
+    },
+  );
+
+  fastify.get(
+    "/races/:raceId/sorted-odds-rank",
+    {
+      compress: {
+        inflateIfDeflated: true,
+        threshold: 128,
+      },
+    },
+    async (req, res) => {
+      const repo = (await createConnection()).getRepository(OddsItem);
+      const odds = await repo.find({
+        where: {
+          race: {
+            id: req.params.raceId,
+          },
+        },
+      });
+
+      if (odds === undefined) {
+        throw fastify.httpErrors.notFound();
+      }
+
+      const sortedOdds = odds
+        .sort((a, b) => {
+          if (a.odds != b.odds) {
+            return a.odds - b.odds;
+          }
+          if (a.id != b.id) {
+            if (a.id > b.id) return 1;
+            if (a.id < b.id) return -1;
+          }
+          return 0;
+        })
+        .slice(0, 50);
+      res.send(sortedOdds);
+    },
+  );
+
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
     if (req.user == null) {
       throw fastify.httpErrors.unauthorized();

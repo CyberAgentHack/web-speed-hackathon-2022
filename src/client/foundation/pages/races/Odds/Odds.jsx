@@ -53,10 +53,6 @@ export const Odds = () => {
     `/api/races/${raceId}/entry`,
     jsonFetcher,
   );
-  const { data: trifectaOdds } = useLaterFetch(
-    `/api/races/${raceId}/odds-items`,
-    jsonFetcher,
-  );
 
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
@@ -130,8 +126,8 @@ export const Odds = () => {
         <OddsTable
           entries={race?.entries ?? null}
           isRaceClosed={isRaceClosed}
-          odds={trifectaOdds ?? []}
           onClickOdds={handleClickOdds}
+          raceId={raceId}
         />
         <Spacer mt={Space * 4} />
         <Heading as="h2">人気順</Heading>
@@ -139,8 +135,8 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
-          odds={trifectaOdds ?? null}
           onClickOdds={handleClickOdds}
+          raceId={raceId}
         />
       </Section>
 

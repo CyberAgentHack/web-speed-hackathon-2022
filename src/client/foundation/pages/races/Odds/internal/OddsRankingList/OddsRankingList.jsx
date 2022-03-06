@@ -4,7 +4,9 @@ import styled from "styled-components";
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useLaterFetch } from "../../../../../hooks/useFetch";
 import { BreakPoint, Color, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const Wrapper = styled.ol`
@@ -64,32 +66,18 @@ const RankNo = styled.div`
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  let sortedOdds;
-
-  if (odds === null) {
-    sortedOdds = [...Array(50).keys()];
-  } else {
-    /* loading done */
-    sortedOdds = odds
-      .sort((a, b) => {
-        if (a.odds != b.odds) {
-          return a.odds - b.odds;
-        }
-        if (a.id != b.id) {
-          if (a.id > b.id) return 1;
-          if (a.id < b.id) return -1;
-        }
-        return 0;
-      })
-      .slice(0, 50);
-  }
+export const OddsRankingList = ({ isRaceClosed, onClickOdds, raceId }) => {
+  const { data: oddsRank } = useLaterFetch(
+    `/api/races/${raceId}/sorted-odds-rank`,
+    jsonFetcher,
+  );
+  const sortedOdds = oddsRank ?? [...Array(50).keys()];
 
   return (
     <Wrapper>
       {sortedOdds.map((item, i) => (
         <li key={item?.id}>
-          {isRaceClosed || odds === null ? (
+          {isRaceClosed || oddsRank === null ? (
             <InactiveBuyButton>
               <Stack horizontal alignItems="center" gap={Space * 2}>
                 <RankNo>{i + 1}.</RankNo>
