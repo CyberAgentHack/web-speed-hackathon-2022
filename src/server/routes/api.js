@@ -97,6 +97,20 @@ export const apiRoute = async (fastify) => {
     res.send(race);
   });
   
+  fastify.get("/races/:raceId/odds", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+
+    const race = await repo.findOne(req.params.raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+
+    res.send(race);
+  });
+  
   fastify.get("/races/:raceId/card", async (req, res) => {
     const repo = (await createConnection()).getRepository(Race);
 
