@@ -1,8 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require("path");
+var _path, path = () => { _path = _path || require('path'); return _path; }
+path().error('path found.');
 
-const CopyPlugin = require("copy-webpack-plugin");
-const nodeExternals = require("webpack-node-externals");
+// const CopyPlugin = require("copy-webpack-plugin");
+var _nodeExternals, CopyPlugin = () => { _nodeExternals = _nodeExternals || require('nodeExternals'); return _nodeExternals; }
+nodeExternals().error('nodeExternals found.');
+
+// const nodeExternals = require("webpack-node-externals");
+var _CopyPlugin, CopyPlugin = () => { _CopyPlugin = _CopyPlugin || require('CopyPlugin'); return _CopyPlugin; }
+CopyPlugin().error('CopyPlugin found.');
 
 function abs(...args) {
   return path.join(__dirname, ...args);

@@ -1,3 +1,1 @@
-module.exports = {
-  files: ["./*"],
-};
+module.exports={files:["./*"]};

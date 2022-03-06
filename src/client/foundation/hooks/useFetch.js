@@ -30,7 +30,15 @@ export function useFetch(apiPath, fetcher) {
 
     const promise = fetcher(apiPath);
 
-    promise.then((data) => {
+    // promise.then((data) => {
+    //   setResult((cur) => ({
+    //     ...cur,
+    //     data,
+    //     loading: false,
+    //   }));
+    // });
+
+    promise((data) => {
       setResult((cur) => ({
         ...cur,
         data,
