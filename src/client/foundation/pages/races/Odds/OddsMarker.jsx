@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
 import { Space } from "../../../styles/variables";
@@ -16,6 +16,8 @@ const Wrapper = styled.span`
  */
 
 /** @type {React.FC<Props>} */
-export const OddsMarker = ({ odds }) => {
+export const OddsMarker = memo(({ odds }) => {
   return <Wrapper $odds={odds}> {odds.toFixed(1)}</Wrapper>;
-};
+});
+
+OddsMarker.displayName = "OddsMarker";

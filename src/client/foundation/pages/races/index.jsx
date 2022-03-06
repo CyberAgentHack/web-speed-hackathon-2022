@@ -1,5 +1,5 @@
 import moment from "moment-timezone";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -137,24 +137,27 @@ export const RaceHome = () => {
   const isRaceClosed = moment(data.closeAt).isBefore(new Date());
 
   /** @type {React.FC<ItemProps & React.AnchorHTMLAttributes>} */
-  const Item = ({ "aria-current": ariaCurrent, children, status, ...rest }) => {
-    ariaCurrent = status == currentPage;
+  const Item = memo(
+    ({ "aria-current": ariaCurrent, children, status, ...rest }) => {
+      ariaCurrent = status == currentPage;
 
-    return (
-      <ItemWrapper>
-        {ariaCurrent ? (
-          <a aria-current {...rest}>
-            {children}
-          </a>
-        ) : (
-          <a {...rest} onClick={() => setCurrentPage(status)}>
-            {children}
-          </a>
-        )}
-      </ItemWrapper>
-    );
-  };
-
+      return (
+        <ItemWrapper>
+          {ariaCurrent ? (
+            <a aria-current {...rest}>
+              {children}
+            </a>
+          ) : (
+            <a {...rest} onClick={() => setCurrentPage(status)}>
+              {children}
+            </a>
+          )}
+        </ItemWrapper>
+      );
+    },
+  );
+  Item.displayName = "Item";
+  
   return (
     <Container>
       <Spacer mt={Space * 2} />

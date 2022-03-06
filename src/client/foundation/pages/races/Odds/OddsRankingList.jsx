@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React from "react";
+import React, { memo }  from "react";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../components/buttons/BaseButton";
@@ -67,7 +67,7 @@ const RankNo = styled.div`
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
+export const OddsRankingList = memo(({ isRaceClosed, odds, onClickOdds }) => {
   const sortedOdds = _.take(
     _.sortBy(odds, (item) => item.odds),
     50,
@@ -98,4 +98,5 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
       ))}
     </Wrapper>
   );
-};
+});
+OddsRankingList.displayName = "OddsRankingList";
