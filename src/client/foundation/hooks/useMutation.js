@@ -1,11 +1,10 @@
-import axios from "axios";
 import { useCallback, useState } from "react";
 
 import { useAuth } from "../contexts/AuthContext";
+import { createFetchError } from "../utils/HttpUtils";
 
 /**
  * @typedef {UseMutationOptions}
- * @property {string} method
  * @property {boolean=} auth
  */
 
@@ -23,7 +22,7 @@ import { useAuth } from "../contexts/AuthContext";
  * @param {UseMutationOptions} options
  * @returns {[(body: any) => Promise<void>, ReturnValues<T>]}
  */
-export function useMutation(apiPath, { auth, method }) {
+export function useMutation(apiPath, { auth }) {
   const [result, setResult] = useState({
     data: null,
     error: null,
@@ -44,20 +43,21 @@ export function useMutation(apiPath, { auth, method }) {
       }));
 
       try {
-        const res = await axios.request({
-          data,
+        const res = await fetch(apiPath, {
+          body: data,
           headers: auth
             ? {
                 "x-app-userid": userId,
               }
             : {},
-          method,
-          url: apiPath,
+          method: "POST",
         });
+        if (!res.ok) throw createFetchError(res);
+        const resData = await res.json();
 
         setResult((cur) => ({
           ...cur,
-          data: res.data,
+          data: resData,
           loading: false,
         }));
       } catch (error) {
@@ -68,7 +68,7 @@ export function useMutation(apiPath, { auth, method }) {
         }));
       }
     },
-    [apiPath, auth, loggedIn, method, userId],
+    [apiPath, auth, loggedIn, userId],
   );
 
   return [mutate, result];
