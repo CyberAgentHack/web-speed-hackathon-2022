@@ -128,7 +128,7 @@ export const Odds = () => {
 
         <Spacer mt={Space * 2} />
         <OddsTable
-          entries={race ? race.entries : []}
+          entries={race?.entries ?? null}
           isRaceClosed={isRaceClosed}
           odds={trifectaOdds ?? []}
           onClickOdds={handleClickOdds}

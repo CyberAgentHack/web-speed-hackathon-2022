@@ -87,7 +87,13 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
 
-  const headNumbers = _.without(_.range(1, entries.length + 1), firstKey);
+  const headNumbers = entries
+    ? _.without(_.range(1, entries.length + 1), firstKey)
+    : [
+        ...Array(11)
+          .keys()
+          .map((i) => i + 2),
+      ];
 
   const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
   const oddsMap = filteredOdds.reduce((acc, cur) => {
@@ -101,9 +107,11 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
       <Stack horizontal>
         <RankLabel>1位軸</RankLabel>
         <select onChange={handleChange} value={firstKey}>
-          {entries.map((entry) => (
-            <option key={entry.id} value={entry.number}>
-              {entry.number}. {entry.player.name}
+          {(entries ?? [1]).map((entry) => (
+            <option key={entry.id ?? entry} value={entry.number ?? entry}>
+              {entries
+                ? `${entry.number}. ${entry.player?.name}`
+                : "1. 〇〇〇〇"}
             </option>
           ))}
         </select>
