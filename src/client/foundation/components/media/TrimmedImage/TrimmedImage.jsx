@@ -34,8 +34,5 @@ export const TrimmedImage = ({ height, src, width }) => {
   //     setDataUrl(canvas.toDataURL());
   //   };
   // }, [height, src, width]);
-  if (src == null) {
-    return "Loading"
-  }
-  return <img height={height} src={`${src.slice(0, -5)}-${width}_${height}.webp`} width={width} />;
+  return <img alt="" height={height} src={`${src.slice(0, -5)}-${width}_${height}.webp`} width={width} />;
 };

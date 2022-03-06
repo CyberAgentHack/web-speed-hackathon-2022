@@ -21,7 +21,7 @@ const DIST_PUBLIC = abs("./dist/public");
 module.exports = [
   {
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "production",
+    mode: "development",
     module: {
       rules: [
         {
