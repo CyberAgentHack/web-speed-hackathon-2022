@@ -56,7 +56,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "@fortawesome/fontawesome-free": "^5.15.4",
     "bezier-easing": "^2.1.0",
     "framer-motion": "^6.2.8",
     "lodash-es": "^4.17.21",
