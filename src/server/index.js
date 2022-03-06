@@ -49,7 +49,7 @@ server.addHook("onRequest", async (req, res) => {
   // for http2
   res.header("Cache-Control", "max-age=900 min-fresh=0 max-stale=900");
 
-  // res.header("Connection", "keep-alive");
+  res.header("Connection", "keep-alive");
 });
 
 server.register(apiRoute, { prefix: "/api" });
