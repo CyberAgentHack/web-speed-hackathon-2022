@@ -21,9 +21,9 @@ const server = fastify({
 });
 server.register(fastifySensible);
 
+const connectionPromise = createConnection();
 server.addHook("onRequest", async (req) => {
-  const connection = await createConnection();
-  req.dbConnection = connection;
+  req.dbConnection = await connectionPromise;
 });
 
 server.addHook("onRequest", async (req, res) => {
