@@ -38,14 +38,21 @@ const Callout = styled.aside`
   justify-content: left;
   padding: ${Space * 1}px ${Space * 2}px;
 `;
+const Div = styled.div`
+  height: 225px;
+  width: 400px;
+`;
+const Head = styled.div`
+  height: 48px;
+`;
 
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
+  const data2 = useFetch(`/api/odds/${raceId}/1`, jsonFetcher);
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
-
   const handleClickOdds = useCallback(
     /**
      * @param {Model.OddsItem} odds
@@ -58,11 +65,47 @@ export const Odds = () => {
   );
 
   if (data == null) {
-    return <Container>Loading...</Container>;
+    return (
+      <Container>
+        <Spacer mt={Space * 2} />
+        <Head></Head>
+        <p>開始 締切</p>
+
+        <Spacer mt={Space * 2} />
+
+        <Section dark shrink>
+          <LiveBadge>Live</LiveBadge>
+          <Spacer mt={Space * 2} />
+          <Div></Div>
+        </Section>
+
+        <Spacer mt={Space * 2} />
+
+        <Section>
+          <TabNav>
+            <TabNav.Item to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>
+            <TabNav.Item aria-current to={`/races/${raceId}/odds`}>
+              オッズ
+            </TabNav.Item>
+            <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
+          </TabNav>
+
+          <Spacer mt={Space * 4} />
+
+          <Spacer mt={Space * 4} />
+          <Heading as="h2">オッズ表</Heading>
+
+          <Spacer mt={Space * 2} />
+          <Spacer mt={Space * 4} />
+          <Heading as="h2">人気順</Heading>
+
+          <Spacer mt={Space * 2} />
+        </Section>
+      </Container>
+    );
   }
 
   const isRaceClosed = moment(data.closeAt).isBefore(new Date());
-
   return (
     <Container>
       <Spacer mt={Space * 2} />
@@ -110,7 +153,7 @@ export const Odds = () => {
         <OddsTable
           entries={data.entries}
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
+          odds={data2.data.trifectaOdds}
           onClickOdds={handleClickOdds}
         />
 
@@ -120,7 +163,7 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
+          odds={data2.data.trifectaOdds}
           onClickOdds={handleClickOdds}
         />
       </Section>

@@ -25,6 +25,13 @@ const LiveBadge = styled.span`
   padding: ${Space * 1}px;
   text-transform: uppercase;
 `;
+const Div = styled.div`
+  height: 225px;
+  width: 400px;
+`;
+const Head = styled.div`
+  height: 48px;
+`;
 
 /** @type {React.VFC} */
 export const RaceResult = () => {
@@ -36,7 +43,45 @@ export const RaceResult = () => {
   );
 
   if (data == null) {
-    return <Container>Loading...</Container>;
+    return (
+      <Container>
+        <Spacer mt={Space * 2} />
+        <Head></Head>
+        <p>開始 締切</p>
+
+        <Spacer mt={Space * 2} />
+
+        <Section dark shrink>
+          <LiveBadge>Live</LiveBadge>
+          <Spacer mt={Space * 2} />
+          <Div></Div>
+        </Section>
+
+        <Spacer mt={Space * 2} />
+
+        <Section>
+          <TabNav>
+            <TabNav.Item to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>
+            <TabNav.Item to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
+            <TabNav.Item aria-current to={`/races/${raceId}/result`}>
+              結果
+            </TabNav.Item>
+          </TabNav>
+
+          <Spacer mt={Space * 4} />
+          <Heading as="h2">購入した買い目</Heading>
+
+          <Spacer mt={Space * 2} />
+          <BettingTicketList></BettingTicketList>
+
+          <Spacer mt={Space * 4} />
+          <Heading as="h2">勝負結果</Heading>
+
+          <Spacer mt={Space * 2} />
+          <RaceResultSection />
+        </Section>
+      </Container>
+    );
   }
 
   return (

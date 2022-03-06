@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
 /**
  * @typedef Props
@@ -8,6 +9,9 @@ import React, { useEffect, useState } from "react";
  * @property {number} width
  * @property {height} height
  */
+const Img = styled.img`
+  object-fit: cover;
+`;
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, lazy, length, src, width }) => {
@@ -37,11 +41,18 @@ export const TrimmedImage = ({ height, lazy, length, src, width }) => {
   }, [height, src, width]);
 
   return (
-    <img
-      height={length ? height : null}
-      loading={lazy ? "lazy" : "eagar"}
-      src={dataUrl}
-      width={length ? width : null}
-    />
-  );
+    <>
+      {!length ? (
+        <img alt="" loading={lazy ? "lazy" : "eagar"} src={dataUrl} />
+      ) : (
+        <Img
+          alt=""
+          height={height}
+          loading={lazy ? "lazy" : "eagar"}
+          src={src}
+          width={width}
+        />
+      )}
+    </>
+  ); //上がヘッダー、下がプレイヤー
 };
