@@ -37,5 +37,5 @@ export const formatCloseAt = (closeAt, now = new Date()) => {
   }
 
   // return `締切${moment(closeAt).diff(now, "minutes")}分前`;
-  return `締切${(now.getTime()-closeAtDate.getTime())/1000/60}分前`;
+  return `締切${Math.trunc((closeAtDate.getTime()-now.getTime())/1000/60)}分前`;
 };
