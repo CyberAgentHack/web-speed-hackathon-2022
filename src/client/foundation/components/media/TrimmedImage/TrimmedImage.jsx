@@ -58,10 +58,8 @@ export const TrimmedImage = ({ height, src, width }) => {
       const isWidthSmaller = img.width <= img.height;
       const ratio = isWidthSmaller ? width / img.width : height / img.height;
 
-      const targetWidth = img.width * ratio
-      const targetHeight = img.height * ratio
-
-      console.log(src, img.width, img.height, targetWidth, targetHeight, width, height)
+      // const targetWidth = img.width * ratio
+      // const targetHeight = img.height * ratio
 
       const ctx = canvas.getContext("2d");
       ctx.drawImage(

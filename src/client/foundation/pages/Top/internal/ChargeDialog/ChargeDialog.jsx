@@ -69,7 +69,10 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
 
-
+  // console.log(ref)
+  // if (ref.current == null) {
+  //   return <></>
+  // }
   const { data } = useFetch("/api/banks.json", jsonFetcher);
   const zenginCode = data
 

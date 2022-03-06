@@ -44,6 +44,13 @@ export const apiRoute = async (fastify) => {
 
   fastify.get("/banks.json", async (req, res) => {
     res.send(zenginCode)
+    // const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
+    //   code,
+    //   name,
+    // }));
+    // const hash = {}
+    // for user
+    // res.send(bankList)
   })
 
   fastify.get("/hero", async (_req, res) => {
