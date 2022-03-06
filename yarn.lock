@@ -1505,6 +1505,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@preact/compat@npm:^17.0.3":
+  version: 17.0.3
+  resolution: "@preact/compat@npm:17.0.3"
+  peerDependencies:
+    preact: "*"
+  checksum: c99852c5708d1cb694300759667e3c8f3e11b9e374011491e5cb95984239adbd014e7280568e17ef18ec2fcd996222e3656cfcaab16f9dd1c0498c1a8588ad62
+  languageName: node
+  linkType: hard
+
 "@scaffdog/config@npm:1.2.0":
   version: 1.2.0
   resolution: "@scaffdog/config@npm:1.2.0"
@@ -9940,6 +9949,7 @@ __metadata:
     "@babel/preset-react": ^7.16.7
     "@babel/runtime": ^7.17.2
     "@fortawesome/fontawesome-free": ^5.15.4
+    "@preact/compat": ^17.0.3
     "@stylelint/postcss-css-in-js": ^0.37.2
     "@types/lodash": ^4.14.178
     "@types/react": ^17.0.38
