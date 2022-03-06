@@ -148,17 +148,20 @@ export const Top = () => {
     revalidate();
   }, [revalidate]);
 
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              dayjs(a.startAt) - dayjs(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
-          )
-      : [];
+  const todayRaces = useMemo(
+    () =>
+      raceData != null
+        ? [...raceData.races]
+            .sort(
+              (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
+                dayjs(a.startAt) - dayjs(b.startAt),
+            )
+            .filter((/** @type {Model.Race} */ race) =>
+              isSameDay(race.startAt, date),
+            )
+        : [],
+    [date, raceData],
+  );
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
 
   return (

@@ -18,6 +18,12 @@ const Image = styled.img`
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
   return (
-    <Image alt="" src={convertToAVIF(url, "jpg")} width={1024} height={735} />
+    <Image
+      alt=""
+      height={735}
+      loading="eager"
+      src={convertToAVIF(url, "jpg")}
+      width={1024}
+    />
   );
 };

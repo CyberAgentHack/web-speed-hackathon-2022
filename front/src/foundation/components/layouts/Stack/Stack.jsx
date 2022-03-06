@@ -38,11 +38,11 @@ export const Stack = (
   );
 };
 
-const ItemWrapper = styled.div`
-  flex-basis: ${({ $basis }) => $basis};
-  flex-grow: ${({ $grow }) => $grow};
-  flex-shrink: ${({ $shrink }) => $shrink};
-`;
+const ItemWrapper = styled.div.attrs((props) => ({
+  flexBasis: props.basis,
+  flexGrow: props.grow,
+  flexShrink: props.shrink,
+}))``;
 
 /**
  * @typedef ItemProps
