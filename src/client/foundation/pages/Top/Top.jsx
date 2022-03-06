@@ -72,7 +72,7 @@ export default function Top() {
     authorizedJsonFetcher
   );
 
-  let { data: raceData } = useFetch(`/api/races?since=${since}&until=${until}`, jsonFetcher);
+  let { data: raceData } = useFetch(`/api/betweenraces/${since}/${until}`, jsonFetcher);
   // let { data: raceData } = useFetch(`/api/races`, jsonFetcher);
   if(raceData){ 
     raceData.races = raceData.races.filter((race)=>isSameDay(race.startAt,date))

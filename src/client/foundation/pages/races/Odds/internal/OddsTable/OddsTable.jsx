@@ -86,8 +86,8 @@ export const OddsTable = ({ entries, isRaceClosed, onClickOdds, raceId }) => {
   const handleChange = useCallback((e) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
-  const {data:odds} = useFetch(`/api/races/odds/${raceId}?first=${firstKey}`, jsonFetcher);
-  console.log(odds,`/api/races/odds/${raceId}?first=${firstKey}`)
+  const {data:odds} = useFetch(`/api/races/odds/${raceId}/${firstKey}`, jsonFetcher);
+  console.log(odds,`/api/races/odds/${raceId}/${firstKey}`)
   const headNumbers = [... new Array(entries.length+1).keys()].slice(1).filter((e)=>e!==firstKey)
   const oddsMap = {}
   if(odds) odds.map((val)=>{

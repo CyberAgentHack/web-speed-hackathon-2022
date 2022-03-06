@@ -94,15 +94,24 @@ export const apiRoute = async (fastify) => {
     res.send({ races });
   });
 
-  fastify.get("/todayraces", async (req, res) => {
+  fastify.get("/betweenraces/:since/:until", async (req, res) => {
+    const since = moment.unix(req.params.since);
+    const until = moment.unix(req.params.until);
+
+    if (since != null && !since.isValid()) {
+      throw fastify.httpErrors.badRequest();
+    }
+    if (until != null && !until.isValid()) {
+      throw fastify.httpErrors.badRequest();
+    }
 
     const repo = (await createConnection()).getRepository(Race);
 
     const where = {};
       Object.assign(where, {
         startAt: Between(
-          moment().format("YYYY-MM-DD") + " 00:00:00",
-          moment().format("YYYY-MM-DD") + " 23:59:59",
+          since.utc().format("YYYY-MM-DD HH:mm:ss"),
+          until.utc().format("YYYY-MM-DD HH:mm:ss"),
         ),
       });
 
@@ -128,7 +137,7 @@ export const apiRoute = async (fastify) => {
     res.send(race);
   });
 
-  fastify.get("/races/odds/:raceId", async (req, res) => {
+  fastify.get("/races/odds/:raceId/:first", async (req, res) => {
     const repo = (await createConnection()).getRepository(Race);
 
     const race = await repo.findOne(req.params.raceId, {
@@ -138,7 +147,7 @@ export const apiRoute = async (fastify) => {
     if (race === undefined) {
       throw fastify.httpErrors.notFound();
     }
-    const first = parseInt(req.query.first)
+    const first = parseInt(req.params.first)
     const filtered = race.trifectaOdds.filter(value=>value.key[0]===first)
     res.send(filtered)
   });
