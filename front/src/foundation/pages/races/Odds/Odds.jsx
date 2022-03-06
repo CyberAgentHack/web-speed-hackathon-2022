@@ -1,4 +1,5 @@
-import moment from "moment-timezone";
+import dayjs from "dayjs";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import React, { useCallback, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -40,6 +41,8 @@ const Callout = styled.aside`
   padding: ${Space * 1}px ${Space * 2}px;
 `;
 
+dayjs.extend(isSameOrBefore);
+
 /** @type {React.VFC} */
 export const Odds = () => {
   const { raceId } = useParams();
@@ -66,7 +69,7 @@ export const Odds = () => {
     return <Container>Loading...</Container>;
   }
 
-  const isRaceClosed = moment(entries.closeAt).isBefore(new Date());
+  const isRaceClosed = dayjs(entries.closeAt).isBefore(new Date());
 
   return (
     <Container>

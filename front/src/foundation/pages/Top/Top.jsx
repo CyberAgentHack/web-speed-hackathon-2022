@@ -1,5 +1,5 @@
+import dayjs from "dayjs";
 import { difference, slice } from "lodash-es";
-import moment from "moment-timezone";
 import React, {
   useCallback,
   useContext,
@@ -101,7 +101,7 @@ const UNIXTIME_PER_DAY = 86400;
 /** @type {React.VFC} */
 export const Top = () => {
   const [ChargeDialog, setChargeDialog] = useState();
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
+  const { date = dayjs().format("YYYY-MM-DD") } = useParams();
   const { userId } = useContext(AuthContext);
 
   useEffect(() => {
@@ -153,7 +153,7 @@ export const Top = () => {
       ? [...raceData.races]
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
+              dayjs(a.startAt) - dayjs(b.startAt),
           )
           .filter((/** @type {Model.Race} */ race) =>
             isSameDay(race.startAt, date),

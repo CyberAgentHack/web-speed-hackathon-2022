@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Outlet } from "react-router-dom";
 
 import { Footer } from "../../components/navs/Footer";

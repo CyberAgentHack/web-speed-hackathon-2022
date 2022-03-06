@@ -1,6 +1,6 @@
 import "./foundation/side-effects";
 
-import React from "react";
+import * as React from "react";
 import ReactDOM from "react-dom";
 
 import { App } from "./foundation/App";
