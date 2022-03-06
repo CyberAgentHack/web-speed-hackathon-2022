@@ -3,7 +3,12 @@ import axios from "axios";
 export const jsonFetcher = async (/** @type {string} */ url) => {
   // const res = await axios.get(url, { responseType: "json" });
   // return res.data;
-  const res = await fetch(url, { method: "GET" });
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Accept-Encoding": "gzip",
+    },
+  });
   const _res = await res.json();
   return _res;
 };
@@ -20,7 +25,10 @@ export const authorizedJsonFetcher = async (url, userId) => {
   // return res.data;
   const res = await fetch(url, {
     method: "GET",
-    headers: { "x-app-userid": userId },
+    headers: {
+      "x-app-userid": userId,
+      "Accept-Encoding": "gzip",
+    },
   });
   const _res = await res.json();
   return _res;
