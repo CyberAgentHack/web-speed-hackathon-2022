@@ -64,7 +64,7 @@ function main() {
   const imageData = fs.readFileSync(src)
   sharp(imageData)
     // .resize(1000)
-    .webp({
+    .avif({
       quality: 40
     })
     .toFile(src + ".avif");
@@ -81,7 +81,7 @@ function main() {
     const imageData = fs.readFileSync(src)
     sharp(imageData)
       .resize(400)
-      .webp({
+      .avif({
         quality: 30
       })
       .toFile(src +".avif");
@@ -101,7 +101,7 @@ function main() {
     const imageData = fs.readFileSync(src)
     sharp(imageData)
       .resize(400)
-      .webp({
+      .avif({
         quality: 30
       })
       .toFile(src + ".avif");
