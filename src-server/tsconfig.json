@@ -1,0 +1,10 @@
+{
+  "include": ["server/**/*"],
+  "compilerOptions": {
+    "allowJs": true,
+    "noEmit": true,
+    "typeRoots": ["server/types", "node_modules/@types"],
+    "jsx": "react",
+    "esModuleInterop": true
+  }
+}
