@@ -67,7 +67,7 @@ export const RaceCard = () => {
           {data.entries.map((entry) => (
             <PlayerPictureList.Item
               key={entry.id}
-              image={entry.player.image}
+              image={`{entry.player.image}.webp`}
               name={entry.player.name}
               number={entry.number}
             />
