@@ -1,13 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-
+import { faHandPeace } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { Color, FontSize, Space } from "../../../../../styles/variables";
 
-import IcoMoon from "react-icomoon";
-import iconSet from "./selection.json";
-
-const Icon = (props) => <IcoMoon iconSet={iconSet} {...props} />;
 const Wrapper = styled.div`
   align-items: center;
   color: ${Color.mono[400]};
@@ -27,7 +24,7 @@ const Wrapper = styled.div`
 export const RaceResultSection = () => {
   return (
     <Wrapper>
-      <Icon icon="hand-peace" size={20} />
+      <FontAwesomeIcon icon={faHandPeace} />
       <div>結果はまだありません</div>
     </Wrapper>
   );
