@@ -44,14 +44,20 @@ export function useMutation(apiPath, { auth }) {
 
       try {
         const res = await fetch(apiPath, {
-          body: data,
+          body: JSON.stringify(data),
           headers: auth
             ? {
+                Accept: "application/json",
+                "Content-Type": "application/json",
                 "x-app-userid": userId,
               }
-            : {},
+            : {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
           method: "POST",
         });
+
         if (!res.ok) throw createFetchError(res);
         const resData = await res.json();
 

@@ -67,7 +67,9 @@ module.exports = [
     },
     name: "client",
     output: {
+      filename: "main-[contenthash:8].js",
       path: DIST_PUBLIC,
+      publicPath: "/",
     },
     plugins: [
       new CopyPlugin({

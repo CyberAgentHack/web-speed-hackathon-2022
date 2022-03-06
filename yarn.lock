@@ -2504,13 +2504,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bezier-easing@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "bezier-easing@npm:2.1.0"
-  checksum: ec22666b5385979b3e7a63eaf2631395b1be5beb3aed4f14cc70ae9eb09032082584f7e3eec045e4c122466987ed7e159f5b39f82b8a9870cd55e75b0d55a7d5
-  languageName: node
-  linkType: hard
-
 "big.js@npm:^5.2.2":
   version: 5.2.2
   resolution: "big.js@npm:5.2.2"
@@ -6910,6 +6903,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"preact-lazy@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "preact-lazy@npm:0.0.3"
+  peerDependencies:
+    preact: "*"
+  checksum: 519d11a0c9f855c4b353e1960c0e3a00c2948ad497d8caee084ff56231c0cd0503ab29eb9ea1eeef97c7fc7c4b64a3261b0747c58e5659282f604a9270dbde2a
+  languageName: node
+  linkType: hard
+
 "preact@npm:^10.6.6":
   version: 10.6.6
   resolution: "preact@npm:10.6.6"
@@ -8977,7 +8979,6 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.13.0
     "@typescript-eslint/parser": ^5.13.0
     babel-loader: ^8.2.3
-    bezier-easing: ^2.1.0
     copy-webpack-plugin: ^10.2.0
     core-js: ^3.21.1
     cross-env: ^7.0.3
@@ -8999,9 +9000,11 @@ __metadata:
     npm-run-all: ^4.1.5
     postcss-syntax: ^0.36.2
     preact: ^10.6.6
+    preact-lazy: ^0.0.3
     prettier: ^2.5.1
     react-router-dom: 6
     regenerator-runtime: ^0.13.9
+    rimraf: ^3.0.2
     sqlite3: ^5.0.2
     styled-components: ^5.3.3
     stylelint: ^14.5.3

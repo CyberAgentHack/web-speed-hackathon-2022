@@ -1,11 +1,12 @@
+import lazy from "preact-lazy";
 import React, { Suspense } from "react";
 import { Route, Routes as RouterRoutes } from "react-router-dom";
 
 import { CommonLayout } from "./layouts/CommonLayout";
-const Top = React.lazy(() => import("./pages/Top"));
-const Odds = React.lazy(() => import("./pages/races/Odds"));
-const RaceCard = React.lazy(() => import("./pages/races/RaceCard"));
-const RaceResult = React.lazy(() => import("./pages/races/RaceResult"));
+import Top from "./pages/Top";
+const Odds = lazy(() => import("./pages/races/Odds"));
+const RaceCard = lazy(() => import("./pages/races/RaceCard"));
+const RaceResult = lazy(() => import("./pages/races/RaceResult"));
 
 /** @type {React.VFC} */
 export const Routes = () => {
