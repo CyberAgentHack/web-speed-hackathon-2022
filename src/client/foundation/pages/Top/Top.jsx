@@ -62,6 +62,7 @@ const ChargeButton = styled.button`
 export default function Top() {
   const since = moment(moment().format("YYYY-MM-DD") + " 00:00:00").unix()
   const until = moment(moment().format("YYYY-MM-DD") + " 23:59:59").unix()
+  const { date = moment().format("YYYY-MM-DD") } = useParams();
 
   const chargeDialogRef = useRef(null);
 
@@ -70,8 +71,8 @@ export default function Top() {
     authorizedJsonFetcher
   );
 
-  const { data: raceData } = useFetch(`/api/races?since=${since}&until=${until}`, jsonFetcher);
-
+  let { data: raceData } = useFetch(`/api/races?since=${since}&until=${until}`, jsonFetcher);
+  raceData = raceData.filter((race)=>isSameDay(race.startAt,date))
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
       return;
