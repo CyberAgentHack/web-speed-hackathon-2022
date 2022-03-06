@@ -44,7 +44,6 @@ export function useMutation(apiPath, { auth, method }) {
       }));
 
       try {
-        console.log(data)
         const res = await axios.request({
           data,
           headers: auth
