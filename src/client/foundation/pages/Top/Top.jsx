@@ -60,6 +60,7 @@ const ChargeButton = styled.button`
 `;
 /** @type {React.VFC} */
 export default function Top() {
+  console.log('pya')
   const since = moment(moment().format("YYYY-MM-DD") + " 00:00:00").unix()
   const until = moment(moment().format("YYYY-MM-DD") + " 23:59:59").unix()
   const { date = moment().format("YYYY-MM-DD") } = useParams();
