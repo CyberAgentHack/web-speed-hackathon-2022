@@ -54,3 +54,7 @@ ol {
   font-size: 1.25rem;
   font-weight: bold;
 }
+
+.transition {
+  transition: all 1s cubic-bezier(0.33, 1, 0.68, 1);
+}

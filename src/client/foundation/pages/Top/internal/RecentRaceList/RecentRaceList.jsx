@@ -4,7 +4,6 @@ import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../components/media/TrimmedImage";
-import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
 import {  Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 
@@ -24,7 +23,14 @@ export const RecentRaceList = ({ children }) => {
 /** @type {React.VFC<ItemProps>} */
 const Item = ({ race }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
+  const [opacity, setOpacity]  = useState(0)
 
+  useEffect(()=>{
+    const a = setTimeout(()=>{
+      setOpacity(1)
+    },1)
+    return ()=>{clearTimeout(a)}
+  },[])
   // 締切はリアルタイムで表示したい
   useEffect(() => {
     const timer = setInterval(() => {
@@ -36,29 +42,8 @@ const Item = ({ race }) => {
     };
   }, [race.closeAt]);
 
-  const {
-    abortAnimation,
-    resetAnimation,
-    startAnimation,
-    value: opacity,
-  } = useAnimation({
-    duration: 500,
-    end: 1,
-    start: 0,
-    timingFunction: easeOutCubic,
-  });
-
-  useEffect(() => {
-    resetAnimation();
-    startAnimation();
-
-    return () => {
-      abortAnimation();
-    };
-  }, [race.id, startAnimation, abortAnimation, resetAnimation]);
-
   return (
-    <div className="item-wrapper"  style={{opacity: opacity, padding: `${Space * 3}px`}}>
+    <div className="item-wrapper transition"  style={{opacity: opacity, padding: `${Space * 3}px` }}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <h2 className="race-title">{race.name}</h2>
