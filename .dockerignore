@@ -1,0 +1,16 @@
+.dockerignore
+.eslintignore
+.eslintrc
+.git
+.gitignore
+.node-version
+.prettierignore
+.prettierrc.json
+.scaffdog
+Dockerfile
+docs
+heroku.yml
+nginx.conf
+node_modules
+Procfile
+README.md
