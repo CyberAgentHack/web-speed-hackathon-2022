@@ -43,7 +43,7 @@ export function useMutation(apiPath, { auth, method }) {
       }));
 
       try {
-        const res = await (await fetch(apiPath, {
+        const result = await fetch(apiPath, {
           body: JSON.stringify(data),
           headers: auth
             ? {
@@ -52,7 +52,13 @@ export function useMutation(apiPath, { auth, method }) {
               }
             : {"Content-Type": "application/json"},
           method,
-        })).json();
+        });
+
+        if (!result.ok) {
+          throw {response: result};
+        }
+
+        const res = await result.json();
 
         setResult((cur) => ({
           ...cur,
