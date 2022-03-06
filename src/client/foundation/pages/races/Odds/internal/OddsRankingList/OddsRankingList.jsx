@@ -73,7 +73,16 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
   } else {
     /* loading done */
     sortedOdds = _.take(
-      _.sortBy(odds, (item) => item?.odds),
+      odds.sort((a, b) => {
+        if (a.odds != b.odds) {
+          return a.odds - b.odds;
+        }
+        if (a.id != b.id) {
+          if (a.id > b.id) return 1;
+          if (a.id < b.id) return -1;
+        }
+        return 0;
+      }),
       50,
     );
   }
