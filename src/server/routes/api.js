@@ -1,4 +1,3 @@
-import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
@@ -48,9 +47,9 @@ export const apiRoute = async (fastify) => {
 
   fastify.get("/races", async (req, res) => {
     const since =
-      req.query.since != null ? moment.unix(req.query.since) : undefined;
+      req.query.since != null ? Math.floor((new Date(req.query.since).getTime() / 1000)) : undefined;
     const until =
-      req.query.until != null ? moment.unix(req.query.until) : undefined;
+      req.query.until != null ? Math.floor((new Date(req.query.until).getTime() / 1000)) : undefined;
 
     if (since != null && !since.isValid()) {
       throw fastify.httpErrors.badRequest();
