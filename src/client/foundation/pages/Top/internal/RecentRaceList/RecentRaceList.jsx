@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -16,22 +16,14 @@ export const RecentRaceList = ({ children }) => {
   );
 };
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
 const ItemWrapper = styled.li`
   opacity: 0;
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
-  animation: ${fadeIn} 0.5s ease-out ${({ $delay }) => $delay}ms 1 normal
-    forwards;
+  opacity: ${({ $opacity }) => $opacity};
   padding: ${Space * 3}px;
+  transition: opacity ${({ $duration }) => $duration}s
+    cubic-bezier(0.2, 0.6, 0.35, 1);
 `;
 
 const RaceButton = styled(LinkButton)`
@@ -59,8 +51,10 @@ const RaceTitle = styled.h2`
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ lazy, race }) => {
+const Item = ({ delay, lazy, race }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
+  const [opacity, setOpacity] = useState(0);
+  const [duration, setDuration] = useState(0.5);
 
   // 締切はリアルタイムで表示したい
   useEffect(() => {
@@ -73,8 +67,22 @@ const Item = ({ lazy, race }) => {
     };
   }, [race.closeAt]);
 
+  useEffect(() => {
+    setDuration(0.5);
+    const timer = setTimeout(() => {
+      setOpacity(1);
+    }, delay);
+
+    return () => {
+      clearTimeout(timer);
+      console.log("return");
+      setDuration(0);
+      setOpacity(0);
+    };
+  }, [race.id, delay]);
+
   return (
-    <ItemWrapper>
+    <ItemWrapper $duration={duration} $opacity={opacity}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>

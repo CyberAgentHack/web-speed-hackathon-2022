@@ -112,6 +112,7 @@ export const Top = () => {
             (race, index) => (
               <RecentRaceList.Item
                 key={race.id ?? index}
+                delay={index * 100}
                 lazy={index > 3}
                 race={todayRaces.length > 0 ? race : mockRace}
               />
