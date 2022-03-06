@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, memo } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const WrapperSvg = styled.svg`
@@ -16,7 +16,7 @@ const WrapperSvg = styled.svg`
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
-  const [position, setPosition] = useState({x: 0, y: 0, width: 0, height: 0});
+  const [position, setPosition] = useState({height: 0, width: 0, x: 0, y: 0});
 
 
   useEffect(() => {
@@ -30,17 +30,17 @@ export const TrimmedImage = ({ height, src, width }) => {
       const ratio = isWidthSmaller ? width / img.width : height / img.height;
 
       setPosition({
+        height: Math.round(img.height * ratio),
+        width: Math.round(img.width * ratio),
         x: Math.round(-(img.width * ratio - width) / 2),
         y: Math.round(-(img.height * ratio - height) / 2),
-        width: Math.round(img.width * ratio),
-        height: Math.round(img.height * ratio),
       });
     };
   }, [src, height, width]);
 
   return (
-    <WrapperSvg width={width} height={height} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
-      <image x={position.x} y={position.y} width={position.width} height={position.height} href={src} />
+    <WrapperSvg height={height} preserveAspectRatio="none" viewBox={`0 0 ${width} ${height}`} width={width}>
+      <image height={position.height} href={src} width={position.width} x={position.x} y={position.y} />
     </WrapperSvg>
   )
   /*return (

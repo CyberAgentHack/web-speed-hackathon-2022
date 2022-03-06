@@ -14,7 +14,6 @@ import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
-import { assets } from "../../../utils/UrlUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
@@ -109,8 +108,8 @@ export const Odds = () => {
         {data ? <OddsTable
           entries={data.entries}
           isRaceClosed={isRaceClosed}
-          raceId={raceId}
           onClickOdds={handleClickOdds}
+          raceId={raceId}
         /> : "読み込み中"}
 
         <Spacer mt={Space * 4} />
@@ -119,8 +118,8 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
-          raceId={raceId}
           onClickOdds={handleClickOdds}
+          raceId={raceId}
         />
       </Section>
 

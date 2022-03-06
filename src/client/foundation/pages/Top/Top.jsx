@@ -1,5 +1,5 @@
 import { endOfDay, parse, startOfDay } from "date-fns";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import useSWR from "swr";
@@ -11,69 +11,11 @@ import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
-import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
-
-/**
- * @param {Model.Race[]} races
- * @returns {Model.Race[]}
- */
-function useTodayRacesWithAnimation(races) {
-  const [isRacesUpdate, setIsRacesUpdate] = useState(false);
-  const [racesToShow, setRacesToShow] = useState([]);
-  const numberOfRacesToShow = useRef(0);
-  const prevRaces = useRef(races);
-  const timer = useRef(null);
-
-  useEffect(() => {
-    const tmp = prevRaces.current.map((e) => e.id);
-    const isRacesUpdate =
-      races.map((e) => e.id).filter(elm => !tmp.includes(elm)).length !== 0;
-
-    prevRaces.current = races;
-    setIsRacesUpdate(isRacesUpdate);
-  }, [races]);
-
-  useEffect(() => {
-    if (!isRacesUpdate) {
-      return;
-    }
-    // 視覚効果 off のときはアニメーションしない
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRacesToShow(races.map(race => ({race, visible: true})));
-      return;
-    }
-
-    numberOfRacesToShow.current = 0;
-    if (timer.current !== null) {
-      clearInterval(timer.current);
-    }
-
-    timer.current = setInterval(() => {
-      if (numberOfRacesToShow.current >= races.length) {
-        clearInterval(timer.current);
-        return;
-      }
-
-      numberOfRacesToShow.current++;
-      setRacesToShow(races.map((race, index) => ({race, visible: index <= numberOfRacesToShow.current})));
-    }, 100);
-  }, [isRacesUpdate, races]);
-
-  useEffect(() => {
-    return () => {
-      if (timer.current !== null) {
-        clearInterval(timer.current);
-      }
-    };
-  }, []);
-
-  return racesToShow;
-}
 
 /**
  * @param {Model.Race[]} todayRaces
@@ -108,7 +50,8 @@ const ChargeButton = styled.button`
 
 /** @type {React.VFC} */
 export const Top = () => {
-  const date = useParams().date ? parse(useParams().date, "yyyy-MM-dd", new Date()) : new Date();
+  const params = useParams();
+  const date = params.date ? parse(params.date, "yyyy-MM-dd", new Date()) : new Date();
 
   const chargeDialogRef = useRef(null);
 
@@ -164,7 +107,7 @@ export const Top = () => {
       <section>
         <Heading as="h1">本日のレース</Heading>
         <RecentRaceList>
-          {todayRaces.map((race, i) => <RecentRaceList.Item key={race.id} race={race} delay={i * 100} />)}
+          {todayRaces.map((race, i) => <RecentRaceList.Item key={race.id} delay={i * 100} race={race} />)}
         </RecentRaceList>
       </section>
 

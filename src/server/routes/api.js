@@ -1,15 +1,15 @@
+import { formatRFC7231, fromUnixTime } from "date-fns";
+import fastifyCompress from "fastify-compress";
+import fastifyCors from "fastify-cors";
 import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
-import fastifyCors from "fastify-cors";
-import fastifyCompress from "fastify-compress";
+import zenginData from "zengin-code";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, OddsItem, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
 
-import zenginData from "zengin-code";
-import { formatRFC7231, fromUnixTime } from "date-fns";
 
 const zenginMinifiedData = {};
 
@@ -24,9 +24,9 @@ Object.values(zenginData).forEach(bank => {
   })
 
   zenginMinifiedData[bank.code] = {
+    branches,
     code: bank.code,
-    name: bank.name,
-    branches
+    name: bank.name
   }
 })
 

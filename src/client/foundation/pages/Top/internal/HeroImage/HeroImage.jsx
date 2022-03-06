@@ -1,11 +1,10 @@
 import React, { memo } from "react";
 import styled from "styled-components";
-import { optimizedImage } from "../../../../utils/UrlUtils";
 
 const Picture = styled.picture`
+  aspect-ratio: 4320 / 3099;
   display: block;
   margin: 0 auto;
-  aspect-ratio: 4320 / 3099;
 `;
 
 /**
@@ -15,16 +14,17 @@ const Picture = styled.picture`
  */
 
 /** @type {React.VFC<Props>} */
-export const HeroImage = memo(({ url }) => {
+export const HeroImage = memo(function HeroImage({ url }) {
   const smaller = (suffix) => {
     return url.replace(".jpg", `.jpg_${suffix}.avif`);
   }
 
   return (
     <Picture alt="" src={url}>
-        <source srcSet={smaller("small")} media="(max-width: 600px)" />
-        <source srcSet={smaller("1024")} media="(min-width: 601px)" />
-        <img src={url} alt="" /> {/* original for high resolution screen */}
+        <source media="(max-width: 600px)" srcSet={smaller("small")} />
+        <source media="(min-width: 601px)" srcSet={smaller("1024")} />
+        <img alt="" src={url} /> {/* original for high resolution screen */}
     </Picture>
   )
 });
+

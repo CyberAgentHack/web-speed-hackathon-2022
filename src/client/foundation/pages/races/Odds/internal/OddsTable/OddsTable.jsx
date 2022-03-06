@@ -5,7 +5,6 @@ import useSWR from "swr";
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
-import { useFetch } from "../../../../../hooks/useFetch";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
 import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
@@ -81,7 +80,7 @@ const mapKey = (second, third) => `${second}.${third}`;
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, raceId, onClickOdds }) => {
+export const OddsTable = ({ entries, isRaceClosed, onClickOdds, raceId }) => {
   const [firstKey, setFirstKey] = useState(1);
 
   const { data: oddsMap } = useSWR(`/api/races/${raceId}/odds_map/${firstKey}`, jsonFetcher);

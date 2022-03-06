@@ -1,6 +1,6 @@
-import { createReadStream } from "fs";
+import { join } from "path";
+
 import fastifyStatic from "fastify-static"
-import { basename, dirname, join } from "path";
 import sharp from "sharp";
 
 export const imageRoute = async (fastify) => {
@@ -9,11 +9,11 @@ export const imageRoute = async (fastify) => {
   });
 
   fastify.register(fastifyStatic, {
-    root: join(__dirname, "images"),
     prefix: "/assets/images/original",
+    root: join(__dirname, "images"),
   });
   
-  fastify.get("/assets/images/*", (req, res, next) => {
+  fastify.get("/assets/images/*", (req, res) => {
     const path = req.raw.url.replace(/\?.*/, "").split("/").slice(3);
 
     if (req.query["w"]) {
@@ -21,8 +21,8 @@ export const imageRoute = async (fastify) => {
       sharp(join(__dirname, "images", ...path))
         .resize(Number(req.query["w"]))
         .jpeg({
-          quality: 90,
-          progressive: true
+          progressive: true,
+          quality: 90
         })
         .toBuffer()
         .then(buffer => res.send(buffer))

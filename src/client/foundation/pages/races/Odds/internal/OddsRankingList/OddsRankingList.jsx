@@ -5,7 +5,6 @@ import useSWR from "swr";
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Stack } from "../../../../../components/layouts/Stack";
-import { useFetch } from "../../../../../hooks/useFetch";
 import { BreakPoint, Color, Space } from "../../../../../styles/variables";
 import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
@@ -69,7 +68,7 @@ const placeholder = [...new Array(50)].map((_, i) => ({id: i, key: [undefined, u
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, raceId, onClickOdds }) => {
+export const OddsRankingList = ({ isRaceClosed, onClickOdds, raceId }) => {
   const sortedOdds = useSWR(`/api/races/${raceId}/odds_popular`, jsonFetcher)?.data ?? placeholder;
 
   return (

@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
 const CopyPlugin = require("copy-webpack-plugin");
-const nodeExternals = require("webpack-node-externals");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -55,9 +54,13 @@ module.exports = [
       ],
     },
     name: "client",
+    optimization: {
+      minimize: true,
+      minimizer: [new TerserPlugin()],
+    },
     output: {
-      path: DIST_PUBLIC,
       filename: "main.[fullhash].js",
+      path: DIST_PUBLIC,
       publicPath: "/"
     },
     plugins: [
@@ -66,18 +69,14 @@ module.exports = [
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
       new HtmlWebpackPlugin({
-        title: "CyberTicket",
-        filename: 'index_alt.html' // NOTE: ヘッダ設定のためのワークアラウンド。
+        filename: 'index_alt.html',
+        title: "CyberTicket" // NOTE: ヘッダ設定のためのワークアラウンド。
       })
     ],
     resolve: {
       extensions: [".js", ".jsx"],
     },
     target: "web",
-    optimization: {
-      minimize: true,
-      minimizer: [new TerserPlugin()],
-    },
   },
   {
     entry: path.join(SRC_ROOT, "server/index.js"),
@@ -91,6 +90,7 @@ module.exports = [
           use: {
             loader: "babel-loader",
             options: {
+              plugins: ["@babel/plugin-syntax-dynamic-import"],
               presets: [
                 [
                   "@babel/preset-env",
@@ -100,8 +100,7 @@ module.exports = [
                   },
                 ],
                 "@babel/preset-react",
-              ],
-              plugins: ["@babel/plugin-syntax-dynamic-import"]
+              ]
             },
           },
         },
@@ -112,14 +111,14 @@ module.exports = [
       filename: "server.js",
       path: DIST_ROOT,
     },
-    resolve: {
-      extensions: [".mjs", ".js", ".jsx"],
-    },
-    target: "node",
     plugins: [
       new CopyPlugin({
         patterns: [{ from: IMAGES_ROOT, to: DIST_IMAGES }],
       }),
     ],
+    resolve: {
+      extensions: [".mjs", ".js", ".jsx"],
+    },
+    target: "node",
   },
 ];

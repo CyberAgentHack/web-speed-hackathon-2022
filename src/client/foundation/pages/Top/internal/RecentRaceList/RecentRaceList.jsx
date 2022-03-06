@@ -27,10 +27,10 @@ const fadeIn = keyframes`
 `
 
 const ItemWrapper = styled.li`
-  background: ${Color.mono[0]};
-  border-radius: ${Radius.MEDIUM};
   
   animation: ${fadeIn} 500ms ${({$delay}) => $delay}ms ease-out both;
+  background: ${Color.mono[0]};
+  border-radius: ${Radius.MEDIUM};
   padding: ${Space * 3}px;
 `;
 
@@ -56,7 +56,7 @@ const RaceTitle = styled.h2`
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ race, delay }) => {
+const Item = ({ delay, race }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
 
   // TODO
