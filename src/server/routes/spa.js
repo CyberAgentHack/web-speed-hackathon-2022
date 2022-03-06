@@ -6,12 +6,8 @@ import fastifyStatic from "fastify-static";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const spaRoute = async (fastify) => {
-  // TODO: check index.html and index.js
-  fastify.register(require("fastify-compress"));
-
-  fastify.addHook("onRequest", async (req, res) => {
-    res.header("Cache-Control", "max-age=3600, must-revalidate");
-  })
+  // // TODO: check index.html and index.js
+  // fastify.register(require("fastify-compress"));
 
   fastify.register(fastifyStatic, {
     root: join(__dirname, "public"),
