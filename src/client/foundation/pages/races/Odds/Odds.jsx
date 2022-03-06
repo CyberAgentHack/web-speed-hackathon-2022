@@ -56,13 +56,10 @@ export const Odds = () => {
     setRanking(rank.data)
   }, [rank.data])
   useEffect(() => {
-    console.log("key2")
     setOdds(odd.data)
   }, [odd.data])
   const setFirstKey = useCallback((key) => {
     if (key !== fk) {
-      console.log(key)
-      console.log(fk)
       setFk(key)
       setOdds(null);
     }

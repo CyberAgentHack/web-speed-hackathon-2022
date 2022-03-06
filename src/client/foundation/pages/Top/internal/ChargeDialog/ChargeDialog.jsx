@@ -56,7 +56,6 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
   useEffect(() => {
     setBank(zenginCode[bankCode])
-    console.log(zenginCode)
   }, [bankCode])
 
   useEffect(() => {
