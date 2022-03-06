@@ -2,6 +2,7 @@ import { join } from "path";
 
 
 import fastifyStatic from "fastify-static";
+import fastifyCompress from "fastify-compress";
 
 /**
  * @type {import('fastify').FastifyPluginCallback}

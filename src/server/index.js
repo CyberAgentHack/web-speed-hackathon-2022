@@ -1,6 +1,5 @@
 import "regenerator-runtime/runtime";
 import fastify from "fastify";
-import fastifyCompress from "fastify-compress";
 import fastifySensible from "fastify-sensible";
 
 import { User } from "../model/index.js";

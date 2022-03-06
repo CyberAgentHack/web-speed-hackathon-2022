@@ -1,6 +1,7 @@
 import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import fastifyCors from "fastify-cors";
+import fastifyCompress from "fastify-compress";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, OddsItem, Race, User } from "../../model/index.js";
