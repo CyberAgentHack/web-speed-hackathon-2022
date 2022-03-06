@@ -3,7 +3,7 @@
 echo "=============jpg To webp==============="
 
 app_root_path=`pwd`
-assets_path="${app_root_path}/public/assets/images/races/"
+assets_path="${app_root_path}/public/assets/images/players/"
 
 cd $assets_path
 
