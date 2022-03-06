@@ -44,7 +44,7 @@ module.exports = [
             loader: "babel-loader",
             options: {
               // compact: false,
-              plugins: ["@babel/plugin-syntax-dynamic-import"],
+              plugins: ["@babel/plugin-syntax-dynamic-import", "@babel/plugin-transform-runtime"],
               presets: [
                 [
                   "@babel/preset-env",
