@@ -14,7 +14,7 @@ const Img = styled.img`
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
+export const TrimmedImage = ({ height, lazy=false, src, width }) => {
   const imgsrc = src.replace(".jpg", ".webp");
   const fit = width <= height ? "cover" : "contain";
 
@@ -23,8 +23,9 @@ export const TrimmedImage = ({ height, src, width }) => {
       $fit={fit}
       $height={height}
       $width={width}
+      loading={lazy ? "lazy" : "auto"}
       src={imgsrc}
       width={width}
-    ></Img>
+    />
   );
 };
