@@ -70,7 +70,6 @@
     "modern-css-reset": "^1.4.0",
     "moment-timezone": "^0.5.34",
     "react-helmet": "^6.1.0",
-    "regenerator-runtime": "^0.13.9",
     "sqlite3": "^5.0.2",
     "styled-components": "^5.3.3",
     "typeorm": "^0.2.44",
