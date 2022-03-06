@@ -64,7 +64,7 @@ const Item = ({ num, race }) => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCloseAtText(formatCloseAt(race.closeAt));
-    }, 100);
+    }, 1000);
 
     return () => {
       clearInterval(timer);
