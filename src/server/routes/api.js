@@ -73,42 +73,60 @@ export const apiRoute = async (fastify) => {
     res.send({ hash, url });
   });
 
-  fastify.get("/races", async (req, res) => {
-    const since =
-      req.query.since != null ? moment.unix(req.query.since) : undefined;
-    const until =
-      req.query.until != null ? moment.unix(req.query.until) : undefined;
+  fastify.get(
+    "/races",
+    {
+      compress: {
+        inflateIfDeflated: true,
+        threshold: 128,
+      },
+    },
+    async (req, res) => {
+      const since =
+        req.query.since != null ? moment.unix(req.query.since) : undefined;
+      const until =
+        req.query.until != null ? moment.unix(req.query.until) : undefined;
 
-    if (since != null && !since.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
-    if (until != null && !until.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
+      if (since != null && !since.isValid()) {
+        throw fastify.httpErrors.badRequest();
+      }
+      if (until != null && !until.isValid()) {
+        throw fastify.httpErrors.badRequest();
+      }
 
-    const races = await getRaces(since, until);
+      const races = await getRaces(since, until);
 
-    res.send({ races });
-  });
+      res.send({ races });
+    },
+  );
 
   // for edge cache
-  fastify.get("/races/:since/:until/data.json", async (req, res) => {
-    const since =
-      req.params.since != null ? moment.unix(req.params.since) : undefined;
-    const until =
-      req.params.until != null ? moment.unix(req.params.until) : undefined;
+  fastify.get(
+    "/races/:since/:until/data.json",
+    {
+      compress: {
+        inflateIfDeflated: true,
+        threshold: 128,
+      },
+    },
+    async (req, res) => {
+      const since =
+        req.params.since != null ? moment.unix(req.params.since) : undefined;
+      const until =
+        req.params.until != null ? moment.unix(req.params.until) : undefined;
 
-    if (since != null && !since.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
-    if (until != null && !until.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
+      if (since != null && !since.isValid()) {
+        throw fastify.httpErrors.badRequest();
+      }
+      if (until != null && !until.isValid()) {
+        throw fastify.httpErrors.badRequest();
+      }
 
-    const races = await getRaces(since, until);
+      const races = await getRaces(since, until);
 
-    res.send({ races });
-  });
+      res.send({ races });
+    },
+  );
 
   // for update
   fastify.get("/races/:since/:until/data", async (req, res) => {
@@ -164,22 +182,31 @@ export const apiRoute = async (fastify) => {
   });
 
   // for edge cache
-  fastify.get("/races/:raceId/entry.json", async (req, res) => {
-    const repo = (await createConnection()).getRepository(Race);
-
-    const race = await repo.findOne(
-      { id: req.params.raceId },
-      {
-        relations: ["entries", "entries.player"],
+  fastify.get(
+    "/races/:raceId/entry.json",
+    {
+      compress: {
+        inflateIfDeflated: true,
+        threshold: 128,
       },
-    );
+    },
+    async (req, res) => {
+      const repo = (await createConnection()).getRepository(Race);
 
-    if (race === undefined) {
-      throw fastify.httpErrors.notFound();
-    }
+      const race = await repo.findOne(
+        { id: req.params.raceId },
+        {
+          relations: ["entries", "entries.player"],
+        },
+      );
 
-    res.send(race);
-  });
+      if (race === undefined) {
+        throw fastify.httpErrors.notFound();
+      }
+
+      res.send(race);
+    },
+  );
 
   fastify.get("/races/:raceId/odds-items", async (req, res) => {
     const repo = (await createConnection()).getRepository(OddsItem);
@@ -198,21 +225,30 @@ export const apiRoute = async (fastify) => {
   });
 
   // for edge cache
-  fastify.get("/races/:raceId/odds-items.json", async (req, res) => {
-    const repo = (await createConnection()).getRepository(OddsItem);
-    const odds = await repo.find({
-      where: {
-        race: {
-          id: req.params.raceId,
-        },
+  fastify.get(
+    "/races/:raceId/odds-items.json",
+    {
+      compress: {
+        inflateIfDeflated: true,
+        threshold: 128,
       },
-    });
+    },
+    async (req, res) => {
+      const repo = (await createConnection()).getRepository(OddsItem);
+      const odds = await repo.find({
+        where: {
+          race: {
+            id: req.params.raceId,
+          },
+        },
+      });
 
-    if (odds === undefined) {
-      throw fastify.httpErrors.notFound();
-    }
-    res.send(odds);
-  });
+      if (odds === undefined) {
+        throw fastify.httpErrors.notFound();
+      }
+      res.send(odds);
+    },
+  );
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
     if (req.user == null) {
