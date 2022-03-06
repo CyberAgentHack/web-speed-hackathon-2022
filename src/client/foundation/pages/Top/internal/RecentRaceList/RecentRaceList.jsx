@@ -29,12 +29,6 @@ const RaceTitle = styled.h2`
   font-weight: bold;
 `;
 
-const RaceImg = styled.img`
-  height: 100px;
-  width: 100px;
-  object-fit: contain;
-`;
-
 const RaceButton = styled(LinkButton)`
   background: ${Color.mono[700]};
   border-radius: ${Radius.MEDIUM};
