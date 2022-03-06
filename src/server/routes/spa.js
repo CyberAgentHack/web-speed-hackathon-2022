@@ -1,6 +1,5 @@
 import { join } from "path";
 
-
 import fastifyCompress from "fastify-compress";
 import fastifyStatic from "fastify-static";
 
@@ -8,29 +7,21 @@ import fastifyStatic from "fastify-static";
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const spaRoute = async (fastify) => {
-  fastify.addHook("onRequest", async (req, res) => {
-    res.header("Cache-Control", "max-age=3600, s-maxage=86400, public, immutable");
-  });
-
-  fastify.register(
-    fastifyCompress,
-    { threshold: 2048 }
-  )
-
+  fastify.register(fastifyCompress);
   fastify.register(fastifyStatic, {
     root: join(__dirname, "public"),
-    send: {
-      index: false
-    },
-    wildcard: false
+    wildcard: false,
+  });
+
+  fastify.addHook("onRequest", async (req, res) => {
+    res.header("Cache-Control", "public, max-age=31536000");
   });
 
   fastify.get("/favicon.ico", () => {
     throw fastify.httpErrors.notFound();
   });
 
-  fastify.get("*", (req, res) => {
-    res.header("Cache-Control", "max-age=60, s-maxage=86400, public, immutable");
-    return res.sendFile("index_alt.html", join(__dirname, "public")); // NOTE: index.htmlを使うと何故かキャッシュヘッダが設定できないので_altを付けてある
+  fastify.get("*", (_req, reply) => {
+    return reply.sendFile("index.html", join(__dirname, "public"));
   });
 };
