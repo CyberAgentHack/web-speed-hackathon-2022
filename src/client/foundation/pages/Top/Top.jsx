@@ -106,7 +106,7 @@ export const Top = () => {
       <section>
         <Heading as="h1">本日のレース</Heading>
         <RecentRaceList>
-          {(todayRaces.length > 0 ? todayRaces : [...Array(24).keys()]).map(
+          {(raceData != null ? todayRaces : [...Array(24).keys()]).map(
             (race, index) => (
               <RecentRaceList.Item
                 key={race.id ?? index}
