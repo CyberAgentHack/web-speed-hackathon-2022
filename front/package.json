@@ -57,17 +57,15 @@
   "dependencies": {
     "@babel/runtime": "^7.17.2",
     "bezier-easing": "^2.1.0",
+    "dayjs": "^1.10.8",
     "framer-motion": "^6.2.8",
     "lodash-es": "^4.17.21",
     "modern-css-reset": "^1.4.0",
-    "moment-timezone": "^0.5.34",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-helmet": "^6.1.0",
     "react-router-dom": "6",
     "regenerator-runtime": "^0.13.9",
-    "styled-components": "^5.3.3",
-    "uuid": "^8.3.2"
+    "styled-components": "^5.3.3"
   },
   "engines": {
     "node": "16.x.x"

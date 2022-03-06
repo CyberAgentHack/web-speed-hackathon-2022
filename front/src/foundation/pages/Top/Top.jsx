@@ -80,7 +80,7 @@ function useTodayRacesWithAnimation(races) {
         return;
       }
 
-      numberOfRacesToShow.current++;
+      numberOfRacesToShow.current += 3;
       setRacesToShow(slice(races, 0, numberOfRacesToShow.current));
     }, 100);
   }, [isRacesUpdate, races]);

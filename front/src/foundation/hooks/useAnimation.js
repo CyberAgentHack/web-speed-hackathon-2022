@@ -36,7 +36,6 @@ export function useAnimation({ duration, end, start, timingFunction }) {
     const tick = () => {
       const now = performance.now();
       const elapsed = now - startTime;
-
       if (elapsed >= duration) {
         setValue(end);
         return;
@@ -44,10 +43,7 @@ export function useAnimation({ duration, end, start, timingFunction }) {
 
       const percentage = timingFunction(elapsed / duration);
       setValue(start + (end - start) * percentage);
-
-      timer.current = setTimeout(tick, 0);
     };
-
     timer.current = setTimeout(tick, 0);
   }, [start, end, duration, timingFunction]);
 
