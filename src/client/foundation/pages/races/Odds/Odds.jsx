@@ -1,6 +1,7 @@
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { Container } from "../../../components/layouts/Container";
@@ -40,7 +41,9 @@ const Callout = styled.aside`
 `;
 
 /** @type {React.VFC} */
-export const Odds = ({ metadata, raceId, oddsMap, firstKey, setFirstKey, sortedOdds }) => {
+export const Odds = () => {
+  const { raceId } = useParams();
+  const { data } = useFetch(`/api/races/${raceId}/subset`, jsonFetcher);
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 
@@ -58,15 +61,15 @@ export const Odds = ({ metadata, raceId, oddsMap, firstKey, setFirstKey, sortedO
     [],
   );
 
-  // const isRaceClosed = moment(metadata.closeAt).isBefore(new Date());
-  const isRaceClosed = metadata ? (new Date(metadata.closeAt)) < new Date() : true;
+  // const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  const isRaceClosed = data ? (new Date(data.closeAt)) < new Date() : true;
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{metadata?.name ?? "読み込み中"}</Heading>
+      <Heading as="h1">{data?.name ?? "読み込み中"}</Heading>
       <p>
-      {metadata ? <>開始 {formatTime(metadata.startAt)} 締切 {formatTime(metadata.closeAt)}</> : "読み込み中"}
+      {data ? <>開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}</> : "読み込み中"}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -74,7 +77,7 @@ export const Odds = ({ metadata, raceId, oddsMap, firstKey, setFirstKey, sortedO
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={metadata ? `${metadata.image}_small.avif` : undefined} width={400} />
+        <TrimmedImage height={225} src={data ? `${data.image}_small.avif` : undefined} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -92,7 +95,7 @@ export const Odds = ({ metadata, raceId, oddsMap, firstKey, setFirstKey, sortedO
 
         <Callout $closed={isRaceClosed}>
           <FontAwesomeIcon icon={faInfoCircle} />
-          {metadata ? isRaceClosed
+          {data ? isRaceClosed
             ? "このレースの投票は締め切られています"
             : "オッズをクリックすると拳券が購入できます"
             : "読み込み中…"}
@@ -102,11 +105,8 @@ export const Odds = ({ metadata, raceId, oddsMap, firstKey, setFirstKey, sortedO
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        {metadata ? <OddsTable
-          firstKey={firstKey}
-          setFirstKey={setFirstKey}
-          oddsMap={oddsMap}
-          entries={metadata.entries}
+        {data ? <OddsTable
+          entries={data.entries}
           isRaceClosed={isRaceClosed}
           onClickOdds={handleClickOdds}
           raceId={raceId}
@@ -120,7 +120,6 @@ export const Odds = ({ metadata, raceId, oddsMap, firstKey, setFirstKey, sortedO
           isRaceClosed={isRaceClosed}
           onClickOdds={handleClickOdds}
           raceId={raceId}
-          sortedOdds={sortedOdds}
         />
       </Section>
 
@@ -128,5 +127,3 @@ export const Odds = ({ metadata, raceId, oddsMap, firstKey, setFirstKey, sortedO
     </Container>
   );
 };
-
-export default Odds;

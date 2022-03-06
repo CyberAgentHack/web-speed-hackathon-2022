@@ -6,6 +6,7 @@ import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const ScrollWrapper = styled.div`
@@ -79,12 +80,30 @@ const mapKey = (second, third) => `${second}.${third}`;
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, oddsMap, isRaceClosed, onClickOdds, firstKey, setFirstKey}) => {
+export const OddsTable = ({ entries, isRaceClosed, onClickOdds, raceId }) => {
+  const [firstKey, setFirstKey] = useState(1);
+
+  const { data: oddsMap } = useSWR(`/api/races/${raceId}/odds_map/${firstKey}`, jsonFetcher);
+
   const handleChange = useCallback((e) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
 
   const headNumbers = [...Array(entries.length)].map((_, i) => i + 1).filter(i => i != firstKey);
+
+  /*
+    const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
+    const oddsMap = filteredOdds.reduce((acc, cur) => {
+      const [, second, third] = cur.key;
+      acc[mapKey(second, third)] = cur;
+      return acc;
+    }, {});
+  */
+
+  // FIXME
+  /*if (!oddsMap) {
+    return null;
+  }*/
 
   return (
     <div>
