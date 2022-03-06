@@ -9,7 +9,7 @@ import { GlobalStyle } from "./styles/GlobalStyle";
 /** @type {React.VFC} */
 export const App = () => {
   return (
-    <StyleSheetManager disableCSSOMInjection>
+    <StyleSheetManager>
       <AuthContextProvider>
         <GlobalStyle />
         <BrowserRouter>
