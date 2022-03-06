@@ -7,6 +7,7 @@ import { Routes } from "./routes";
 import { GlobalStyle } from "./styles/GlobalStyle";
 
 /** @type {React.VFC} */
+// eslint-disable-next-line react/display-name
 export const App = () => {
   return (
     <StyleSheetManager disableCSSOMInjection>

@@ -1,5 +1,6 @@
 import moment from "moment-timezone";
-import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import { Between } from "typeorm";
+//import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
@@ -69,7 +70,9 @@ export const apiRoute = async (fastify) => {
           until.utc().format("YYYY-MM-DD HH:mm:ss"),
         ),
       });
-    } else if (since != null) {
+    }
+    /*
+    else if (since != null) {
       Object.assign(where, {
         startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
@@ -78,6 +81,9 @@ export const apiRoute = async (fastify) => {
         startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
     }
+
+     */
+
 
     const races = await repo.find({
       where,

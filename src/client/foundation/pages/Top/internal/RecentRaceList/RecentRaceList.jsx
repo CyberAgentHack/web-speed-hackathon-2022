@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
@@ -79,7 +79,9 @@ const Item = ({ race }) => {
     return () => {
       abortAnimation();
     };
-  }, [race.id, startAnimation, abortAnimation, resetAnimation]);
+  },[race.id, startAnimation, abortAnimation, resetAnimation]);
+
+  console.log("renderCard:"+ race.id)
 
   return (
     <ItemWrapper $opacity={opacity}>

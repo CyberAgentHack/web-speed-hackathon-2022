@@ -1,6 +1,6 @@
 import _ from "lodash";
 import moment from "moment-timezone";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -97,6 +97,25 @@ function useHeroImage(todayRaces) {
   return imageUrl;
 }
 
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const GetRaces = (date) => {
+  const {data: raceData} = useFetch("/api/races", jsonFetcher);
+  console.log("API_GET")
+
+
+  const todayRaces = raceData != null
+      ? [...raceData.races]
+          .sort(
+              (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
+                  moment(a.startAt) - moment(b.startAt),
+          )
+          .filter((/** @type {Model.Race} */ race) =>
+              isSameDay(race.startAt, date),
+          )
+      : [];
+  return todayRaces
+}
+
 /** @type {React.VFC} */
 export const Top = () => {
   const { date = moment().format("YYYY-MM-DD") } = useParams();
@@ -119,7 +138,7 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+ //const { data: raceData } = useFetch("/api/races", jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -129,23 +148,56 @@ export const Top = () => {
     chargeDialogRef.current.showModal();
   }, []);
 
+
   const handleCompleteCharge = useCallback(() => {
     revalidate();
   }, [revalidate]);
 
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
-          )
-      : [];
+  // /api/racesからレースデータを取得し日付順に並び替える
+
+/*  useEffect() => {
+    const res = axios.get("/api/races", jsonFetcher)
+        .then()}
+
+        */
+
+  //const todayRaces = () => {
+
+/*    const {data: raceData} = useFetch("/api/races", jsonFetcher);
+    console.log("API_GET")
+
+
+    const todayRaces = raceData != null
+        ? [...raceData.races]
+            .sort(
+                (/!** @type {Model.Race} *!/ a, /!** @type {Model.Race} *!/ b) =>
+                    moment(a.startAt) - moment(b.startAt),
+            )
+            .filter((/!** @type {Model.Race} *!/ race) =>
+                isSameDay(race.startAt, date),
+            )
+        : [];*/
+
+  //}
+  const todayRaces = GetRaces(date);
+
+
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
   const heroImageUrl = useHeroImage(todayRaces);
+
+  /*const TodayRacesListToShow = () =>{
+    return todayRacesToShow.length > 0 && (
+            <RecentRaceList>
+              {todayRacesToShow.map((race) => (
+                  <RecentRaceList.Item key={race.id} race={race} />
+              ))}
+            </RecentRaceList>
+          )
+  }*/
+
+  //const { dataURL } = TrimmedImage();
+  console.log("Top_Render")
+
 
   return (
     <Container>
@@ -168,13 +220,14 @@ export const Top = () => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        {todayRacesToShow.length > 0 && (
-          <RecentRaceList>
-            {todayRacesToShow.map((race) => (
-              <RecentRaceList.Item key={race.id} race={race} />
-            ))}
-          </RecentRaceList>
-        )}
+          {/*<TodayRacesListToShow />*/}
+          {todayRacesToShow.length > 0 && (
+            <RecentRaceList>
+              {todayRacesToShow.map((race) => (
+                <RecentRaceList.Item key={race.id} race={race} />
+              ))}
+            </RecentRaceList>
+          )}
       </section>
 
       <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />

@@ -37,7 +37,7 @@ class Race {
     ],
     name: "Race",
     orderBy: {
-      startAt: "ASC",
+      startAt: "DESC",
     },
     relations: {
       entries: {
