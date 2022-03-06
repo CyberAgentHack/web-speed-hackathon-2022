@@ -9,7 +9,7 @@ import styled from "styled-components";
  */
 
 const ContainImage = styled.img`
-  object-fit: contain;
+  object-fit: cover;
   aspect-ratio: ${props => props.w} / ${props => props.h};
   height: 100%;`
 
