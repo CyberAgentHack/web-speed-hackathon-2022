@@ -1,5 +1,14 @@
 import BezierEasing from "bezier-easing";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
+
+async function* rAF() {
+  while (true) {
+    const promise = new Promise((resolve) => {
+      requestAnimationFrame(resolve);
+    });
+    yield await promise;
+  }
+}
 
 /**
  * @typedef {object} Params
@@ -23,7 +32,7 @@ import { useCallback, useRef, useState } from "react";
  */
 export function useAnimation({ duration, end, start, timingFunction }) {
   const [value, setValue] = useState(start);
-  const timer = useRef(null);
+  const [aborted, setAborted] = useState(false);
 
   const startAnimation = useCallback(() => {
     // 視覚効果 off のときはアニメーションしない
@@ -33,28 +42,30 @@ export function useAnimation({ duration, end, start, timingFunction }) {
     }
 
     const startTime = performance.now();
-    const tick = () => {
-      const now = performance.now();
-      const elapsed = now - startTime;
 
-      if (elapsed >= duration) {
-        setValue(end);
-        return;
+    (async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      for await (const _ of rAF()) {
+        const now = performance.now();
+        const elapsed = now - startTime;
+
+        if (aborted) {
+          return;
+        }
+
+        if (elapsed >= duration) {
+          setValue(end);
+          return;
+        }
+
+        const percentage = timingFunction(elapsed / duration);
+        setValue(start + (end - start) * percentage);
       }
-
-      const percentage = timingFunction(elapsed / duration);
-      setValue(start + (end - start) * percentage);
-
-      timer.current = setTimeout(tick, 0);
-    };
-
-    timer.current = setTimeout(tick, 0);
-  }, [start, end, duration, timingFunction]);
+    })();
+  }, [aborted, start, end, duration, timingFunction]);
 
   const abortAnimation = useCallback(() => {
-    if (timer.current !== null) {
-      clearInterval(timer.current);
-    }
+    setAborted(true);
   }, []);
 
   const resetAnimation = useCallback(() => {

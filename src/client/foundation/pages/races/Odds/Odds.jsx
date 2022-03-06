@@ -1,4 +1,3 @@
-import moment from "moment-timezone";
 import React, { useCallback, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -11,7 +10,7 @@ import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
 import { Color, Radius, Space } from "../../../styles/variables";
-import { formatTime } from "../../../utils/DateUtils";
+import { formatTime, parseISOString } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
@@ -57,18 +56,17 @@ export const Odds = () => {
     [],
   );
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
-  const isRaceClosed = moment(data.closeAt).isBefore(new Date());
+  const isRaceClosed =
+    data == null
+      ? true
+      : new Date().getTime() - parseISOString(data.closeAt).getTime() > 0;
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
+      <Heading as="h1">{data?.name}</Heading>
       <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        開始 {formatTime(data?.startAt)} 締切 {formatTime(data?.closeAt)}
       </p>
 
       <Spacer mt={Space * 2} />
@@ -76,7 +74,11 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <TrimmedImage
+          height={225}
+          src={data?.image?.replace("{ratio}", "16_9")}
+          width={400}
+        />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -104,10 +106,10 @@ export const Odds = () => {
 
         <Spacer mt={Space * 2} />
         <OddsTable
-          entries={data.entries}
+          entries={data?.entries ?? []}
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
           onClickOdds={handleClickOdds}
+          raceId={raceId}
         />
 
         <Spacer mt={Space * 4} />
@@ -116,8 +118,8 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
           onClickOdds={handleClickOdds}
+          raceId={raceId}
         />
       </Section>
 

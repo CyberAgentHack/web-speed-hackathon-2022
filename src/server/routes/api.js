@@ -1,15 +1,37 @@
-import moment from "moment-timezone";
-import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import _ from "lodash";
+import moment from "moment";
+// import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import zenginCode from "zengin-code";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
-import { initialize } from "../typeorm/initialize.js";
+import { changeImageUrl, initialize } from "../typeorm/initialize.js";
 
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
+  fastify.get("/banklist", async (req, res) => {
+    res.header("Cache-Control", "public, max-age=86400");
+    res.send(
+      Object.entries(zenginCode).map(([code, { name }]) => ({
+        code,
+        name,
+      })),
+    );
+  });
+
+  fastify.get("/bank/:code", async (req, res) => {
+    const { code } = req.params;
+    res.header("Cache-Control", "public, max-age=86400");
+    res.send(zenginCode[code]);
+  });
+
+  fastify.addHook("onRequest", async (req, res) => {
+    res.header("Cache-Control", "max-age=0");
+  });
+
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
@@ -40,10 +62,43 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.jpg");
+    const url = assets("/images/resized/hero.avif");
     const hash = Math.random().toFixed(10).substring(2);
 
     res.send({ hash, url });
+  });
+
+  fastify.get("/odds/:raceId/:firstKey", async (req, res) => {
+    const { firstKey, raceId } = req.params;
+
+    const repo = (await createConnection()).getRepository(Race);
+
+    const { trifectaOdds } = await repo.findOne(raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    const filtteredOdds = trifectaOdds.filter(
+      (item) => item.key[0] == firstKey,
+    );
+
+    res.send(filtteredOdds);
+  });
+
+  fastify.get("/oddsrank/:raceId", async (req, res) => {
+    const { raceId } = req.params;
+
+    const repo = (await createConnection()).getRepository(Race);
+
+    const { trifectaOdds: odds } = await repo.findOne(raceId, {
+      relations: ["trifectaOdds"],
+    });
+
+    const sortedOdds = _.take(
+      _.sortBy(odds, ["odds", "id"]),
+      50,
+    );
+
+    res.send(sortedOdds);
   });
 
   fastify.get("/races", async (req, res) => {
@@ -61,12 +116,12 @@ export const apiRoute = async (fastify) => {
 
     const repo = (await createConnection()).getRepository(Race);
 
-    const where = {};
+    /*
     if (since != null && until != null) {
       Object.assign(where, {
         startAt: Between(
-          since.utc().format("YYYY-MM-DD HH:mm:ss"),
-          until.utc().format("YYYY-MM-DD HH:mm:ss"),
+          since.utc().format(),
+          until.utc().format(),
         ),
       });
     } else if (since != null) {
@@ -75,13 +130,22 @@ export const apiRoute = async (fastify) => {
       });
     } else if (until != null) {
       Object.assign(where, {
-        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+        startAt: LessThanOrEqual(until.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
     }
+    */
 
-    const races = await repo.find({
-      where,
-    });
+    const races = await repo.find();
+
+    if (since && until) {
+      const filtered = races.filter((race) => {
+        const unix = moment.unix(race.startAt);
+        return since.unix() <= unix.unix() && unix.unix() < until.unix();
+      });
+
+      res.send({ races: filtered });
+      return;
+    }
 
     res.send({ races });
   });
@@ -90,7 +154,7 @@ export const apiRoute = async (fastify) => {
     const repo = (await createConnection()).getRepository(Race);
 
     const race = await repo.findOne(req.params.raceId, {
-      relations: ["entries", "entries.player", "trifectaOdds"],
+      relations: ["entries", "entries.player"],
     });
 
     if (race === undefined) {
@@ -167,6 +231,7 @@ export const apiRoute = async (fastify) => {
 
   fastify.post("/initialize", async (_req, res) => {
     await initialize();
+    await changeImageUrl();
     res.status(204).send();
   });
 };

@@ -31,7 +31,7 @@ const Item = ({ image, name, number }) => {
       <TrimmedImage
         alt={`${name}選手のプロフィール写真`}
         height={100}
-        src={image}
+        src={image?.replace("{ratio}", "1_1")}
         width={100}
       />
 

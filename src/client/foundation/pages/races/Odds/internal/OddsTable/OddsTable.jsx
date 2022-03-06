@@ -1,11 +1,12 @@
-import _ from "lodash";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
+import { useFetch } from "../../../../../hooks/useFetch";
 import { Color, FontSize, Space } from "../../../../../styles/variables";
+import { jsonFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const ScrollWrapper = styled.div`
@@ -80,21 +81,29 @@ const mapKey = (second, third) => `${second}.${third}`;
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
+export const OddsTable = ({ entries, isRaceClosed, onClickOdds, raceId }) => {
   const [firstKey, setFirstKey] = useState(1);
 
   const handleChange = useCallback((e) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
 
-  const headNumbers = _.without(_.range(1, entries.length + 1), firstKey);
+  const headNumbers = [];
+  for (let i = 1; i <= (entries.length || 8); i++) {
+    if (i != firstKey) headNumbers.push(i);
+  }
 
-  const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
-  const oddsMap = filteredOdds.reduce((acc, cur) => {
-    const [, second, third] = cur.key;
-    acc[mapKey(second, third)] = cur;
-    return acc;
-  }, {});
+  const { data: filteredOdds } = useFetch(
+    `/api/odds/${raceId}/${firstKey}`,
+    jsonFetcher,
+  );
+
+  const oddsMap =
+    filteredOdds?.reduce((acc, cur) => {
+      const [, second, third] = cur.key;
+      acc[mapKey(second, third)] = cur;
+      return acc;
+    }, {}) ?? {};
 
   return (
     <div>
@@ -141,11 +150,15 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
                         {second !== third ? (
                           isRaceClosed ? (
                             <InactiveBuyButton>
-                              <OddsMarker odds={item.odds} />
+                              <OddsMarker odds={item?.odds} />
                             </InactiveBuyButton>
                           ) : (
-                            <BuyButton onClick={() => onClickOdds(item)}>
-                              <OddsMarker odds={item.odds} />
+                            <BuyButton
+                              onClick={() => {
+                                if (item) onClickOdds(item);
+                              }}
+                            >
+                              <OddsMarker odds={item?.odds} />
                             </BuyButton>
                           )
                         ) : (

@@ -2,6 +2,9 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const nodeExternals = require("webpack-node-externals");
 
 function abs(...args) {
@@ -16,9 +19,9 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
-    devtool: "inline-source-map",
+    devtool: "source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: process.env.NODE_ENV || "development",
     module: {
       rules: [
         {
@@ -34,16 +37,7 @@ module.exports = [
           use: {
             loader: "babel-loader",
             options: {
-              presets: [
-                [
-                  "@babel/preset-env",
-                  {
-                    modules: "cjs",
-                    spec: true,
-                  },
-                ],
-                "@babel/preset-react",
-              ],
+              presets: [["@babel/preset-env", {}], "@babel/preset-react"],
             },
           },
         },
@@ -57,6 +51,10 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      new BundleAnalyzerPlugin({
+        analyzerMode: "static",
+      }),
+      new MomentLocalesPlugin({ localesToKeep: [] }),
     ],
     resolve: {
       extensions: [".js", ".jsx"],
@@ -64,7 +62,7 @@ module.exports = [
     target: "web",
   },
   {
-    devtool: "inline-source-map",
+    devtool: "source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
     mode: "development",
@@ -81,7 +79,9 @@ module.exports = [
                   "@babel/preset-env",
                   {
                     modules: "cjs",
-                    spec: true,
+                    targets: {
+                      node: "current",
+                    },
                   },
                 ],
                 "@babel/preset-react",
