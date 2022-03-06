@@ -64,7 +64,6 @@
     "@loadable/server": "^5.15.2",
     "axios": "^0.25.0",
     "bezier-easing": "^2.1.0",
-    "compression": "^1.7.4",
     "compression-webpack-plugin": "^9.2.0",
     "es5-shim": "^4.6.5",
     "es6-shim": "^0.35.6",

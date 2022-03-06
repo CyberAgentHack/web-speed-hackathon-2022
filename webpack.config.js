@@ -20,7 +20,7 @@ module.exports = [
   {
     // devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: "develop",
     module: {
       rules: [
         {
@@ -61,7 +61,17 @@ module.exports = [
       }),
       new LoadablePlugin(),
       new CompressionPlugin({
-        algorithm: "gzip",
+        filename: "[path][base].br",
+        algorithm: "brotliCompress",
+        test: /\.(js|css|html|svg)$/,
+        compressionOptions: {
+          params: {
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+          },
+        },
+        threshold: 10240,
+        minRatio: 0.8,
+        deleteOriginalAssets: false,
       }),
     ],
     resolve: {
@@ -73,7 +83,7 @@ module.exports = [
     // devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
-    mode: "development",
+    mode: "develop",
     module: {
       rules: [
         {
