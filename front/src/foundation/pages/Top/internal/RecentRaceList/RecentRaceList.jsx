@@ -16,10 +16,11 @@ export const RecentRaceList = memo(({ children }) => (
   </Stack>
 ));
 
-const ItemWrapper = styled.li`
+const ItemWrapper = styled.li.attrs((props) => ({
+  opacity: props.opacity,
+}))`
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
-  opacity: ${({ $opacity }) => $opacity};
   padding: ${Space * 3}px;
 `;
 

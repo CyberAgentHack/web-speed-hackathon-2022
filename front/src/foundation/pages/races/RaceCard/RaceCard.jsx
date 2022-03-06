@@ -49,8 +49,8 @@ export const RaceCard = () => {
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
         <TrimmedImage2
-          src={convertToAVIFMain(data.image, "jpg")}
           height={225}
+          src={convertToAVIFMain(data.image, "jpg")}
           width={400}
         />
       </Section>

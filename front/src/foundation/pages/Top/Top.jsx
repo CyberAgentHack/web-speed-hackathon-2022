@@ -25,6 +25,17 @@ import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
+const ChargeButton = styled.button`
+  background: ${Color.mono[700]};
+  border-radius: ${Radius.MEDIUM};
+  color: ${Color.mono[0]};
+  padding: ${Space * 1}px ${Space * 2}px;
+
+  &:hover {
+    background: ${Color.mono[800]};
+  }
+`;
+
 // const ChargeDialog = React.lazy(() => import("./internal/ChargeDialog"));
 /**
  * @param {Model.Race[]} races
@@ -101,17 +112,6 @@ export const Top = () => {
       setChargeDialog(ChargeDialog);
     })();
   }, [userId]);
-
-  const ChargeButton = styled.button`
-    background: ${Color.mono[700]};
-    border-radius: ${Radius.MEDIUM};
-    color: ${Color.mono[0]};
-    padding: ${Space * 1}px ${Space * 2}px;
-
-    &:hover {
-      background: ${Color.mono[800]};
-    }
-  `;
 
   const chargeDialogRef = useRef(null);
 

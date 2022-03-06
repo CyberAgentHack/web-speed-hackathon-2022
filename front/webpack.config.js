@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 
-const CopyPlugin = require("copy-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+// const CopyPlugin = require("copy-webpack-plugin");
 // const BundleAnalyzerPlugin =
 //   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 // const ImageminWebpWebpackPlugin = require("imagemin-webp-webpack-plugin");
@@ -11,7 +12,7 @@ function abs(...args) {
 }
 
 const SRC_ROOT = abs("./src");
-const PUBLIC_ROOT = abs("./public");
+// const PUBLIC_ROOT = abs("./public");
 const DIST_PUBLIC = abs("./dist/public");
 
 /** @type {Array<import('webpack').Configuration>} */
@@ -32,33 +33,36 @@ module.exports = [
         },
         {
           exclude: /node_modules/,
-          test: /\.jsx?$/,
+          test: /\.(js|jsx)?$/,
           use: {
             loader: "babel-loader",
             options: {
-              presets: [
-                [
-                  "@babel/preset-env",
-                  {
-                    modules: "cjs",
-                    spec: true,
-                  },
-                ],
-                "@babel/preset-react",
-              ],
+              presets: ["@babel/preset-react"],
             },
           },
         },
       ],
     },
     name: "client",
+    optimization: {
+      chunkIds: "named",
+      minimizer: [
+        new TerserPlugin({
+          parallel: true,
+          terserOptions: {
+            // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+          },
+        }),
+      ],
+    },
     output: {
+      filename: "[name].bundle.js",
       path: DIST_PUBLIC,
     },
     plugins: [
-      new CopyPlugin({
-        patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
-      }),
+      // new CopyPlugin({
+      //   patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
+      // }),
       // https://www.npmjs.com/package/imagemin-webp
       // new ImageminWebpWebpackPlugin({
       //   config: [

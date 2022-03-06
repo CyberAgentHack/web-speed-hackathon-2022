@@ -82,9 +82,9 @@ export const Odds = () => {
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
         <TrimmedImage2
+          height={225}
           src={convertToAVIFMain(entries.image, "jpg")}
           width={400}
-          height={225}
         />
       </Section>
 
