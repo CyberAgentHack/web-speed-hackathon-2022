@@ -60,7 +60,7 @@ module.exports = [
       path: DIST_PUBLIC,
     },
     plugins: [
-      new BundleAnalyzerPlugin(),
+      // new BundleAnalyzerPlugin(),
       new PurgecssPlugin({
         paths: glob.sync(`${DIST_PUBLIC}/**/*`,  { nodir: true }),
       }),
