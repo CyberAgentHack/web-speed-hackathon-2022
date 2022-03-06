@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import React, { forwardRef, useCallback, useState } from "react";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
