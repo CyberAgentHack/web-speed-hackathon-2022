@@ -1,15 +1,19 @@
-import moment from "moment-timezone";
+// import moment from "moment-timezone";
+import dayjs from "dayjs"
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
+import fastifyResponseCaching from 'fastify-response-caching';
+import zenginCode from "zengin-code";
 
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
+  fastify.register(fastifyResponseCaching, { ttl: 5000 })
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
@@ -39,8 +43,19 @@ export const apiRoute = async (fastify) => {
     res.status(204).send();
   });
 
+  fastify.get("/banks.json", async (req, res) => {
+    res.send(zenginCode)
+    // const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
+    //   code,
+    //   name,
+    // }));
+    // const hash = {}
+    // for user
+    // res.send(bankList)
+  })
+
   fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.jpg");
+    const url = assets("/images/hero.jpg.avif");
     const hash = Math.random().toFixed(10).substring(2);
 
     res.send({ hash, url });
@@ -48,9 +63,9 @@ export const apiRoute = async (fastify) => {
 
   fastify.get("/races", async (req, res) => {
     const since =
-      req.query.since != null ? moment.unix(req.query.since) : undefined;
+      req.query.since != null ? dayjs.unix(req.query.since) : undefined;
     const until =
-      req.query.until != null ? moment.unix(req.query.until) : undefined;
+      req.query.until != null ? dayjs.unix(req.query.until) : undefined;
 
     if (since != null && !since.isValid()) {
       throw fastify.httpErrors.badRequest();

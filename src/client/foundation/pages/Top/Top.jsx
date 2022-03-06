@@ -1,5 +1,8 @@
-import _ from "lodash";
-import moment from "moment-timezone";
+// import { difference, slice } from "lodash";
+import difference from "lodash/difference";
+import slice from "lodash/slice";
+// import moment from "moment-timezone";
+import dayjs from 'dayjs'
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -31,7 +34,7 @@ function useTodayRacesWithAnimation(races) {
 
   useEffect(() => {
     const isRacesUpdate =
-      _.difference(
+      difference(
         races.map((e) => e.id),
         prevRaces.current.map((e) => e.id),
       ).length !== 0;
@@ -62,7 +65,7 @@ function useTodayRacesWithAnimation(races) {
       }
 
       numberOfRacesToShow.current++;
-      setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
+      setRacesToShow(slice(races, 0, numberOfRacesToShow.current));
     }, 100);
   }, [isRacesUpdate, races]);
 
@@ -99,7 +102,7 @@ function useHeroImage(todayRaces) {
 
 /** @type {React.VFC} */
 export const Top = () => {
-  const { date = moment().format("YYYY-MM-DD") } = useParams();
+  const { date = dayjs().format("YYYY-MM-DD") } = useParams();
 
   const ChargeButton = styled.button`
     background: ${Color.mono[700]};
@@ -138,7 +141,7 @@ export const Top = () => {
       ? [...raceData.races]
           .sort(
             (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              moment(a.startAt) - moment(b.startAt),
+              dayjs(a.startAt) - dayjs(b.startAt),
           )
           .filter((/** @type {Model.Race} */ race) =>
             isSameDay(race.startAt, date),
@@ -176,8 +179,9 @@ export const Top = () => {
           </RecentRaceList>
         )}
       </section>
-
-      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      {userData &&
+        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      }
     </Container>
   );
 };
