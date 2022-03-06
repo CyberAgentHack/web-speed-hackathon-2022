@@ -1,5 +1,7 @@
 FROM node:16.13.1 AS builder
 
+ENV NODE_OPTIONS="--max-old-space-size=2048"
+
 WORKDIR /usr/src/app
 
 COPY ./.yarn ./.yarn
