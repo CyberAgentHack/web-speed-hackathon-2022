@@ -11,7 +11,7 @@ export const spaRoute = async (fastify) => {
     res.header("Cache-Control", "max-age=3600, s-maxage=86400, public, immutable");
   });
 
-  server.register(
+  fastify.register(
     fastifyCompress,
     { threshold: 2048 }
   )
