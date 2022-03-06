@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
@@ -74,7 +74,6 @@ const Item = ({ delay, lazy, race }) => {
 
     return () => {
       clearTimeout(timer);
-      console.log("return");
       setDuration(0);
       setOpacity(0);
     };
@@ -110,4 +109,4 @@ const Item = ({ delay, lazy, race }) => {
     </ItemWrapper>
   );
 };
-RecentRaceList.Item = Item;
+RecentRaceList.Item = React.memo((props) => <Item {...props} />);
