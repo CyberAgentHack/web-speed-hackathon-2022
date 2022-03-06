@@ -14,12 +14,12 @@ export const Routes = () => {
     <RouterRoutes>
       <Route element={<CommonLayout />} path="/">
         
-          <Route index element={<Suspense fallback={<div style={{height:"100vh"}}>loading...</div>}><Top /></Suspense>} />
-          <Route element={<Suspense fallback={<div style={{height:"100vh"}}>loading...</div>}><Top /></Suspense>} path=":date" />
+          <Route index element={<Suspense fallback={<div style={{height:"100vh", marginTop:"16px"}}>loading...</div>}><Top /></Suspense>} />
+          <Route element={<Suspense fallback={<div style={{height:"100vh", marginTop:"16px"}}>loading...</div>}><Top /></Suspense>} path=":date" />
           <Route path="races/:raceId">
-            <Route element={<Suspense fallback={<div style={{height:"100vh"}}>loading...</div>}><RaceCard /></Suspense>} path="race-card" />
-            <Route element={<Suspense fallback={<div style={{height:"100vh"}}>loading...</div>}><Odds /></Suspense>} path="odds" />
-            <Route element={<Suspense fallback={<div style={{height:"100vh"}}>loading...</div>}><RaceResult /></Suspense>} path="result" />
+            <Route element={<Suspense fallback={<div style={{height:"100vh", marginTop:"16px"}}>loading...</div>}><RaceCard /></Suspense>} path="race-card" />
+            <Route element={<Suspense fallback={<div style={{height:"100vh", marginTop:"16px"}}>loading...</div>}><Odds /></Suspense>} path="odds" />
+            <Route element={<Suspense fallback={<div style={{height:"100vh", marginTop:"16px"}}>loading...</div>}><RaceResult /></Suspense>} path="result" />
           </Route>
       </Route>
     </RouterRoutes>
