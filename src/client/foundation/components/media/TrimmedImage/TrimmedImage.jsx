@@ -9,5 +9,5 @@ import React from "react";
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
-  return <img alt="" decoding='async' loading='async' src={src.slice(0,-3)+'webp'} style={{height: height+'px', width: width+'px'}} />;
+  return <img alt="" src={src.slice(0,-3)+'webp'} style={{height: height+'px', width: width+'px'}} />;
 };
