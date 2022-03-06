@@ -7,8 +7,6 @@ CMD /bin/sh -c "envsubst '\$PORT' < /etc/nginx/conf.d/default.conf.template > /e
 
 FROM node:16.13.1 AS builder
 
-WORKDIR /usr/src/app
-
 COPY ./.yarn ./.yarn
 COPY ./src ./src
 COPY ./package.json ./package.json
