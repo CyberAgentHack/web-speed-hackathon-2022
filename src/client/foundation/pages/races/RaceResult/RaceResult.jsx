@@ -36,7 +36,7 @@ const Head = styled.div`
 /** @type {React.VFC} */
 export const RaceResult = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data } = useFetch(`/api/races/${raceId}/other`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher,

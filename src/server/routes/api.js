@@ -86,20 +86,33 @@ export const apiRoute = async (fastify) => {
     res.send({ races });
   });
 
-  fastify.get("/races/:raceId", async (req, res) => {
+  fastify.get("/races/:raceId/:kind", async (req, res) => {
     const repo = (await createConnection()).getRepository(Race);
 
     const race = await repo.findOne(req.params.raceId, {
       relations: ["entries", "entries.player", "trifectaOdds"],
     });
-    const race2 = {
-      closeAt: race.closeAt,
-      entries: race.entries,
-      id: race.entries,
-      image: race.image,
-      name: race.name,
-      startAt: race.startAt,
-    };
+    let race2;
+    if (req.params.kind === "odds") {
+      race2 = {
+        closeAt: race.closeAt,
+        entries: race.entries,
+        id: race.entries,
+        image: race.image,
+        name: race.name,
+        startAt: race.startAt,
+        trifectaOdds: race.trifectaOdds,
+      };
+    } else {
+      race2 = {
+        closeAt: race.closeAt,
+        entries: race.entries,
+        id: race.entries,
+        image: race.image,
+        name: race.name,
+        startAt: race.startAt,
+      };
+    }
     if (race2 === undefined) {
       throw fastify.httpErrors.notFound();
     }
@@ -107,23 +120,23 @@ export const apiRoute = async (fastify) => {
     res.send(race2);
   });
 
-  fastify.get("/odds/:raceId/:index", async (req, res) => {
-    const repo = (await createConnection()).getRepository(Race);
+  // fastify.get("/odds/:raceId/:index", async (req, res) => {
+  //   const repo = (await createConnection()).getRepository(Race);
 
-    const race = await repo.findOne(req.params.raceId, {
-      relations: ["entries", "entries.player", "trifectaOdds"],
-    });
-    const odds = { trifectaOdds: race.trifectaOdds };
+  //   const race = await repo.findOne(req.params.raceId, {
+  //     relations: ["entries", "entries.player", "trifectaOdds"],
+  //   });
+  //   const odds = { trifectaOdds: race.trifectaOdds };
 
-    if (odds === undefined) {
-      throw fastify.httpErrors.notFound();
-    }
-    // const odds2 = odds.slice(
-    //   100 * (req.params.index - 1),
-    //   100 * req.params.index,
-    // );
-    res.send(odds);
-  });
+  //   if (odds === undefined) {
+  //     throw fastify.httpErrors.notFound();
+  //   }
+  //   // const odds2 = odds.slice(
+  //   //   100 * (req.params.index - 1),
+  //   //   100 * req.params.index,
+  //   // );
+  //   res.send(odds);
+  // });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
     if (req.user == null) {

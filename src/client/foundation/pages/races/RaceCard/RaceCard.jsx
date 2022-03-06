@@ -35,7 +35,7 @@ const Head = styled.div`
 /** @type {React.VFC} */
 export const RaceCard = () => {
   const { raceId } = useParams();
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data } = useFetch(`/api/races/${raceId}/other`, jsonFetcher);
 
   if (data == null) {
     return (
