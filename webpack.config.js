@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
+// const zlib = require("zlib");
 
-// const CompressionPlugin = require("compression-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 // const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
@@ -81,18 +82,19 @@ module.exports = [
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
       new MomentLocalesPlugin({ localesToKeep: ["ja"] }),
-      // new CompressionPlugin({
-      //   algorithm: "brotliCompress",
-      //   compressionOptions: {
-      //     params: {
-      //       [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
-      //     },
-      //   },
-      //   filename: "[path][base].br",
-      //   minRatio: 1,
-      //   test: /\.(js|css|html|svg)$/,
-      //   threshold: 860,
-      // }),
+      new CompressionPlugin({
+        // algorithm: "brotliCompress",
+        compressionOptions: {
+          // params: {
+          //   [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+          // },
+          level: 9,
+        },
+        filename: "[path][base].br",
+        minRatio: 1,
+        test: /\.(js|css|html|svg)$/,
+        threshold: 860,
+      }),
       // new BundleAnalyzerPlugin(),
     ],
     resolve: {
