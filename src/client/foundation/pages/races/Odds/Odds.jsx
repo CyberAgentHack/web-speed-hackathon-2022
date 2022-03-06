@@ -152,8 +152,8 @@ export const Odds = () => {
         <OddsTable
           entries={data.entries}
           isRaceClosed={isRaceClosed}
+          odds={data.trifectaOdds}
           onClickOdds={handleClickOdds}
-          preOdds={data.trifectaOdds}
         />
 
         <Spacer mt={Space * 4} />
@@ -162,6 +162,7 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <OddsRankingList
           isRaceClosed={isRaceClosed}
+          odds={data.trifectaOdds}
           onClickOdds={handleClickOdds}
         />
       </Section>

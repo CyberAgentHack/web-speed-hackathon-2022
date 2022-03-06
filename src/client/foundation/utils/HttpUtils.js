@@ -1,8 +1,13 @@
-import axios from "axios";
-
 export const jsonFetcher = async (/** @type {string} */ url) => {
-  const res = await axios.get(url, { responseType: "json" });
-  return res.data;
+  let res;
+  await fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((json) => {
+      res = json;
+    });
+  return res;
 };
 
 /**
@@ -10,9 +15,13 @@ export const jsonFetcher = async (/** @type {string} */ url) => {
  * @param {string} userId
  */
 export const authorizedJsonFetcher = async (url, userId) => {
-  const res = await axios.get(url, {
+  let res;
+  await fetch(url, {
     headers: { "x-app-userid": userId },
-    responseType: "json",
-  });
-  return res.data;
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      res = json;
+    });
+  return res;
 };

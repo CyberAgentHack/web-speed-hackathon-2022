@@ -1,6 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
@@ -60,23 +58,32 @@ const RankNo = styled.div`
 
 /**
  * @typedef Props
+ * @property {Model.OddsItem[]} odds
  * @property {boolean} isRaceClosed
  * @property {(odds: Model.OddsItem) => void} onClickOdds
  */
 
 /** @type {React.VFC<Props>} */
+const take = (arr, qty = 1) => [...arr].splice(0, qty);
+const compare = (a, b) => {
+  const oddsA = a.odds;
+  const oddsB = b.odds;
 
-export const OddsRankingList = ({ isRaceClosed, onClickOdds }) => {
-  const { raceId } = useParams();
-  const [data2, setData2] = useState([]);
-  useEffect(() => {
-    axios.get(`/api/oddsRank/${raceId}`).then((res) => {
-      setData2(res.data.trifectaOdds);
-    });
-  }, []);
+  let comparison = 0;
+  if (oddsA > oddsB) {
+    comparison = 1;
+  } else if (oddsA < oddsB) {
+    comparison = -1;
+  }
+  return comparison;
+};
+
+export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
+  const sortedOdds = take(odds.sort(compare), 50);
+
   return (
     <Wrapper>
-      {data2.map((item, i) => (
+      {sortedOdds.map((item, i) => (
         <li key={item.id}>
           {isRaceClosed ? (
             <InactiveBuyButton>

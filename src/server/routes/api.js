@@ -94,9 +94,6 @@ export const apiRoute = async (fastify) => {
     });
     let race2;
     if (req.params.kind === "odds") {
-      const filteredOdds = race.trifectaOdds.filter(
-        (item) => item.key[0] === 1,
-      );
       race2 = {
         closeAt: race.closeAt,
         entries: race.entries,
@@ -104,7 +101,7 @@ export const apiRoute = async (fastify) => {
         image: race.image,
         name: race.name,
         startAt: race.startAt,
-        trifectaOdds: filteredOdds,
+        trifectaOdds: race.trifectaOdds,
       };
     } else {
       race2 = {
@@ -123,51 +120,23 @@ export const apiRoute = async (fastify) => {
     res.send(race2);
   });
 
-  fastify.get("/odds/:raceId/:index", async (req, res) => {
-    const repo = (await createConnection()).getRepository(Race);
+  // fastify.get("/odds/:raceId/:index", async (req, res) => {
+  //   const repo = (await createConnection()).getRepository(Race);
 
-    const race = await repo.findOne(req.params.raceId, {
-      relations: ["entries", "entries.player", "trifectaOdds"],
-    });
-    const filteredOdds = race.trifectaOdds.filter(
-      (item) => item.key[0] == req.params.index,
-    );
+  //   const race = await repo.findOne(req.params.raceId, {
+  //     relations: ["entries", "entries.player", "trifectaOdds"],
+  //   });
+  //   const odds = { trifectaOdds: race.trifectaOdds };
 
-    if (filteredOdds === undefined) {
-      throw fastify.httpErrors.notFound();
-    }
-    const odds = { trifectaOdds: filteredOdds };
-    res.send(odds);
-  });
-
-  fastify.get("/oddsRank/:raceId", async (req, res) => {
-    const repo = (await createConnection()).getRepository(Race);
-
-    const race = await repo.findOne(req.params.raceId, {
-      relations: ["entries", "entries.player", "trifectaOdds"],
-    });
-
-    const take = (arr, qty = 1) => [...arr].splice(0, qty);
-    const compare = (a, b) => {
-      const oddsA = a.odds;
-      const oddsB = b.odds;
-      let comparison = 0;
-      if (oddsA > oddsB) {
-        comparison = 1;
-      } else if (oddsA < oddsB) {
-        comparison = -1;
-      }
-      return comparison;
-    };
-
-    if (race.trifectaOdds === undefined) {
-      throw fastify.httpErrors.notFound();
-    }
-    const sortedOdds = take(race.trifectaOdds.sort(compare), 50);
-    const odds = { trifectaOdds: sortedOdds };
-
-    res.send(odds);
-  });
+  //   if (odds === undefined) {
+  //     throw fastify.httpErrors.notFound();
+  //   }
+  //   // const odds2 = odds.slice(
+  //   //   100 * (req.params.index - 1),
+  //   //   100 * req.params.index,
+  //   // );
+  //   res.send(odds);
+  // });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
     if (req.user == null) {
