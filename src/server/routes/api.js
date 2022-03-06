@@ -2,6 +2,7 @@ import moment from "moment";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import zenginCode from "zengin-code";
 
+import { isSameDay } from "../../client/foundation/utils/DateUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
@@ -94,31 +95,18 @@ export const apiRoute = async (fastify) => {
     res.send({ races });
   });
 
-  fastify.get("/betweenraces/:since/:until", async (req, res) => {
-    const since = moment.unix(req.params.since);
-    const until = moment.unix(req.params.until);
-
-    if (since != null && !since.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
-    if (until != null && !until.isValid()) {
-      throw fastify.httpErrors.badRequest();
-    }
+  fastify.get("/todayraces/:date", async (req, res) => {
+    const date = moment(req.params.date);
 
     const repo = (await createConnection()).getRepository(Race);
 
     const where = {};
-      Object.assign(where, {
-        startAt: Between(
-          since.utc().format("YYYY-MM-DD HH:mm:ss"),
-          until.utc().format("YYYY-MM-DD HH:mm:ss"),
-        ),
-      });
 
-    const races = await repo.find({
-      where,
-    })
-    races.sort((a,b)=>moment(b.startAt)-moment(b.startAt))
+      const races = await repo.find({
+        where,
+      })
+
+    races.filter((race)=>isSameDay(race.startAt,date)).sort((a,b)=>moment(b.startAt)-moment(b.startAt))
     res.send({ races });
   });
 
