@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -123,11 +123,11 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
               ))}
             </datalist>
 
-            {bank != null && (
+            {/* {bank != null && (
               <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
                 銀行名: {bank.name}銀行
               </motion.div>
-            )}
+            )} */}
 
             <AnimatedDiv visible={bank != null}>
               銀行名: {bank?.name}銀行
@@ -151,11 +151,11 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
                 ))}
             </datalist>
 
-            {branch && (
+            {/* {branch && (
               <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
                 支店名: {branch.name}
               </motion.div>
-            )}
+            )} */}
             <AnimatedDiv visible={branch != null}>
               支店名: {branch?.name}
             </AnimatedDiv>
