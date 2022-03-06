@@ -1,12 +1,14 @@
 import dayjs from "dayjs";
 import { difference, slice } from "lodash-es";
 import React, {
+  lazy,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
+  Suspense,
 } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -17,14 +19,14 @@ import { Stack } from "../../components/layouts/Stack";
 import { Heading } from "../../components/typographies/Heading";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
-import { useFetch } from "../../hooks/useFetch";
 import { useFetch2 } from "../../hooks/useFetch2";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { HeroImage } from "./internal/HeroImage";
-import { RecentRaceList } from "./internal/RecentRaceList";
+
+const RecentRaceList = lazy(() => import("./internal/RecentRaceList"));
 
 const ChargeButton = styled.button`
   background: ${Color.mono[700]};
@@ -121,8 +123,6 @@ export const Top = () => {
 
   const { data: raceData } = useFetch2(`/api/races`, jsonFetcher);
 
-  console.log({ raceData });
-
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
       return;
@@ -172,13 +172,11 @@ export const Top = () => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        {todayRacesToShow.length > 0 && (
-          <RecentRaceList>
-            {todayRacesToShow.map((race) => (
-              <RecentRaceList.Item key={race.id} race={race} />
-            ))}
-          </RecentRaceList>
-        )}
+        <Suspense fallback={null}>
+          {todayRacesToShow.length > 0 && (
+            <RecentRaceList todayRacesToShow={todayRacesToShow} />
+          )}
+        </Suspense>
       </section>
 
       {ChargeDialog && (

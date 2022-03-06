@@ -1,1 +1,1 @@
-export * from "./RecentRaceList";
+export { RecentRaceList as default } from "./RecentRaceList";

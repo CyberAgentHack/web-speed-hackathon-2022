@@ -46,10 +46,8 @@ export function useFetch2(apiPath, fetcher) {
       loading: true,
     }));
 
-    console.log({ since, until });
-
     const promise = fetcher(
-      baseUrl + apiPath + `?since=${since}&until=${until}`,
+      baseUrl + apiPath + "?since=1646492400&until=1646578800",
     );
 
     promise.then((data) => {
