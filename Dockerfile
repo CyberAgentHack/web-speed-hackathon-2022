@@ -10,7 +10,7 @@ EXPOSE 80
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /var/www
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/conf.d/wsh.conf
 
 WORKDIR /usr/share/nginx/html
 CMD nginx
