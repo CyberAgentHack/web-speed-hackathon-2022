@@ -6,8 +6,6 @@ COPY . /app
 RUN yarn
 RUN yarn build
 
-EXPOSE 8080
-
 FROM nginx:alpine
 COPY --from=builder /app/dist /var/www
 COPY ./nginx.conf /etc/nginx/conf.d/wsh.conf
