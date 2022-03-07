@@ -11,4 +11,4 @@ COPY --from=builder /app/dist /var/www
 COPY ./nginx.conf /etc/nginx/conf.d/wsh.conf
 
 WORKDIR /usr/share/nginx/html
-CMD sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/conf.d/wsh.conf && nginx -g 'daemon off;'
+CMD sed -i -e 's/PORT/'"$PORT"'/g' /etc/nginx/conf.d/wsh.conf && nginx -g 'daemon off;'
