@@ -6,7 +6,7 @@ COPY . /app
 RUN yarn
 RUN yarn build
 
-EXPOSE 80
+EXPOSE 8080
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /var/www
