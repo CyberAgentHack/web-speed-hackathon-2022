@@ -22,7 +22,10 @@ const server = fastify({
         },
       },
 });
-server.register(fastifyCompress);
+server.register(fastifyCompress, {
+  // Only support gzip
+  requestEncodings: ['gzip'],
+});
 server.register(fastifySensible);
 
 server.addHook("onRequest", async (req, res) => {
