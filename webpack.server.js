@@ -11,6 +11,7 @@ const SRC_ROOT = abs("./src");
 const DIST_ROOT = abs("./dist");
 
 module.exports = {
+  devtool: "inline-source-map",
   entry: path.join(SRC_ROOT, "server/index.js"),
   externals: [nodeExternals()],
   mode: "development",

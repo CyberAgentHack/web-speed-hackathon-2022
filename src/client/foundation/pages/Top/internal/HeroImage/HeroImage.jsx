@@ -9,10 +9,12 @@ const Image = styled.img`
 /**
  * @typedef Props
  * @type {object}
+ * @property {number} height
  * @property {string} url
+ * @property {number} width
  */
 
 /** @type {React.VFC<Props>} */
-export const HeroImage = ({ url }) => {
-  return <Image alt="" src={url} />;
+export const HeroImage = ({ height, url, width }) => {
+  return <Image alt="" height={height} src={url} width={width} />;
 };

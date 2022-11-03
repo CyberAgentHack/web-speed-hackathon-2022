@@ -38,7 +38,7 @@ const calcImageSize = (cv, img) => {
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
-  const [dataUrl, setDataUrl] = useState(null);
+  const [dataUrl, setDataUrl] = useState("");
 
   useEffect(() => {
     const img = new Image();
@@ -65,5 +65,5 @@ export const TrimmedImage = ({ height, src, width }) => {
     };
   }, [height, src, width]);
 
-  return <img src={dataUrl} />;
+  return <img alt="" height={height} src={dataUrl}  width={width}/>;
 };

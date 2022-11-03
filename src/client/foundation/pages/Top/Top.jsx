@@ -93,8 +93,7 @@ function useHeroImage(todayRaces) {
     return null;
   }
 
-  const imageUrl = `${data.url}?${data.hash}`;
-  return imageUrl;
+  return `${data.url}?${data.hash}`;
 }
 
 /** @type {React.VFC} */
@@ -105,7 +104,7 @@ export const Top = () => {
     background: ${Color.mono[700]};
     border-radius: ${Radius.MEDIUM};
     color: ${Color.mono[0]};
-    padding: ${Space * 1}px ${Space * 2}px;
+    padding: ${Space}px ${Space * 2}px;
 
     &:hover {
       background: ${Color.mono[800]};
@@ -149,14 +148,14 @@ export const Top = () => {
 
   return (
     <Container>
-      {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
+      {heroImageUrl !== null && <HeroImage height={735} url={heroImageUrl} width={1024} />}
 
       <Spacer mt={Space * 2} />
       {userData && (
         <Stack horizontal alignItems="center" justifyContent="space-between">
           <div>
             <p>ポイント残高: {userData.balance}pt</p>
-            <p>払戻金: {userData.payoff}Yeen</p>
+            <p>払戻金: {userData.payoff}Yen</p>
           </div>
 
           <ChargeButton onClick={handleClickChargeButton}>
