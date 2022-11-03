@@ -9,6 +9,7 @@ import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
 import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 
+// NOTE: ここはただのコンポーネントなのでよし
 export const RecentRaceList = ({ children }) => {
   return (
     <Stack as="ul" gap={Space * 2}>

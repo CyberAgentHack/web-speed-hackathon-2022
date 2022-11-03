@@ -28,22 +28,20 @@ function useTodayRacesWithAnimation(races) {
   const numberOfRacesToShow = useRef(0);
   const prevRaces = useRef(races);
   const timer = useRef(null);
+  const raceIds = races.map((e) => e.id);
+  const prevRaceIds = prevRaces.current.map((e) => e.id);
 
   useEffect(() => {
-    const isRacesUpdate =
-      _.difference(
-        races.map((e) => e.id),
-        prevRaces.current.map((e) => e.id),
-      ).length !== 0;
+    // NOTE: レスの値が変わるたびに再Fetchしていたので、引数の値を変えました
+    // CHECK: 全部取得して、その後にstateに反映させたい
+    const isRacesUpdate = _.difference(raceIds, prevRaceIds).length !== 0;
 
     prevRaces.current = races;
     setIsRacesUpdate(isRacesUpdate);
-  }, [races]);
+  }, [raceIds.length, prevRaceIds.length]); // CHECK:この引数のracesが悪さしてるな
 
   useEffect(() => {
-    if (!isRacesUpdate) {
-      return;
-    }
+    if (!isRacesUpdate) return;
     // 視覚効果 off のときはアニメーションしない
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setRacesToShow(races);
@@ -81,6 +79,8 @@ function useTodayRacesWithAnimation(races) {
  * @param {Model.Race[]} todayRaces
  * @returns {string | null}
  */
+// CHECK: 画像を取得するためのメソッド
+// NOTE: ここはどうやら画像を返すためだけのapiっぽいので、そこまでパフォーマンスネックになってないかも
 function useHeroImage(todayRaces) {
   const firstRaceId = todayRaces[0]?.id;
   const url =
@@ -119,6 +119,7 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
 
+  // CHECK: ここでその日のレースをフェッチしてる
   const { data: raceData } = useFetch("/api/races", jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
@@ -133,6 +134,7 @@ export const Top = () => {
     revalidate();
   }, [revalidate]);
 
+  // CHECK: この変数のレンダリングがやばすぎる
   const todayRaces =
     raceData != null
       ? [...raceData.races]
@@ -144,14 +146,16 @@ export const Top = () => {
             isSameDay(race.startAt, date),
           )
       : [];
+  // CHECK: todayRacesToShowが更新されるごとにstateの再レンダリングが起きてるみたい
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
   const heroImageUrl = useHeroImage(todayRaces);
 
   return (
     <Container>
+      {/* NOTE: 画像部分は問題なさそう */}
       {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
-
       <Spacer mt={Space * 2} />
+
       {userData && (
         <Stack horizontal alignItems="center" justifyContent="space-between">
           <div>
@@ -164,19 +168,18 @@ export const Top = () => {
           </ChargeButton>
         </Stack>
       )}
-
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
         {todayRacesToShow.length > 0 && (
           <RecentRaceList>
+            {/* CHECK: ここがなかなかやばそう */}
             {todayRacesToShow.map((race) => (
               <RecentRaceList.Item key={race.id} race={race} />
             ))}
           </RecentRaceList>
         )}
       </section>
-
       <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
     </Container>
   );

@@ -13,6 +13,7 @@ const Image = styled.img`
  */
 
 /** @type {React.VFC<Props>} */
+// NOTE: このコンポーネントはパフォマンス関係なさそう
 export const HeroImage = ({ url }) => {
   return <Image alt="" src={url} />;
 };
