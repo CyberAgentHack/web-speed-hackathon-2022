@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MPL-2.0",
   "author": "dora <31735614+dora1998@users.noreply.github.com>",
+  "sideEffects": false,
   "scripts": {
     "build": "webpack",
     "build:watch": "yarn build --watch --progress",
