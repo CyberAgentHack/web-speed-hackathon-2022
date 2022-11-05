@@ -3650,7 +3650,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.10.4":
+"dayjs@npm:^1.10.4, dayjs@npm:^1.11.6":
   version: 1.11.6
   resolution: "dayjs@npm:1.11.6"
   checksum: 18bdfd927009b68eab08dca578e421d4a581cefcbe9337f54c5d9e0d941ffb6b221c4b2c1cab15cdd9d419940e768ac4c984531461a90bbe1c158b75fe160580
@@ -6553,22 +6553,6 @@ __metadata:
   version: 1.4.0
   resolution: "modern-css-reset@npm:1.4.0"
   checksum: b515d1b669251ec767d948304386c74375da694355ae1508db06f2e79e271083925b6181f95ca988f58c6d749cde0648df7826b36e5494c32a623c2fd3b19476
-  languageName: node
-  linkType: hard
-
-"moment-timezone@npm:^0.5.34":
-  version: 0.5.38
-  resolution: "moment-timezone@npm:0.5.38"
-  dependencies:
-    moment: ">= 2.9.0"
-  checksum: ff7077de41f2c41a0026cd2b310154c14df8f918331a4ebe88f5872a599deb5e463b123c96990dc447b7474a81c9f3aef7ac57c3d0dfc3bfb9af2cc5b0bca826
-  languageName: node
-  linkType: hard
-
-"moment@npm:>= 2.9.0":
-  version: 2.29.4
-  resolution: "moment@npm:2.29.4"
-  checksum: 0ec3f9c2bcba38dc2451b1daed5daded747f17610b92427bebe1d08d48d8b7bdd8d9197500b072d14e326dd0ccf3e326b9e3d07c5895d3d49e39b6803b76e80e
   languageName: node
   linkType: hard
 
@@ -9807,6 +9791,7 @@ __metadata:
     copy-webpack-plugin: ^10.2.0
     core-js: ^3.21.1
     csstype: ^3.0.10
+    dayjs: ^1.11.6
     es5-shim: ^4.6.5
     es6-shim: ^0.35.6
     es7-shim: ^6.0.0
@@ -9823,7 +9808,6 @@ __metadata:
     framer-motion: ^6.2.8
     lodash: ^4.17.21
     modern-css-reset: ^1.4.0
-    moment-timezone: ^0.5.34
     nodemon: ^2.0.15
     npm-run-all: ^4.1.5
     pino-pretty: ^7.3.0
