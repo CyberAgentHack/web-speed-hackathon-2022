@@ -42,7 +42,6 @@ export async function insertRaceEntries() {
       .orderBy("random()")
       .limit(Math.floor(Math.random() * (12 - 6) + 6))
       .getMany();
-    Array(players.length).fill("");
     const predictionMarks = shuffle(
       ["◎", "○", "△", "×", ...Array(players.length).fill("")].slice(
         0,
