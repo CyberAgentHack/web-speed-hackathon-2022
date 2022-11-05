@@ -12,7 +12,7 @@ const spacingMap = {
   pb: "paddingBottom",
   pl: "paddingLeft",
   pr: "paddingRight",
-  pt: "paddingTop",
+  pt: "paddingTop"
 };
 
 const Wrapper = styled.div((props) => {

@@ -15,14 +15,14 @@ const Wrapper = styled.div`
  * @property {(string | React.ComponentType<any>)=} as
  * @property {boolean=} horizontal
  * @property {number} gap
- * @property {import('csstype').Property.AlignItems=} alignItems
- * @property {import('csstype').Property.JustifyContent=} justifyContent
- * @property {import('csstype').Property.FlexWrap=} wrap
+ * @property {import("csstype").Property.AlignItems=} alignItems
+ * @property {import("csstype").Property.JustifyContent=} justifyContent
+ * @property {import("csstype").Property.FlexWrap=} wrap
  */
 
 export const Stack = (
   /** @type {React.PropsWithChildren<Props>} */
-  { alignItems, as, children, gap, horizontal, justifyContent, wrap },
+  { alignItems, as, children, gap, horizontal, justifyContent, wrap }
 ) => {
   return (
     <Wrapper

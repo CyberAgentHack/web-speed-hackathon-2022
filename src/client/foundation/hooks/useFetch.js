@@ -18,14 +18,14 @@ export function useFetch(apiPath, fetcher) {
   const [result, setResult] = useState({
     data: null,
     error: null,
-    loading: true,
+    loading: true
   });
 
   useEffect(() => {
     setResult(() => ({
       data: null,
       error: null,
-      loading: true,
+      loading: true
     }));
 
     const promise = fetcher(apiPath);
@@ -34,7 +34,7 @@ export function useFetch(apiPath, fetcher) {
       setResult((cur) => ({
         ...cur,
         data,
-        loading: false,
+        loading: false
       }));
     });
 
@@ -42,7 +42,7 @@ export function useFetch(apiPath, fetcher) {
       setResult((cur) => ({
         ...cur,
         error,
-        loading: false,
+        loading: false
       }));
     });
   }, [apiPath, fetcher]);

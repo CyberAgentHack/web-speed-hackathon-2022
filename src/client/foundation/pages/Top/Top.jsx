@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 import { difference, slice } from "lodash-es";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -33,7 +33,7 @@ function useTodayRacesWithAnimation(races) {
     const isRacesUpdate =
       difference(
         races.map((e) => e.id),
-        prevRaces.current.map((e) => e.id),
+        prevRaces.current.map((e) => e.id)
       ).length !== 0;
 
     prevRaces.current = races;
@@ -115,7 +115,7 @@ export const Top = () => {
 
   const { data: userData, revalidate } = useAuthorizedFetch(
     "/api/users/me",
-    authorizedJsonFetcher,
+    authorizedJsonFetcher
   );
 
   const { data: raceData } = useFetch("/api/races", jsonFetcher);
@@ -135,13 +135,13 @@ export const Top = () => {
   const todayRaces =
     raceData != null
       ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              dayjs(a.startAt) - dayjs(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
-          )
+        .sort(
+          (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
+            dayjs(a.startAt) - dayjs(b.startAt)
+        )
+        .filter((/** @type {Model.Race} */ race) =>
+          isSameDay(race.startAt, date)
+        )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
   const heroImageUrl = useHeroImage(todayRaces);

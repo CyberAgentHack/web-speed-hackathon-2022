@@ -114,48 +114,48 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
         <div>
           <Table>
             <thead>
-              <tr>
-                <th width="64px">2位</th>
-                <th width="32px"></th>
+            <tr>
+              <th width="64px">2位</th>
+              <th width="32px"></th>
 
-                {headNumbers.map((second) => (
-                  <th key={second} width="auto">
-                    {second}
-                  </th>
-                ))}
-              </tr>
+              {headNumbers.map((second) => (
+                <th key={second} width="auto">
+                  {second}
+                </th>
+              ))}
+            </tr>
             </thead>
 
             <tbody>
-              {headNumbers.map((third, i) => (
-                <tr key={third}>
-                  {i === 0 && <th rowSpan={headNumbers.length}>3位</th>}
+            {headNumbers.map((third, i) => (
+              <tr key={third}>
+                {i === 0 && <th rowSpan={headNumbers.length}>3位</th>}
 
-                  <th>{third}</th>
+                <th>{third}</th>
 
-                  {headNumbers.map((second) => {
-                    const item = oddsMap[mapKey(second, third)];
+                {headNumbers.map((second) => {
+                  const item = oddsMap[mapKey(second, third)];
 
-                    return (
-                      <td key={second} width="auto">
-                        {second !== third ? (
-                          isRaceClosed ? (
-                            <InactiveBuyButton>
-                              <OddsMarker odds={item.odds} />
-                            </InactiveBuyButton>
-                          ) : (
-                            <BuyButton onClick={() => onClickOdds(item)}>
-                              <OddsMarker odds={item.odds} />
-                            </BuyButton>
-                          )
+                  return (
+                    <td key={second} width="auto">
+                      {second !== third ? (
+                        isRaceClosed ? (
+                          <InactiveBuyButton>
+                            <OddsMarker odds={item.odds} />
+                          </InactiveBuyButton>
                         ) : (
-                          <BuyButton disabled>-</BuyButton>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
+                          <BuyButton onClick={() => onClickOdds(item)}>
+                            <OddsMarker odds={item.odds} />
+                          </BuyButton>
+                        )
+                      ) : (
+                        <BuyButton disabled>-</BuyButton>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
             </tbody>
           </Table>
         </div>

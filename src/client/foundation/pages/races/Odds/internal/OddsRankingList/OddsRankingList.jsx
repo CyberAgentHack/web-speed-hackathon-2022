@@ -68,7 +68,7 @@ const RankNo = styled.div`
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
   const sortedOdds = take(
     sortBy(odds, (item) => item.odds),
-    50,
+    50
   );
 
   return (

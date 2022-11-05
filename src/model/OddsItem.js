@@ -6,30 +6,30 @@ class OddsItem {
       id: {
         generated: "uuid",
         primary: true,
-        type: "uuid",
+        type: "uuid"
       },
       key: {
         nullable: false,
-        type: "simple-json",
+        type: "simple-json"
       },
       odds: {
         nullable: false,
-        type: "int",
+        type: "int"
       },
       type: {
         nullable: false,
-        type: "varchar",
-      },
+        type: "varchar"
+      }
     },
     name: "OddsItem",
     relations: {
       race: {
         inverseSide: "trifectaOdds",
         target: "Race",
-        type: "many-to-one",
-      },
+        type: "many-to-one"
+      }
     },
-    target: OddsItem,
+    target: OddsItem
   });
 
   /** @param {Partial<OddsItem>} [payload] */
@@ -42,7 +42,7 @@ class OddsItem {
     this.key = payload.key;
     /** @type {number} */
     this.odds = payload.odds;
-    /** @type {import('./Race').Race} */
+    /** @type {import("./Race").Race} */
     this.race = payload.race;
   }
 }

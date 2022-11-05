@@ -61,7 +61,8 @@ export const BettingTicketList = ({ children }) => {
     return (
       <Placeholder>
         <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 128C0 92.7 28.7 64 64 64H512c35.3 0 64 28.7 64 64v80c-26.5 0-48 21.5-48 48s21.5 48 48 48v80c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V304c26.5 0 48-21.5 48-48s-21.5-48-48-48V128z"/>
+          <path
+            d="M0 128C0 92.7 28.7 64 64 64H512c35.3 0 64 28.7 64 64v80c-26.5 0-48 21.5-48 48s21.5 48 48 48v80c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V304c26.5 0 48-21.5 48-48s-21.5-48-48-48V128z" />
         </svg>
         <div>購入した拳券はありません</div>
       </Placeholder>
@@ -71,13 +72,13 @@ export const BettingTicketList = ({ children }) => {
   return (
     <Table>
       <thead>
-        <Header>
-          <Cell as="th">的中</Cell>
-          <Cell as="th">買い目</Cell>
-          <Cell $align="right" as="th" width="96px">
-            数量
-          </Cell>
-        </Header>
+      <Header>
+        <Cell as="th">的中</Cell>
+        <Cell as="th">買い目</Cell>
+        <Cell $align="right" as="th" width="96px">
+          数量
+        </Cell>
+      </Header>
       </thead>
       <tbody>{children}</tbody>
     </Table>

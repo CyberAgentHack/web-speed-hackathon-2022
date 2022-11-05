@@ -1,13 +1,6 @@
 import * as typeorm from "typeorm";
 
-import {
-  BettingTicket,
-  OddsItem,
-  Player,
-  Race,
-  RaceEntry,
-  User,
-} from "../../model/index.js";
+import { BettingTicket, OddsItem, Player, Race, RaceEntry, User } from "../../model/index.js";
 import { DATABASE_PATH } from "../paths.js";
 
 const connectionPromise = typeorm.createConnection({
@@ -18,10 +11,10 @@ const connectionPromise = typeorm.createConnection({
     Player.schema,
     RaceEntry.schema,
     Race.schema,
-    BettingTicket.schema,
+    BettingTicket.schema
   ],
   synchronize: false,
-  type: "sqlite",
+  type: "sqlite"
 });
 
 async function createConnection() {

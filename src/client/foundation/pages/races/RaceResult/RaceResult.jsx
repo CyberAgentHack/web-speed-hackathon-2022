@@ -32,7 +32,7 @@ export const RaceResult = () => {
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
-    authorizedJsonFetcher,
+    authorizedJsonFetcher
   );
 
   if (data == null) {

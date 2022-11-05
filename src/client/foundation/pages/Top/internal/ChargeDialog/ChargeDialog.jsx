@@ -25,13 +25,13 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const [amount, setAmount] = useState(0);
 
   useEffect(() => {
-    const fetchZenginCode = async() => {
+    const fetchZenginCode = async () => {
       import("zengin-code").then(response => {
-        console.log(response)
-        setZenginCode(response)
+        console.log(response);
+        setZenginCode(response);
       });
-    }
-    fetchZenginCode()
+    };
+    fetchZenginCode();
   }, []);
 
 
@@ -44,7 +44,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
   const [charge] = useMutation("/api/users/me/charge", {
     auth: true,
-    method: "POST",
+    method: "POST"
   });
 
   const handleCodeChange = useCallback((e) => {
@@ -75,12 +75,12 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
       clearForm();
       onComplete();
     },
-    [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
+    [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm]
   );
 
   const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
     code,
-    name,
+    name
   }));
   const bank = zenginCode[bankCode];
   const branch = bank?.branches[branchCode];

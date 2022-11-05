@@ -33,12 +33,12 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
     `/api/races/${raceId}/betting-tickets`,
     {
       auth: true,
-      method: "POST",
-    },
+      method: "POST"
+    }
   );
   const { data: userData, revalidate } = useAuthorizedFetch(
     "/api/users/me",
-    authorizedJsonFetcher,
+    authorizedJsonFetcher
   );
   const [error, setError] = useState(null);
 
@@ -52,10 +52,10 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
 
       await buyTicket({
         key: odds,
-        type: "trifecta",
+        type: "trifecta"
       });
     },
-    [odds, buyTicket],
+    [odds, buyTicket]
   );
 
   useEffect(() => {

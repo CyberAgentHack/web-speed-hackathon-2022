@@ -12,7 +12,7 @@ const AuthContext = React.createContext({
   setUserId: () => {
     throw new Error("AuthContext value is not set");
   },
-  userId: null,
+  userId: null
 });
 
 export const AuthContextProvider = ({ children }) => {
@@ -22,7 +22,7 @@ export const AuthContextProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         setUserId,
-        userId,
+        userId
       }}
     >
       {children}
@@ -36,9 +36,9 @@ export const useAuth = () => {
   const res = useMemo(
     () => ({
       loggedIn: userId != null,
-      userId,
+      userId
     }),
-    [userId],
+    [userId]
   );
 
   return res;

@@ -12,7 +12,7 @@ export const jsonFetcher = async (/** @type {string} */ url) => {
 export const authorizedJsonFetcher = async (url, userId) => {
   const res = await axios.get(url, {
     headers: { "x-app-userid": userId },
-    responseType: "json",
+    responseType: "json"
   });
   return res.data;
 };

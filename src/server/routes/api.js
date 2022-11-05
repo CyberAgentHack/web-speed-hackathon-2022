@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
@@ -7,7 +7,7 @@ import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
 
 /**
- * @type {import('fastify').FastifyPluginCallback}
+ * @type {import("fastify").FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
   fastify.get("/users/me", async (req, res) => {
@@ -66,21 +66,21 @@ export const apiRoute = async (fastify) => {
       Object.assign(where, {
         startAt: Between(
           since.utc().format("YYYY-MM-DD HH:mm:ss"),
-          until.utc().format("YYYY-MM-DD HH:mm:ss"),
-        ),
+          until.utc().format("YYYY-MM-DD HH:mm:ss")
+        )
       });
     } else if (since != null) {
       Object.assign(where, {
-        startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+        startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss"))
       });
     } else if (until != null) {
       Object.assign(where, {
-        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss"))
       });
     }
 
     const races = await repo.find({
-      where,
+      where
     });
 
     res.send({ races });
@@ -90,7 +90,7 @@ export const apiRoute = async (fastify) => {
     const repo = (await createConnection()).getRepository(Race);
 
     const race = await repo.findOne(req.params.raceId, {
-      relations: ["entries", "entries.player", "trifectaOdds"],
+      relations: ["entries", "entries.player", "trifectaOdds"]
     });
 
     if (race === undefined) {
@@ -109,16 +109,16 @@ export const apiRoute = async (fastify) => {
     const bettingTickets = await repo.find({
       where: {
         race: {
-          id: req.params.raceId,
+          id: req.params.raceId
         },
         user: {
-          id: req.user.id,
-        },
-      },
+          id: req.user.id
+        }
+      }
     });
 
     res.send({
-      bettingTickets,
+      bettingTickets
     });
   });
 
@@ -143,19 +143,19 @@ export const apiRoute = async (fastify) => {
     }
 
     const bettingTicketRepo = (await createConnection()).getRepository(
-      BettingTicket,
+      BettingTicket
     );
     const bettingTicket = await bettingTicketRepo.save(
       new BettingTicket({
         key: req.body.key,
         race: {
-          id: req.params.raceId,
+          id: req.params.raceId
         },
         type: req.body.type,
         user: {
-          id: req.user.id,
-        },
-      }),
+          id: req.user.id
+        }
+      })
     );
 
     const userRepo = (await createConnection()).getRepository(User);

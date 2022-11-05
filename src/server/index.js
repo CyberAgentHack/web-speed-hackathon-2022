@@ -16,15 +16,15 @@ const server = fastify({
   logger: IS_PRODUCTION
     ? false
     : {
-        prettyPrint: {
-          ignore: "pid,hostname",
-          translateTime: "SYS:HH:MM:ss",
-        },
-      },
+      prettyPrint: {
+        ignore: "pid,hostname",
+        translateTime: "SYS:HH:MM:ss"
+      }
+    }
 });
 server.register(fastifyCompress, {
-  encodings: ['gzip'],
-  requestEncodings: ['gzip'],
+  encodings: ["gzip"],
+  requestEncodings: ["gzip"]
 });
 server.register(fastifySensible);
 

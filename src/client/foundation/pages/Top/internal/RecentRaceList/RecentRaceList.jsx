@@ -64,12 +64,12 @@ const Item = ({ race }) => {
     abortAnimation,
     resetAnimation,
     startAnimation,
-    value: opacity,
+    value: opacity
   } = useAnimation({
     duration: 500,
     end: 1,
     start: 0,
-    timingFunction: easeOutCubic,
+    timingFunction: easeOutCubic
   });
 
   useEffect(() => {

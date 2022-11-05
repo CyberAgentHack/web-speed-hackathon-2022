@@ -5,74 +5,74 @@ class RaceEntry {
     columns: {
       comment: {
         allowNull: false,
-        type: "varchar",
+        type: "varchar"
       },
       first: {
         allowNull: false,
-        type: "integer",
+        type: "integer"
       },
       firstRate: {
         allowNull: false,
-        type: "float",
+        type: "float"
       },
       id: {
         generated: "uuid",
         primary: true,
-        type: "uuid",
+        type: "uuid"
       },
       number: {
         nullable: false,
-        type: "int",
+        type: "int"
       },
       others: {
         allowNull: false,
-        type: "integer",
+        type: "integer"
       },
       paperWin: {
         allowNull: false,
-        type: "integer",
+        type: "integer"
       },
       predictionMark: {
         allowNull: false,
-        type: "varchar",
+        type: "varchar"
       },
       rockWin: {
         allowNull: false,
-        type: "integer",
+        type: "integer"
       },
       scissorsWin: {
         allowNull: false,
-        type: "integer",
+        type: "integer"
       },
       second: {
         allowNull: false,
-        type: "integer",
+        type: "integer"
       },
       third: {
         allowNull: false,
-        type: "integer",
+        type: "integer"
       },
       thirdRate: {
         allowNull: false,
-        type: "float",
-      },
+        type: "float"
+      }
     },
     name: "RaceEntry",
     orderBy: {
-      number: "ASC",
+      number: "ASC"
     },
     relations: {
       player: {
         target: "Player",
-        type: "many-to-one",
+        type: "many-to-one"
       },
       race: {
         inverseSide: "entries",
         target: "Race",
-        type: "many-to-one",
-      },
+        type: "many-to-one"
+      }
     },
-    target: RaceEntry,
+    target: RaceEntry
   });
 
   /** @param {Partial<RaceEntry>} [payload] */
@@ -81,9 +81,9 @@ class RaceEntry {
     this.id = payload.id;
     /** @type {number} */
     this.number = payload.number;
-    /** @type {import('./Player').Player} */
+    /** @type {import("./Player").Player} */
     this.player = payload.player;
-    /** @type {import('./Race').Race} */
+    /** @type {import("./Race").Race} */
     this.race = payload.race;
     /** @type {string} */
     this.predictionMark = payload.predictionMark;

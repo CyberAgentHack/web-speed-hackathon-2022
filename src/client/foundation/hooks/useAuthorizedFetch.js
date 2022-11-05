@@ -23,7 +23,7 @@ export function useAuthorizedFetch(apiPath, fetcher) {
   const [result, setResult] = useState({
     data: null,
     error: null,
-    loading: true,
+    loading: true
   });
 
   const fetch = useCallback(() => {
@@ -34,7 +34,7 @@ export function useAuthorizedFetch(apiPath, fetcher) {
     setResult(() => ({
       data: null,
       error: null,
-      loading: true,
+      loading: true
     }));
 
     const promise = fetcher(apiPath, userId);
@@ -43,7 +43,7 @@ export function useAuthorizedFetch(apiPath, fetcher) {
       setResult((cur) => ({
         ...cur,
         data,
-        loading: false,
+        loading: false
       }));
     });
 
@@ -51,7 +51,7 @@ export function useAuthorizedFetch(apiPath, fetcher) {
       setResult((cur) => ({
         ...cur,
         error,
-        loading: false,
+        loading: false
       }));
     });
   }, [apiPath, fetcher, loggedIn, userId]);
@@ -63,9 +63,9 @@ export function useAuthorizedFetch(apiPath, fetcher) {
   const res = useMemo(
     () => ({
       ...result,
-      revalidate: fetch,
+      revalidate: fetch
     }),
-    [fetch, result],
+    [fetch, result]
   );
 
   return res;

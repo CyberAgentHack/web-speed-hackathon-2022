@@ -17,7 +17,7 @@ const calcImageSize = (cv, img) => {
   if (constrainedHeight >= cv.height) {
     return {
       height: constrainedHeight,
-      width: cv.width,
+      width: cv.width
     };
   }
 
@@ -25,7 +25,7 @@ const calcImageSize = (cv, img) => {
 
   return {
     height: cv.height,
-    width: constrainedWidth,
+    width: constrainedWidth
   };
 };
 
@@ -51,7 +51,7 @@ export const TrimmedImage = ({ height, src, width }) => {
 
       const size = calcImageSize(
         { height: canvas.height, width: canvas.width },
-        { height: img.height, width: img.width },
+        { height: img.height, width: img.width }
       );
 
       const ctx = canvas.getContext("2d");
@@ -60,11 +60,11 @@ export const TrimmedImage = ({ height, src, width }) => {
         -(size.width - canvas.width) / 2,
         -(size.height - canvas.height) / 2,
         size.width,
-        size.height,
+        size.height
       );
       setDataUrl(canvas.toDataURL());
     };
   }, [height, src, width]);
 
-  return <img alt="" height={height} loading={"lazy"} src={dataUrl} width={width}/>;
+  return <img alt="" height={height} loading={"lazy"} src={dataUrl} width={width} />;
 };
