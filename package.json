@@ -80,7 +80,7 @@
     "fastify-sensible": "^3.1.2",
     "fastify-static": "^4.5.0",
     "framer-motion": "^6.2.8",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "modern-css-reset": "^1.4.0",
     "pino-pretty": "^7.3.0",
     "react": "^17.0.2",
