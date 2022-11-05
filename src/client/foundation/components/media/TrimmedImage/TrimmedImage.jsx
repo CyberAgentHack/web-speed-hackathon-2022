@@ -42,7 +42,8 @@ export const TrimmedImage = ({ height, src, width }) => {
 
   useEffect(() => {
     const img = new Image();
-    img.src = src;
+    // TODO Trim後の画像をassetsから取得したい
+    img.src = src.replaceAll(".jpg", ".webp");
     img.onload = () => {
       const canvas = document.createElement("canvas");
       canvas.width = width;

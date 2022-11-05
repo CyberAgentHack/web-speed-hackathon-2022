@@ -1,7 +1,7 @@
-import _ from "lodash";
+import { fill, random, sample, shuffle } from "lodash-es";
 import { v4 as uuid } from "uuid";
 
-import { Player, Race, RaceEntry } from "../src/model/index.js";
+import { Player, Race, RaceEntry } from "../src/model";
 import { createConnection } from "../src/server/typeorm/connection.js";
 
 export async function insertRaceEntries() {
@@ -34,11 +34,11 @@ export async function insertRaceEntries() {
     const players = await playerRepo
       .createQueryBuilder()
       .orderBy("random()")
-      .limit(_.random(6, 12))
+      .limit(random(6, 12))
       .getMany();
 
-    const predictionMarks = _.shuffle(
-      ["◎", "○", "△", "×", ..._.fill(Array(players.length), "")].slice(
+    const predictionMarks = shuffle(
+      ["◎", "○", "△", "×", ...fill(Array(players.length), "")].slice(
         0,
         players.length,
       ),
@@ -46,20 +46,20 @@ export async function insertRaceEntries() {
 
     const entries = players.map((player, idx) => {
       const { first, others, second, third } = {
-        first: _.random(0, 10),
-        others: _.random(0, 10),
-        second: _.random(0, 10),
-        third: _.random(0, 10),
+        first: random(0, 10),
+        others: random(0, 10),
+        second: random(0, 10),
+        third: random(0, 10),
       };
 
-      const rockWin = _.random(0, first);
-      const scissorsWin = _.random(0, first - rockWin);
+      const rockWin = random(0, first);
+      const scissorsWin = random(0, first - rockWin);
       const paperWin = first - (rockWin + scissorsWin);
 
       const totalRaces = first + second + third + others;
 
       return new RaceEntry({
-        comment: _.sample(COMMENTS),
+        comment: sample(COMMENTS),
         first,
         firstRate: (totalRaces === 0 ? 0 : first / totalRaces) * 100,
         id: uuid(),

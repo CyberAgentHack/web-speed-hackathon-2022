@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { Player } from "../src/model/index.js";
+import { Player } from "../src/model";
 import { createConnection } from "../src/server/typeorm/connection.js";
 
 export async function insertPlayers() {
@@ -219,7 +219,7 @@ export async function insertPlayers() {
       image: `/assets/images/players/${`${(index % 20) + 1}`.padStart(
         3,
         "0",
-      )}.jpg`,
+      )}.webp`,
       name,
       shortName: name.substring(0, 3),
     });
