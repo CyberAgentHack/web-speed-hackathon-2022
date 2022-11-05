@@ -47,7 +47,8 @@ module.exports = {
   },
   name: "client",
   output: {
-    filename: "[name].bundle.js",
+    filename: "[name].js",
+    chunkFilename: "[name].js",
     path: DIST_PUBLIC,
   },
   plugins: [
