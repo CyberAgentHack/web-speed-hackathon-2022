@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
@@ -39,7 +38,7 @@ const Table = styled.table`
 
   th {
     font-weight: normal;
-    padding: 0 ${Space * 1}px;
+    padding: 0 ${Space}px;
   }
 `;
 
@@ -87,8 +86,8 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
 
-  const headNumbers = _.without(_.range(1, entries.length + 1), firstKey);
-
+  const ranges = [...Array(entries.length)].map((_, i) => i + 1);
+  const headNumbers = ranges.filter((range) => range !== firstKey);
   const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
   const oddsMap = filteredOdds.reduce((acc, cur) => {
     const [, second, third] = cur.key;

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { v4 as uuid } from "uuid";
 
 import { OddsItem, Race, RaceEntry } from "../src/model/index.js";
@@ -26,8 +25,7 @@ export async function insertOddsItems() {
           if (first === second || first === third || second === third) {
             continue;
           }
-
-          const odds = Number(_.random(1.1, 300, true).toFixed(1));
+          const odds = Number(Math.random() * (300 - 1.1) + (1.1).toFixed(1));
 
           items.push(
             new OddsItem({

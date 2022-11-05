@@ -1,8 +1,7 @@
-import _ from "lodash";
 import moment from "moment-timezone";
 import { v4 as uuid } from "uuid";
 
-import { Race } from "../src/model/index.js";
+import { Race } from "../src/model";
 import { createConnection } from "../src/server/typeorm/connection.js";
 
 export async function insertRaces(startDate, endDate) {
@@ -66,7 +65,7 @@ export async function insertRaces(startDate, endDate) {
             3,
             "0",
           )}.jpg`,
-          name: _.sample(NAMES),
+          name: NAMES[Math.floor(Math.random() * NAMES.length)],
           startAt: startAt.toDate(),
         }),
       );
