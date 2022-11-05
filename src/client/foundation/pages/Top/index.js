@@ -1,1 +1,1 @@
-export { Top as default } from "./Top";
+export * from "./Top";

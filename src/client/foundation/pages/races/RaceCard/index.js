@@ -1,1 +1,1 @@
-export { RaceCard as default } from "./RaceCard";
+export * from "./RaceCard";
