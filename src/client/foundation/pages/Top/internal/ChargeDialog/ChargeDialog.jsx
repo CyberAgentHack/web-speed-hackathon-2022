@@ -27,7 +27,6 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   useEffect(() => {
     const fetchZenginCode = async () => {
       import("zengin-code").then(response => {
-        console.log(response);
         setZenginCode(response);
       });
     };
