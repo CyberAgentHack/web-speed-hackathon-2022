@@ -69,7 +69,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "@fortawesome/fontawesome-free": "^5.15.4",
     "axios": "^0.25.0",
     "bezier-easing": "^2.1.0",
     "core-js": "^3.21.1",
