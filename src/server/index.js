@@ -3,7 +3,7 @@ import fastify from "fastify";
 import fastifyCompress from "fastify-compress";
 import fastifySensible from "fastify-sensible";
 
-import { User } from "../model/index.js";
+import { User } from "../model";
 
 import { apiRoute } from "./routes/api.js";
 import { spaRoute } from "./routes/spa.js";
