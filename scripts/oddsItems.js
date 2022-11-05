@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { OddsItem, Race, RaceEntry } from "../src/model/index.js";
+import { OddsItem, Race, RaceEntry } from "../src/model";
 import { createConnection } from "../src/server/typeorm/connection.js";
 
 export async function insertOddsItems() {
