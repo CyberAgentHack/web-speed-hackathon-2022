@@ -38,32 +38,40 @@ const calcImageSize = (cv, img) => {
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
-  const [dataUrl, setDataUrl] = useState(null);
+  // const [dataUrl, setDataUrl] = useState(null);
 
-  useEffect(() => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
+  // useEffect(() => {
+  //   const img = new Image();
+  //   img.src = src;
+  //   img.onload = () => {
+  //     const canvas = document.createElement("canvas");
+  //     canvas.width = width;
+  //     canvas.height = height;
 
-      const size = calcImageSize(
-        { height: canvas.height, width: canvas.width },
-        { height: img.height, width: img.width },
-      );
+  //     const size = calcImageSize(
+  //       { height: canvas.height, width: canvas.width },
+  //       { height: img.height, width: img.width },
+  //     );
 
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(
-        img,
-        -(size.width - canvas.width) / 2,
-        -(size.height - canvas.height) / 2,
-        size.width,
-        size.height,
-      );
-      setDataUrl(canvas.toDataURL());
-    };
-  }, [height, src, width]);
+  //     const ctx = canvas.getContext("2d");
+  //     ctx.drawImage(
+  //       img,
+  //       -(size.width - canvas.width) / 2,
+  //       -(size.height - canvas.height) / 2,
+  //       size.width,
+  //       size.height,
+  //     );
+  //     setDataUrl(canvas.toDataURL());
+  //   };
+  // }, [height, src, width]);
 
-  return <img src={dataUrl} />;
+  return (
+    <img
+      loading="lazy"
+      src={src}
+      height={height}
+      width={width}
+      style={{ objectFit: "cover" }}
+    />
+  );
 };
