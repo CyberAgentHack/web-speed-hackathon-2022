@@ -41,8 +41,6 @@ export const RaceTabNavContents = ({ data, raceId }) => {
           <TabNav.Item aria-current={currentPage === "result"} onClick={() => setCurrentPage("result")} to={`/races/${raceId}/result`}>結果</TabNav.Item>
         </TabNav>
 
-        <Spacer mt={Space * 2} />
-
         <Suspense fallback={<div>Loading...</div>}>
           <Outlet context={{ data, raceId, setCurrentPage }} />
         </Suspense>
