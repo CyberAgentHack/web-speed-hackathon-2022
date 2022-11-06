@@ -1,33 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import styled from "styled-components";
 
 /**
  * アスペクト比を維持したまま、要素のコンテンツボックス全体を埋めるように拡大縮小したサイズを返す
  */
-
-/**
- * @typedef Size
- * @property {number} width
- * @property {number} height
- */
-
-/** @type {(cv: Size, img: Size) => Size} */
-const calcImageSize = (cv, img) => {
-  const constrainedHeight = cv.width * (img.height / img.width);
-
-  if (constrainedHeight >= cv.height) {
-    return {
-      height: constrainedHeight,
-      width: cv.width
-    };
-  }
-
-  const constrainedWidth = cv.height * (img.width / img.height);
-
-  return {
-    height: cv.height,
-    width: constrainedWidth
-  };
-};
 
 /**
  * @typedef Props
@@ -38,33 +14,14 @@ const calcImageSize = (cv, img) => {
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
-  const [dataUrl, setDataUrl] = useState("");
+  const Img = styled.img`
+    height: ${height}px;
+    object-fit: cover;
+    object-position: center center;
+    width: ${width}px;
+  `
 
-  useEffect(() => {
-    const img = new Image();
-    // TODO Trim後の画像をassetsから取得したい
-    img.src = src.replaceAll(".jpg", ".webp");
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
+  const srcUrl = src.replaceAll('.jpg', '.avif')
 
-      const size = calcImageSize(
-        { height: canvas.height, width: canvas.width },
-        { height: img.height, width: img.width }
-      );
-
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(
-        img,
-        -(size.width - canvas.width) / 2,
-        -(size.height - canvas.height) / 2,
-        size.width,
-        size.height
-      );
-      setDataUrl(canvas.toDataURL());
-    };
-  }, [height, src, width]);
-
-  return <img alt="" loading={"lazy"} src={dataUrl} width={width} />;
+  return <Img alt="" height={height} loading={"lazy"} src={srcUrl} width={width} />;
 };
