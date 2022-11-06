@@ -1,69 +1,77 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
 /**
  * アスペクト比を維持したまま、要素のコンテンツボックス全体を埋めるように拡大縮小したサイズを返す
  */
-
-/**
- * @typedef Size
- * @property {number} width
- * @property {number} height
- */
-
-/** @type {(cv: Size, img: Size) => Size} */
-const calcImageSize = (cv, img) => {
-  const constrainedHeight = cv.width * (img.height / img.width);
-
-  if (constrainedHeight >= cv.height) {
-    return {
-      height: constrainedHeight,
-      width: cv.width,
-    };
-  }
-
-  const constrainedWidth = cv.height * (img.width / img.height);
-
-  return {
-    height: cv.height,
-    width: constrainedWidth,
-  };
-};
 
 /**
  * @typedef Props
  * @property {string} src
  * @property {number} width
  * @property {number} height
+ * @property {boolean} widthAuto
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
-  const [dataUrl, setDataUrl] = useState(null);
-
+export const TrimmedImage = ({ height, src, width, widthAuto }) => {
+  const el = useRef(null);
+  const wrapperEl = useRef(null);
+  const [currentSRC, setCurrentSRC] = useState("");
+  const windowWidth = window.innerWidth;
+  const calculatedWidth =
+    widthAuto && windowWidth < width ? "auto" : `${width}px`;
+  const calculatedHeight =
+    widthAuto && windowWidth < width ? "auto" : `${height}px`;
+  // Lazy ロード
   useEffect(() => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
+    if (!el.current) {
+      return;
+    }
+    const isLazySupported = "loading" in HTMLImageElement.prototype;
+    if (isLazySupported) {
+      setCurrentSRC(src);
+      return;
+    }
 
-      const size = calcImageSize(
-        { height: canvas.height, width: canvas.width },
-        { height: img.height, width: img.width },
-      );
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+        observer.disconnect();
+        setCurrentSRC(src);
+      },
+      {
+        rootMargin: "200px",
+      },
+    );
 
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(
-        img,
-        -(size.width - canvas.width) / 2,
-        -(size.height - canvas.height) / 2,
-        size.width,
-        size.height,
-      );
-      setDataUrl(canvas.toDataURL());
+    observer.observe(el.current);
+
+    return () => {
+      observer.disconnect();
     };
-  }, [height, src, width]);
-
-  return <img height={height} loading={"lazy"} src={dataUrl} width={width} />;
+  }, [src]);
+  return (
+    <Wrapper ref={wrapperEl} height={calculatedHeight} width={calculatedWidth}>
+      <Img
+        ref={el}
+        height={height}
+        loading="lazy"
+        src={currentSRC}
+        width={width}
+      />
+    </Wrapper>
+  );
 };
+
+const Wrapper = styled.div`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  aspect-ratio: 361/ 203;
+`;
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
