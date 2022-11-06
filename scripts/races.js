@@ -1,5 +1,5 @@
+import dayjs from "dayjs";
 import _ from "lodash";
-import moment from "moment-timezone";
 import { v4 as uuid } from "uuid";
 
 import { Race } from "../src/model/index.js";
@@ -43,8 +43,8 @@ export async function insertRaces(startDate, endDate) {
     "ケベフセヌエフ賞",
   ];
 
-  const start = moment(`${startDate}T00:30:00.000+09:00`);
-  const end = moment(`${endDate}T00:30:00.000+09:00`);
+  const start = dayjs(`${startDate}T00:30:00.000+09:00`);
+  const end = dayjs(`${endDate}T00:30:00.000+09:00`);
   const days = end.diff(start, "days");
   process.stdout.write(
     `Creating races from ${start.format("YYYY-MM-DD")} to ${end.format(
@@ -56,7 +56,7 @@ export async function insertRaces(startDate, endDate) {
 
   for (let i = 0; i <= days; i++) {
     for (let j = 0; j < 24; j++) {
-      const startAt = moment(start).add(i, "days").add(j, "hours");
+      const startAt = dayjs(start).add(i, "days").add(j, "hours");
 
       races.push(
         new Race({
