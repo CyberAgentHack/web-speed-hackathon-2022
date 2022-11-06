@@ -4,7 +4,6 @@ import React, { useCallback, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 
-import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Heading } from "../../../components/typographies/Heading";
 import { Color, Space } from "../../../styles/variables";
@@ -51,36 +50,34 @@ export const Odds = () => {
 
   return (
     <>
-      <Section>
-        <Callout $closed={isRaceClosed}>
-          <FontAwesomeIcon icon={["fas", "circle-info"]} />
-          {isRaceClosed
-            ? "このレースの投票は締め切られています"
-            : "オッズをクリックすると拳券が購入できます"}
-        </Callout>
+      <Callout $closed={isRaceClosed}>
+        <FontAwesomeIcon icon={["fas", "circle-info"]} />
+        {isRaceClosed
+          ? "このレースの投票は締め切られています"
+          : "オッズをクリックすると拳券が購入できます"}
+      </Callout>
 
-        <Spacer mt={Space * 4} />
-        <Heading as="h2">オッズ表</Heading>
+      <Spacer mt={Space * 4} />
+      <Heading as="h2">オッズ表</Heading>
 
-        <Spacer mt={Space * 2} />
-        <OddsTable
-          entries={data.entries}
-          isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
-          onClickOdds={handleClickOdds}
-        />
+      <Spacer mt={Space * 2} />
+      <OddsTable
+        entries={data.entries}
+        isRaceClosed={isRaceClosed}
+        odds={data.trifectaOdds}
+        onClickOdds={handleClickOdds}
+      />
 
-        <Spacer mt={Space * 4} />
-        <Heading as="h2">人気順</Heading>
+      <Spacer mt={Space * 4} />
+      <Heading as="h2">人気順</Heading>
 
-        <Spacer mt={Space * 2} />
-        <OddsRankingList
-          isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
-          onClickOdds={handleClickOdds}
-        />
-        <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
-      </Section>
+      <Spacer mt={Space * 2} />
+      <OddsRankingList
+        isRaceClosed={isRaceClosed}
+        odds={data.trifectaOdds}
+        onClickOdds={handleClickOdds}
+      />
+      <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
     </>
   );
 };

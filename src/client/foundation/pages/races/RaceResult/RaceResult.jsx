@@ -26,22 +26,20 @@ export const RaceResult = () => {
 
   return (
     <>
-      <Section>
-        <Heading as="h2">購入した買い目</Heading>
+      <Heading as="h2">購入した買い目</Heading>
 
-        <Spacer mt={Space * 2} />
-        <BettingTicketList>
-          {(ticketData?.bettingTickets ?? []).map((ticket) => (
-            <BettingTicketList.Item key={ticket.id} ticket={ticket} />
-          ))}
-        </BettingTicketList>
+      <Spacer mt={Space * 2} />
+      <BettingTicketList>
+        {(ticketData?.bettingTickets ?? []).map((ticket) => (
+          <BettingTicketList.Item key={ticket.id} ticket={ticket} />
+        ))}
+      </BettingTicketList>
 
-        <Spacer mt={Space * 4} />
-        <Heading as="h2">勝負結果</Heading>
+      <Spacer mt={Space * 4} />
+      <Heading as="h2">勝負結果</Heading>
 
-        <Spacer mt={Space * 2} />
-        <RaceResultSection />
-      </Section>
+      <Spacer mt={Space * 2} />
+      <RaceResultSection />
     </>
   );
 };

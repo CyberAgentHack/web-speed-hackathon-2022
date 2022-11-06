@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Outlet, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -22,17 +22,45 @@ const LiveBadge = styled.span`
   text-transform: uppercase;
 `;
 
-/** @type {React.VFC} */
-export const RaceLayout = () => {
-  const { raceId } = useParams();
+
+/**
+ * @type {React.VFC}
+ */
+export const RaceTabNavContents = ({ data, raceId }) => {
   const location = useLocation();
   const paths = location.pathname.split("/");
 
-  const [ currentPage, setCurrentPage ] = useState(paths[paths.length - 1]);
+  const [currentPage, setCurrentPage] = useState(paths[paths.length - 1]);
+
+  return (
+    <>
+      <Section>
+        <TabNav>
+          <TabNav.Item aria-current={currentPage === "race-card"} onClick={() => setCurrentPage("race-card")} to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>
+          <TabNav.Item aria-current={currentPage === "odds"} onClick={() => setCurrentPage("odds")} to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
+          <TabNav.Item aria-current={currentPage === "result"} onClick={() => setCurrentPage("result")} to={`/races/${raceId}/result`}>結果</TabNav.Item>
+        </TabNav>
+
+        <Spacer mt={Space * 2} />
+
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet context={{ data, raceId, setCurrentPage }} />
+        </Suspense>
+      </Section>
+    </>
+  );
+};
+
+
+/**
+ * @type {React.VFC}
+ */
+export const RaceLayout = () => {
+  const { raceId } = useParams();
 
   const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
 
-  if (currentPage === "" || data == null) {
+  if (data == null) {
     return <div>Loading...</div>;
   }
 
@@ -54,15 +82,7 @@ export const RaceLayout = () => {
 
       <Spacer mt={Space * 2} />
 
-      <TabNav>
-        <TabNav.Item aria-current={currentPage === "race-card"} onClick={() => setCurrentPage("race-card")} to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>
-        <TabNav.Item aria-current={currentPage === "odds"} onClick={() => setCurrentPage("odds")} to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
-        <TabNav.Item aria-current={currentPage === "result"} onClick={() => setCurrentPage("result")} to={`/races/${raceId}/result`}>結果</TabNav.Item>
-      </TabNav>
-
-      <Spacer mt={Space * 4} />
-
-      <Outlet context={{data, raceId, setCurrentPage}} />
+      <RaceTabNavContents data={data} raceId={raceId} />
     </Container>
   );
 };

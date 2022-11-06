@@ -1,7 +1,6 @@
 import React from "react";
 import { useOutletContext } from "react-router-dom";
 
-import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Space } from "../../../styles/variables";
 
@@ -17,7 +16,7 @@ export const RaceCard = () => {
   }
 
   return (
-    <Section>
+    <>
         <PlayerPictureList>
           {data.entries.map((entry) => (
             <PlayerPictureList.Item
@@ -31,6 +30,6 @@ export const RaceCard = () => {
 
         <Spacer mt={Space * 4} />
         <EntryTable entries={data.entries} />
-      </Section>
+      </>
   );
 };
