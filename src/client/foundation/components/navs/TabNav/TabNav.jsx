@@ -25,7 +25,7 @@ const ItemWrapper = styled.li`
       border-color: ${Color.mono[600]};
     }
 
-    &[aria-current] {
+    &[aria-current=true] {
       background: ${Color.mono[900]};
       color: ${Color.mono[0]};
     }
