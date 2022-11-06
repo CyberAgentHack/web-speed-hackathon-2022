@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import zenginCode from "zengin-code";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model";
@@ -10,6 +11,25 @@ import { initialize } from "../typeorm/initialize.js";
  * @type {import("fastify").FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
+
+  fastify.get("/zengin-code", async (_req, res) => {
+    const bankData = {}
+    Object.entries(zenginCode).forEach(([code, { branches, name }]) => {
+      const branchData = {}
+      Object.entries(branches).forEach(([code, { name }]) => {
+        branchData[code] = { code, name }
+      })
+
+      bankData[code] = {
+        branches: branchData,
+        code,
+        name
+      }
+    });
+
+    res.send(bankData);
+  });
+
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
