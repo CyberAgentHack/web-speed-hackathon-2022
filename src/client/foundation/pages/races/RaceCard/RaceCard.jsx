@@ -17,19 +17,21 @@ export const RaceCard = () => {
 
   return (
     <>
-        <PlayerPictureList>
-          {data.entries.map((entry) => (
-            <PlayerPictureList.Item
-              key={entry.id}
-              image={entry.player.image}
-              name={entry.player.name}
-              number={entry.number}
-            />
-          ))}
-        </PlayerPictureList>
+      <Spacer mt={Space * 2} />
 
-        <Spacer mt={Space * 4} />
-        <EntryTable entries={data.entries} />
-      </>
+      <PlayerPictureList>
+        {data.entries.map((entry) => (
+          <PlayerPictureList.Item
+            key={entry.id}
+            image={entry.player.image}
+            name={entry.player.name}
+            number={entry.number}
+          />
+        ))}
+      </PlayerPictureList>
+
+      <Spacer mt={Space * 4} />
+      <EntryTable entries={data.entries} />
+    </>
   );
 };

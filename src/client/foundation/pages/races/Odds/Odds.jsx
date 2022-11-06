@@ -50,6 +50,8 @@ export const Odds = () => {
 
   return (
     <>
+      <Spacer mt={Space * 4} />
+
       <Callout $closed={isRaceClosed}>
         <FontAwesomeIcon icon={["fas", "circle-info"]} />
         {isRaceClosed

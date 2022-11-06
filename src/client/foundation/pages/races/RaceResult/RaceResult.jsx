@@ -26,6 +26,8 @@ export const RaceResult = () => {
 
   return (
     <>
+      <Spacer mt={Space * 4} />
+
       <Heading as="h2">購入した買い目</Heading>
 
       <Spacer mt={Space * 2} />
