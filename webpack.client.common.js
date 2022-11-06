@@ -48,7 +48,6 @@ module.exports = {
   name: "client",
   output: {
     filename: "[name].js",
-    chunkFilename: "[name].js",
     path: DIST_PUBLIC,
   },
   plugins: [
@@ -60,22 +59,4 @@ module.exports = {
     extensions: [".js", ".jsx"],
   },
   target: "web",
-  optimization: {
-    chunkIds: "named",
-    splitChunks: {
-      cacheGroups: {
-        react: {
-          chunks: 'all',
-          name: 'react',
-          test: /[\\/]node_modules[\\/](react.*)[\\/]/,
-        },
-        zengin: {
-          chunks: 'all',
-          name: 'zengin',
-          test: /[\\/]node_modules[\\/](zengin-code)[\\/]/,
-        },
-      },
-      minSize: 2440,
-    },
-  },
 };
