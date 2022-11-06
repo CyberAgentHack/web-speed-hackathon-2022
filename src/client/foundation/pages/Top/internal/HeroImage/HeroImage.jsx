@@ -12,7 +12,6 @@ export const HeroImage = ({ url }) => {
 
 const Wrapper = styled.div`
   position: relative;
-  background: green;
   &:before {
     content: "";
     display: block;
