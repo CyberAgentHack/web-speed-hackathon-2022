@@ -12,10 +12,11 @@ export const HeroImage = ({ url }) => {
 
 const Wrapper = styled.div`
   position: relative;
+  background: green;
   &:before {
     content: "";
     display: block;
-    padding-top: calc(((3 / 4) * 100%));
+    padding-top: 71.6796%;
   }
 `;
 const Img = styled.img`
@@ -26,5 +27,4 @@ const Img = styled.img`
   left: 0;
   width: 100%;
   height: auto;
-  //box-sizing: border-box;
 `;
