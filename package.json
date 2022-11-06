@@ -19,7 +19,8 @@
     "lint:eslint:fix": "eslint --ext '.mjs,.js,.jsx' --fix .",
     "lint:stylelint": "stylelint --ignore-path .gitignore './**/*.css' './**/*.jsx'",
     "lint:stylelint:fix": "stylelint --ignore-path .gitignore --fix './**/*.css' './**/*.jsx'",
-    "init:seeds": "ts-node-transpile-only scripts/init.js"
+    "init:seeds": "ts-node-transpile-only scripts/init.js",
+    "convert:img": "ts-node-transpile-only scripts/convert_jpg2webp.js"
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",
@@ -83,6 +84,7 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "6",
     "regenerator-runtime": "^0.13.9",
+    "sharp": "^0.31.2",
     "sqlite3": "^5.1.2",
     "styled-components": "^5.3.3",
     "typeorm": "^0.2.44",

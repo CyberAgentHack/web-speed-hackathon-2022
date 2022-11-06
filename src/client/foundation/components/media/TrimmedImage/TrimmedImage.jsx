@@ -61,7 +61,7 @@ export const TrimmedImage = ({ height, src, width }) => {
         size.width,
         size.height,
       );
-      setDataUrl(canvas.toDataURL());
+      setDataUrl(canvas.toDataURL("image/webp", 0.75));
     };
   }, [height, src, width]);
 
