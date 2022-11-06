@@ -20,6 +20,8 @@ export const TrimmedImage = ({ height, src, width, widthAuto }) => {
   const windowWidth = window.innerWidth;
   const calculatedWidth =
     widthAuto && windowWidth < width ? "auto" : `${width}px`;
+  const calculatedHeight =
+    widthAuto && windowWidth < width ? "auto" : `${height}px`;
   // Lazy ロード
   useEffect(() => {
     if (!el.current) {
@@ -51,15 +53,21 @@ export const TrimmedImage = ({ height, src, width, widthAuto }) => {
     };
   }, [src]);
   return (
-    <Wrapper ref={wrapperEl} height={height} width={calculatedWidth}>
-      <Img ref={el} loading="lazy" src={currentSRC} />
+    <Wrapper ref={wrapperEl} height={calculatedHeight} width={calculatedWidth}>
+      <Img
+        ref={el}
+        height={height}
+        loading="lazy"
+        src={currentSRC}
+        width={width}
+      />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   width: ${({ width }) => width};
-  height: ${({ height }) => `${height}px`};
+  height: ${({ height }) => height};
 `;
 const Img = styled.img`
   width: 100%;
