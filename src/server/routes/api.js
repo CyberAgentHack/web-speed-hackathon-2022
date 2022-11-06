@@ -82,8 +82,11 @@ export const apiRoute = async (fastify) => {
     const races = await repo.find({
       where,
     });
-
-    res.send({ races });
+    const result = races.map((race) => ({
+      ...race,
+      image: race.image.replace("jpg", "webp"),
+    }));
+    res.send({ races: result });
   });
 
   fastify.get("/races/:raceId", async (req, res) => {

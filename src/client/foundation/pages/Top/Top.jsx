@@ -120,7 +120,6 @@ export const Top = () => {
   );
 
   const { data: raceData } = useFetch("/api/races", jsonFetcher);
-
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
       return;

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
 /**
  * アスペクト比を維持したまま、要素のコンテンツボックス全体を埋めるように拡大縮小したサイズを返す
  */
@@ -10,25 +10,6 @@ import React, { useEffect, useState } from "react";
  * @property {number} height
  */
 
-/** @type {(cv: Size, img: Size) => Size} */
-const calcImageSize = (cv, img) => {
-  const constrainedHeight = cv.width * (img.height / img.width);
-
-  if (constrainedHeight >= cv.height) {
-    return {
-      height: constrainedHeight,
-      width: cv.width,
-    };
-  }
-
-  const constrainedWidth = cv.height * (img.width / img.height);
-
-  return {
-    height: cv.height,
-    width: constrainedWidth,
-  };
-};
-
 /**
  * @typedef Props
  * @property {string} src
@@ -38,32 +19,51 @@ const calcImageSize = (cv, img) => {
 
 /** @type {React.VFC<Props>} */
 export const TrimmedImage = ({ height, src, width }) => {
-  const [dataUrl, setDataUrl] = useState(null);
-
+  const el = useRef(null);
+  const [currentSRC, setCurrentSRC] = useState("");
+  // Lazy ロード
   useEffect(() => {
-    const img = new Image();
-    img.src = src;
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
+    if (!el.current) {
+      return;
+    }
+    const isLazySupported = "loading" in HTMLImageElement.prototype;
+    if (isLazySupported) {
+      setCurrentSRC(src);
+      return;
+    }
 
-      const size = calcImageSize(
-        { height: canvas.height, width: canvas.width },
-        { height: img.height, width: img.width },
-      );
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+        observer.disconnect();
+        setCurrentSRC(src);
+      },
+      {
+        rootMargin: "200px",
+      },
+    );
 
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(
-        img,
-        -(size.width - canvas.width) / 2,
-        -(size.height - canvas.height) / 2,
-        size.width,
-        size.height,
-      );
-      setDataUrl(canvas.toDataURL("image/webp", 0.75));
+    observer.observe(el.current);
+
+    return () => {
+      observer.disconnect();
     };
-  }, [height, src, width]);
-
-  return <img src={dataUrl} />;
+  }, [src]);
+  return (
+    <Wrapper height={height} width={width}>
+      <Img ref={el} loading="lazy" src={currentSRC} />
+    </Wrapper>
+  );
 };
+
+const Wrapper = styled.div`
+  width: ${({ width }) => `${width}px`};
+  height: ${({ height }) => `${height}px`};
+`;
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
