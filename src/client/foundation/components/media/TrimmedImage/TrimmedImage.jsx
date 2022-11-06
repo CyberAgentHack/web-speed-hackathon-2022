@@ -5,22 +5,19 @@ import styled from "styled-components";
  */
 
 /**
- * @typedef Size
- * @property {number} width
- * @property {number} height
- */
-
-/**
  * @typedef Props
  * @property {string} src
  * @property {number} width
  * @property {number} height
+ * @property {boolean} widthAuto
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
+export const TrimmedImage = ({ height, src, width, widthAuto }) => {
   const el = useRef(null);
+  const wrapperEl = useRef(null);
   const [currentSRC, setCurrentSRC] = useState("");
+
   // Lazy ロード
   useEffect(() => {
     if (!el.current) {
@@ -52,14 +49,19 @@ export const TrimmedImage = ({ height, src, width }) => {
     };
   }, [src]);
   return (
-    <Wrapper height={height} width={width}>
+    <Wrapper
+      ref={wrapperEl}
+      height={height}
+      width={width}
+      widthAuto={widthAuto}
+    >
       <Img ref={el} loading="lazy" src={currentSRC} />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  width: ${({ width }) => `${width}px`};
+  width: ${({ width, widthAuto }) => (widthAuto ? "auto" : `${width}px`)};
   height: ${({ height }) => `${height}px`};
 `;
 const Img = styled.img`
