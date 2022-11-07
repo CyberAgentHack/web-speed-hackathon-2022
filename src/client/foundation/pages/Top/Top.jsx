@@ -11,7 +11,6 @@ import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
-import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
@@ -96,20 +95,21 @@ function useHeroImage(todayRaces) {
   return `${data.url}?${data.hash}`;
 }
 
+const ChargeButton = styled.button`
+  background: ${Color.mono[700]};
+  border-radius: ${Radius.MEDIUM};
+  color: ${Color.mono[0]};
+  padding: ${Space}px ${Space * 2}px;
+
+  &:hover {
+    background: ${Color.mono[800]};
+  }
+`;
+
 /** @type {React.VFC} */
 export const Top = () => {
+
   const { date = dayjs().format("YYYY-MM-DD") } = useParams();
-
-  const ChargeButton = styled.button`
-    background: ${Color.mono[700]};
-    border-radius: ${Radius.MEDIUM};
-    color: ${Color.mono[0]};
-    padding: ${Space}px ${Space * 2}px;
-
-    &:hover {
-      background: ${Color.mono[800]};
-    }
-  `;
 
   const chargeDialogRef = useRef(null);
 
@@ -118,7 +118,10 @@ export const Top = () => {
     authorizedJsonFetcher
   );
 
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const from = dayjs(`${date} 00:00:00`).unix()
+  const to = dayjs(`${date} 23:59:59`).unix()
+  const { data: raceData } = useFetch(`/api/races?since=${from}&until=${to}`, jsonFetcher);
+  const todayRaces = raceData !== null ? raceData.races : [];
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -132,18 +135,8 @@ export const Top = () => {
     revalidate();
   }, [revalidate]);
 
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-        .sort(
-          (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-            dayjs(a.startAt) - dayjs(b.startAt)
-        )
-        .filter((/** @type {Model.Race} */ race) =>
-          isSameDay(race.startAt, date)
-        )
-      : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
+
   const heroImageUrl = useHeroImage(todayRaces);
 
   return (

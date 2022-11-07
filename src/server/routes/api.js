@@ -67,10 +67,8 @@ export const apiRoute = async (fastify) => {
   });
 
   fastify.get("/races", async (req, res) => {
-    const since =
-      req.query.since != null ? dayjs.unix(req.query.since) : undefined;
-    const until =
-      req.query.until != null ? dayjs.unix(req.query.until) : undefined;
+    const since = req.query.since != null ? dayjs.unix(req.query.since) : undefined;
+    const until = req.query.until != null ? dayjs.unix(req.query.until) : undefined;
 
     if (since != null && !since.isValid()) {
       throw fastify.httpErrors.badRequest();
@@ -95,11 +93,16 @@ export const apiRoute = async (fastify) => {
       });
     } else if (until != null) {
       Object.assign(where, {
-        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss"))
+        startAt: LessThanOrEqual(until.utc().format("YYYY-MM-DD HH:mm:ss"))
       });
     }
 
+    const order = {
+      'startAt': -1
+    }
+
     const races = await repo.find({
+      order,
       where
     });
 

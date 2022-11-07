@@ -1,3 +1,4 @@
+import "./side-effects";
 import "regenerator-runtime/runtime";
 import fastify from "fastify";
 import fastifyCompress from "fastify-compress";
