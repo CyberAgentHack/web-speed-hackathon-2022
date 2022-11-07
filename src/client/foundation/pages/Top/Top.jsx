@@ -76,25 +76,6 @@ function useTodayRacesWithAnimation(races) {
   return racesToShow;
 }
 
-/**
- * @param {Model.Race[]} todayRaces
- * @returns {string | null}
- */
-function useHeroImage(todayRaces) {
-  const firstRaceId = todayRaces[0]?.id;
-  const url =
-    firstRaceId !== undefined
-      ? `/api/hero?firstRaceId=${firstRaceId}`
-      : "/api/hero";
-  const { data } = useFetch(url, jsonFetcher);
-
-  if (firstRaceId === undefined || data === null) {
-    return null;
-  }
-
-  return `${data.url}?${data.hash}`;
-}
-
 const ChargeButton = styled.button`
   background: ${Color.mono[700]};
   border-radius: ${Radius.MEDIUM};
@@ -113,10 +94,7 @@ export const Top = () => {
 
   const chargeDialogRef = useRef(null);
 
-  const { data: userData, revalidate } = useAuthorizedFetch(
-    "/api/users/me",
-    authorizedJsonFetcher
-  );
+  const { data: userData, revalidate } = useAuthorizedFetch("/api/users/me", authorizedJsonFetcher);
 
   const from = dayjs(`${date} 00:00:00`).unix()
   const to = dayjs(`${date} 23:59:59`).unix()
@@ -137,11 +115,9 @@ export const Top = () => {
 
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
 
-  const heroImageUrl = useHeroImage(todayRaces);
-
   return (
     <Container>
-      {heroImageUrl !== null && <HeroImage height={735} url={heroImageUrl} width={1024} />}
+      <HeroImage />
 
       <Spacer mt={Space * 2} />
       {userData && (
