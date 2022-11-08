@@ -3561,13 +3561,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.21.1":
-  version: 3.26.0
-  resolution: "core-js@npm:3.26.0"
-  checksum: 0149eb9d3909fde9c17626af3a6e625c326e8598d0bb5e6c5b48a18e5fcd4eaf48d4964d873667d8148542ff590fb98eb3f93618da114ca54999d6bc0349734b
-  languageName: node
-  linkType: hard
-
 "core-util-is@npm:~1.0.0":
   version: 1.0.3
   resolution: "core-util-is@npm:1.0.3"
@@ -7799,7 +7792,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regenerator-runtime@npm:^0.13.10, regenerator-runtime@npm:^0.13.9":
+"regenerator-runtime@npm:^0.13.10":
   version: 0.13.10
   resolution: "regenerator-runtime@npm:0.13.10"
   checksum: 09893f5a9e82932642d9a999716b6c626dc53ef2a01307c952ebbf8e011802360163a37c304c18a6c358548be5a72b448e37209954a18696f21e438c81cbb4b9
@@ -9727,7 +9720,6 @@ __metadata:
     babel-loader: ^8.2.3
     bezier-easing: ^2.1.0
     copy-webpack-plugin: ^10.2.0
-    core-js: ^3.21.1
     csstype: ^3.0.10
     dayjs: ^1.11.6
     eslint: ^8.10.0
@@ -9753,7 +9745,6 @@ __metadata:
     react-dom: ^18.2.0
     react-helmet: ^6.1.0
     react-router-dom: ^6.4.3
-    regenerator-runtime: ^0.13.9
     rimraf: ^3.0.2
     scaffdog: ^1.1.0
     sqlite3: ^5.1.2
