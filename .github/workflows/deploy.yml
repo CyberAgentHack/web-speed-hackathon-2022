@@ -35,4 +35,4 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "wsh2022-tsuyoshi-nishikawa"
-          entrypoint: "./server.js"
+          entrypoint: "./dist/server.js"
