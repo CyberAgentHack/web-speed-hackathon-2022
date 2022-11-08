@@ -117,10 +117,7 @@ export const apiRoute = async (fastify) => {
 
   fastify.get("/races/:raceId/trifectaOdds", async (req, res) => {
     const repo = (await createConnection()).getRepository(OddsItem);
-    const trifectaOdds = await repo.find({
-      order: {
-        id: 1
-      },
+    const odds = await repo.find({
       where: {
         race: {
           id: req.params.raceId
@@ -128,7 +125,9 @@ export const apiRoute = async (fastify) => {
       }
     });
 
-    res.send(trifectaOdds);
+    res.send({
+      odds
+    });
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {

@@ -29,7 +29,7 @@ const Callout = styled.aside`
 /** @type {React.VFC} */
 export const Odds = () => {
   const { race, raceId } = useOutletContext();
-  const { data: trifectaOdds } = useFetch(`/api/races/${raceId}/trifectaOdds`, jsonFetcher);
+  const { data } = useFetch(`/api/races/${raceId}/trifectaOdds`, jsonFetcher);
 
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
@@ -65,7 +65,7 @@ export const Odds = () => {
       <OddsTable
         entries={race?.entries ?? []}
         isRaceClosed={isRaceClosed}
-        odds={trifectaOdds ?? []}
+        odds={data?.odds ?? []}
         onClickOdds={handleClickOdds}
       />
 
@@ -75,7 +75,7 @@ export const Odds = () => {
       <Spacer mt={Space * 2} />
       <OddsRankingList
         isRaceClosed={isRaceClosed}
-        odds={trifectaOdds ?? []}
+        odds={data?.odds ?? []}
         onClickOdds={handleClickOdds}
       />
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />

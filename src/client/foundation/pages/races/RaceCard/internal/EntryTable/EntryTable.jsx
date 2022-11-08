@@ -105,13 +105,11 @@ export const EntryTable = ({ race }) => {
         </tr>
         </thead>
         <tbody>
-          <EntryTableRow entry={race?.entries[0]} />
-          <EntryTableRow entry={race?.entries[1]} />
-          <EntryTableRow entry={race?.entries[2]} />
-          <EntryTableRow entry={race?.entries[3]} />
-          <EntryTableRow entry={race?.entries[4]} />
-          <EntryTableRow entry={race?.entries[5]} />
-          <EntryTableRow entry={race?.entries[6]} />
+        {
+          (race?.entries ?? []).map((entry) => (
+            <EntryTableRow key={entry.id} entry={entry} />
+          ))
+        }
         </tbody>
       </Table>
     </Wrapper>

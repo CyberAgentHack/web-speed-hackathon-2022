@@ -38,8 +38,8 @@ export const Top = () => {
 
   const from = dayjs(`${date} 00:00:00`).unix()
   const to = dayjs(`${date} 23:59:59`).unix()
-  const { data: raceData } = useFetch(`/api/races?since=${from}&until=${to}`, jsonFetcher);
-  const todayRaces = raceData !== null ? raceData.races : [];
+  const { data } = useFetch(`/api/races?since=${from}&until=${to}`, jsonFetcher);
+  const todayRaces = data !== null ? data.races : [];
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
