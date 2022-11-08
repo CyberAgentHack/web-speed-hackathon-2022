@@ -27,6 +27,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x.x
+      - run: yarn install
       - run: yarn build
 
       # deploy
