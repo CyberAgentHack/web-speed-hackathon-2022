@@ -139,6 +139,6 @@ const ItemImg = ({ height, race: todayRace, width }) => {
   const race = useTodayRaceWithAnimation(todayRace);
 
   return (
-    <TrimmedImage height={height} src={race ? race.image : ""} width={width} />
+    <TrimmedImage height={height} loading={"lazy"} src={race ? race.image : ""} width={width} />
   );
 };

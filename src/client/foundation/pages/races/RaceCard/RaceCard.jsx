@@ -9,29 +9,24 @@ import { PlayerPictureList } from "./internal/PlayerPictureList";
 
 /** @type {React.VFC} */
 export const RaceCard = () => {
-  const { data } = useOutletContext();
-
-  if (data == null) {
-    return null;
-  }
+  const { race } = useOutletContext();
 
   return (
     <>
       <Spacer mt={Space * 2} />
 
       <PlayerPictureList>
-        {data.entries.map((entry) => (
-          <PlayerPictureList.Item
-            key={entry.id}
-            image={entry.player.image}
-            name={entry.player.name}
-            number={entry.number}
-          />
-        ))}
+        <PlayerPictureList.Item key={race?.entries[0].key} entry={race?.entries[0]} />
+        <PlayerPictureList.Item key={race?.entries[1].key} entry={race?.entries[1]} />
+        <PlayerPictureList.Item key={race?.entries[2].key} entry={race?.entries[2]} />
+        <PlayerPictureList.Item key={race?.entries[3].key} entry={race?.entries[3]} />
+        <PlayerPictureList.Item key={race?.entries[4].key} entry={race?.entries[4]} />
+        <PlayerPictureList.Item key={race?.entries[5].key} entry={race?.entries[5]} />
+        <PlayerPictureList.Item key={race?.entries[6].key} entry={race?.entries[6]} />
       </PlayerPictureList>
 
       <Spacer mt={Space * 4} />
-      <EntryTable entries={data.entries} />
+      <EntryTable race={race} />
     </>
   );
 };

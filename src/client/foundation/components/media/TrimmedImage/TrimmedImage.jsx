@@ -5,8 +5,16 @@ import styled from "styled-components";
  * アスペクト比を維持したまま、要素のコンテンツボックス全体を埋めるように拡大縮小したサイズを返す
  */
 
+/**
+ * @typedef Props
+ * @property {string} src
+ * @property {number} width
+ * @property {number} height
+ * @property {"eager" | "lazy" | undefined} loading
+ */
+
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width }) => {
+export const TrimmedImage = ({ height, loading, src, width }) => {
   const ImgContainer = styled.div`
     aspect-ratio: ${width} / ${height};
     max-width: ${width}px;
@@ -30,7 +38,7 @@ export const TrimmedImage = ({ height, src, width }) => {
 
   return (
     <ImgContainer>
-      <Img alt="" height={0} loading={"lazy"} src={srcUrl} width={width} />
+      <Img alt="" height={0} loading={loading} src={srcUrl} width={width} />
     </ImgContainer>
   );
 };

@@ -19,25 +19,24 @@ const PlayerName = styled.span`
 
 /**
  * @typedef ItemProps
- * @property {number} number
- * @property {string} image
- * @property {string} name
+ * @property {Model.RaceEntry} entry
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ image, name, number }) => {
+const Item = ({ entry }) => {
   return (
     <Stack gap={Space * 1}>
       <TrimmedImage
-        alt={`${name}選手のプロフィール写真`}
+        alt={`${entry?.player.name || ''}選手のプロフィール写真`}
         height={100}
-        src={image}
+        loading={"lazy"}
+        src={entry?.player.image || ''}
         width={100}
       />
 
       <Stack horizontal alignItems="center" gap={Space / 2} wrap="wrap">
-        <PlayerNumber>{number}</PlayerNumber>
-        <PlayerName>{name}</PlayerName>
+        <PlayerNumber>{entry?.number}</PlayerNumber>
+        <PlayerName>{entry?.player.name}</PlayerName>
       </Stack>
     </Stack>
   );

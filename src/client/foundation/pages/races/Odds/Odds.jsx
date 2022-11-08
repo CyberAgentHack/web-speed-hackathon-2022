@@ -26,7 +26,7 @@ const Callout = styled.aside`
 
 /** @type {React.VFC} */
 export const Odds = () => {
-  const { data, raceId } = useOutletContext();
+  const { race, raceId } = useOutletContext();
 
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
@@ -42,11 +42,11 @@ export const Odds = () => {
     []
   );
 
-  if (data == null) {
+  if (race == null) {
     return null;
   }
 
-  const isRaceClosed = dayjs(data.closeAt).isBefore(new Date());
+  const isRaceClosed = dayjs(race.closeAt).isBefore(new Date());
 
   return (
     <>
@@ -64,9 +64,9 @@ export const Odds = () => {
 
       <Spacer mt={Space * 2} />
       <OddsTable
-        entries={data.entries}
+        entries={race.entries}
         isRaceClosed={isRaceClosed}
-        odds={data.trifectaOdds}
+        odds={race.trifectaOdds}
         onClickOdds={handleClickOdds}
       />
 
@@ -76,7 +76,7 @@ export const Odds = () => {
       <Spacer mt={Space * 2} />
       <OddsRankingList
         isRaceClosed={isRaceClosed}
-        odds={data.trifectaOdds}
+        odds={race.trifectaOdds}
         onClickOdds={handleClickOdds}
       />
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />

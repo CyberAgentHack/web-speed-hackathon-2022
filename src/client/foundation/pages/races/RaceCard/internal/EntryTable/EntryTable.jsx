@@ -53,11 +53,11 @@ const TableCell = styled.td`
 
 /**
  * @typedef Props
- * @property {Model.RaceEntry[]} entries
+ * @property {Model.Race} race
  */
 
 /** @type {React.VFC<Props>} */
-export const EntryTable = ({ entries }) => {
+export const EntryTable = ({ race }) => {
   return (
     <Wrapper>
       <Table>
@@ -105,31 +105,51 @@ export const EntryTable = ({ entries }) => {
         </tr>
         </thead>
         <tbody>
-        {entries.map((entry) => (
-          <tr key={entry.id}>
-            <TableCell>{entry.number}</TableCell>
-            <TableCell $bold $align="left">
-              {entry.player.name}
-            </TableCell>
-            <TableCell>{entry.predictionMark}</TableCell>
-
-            <TableCell>{entry.rockWin}</TableCell>
-            <TableCell>{entry.scissorsWin}</TableCell>
-            <TableCell>{entry.paperWin}</TableCell>
-
-            <TableCell>{entry.first}</TableCell>
-            <TableCell>{entry.second}</TableCell>
-            <TableCell>{entry.third}</TableCell>
-            <TableCell>{entry.others}</TableCell>
-
-            <TableCell>{entry.firstRate.toFixed(1)}</TableCell>
-            <TableCell>{entry.thirdRate.toFixed(1)}</TableCell>
-
-            <TableCell $align="left">{entry.comment}</TableCell>
-          </tr>
-        ))}
+          <EntryTableRow entry={race?.entries[0]} />
+          <EntryTableRow entry={race?.entries[1]} />
+          <EntryTableRow entry={race?.entries[2]} />
+          <EntryTableRow entry={race?.entries[3]} />
+          <EntryTableRow entry={race?.entries[4]} />
+          <EntryTableRow entry={race?.entries[5]} />
+          <EntryTableRow entry={race?.entries[6]} />
         </tbody>
       </Table>
     </Wrapper>
   );
 };
+
+
+const EntryTableRowTr = styled.tr`
+  height: 38px;
+`
+
+/**
+ * @typedef Props
+ * @property {Model.RaceEntry} entry
+ */
+
+/** @type {React.VFC<Props>} */
+export const EntryTableRow = ({ entry }) => {
+
+  return (
+    <EntryTableRowTr key={entry?.id}>
+      <TableCell>{entry?.number}</TableCell>
+      <TableCell $bold $align="left">{entry?.player.name}</TableCell>
+      <TableCell>{entry?.predictionMark}</TableCell>
+
+      <TableCell>{entry?.rockWin}</TableCell>
+      <TableCell>{entry?.scissorsWin}</TableCell>
+      <TableCell>{entry?.paperWin}</TableCell>
+
+      <TableCell>{entry?.first}</TableCell>
+      <TableCell>{entry?.second}</TableCell>
+      <TableCell>{entry?.third}</TableCell>
+      <TableCell>{entry?.others}</TableCell>
+
+      <TableCell>{entry?.firstRate.toFixed(1)}</TableCell>
+      <TableCell>{entry?.thirdRate.toFixed(1)}</TableCell>
+
+      <TableCell $align="left">{entry?.comment}</TableCell>
+    </EntryTableRowTr>
+  )
+}

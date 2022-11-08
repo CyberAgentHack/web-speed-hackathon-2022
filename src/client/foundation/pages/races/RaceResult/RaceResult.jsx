@@ -1,7 +1,6 @@
 import React from "react";
 import { useOutletContext } from "react-router-dom";
 
-import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Heading } from "../../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../../hooks/useAuthorizedFetch";
@@ -13,14 +12,14 @@ import { RaceResultSection } from "./internal/RaceResultSection";
 
 /** @type {React.VFC} */
 export const RaceResult = () => {
-  const { data, raceId } = useOutletContext();
+  const { race, raceId } = useOutletContext();
 
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher
   );
 
-  if (data == null) {
+  if (race == null) {
     return null;
   }
 
