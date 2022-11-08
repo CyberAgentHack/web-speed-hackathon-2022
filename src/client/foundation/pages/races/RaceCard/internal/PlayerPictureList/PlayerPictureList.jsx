@@ -27,10 +27,10 @@ const Item = ({ entry }) => {
   return (
     <Stack gap={Space * 1}>
       <TrimmedImage
-        alt={`${entry?.player.name || ''}選手のプロフィール写真`}
+        alt={`${entry?.player.name ?? ''}選手のプロフィール写真`}
         height={100}
         loading={"lazy"}
-        src={entry?.player.image || ''}
+        src={entry?.player.image ?? ''}
         width={100}
       />
 

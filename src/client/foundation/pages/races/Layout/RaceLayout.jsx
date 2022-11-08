@@ -40,7 +40,7 @@ export const RaceTabNavContents = ({ race, raceId }) => {
           <TabNav.Item aria-current={currentPage === "odds"} onClick={() => setCurrentPage("odds")} to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
           <TabNav.Item aria-current={currentPage === "result"} onClick={() => setCurrentPage("result")} to={`/races/${raceId}/result`}>結果</TabNav.Item>
         </TabNav>
-          <Outlet context={{ race, raceId, setCurrentPage }} />
+        <Outlet context={{ race, raceId, setCurrentPage }} />
       </Section>
     </>
   );
@@ -52,7 +52,6 @@ export const RaceTabNavContents = ({ race, raceId }) => {
  */
 export const RaceLayout = () => {
   const { raceId } = useParams();
-
   const { data: race } = useFetch(`/api/races/${raceId}`, jsonFetcher);
 
   return (

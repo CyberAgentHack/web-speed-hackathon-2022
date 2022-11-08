@@ -6,7 +6,9 @@ import styled from "styled-components";
 
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Heading } from "../../../components/typographies/Heading";
+import { useFetch } from "../../../hooks/useFetch";
 import { Color, Space } from "../../../styles/variables";
+import { jsonFetcher } from "../../../utils/HttpUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
@@ -27,6 +29,7 @@ const Callout = styled.aside`
 /** @type {React.VFC} */
 export const Odds = () => {
   const { race, raceId } = useOutletContext();
+  const { data: trifectaOdds } = useFetch(`/api/races/${raceId}/trifectaOdds`, jsonFetcher);
 
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
@@ -42,11 +45,7 @@ export const Odds = () => {
     []
   );
 
-  if (race == null) {
-    return null;
-  }
-
-  const isRaceClosed = dayjs(race.closeAt).isBefore(new Date());
+  const isRaceClosed = race === null || dayjs(race.closeAt).isBefore(new Date());
 
   return (
     <>
@@ -64,9 +63,9 @@ export const Odds = () => {
 
       <Spacer mt={Space * 2} />
       <OddsTable
-        entries={race.entries}
+        entries={race?.entries ?? []}
         isRaceClosed={isRaceClosed}
-        odds={race.trifectaOdds}
+        odds={trifectaOdds ?? []}
         onClickOdds={handleClickOdds}
       />
 
@@ -76,7 +75,7 @@ export const Odds = () => {
       <Spacer mt={Space * 2} />
       <OddsRankingList
         isRaceClosed={isRaceClosed}
-        odds={race.trifectaOdds}
+        odds={trifectaOdds ?? []}
         onClickOdds={handleClickOdds}
       />
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />

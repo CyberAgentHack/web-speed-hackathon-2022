@@ -12,16 +12,8 @@ import { RaceResultSection } from "./internal/RaceResultSection";
 
 /** @type {React.VFC} */
 export const RaceResult = () => {
-  const { race, raceId } = useOutletContext();
-
-  const { data: ticketData } = useAuthorizedFetch(
-    `/api/races/${raceId}/betting-tickets`,
-    authorizedJsonFetcher
-  );
-
-  if (race == null) {
-    return null;
-  }
+  const { raceId } = useOutletContext();
+  const { data: ticketData } = useAuthorizedFetch(`/api/races/${raceId}/betting-tickets`, authorizedJsonFetcher);
 
   return (
     <>
