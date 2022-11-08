@@ -20,13 +20,19 @@ export const TrimmedImage = ({ height, src, width }) => {
     width: ${width}px;
   `
 
+  if (src === "") {
+    return (
+      <ImgContainer />
+    );
+  }
+
   const srcUrl = src.replaceAll('.jpg', '.avif')
 
   return (
     <ImgContainer>
       <Img alt="" height={0} loading={"lazy"} src={srcUrl} width={width} />
     </ImgContainer>
-);
+  );
 };
 
 /**

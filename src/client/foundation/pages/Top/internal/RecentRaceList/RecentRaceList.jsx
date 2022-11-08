@@ -9,10 +9,12 @@ import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
 import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 
-export const RecentRaceList = ({ children }) => {
+export const RecentRaceList = ({ races }) => {
   return (
     <Stack as="ul" gap={Space * 2}>
-      {children}
+      {races.map((race) => (
+        <RecentRaceList.Item key={race.id} race={race} />
+      ))}
     </Stack>
   );
 };
@@ -93,7 +95,7 @@ const Item = ({ race }) => {
 
         <Stack.Item grow={0} shrink={0}>
           <Stack horizontal alignItems="center" gap={Space * 2}>
-            <TrimmedImage height={100} src={race.image} width={100} />
+            <ItemImg height={100} race={race} width={100} />
             <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>
           </Stack>
         </Stack.Item>
@@ -102,3 +104,41 @@ const Item = ({ race }) => {
   );
 };
 RecentRaceList.Item = Item;
+
+/**
+ * @param {Model.Race} race
+ * @returns {Model.Race}
+ */
+function useTodayRaceWithAnimation(race) {
+  const [racesToShow, setRacesToShow] = useState(null);
+
+  useEffect(() => {
+    // 視覚効果 off のときはアニメーションしない
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setRacesToShow(race);
+      return;
+    }
+
+    setTimeout(() => {
+      setRacesToShow(race);
+    }, 100);
+  }, [race]);
+
+  return racesToShow;
+}
+
+/**
+ * @typedef ItemProps
+ * @property {number} height
+ * @property {Model.Race} race
+ * @property {number} width
+ */
+
+/** @type {React.VFC<ItemProps>} */
+const ItemImg = ({ height, race: todayRace, width }) => {
+  const race = useTodayRaceWithAnimation(todayRace);
+
+  return (
+    <TrimmedImage height={height} src={race ? race.image : ""} width={width} />
+  );
+};

@@ -59,13 +59,6 @@ export const apiRoute = async (fastify) => {
     res.status(204).send();
   });
 
-  fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.avif");
-    const hash = Math.random().toFixed(10).substring(2);
-
-    res.send({ hash, url });
-  });
-
   fastify.get("/races", async (req, res) => {
     const since = req.query.since != null ? dayjs.unix(req.query.since) : undefined;
     const until = req.query.until != null ? dayjs.unix(req.query.until) : undefined;
