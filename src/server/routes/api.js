@@ -91,7 +91,7 @@ export const apiRoute = async (fastify) => {
     }
 
     const order = {
-      'startAt': -1
+      'startAt': 1
     }
 
     const races = await repo.find({
