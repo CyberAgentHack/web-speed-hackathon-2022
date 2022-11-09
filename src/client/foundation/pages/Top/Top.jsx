@@ -29,15 +29,14 @@ const ChargeButton = styled.button`
 
 /** @type {React.VFC} */
 export const Top = () => {
-
   const { date = dayjs().format("YYYY-MM-DD") } = useParams();
 
   const chargeDialogRef = useRef(null);
 
   const { data: userData, revalidate } = useAuthorizedFetch("/api/users/me", authorizedJsonFetcher);
 
-  const from = dayjs(`${date} 00:00:00`).unix()
-  const to = dayjs(`${date} 23:59:59`).unix()
+  const from = dayjs(`${date} 00:00:00`).unix();
+  const to = dayjs(`${date} 23:59:59`).unix();
   const { data } = useFetch(`/api/races?since=${from}&until=${to}`, jsonFetcher);
   const todayRaces = data !== null ? data.races : [];
 

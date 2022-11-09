@@ -62,64 +62,59 @@ export const EntryTable = ({ race }) => {
     <Wrapper>
       <Table>
         <thead>
-        <tr>
-          <TableHCell rowSpan={2} width="48px">
-            番号
-          </TableHCell>
-          <TableHCell $align="left" rowSpan={2}>
-            選手名
-          </TableHCell>
-          <TableHCell rowSpan={2} width="48px">
-            予想
-          </TableHCell>
-          <TableHCell colSpan={3}>決まり手</TableHCell>
+          <tr>
+            <TableHCell rowSpan={2} width="48px">
+              番号
+            </TableHCell>
+            <TableHCell $align="left" rowSpan={2}>
+              選手名
+            </TableHCell>
+            <TableHCell rowSpan={2} width="48px">
+              予想
+            </TableHCell>
+            <TableHCell colSpan={3}>決まり手</TableHCell>
 
-          <TableHCell rowSpan={2} width="24px">
-            1位
-          </TableHCell>
-          <TableHCell rowSpan={2} width="24px">
-            2位
-          </TableHCell>
-          <TableHCell rowSpan={2} width="24px">
-            3位
-          </TableHCell>
-          <TableHCell rowSpan={2} width="24px">
-            着外
-          </TableHCell>
+            <TableHCell rowSpan={2} width="24px">
+              1位
+            </TableHCell>
+            <TableHCell rowSpan={2} width="24px">
+              2位
+            </TableHCell>
+            <TableHCell rowSpan={2} width="24px">
+              3位
+            </TableHCell>
+            <TableHCell rowSpan={2} width="24px">
+              着外
+            </TableHCell>
 
-          <TableHCell rowSpan={2} width="80px">
-            勝率
-          </TableHCell>
-          <TableHCell rowSpan={2} width="80px">
-            3位内率
-          </TableHCell>
+            <TableHCell rowSpan={2} width="80px">
+              勝率
+            </TableHCell>
+            <TableHCell rowSpan={2} width="80px">
+              3位内率
+            </TableHCell>
 
-          <TableHCell $align="left" rowSpan={2} width="250px">
-            コメント
-          </TableHCell>
-        </tr>
-        <tr>
-          <TableHCell width="64px">グー</TableHCell>
-          <TableHCell width="64px">チョキ</TableHCell>
-          <TableHCell width="64px">パー</TableHCell>
-        </tr>
+            <TableHCell $align="left" rowSpan={2} width="250px">
+              コメント
+            </TableHCell>
+          </tr>
+          <tr>
+            <TableHCell width="64px">グー</TableHCell>
+            <TableHCell width="64px">チョキ</TableHCell>
+            <TableHCell width="64px">パー</TableHCell>
+          </tr>
         </thead>
         <tbody>
-        {
-          (race?.entries ?? []).map((entry) => (
-            <EntryTableRow key={entry.id} entry={entry} />
-          ))
-        }
+          {(race?.entries ?? []).map((entry) => <EntryTableRow key={entry.id} entry={entry} />)}
         </tbody>
       </Table>
     </Wrapper>
   );
 };
 
-
 const EntryTableRowTr = styled.tr`
   height: 38px;
-`
+`;
 
 /**
  * @typedef Props
@@ -128,7 +123,6 @@ const EntryTableRowTr = styled.tr`
 
 /** @type {React.VFC<Props>} */
 export const EntryTableRow = ({ entry }) => {
-
   return (
     <EntryTableRowTr key={entry?.id}>
       <TableCell>{entry?.number}</TableCell>
@@ -149,5 +143,5 @@ export const EntryTableRow = ({ entry }) => {
 
       <TableCell $align="left">{entry?.comment}</TableCell>
     </EntryTableRowTr>
-  )
-}
+  );
+};

@@ -11,10 +11,10 @@ const connectionPromise = typeorm.createConnection({
     Player.schema,
     RaceEntry.schema,
     Race.schema,
-    BettingTicket.schema
+    BettingTicket.schema,
   ],
   synchronize: false,
-  type: "sqlite"
+  type: "sqlite",
 });
 
 async function createConnection() {

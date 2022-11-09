@@ -1,0 +1,18 @@
+{
+  "lint": {
+    "files": {
+      "include": ["pages/", "public/", "src/"]
+    },
+    "rules": {
+      "exclude": ["require-await", "no-unused-vars"]
+    }
+  },
+  "fmt": {
+    "files": {
+      "include": ["pages/", "public/", "src/", "deno.json", "tsconfig.json"]
+    },
+    "options": {
+      "lineWidth": 120
+    }
+  }
+}

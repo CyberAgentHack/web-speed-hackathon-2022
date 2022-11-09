@@ -17,14 +17,8 @@
     "dev": "npm-run-all -s clean -p build:watch serve:dev",
     "clean": "rimraf dist",
     "gen": "scaffdog generate",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "lint": "npm-run-all lint:eslint lint:stylelint",
-    "lint:fix": "npm-run-all lint:eslint:fix lint:stylelint:fix",
-    "lint:eslint": "eslint --ext '.mjs,.js,.jsx' .",
-    "lint:eslint:fix": "eslint --ext '.mjs,.js,.jsx' --fix .",
-    "lint:stylelint": "stylelint --ignore-path .gitignore './**/*.css' './**/*.jsx'",
-    "lint:stylelint:fix": "stylelint --ignore-path .gitignore --fix './**/*.css' './**/*.jsx'",
+    "format": "deno fmt",
+    "lint": "deno lint --unstable",
     "init:seeds": "ts-node-transpile-only scripts/init.js"
   },
   "devDependencies": {

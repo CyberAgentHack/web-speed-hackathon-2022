@@ -23,9 +23,7 @@ export const RaceResult = () => {
 
       <Spacer mt={Space * 2} />
       <BettingTicketList>
-        {(ticketData?.bettingTickets ?? []).map((ticket) => (
-          <BettingTicketList.Item key={ticket.id} ticket={ticket} />
-        ))}
+        {(ticketData?.bettingTickets ?? []).map((ticket) => <BettingTicketList.Item key={ticket.id} ticket={ticket} />)}
       </BettingTicketList>
 
       <Spacer mt={Space * 4} />

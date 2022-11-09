@@ -33,12 +33,12 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
     `/api/races/${raceId}/betting-tickets`,
     {
       auth: true,
-      method: "POST"
-    }
+      method: "POST",
+    },
   );
   const { data: userData, revalidate } = useAuthorizedFetch(
     "/api/users/me",
-    authorizedJsonFetcher
+    authorizedJsonFetcher,
   );
   const [error, setError] = useState(null);
 
@@ -52,10 +52,10 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
 
       await buyTicket({
         key: odds,
-        type: "trifecta"
+        type: "trifecta",
       });
     },
-    [odds, buyTicket]
+    [odds, buyTicket],
   );
 
   useEffect(() => {
@@ -91,30 +91,32 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
 
       <form method="dialog">
         <Stack gap={Space * 1}>
-          {!shouldShowForm ? (
-            <>
-              <ErrorText>購入するにはログインしてください</ErrorText>
-              <menu>
-                <button value={CANCEL}>閉じる</button>
-              </menu>
-            </>
-          ) : (
-            <>
-              <div>
-                <Stack horizontal>
-                  購入する買い目: <EntryCombination numbers={odds} />
-                </Stack>
-              </div>
-              <div>使用ポイント: 100pt</div>
-              <div>所持しているポイント: {userData.balance}pt</div>
-              <div>購入後に残るポイント: {userData.balance - 100}pt</div>
-              {error && <ErrorText>{error}</ErrorText>}
-              <menu>
-                <button value={CANCEL}>キャンセル</button>
-                <button value={BUY}>購入する</button>
-              </menu>
-            </>
-          )}
+          {!shouldShowForm
+            ? (
+              <>
+                <ErrorText>購入するにはログインしてください</ErrorText>
+                <menu>
+                  <button value={CANCEL}>閉じる</button>
+                </menu>
+              </>
+            )
+            : (
+              <>
+                <div>
+                  <Stack horizontal>
+                    購入する買い目: <EntryCombination numbers={odds} />
+                  </Stack>
+                </div>
+                <div>使用ポイント: 100pt</div>
+                <div>所持しているポイント: {userData.balance}pt</div>
+                <div>購入後に残るポイント: {userData.balance - 100}pt</div>
+                {error && <ErrorText>{error}</ErrorText>}
+                <menu>
+                  <button value={CANCEL}>キャンセル</button>
+                  <button value={BUY}>購入する</button>
+                </menu>
+              </>
+            )}
         </Stack>
       </form>
     </Dialog>

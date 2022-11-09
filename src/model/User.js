@@ -6,21 +6,21 @@ class User {
       balance: {
         default: 0,
         nullable: false,
-        type: "int"
+        type: "int",
       },
       id: {
         generated: "uuid",
         primary: true,
-        type: "uuid"
+        type: "uuid",
       },
       payoff: {
         default: 0,
         nullable: false,
-        type: "int"
-      }
+        type: "int",
+      },
     },
     name: "User",
-    target: User
+    target: User,
   });
 
   /** @param {Partial<User>} [payload] */

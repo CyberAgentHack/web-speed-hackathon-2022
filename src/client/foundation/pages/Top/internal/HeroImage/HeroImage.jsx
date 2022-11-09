@@ -14,5 +14,5 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = () => {
-  return <Image alt="" height={735} src={'/assets/images/hero.avif'} width={1024} />;
+  return <Image alt="" height={735} src={"/assets/images/hero.avif"} width={1024} />;
 };

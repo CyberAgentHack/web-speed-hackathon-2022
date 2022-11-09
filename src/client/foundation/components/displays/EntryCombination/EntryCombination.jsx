@@ -38,9 +38,7 @@ const Wrapper = styled.div`
 export const EntryCombination = ({ numbers }) => {
   return (
     <Wrapper>
-      {numbers.map((key, j) => (
-        <div key={j}>{key}</div>
-      ))}
+      {numbers.map((key, j) => <div key={j}>{key}</div>)}
     </Wrapper>
   );
 };

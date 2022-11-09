@@ -27,13 +27,12 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
   useEffect(() => {
     const fetchZenginCode = async () => {
-      await jsonFetcher("/api/zengin-code").then(response => {
+      await jsonFetcher("/api/zengin-code").then((response) => {
         setZenginCode(response);
       });
     };
     fetchZenginCode();
   }, []);
-
 
   const clearForm = useCallback(() => {
     setBankCode("");
@@ -44,7 +43,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
   const [charge] = useMutation("/api/users/me/charge", {
     auth: true,
-    method: "POST"
+    method: "POST",
   });
 
   const handleCodeChange = useCallback((e) => {
@@ -75,12 +74,12 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
       clearForm();
       onComplete();
     },
-    [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm]
+    [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
 
   const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
     code,
-    name
+    name,
   }));
   const bank = zenginCode[bankCode];
   const branch = bank?.branches[branchCode];
@@ -103,9 +102,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </label>
 
             <datalist id="ChargeDialog-bank-list">
-              {bankList.map(({ code, name }) => (
-                <option key={code} value={code}>{`${name} (${code})`}</option>
-              ))}
+              {bankList.map(({ code, name }) => <option key={code} value={code}>{`${name} (${code})`}</option>)}
             </datalist>
 
             {bank != null && (

@@ -12,9 +12,7 @@ import { formatCloseAt } from "../../../../utils/DateUtils";
 export const RecentRaceList = ({ races }) => {
   return (
     <Stack as="ul" gap={Space * 2}>
-      {races.map((race) => (
-        <RecentRaceList.Item key={race.id} race={race} />
-      ))}
+      {races.map((race) => <RecentRaceList.Item key={race.id} race={race} />)}
     </Stack>
   );
 };
@@ -66,12 +64,12 @@ const Item = ({ race }) => {
     abortAnimation,
     resetAnimation,
     startAnimation,
-    value: opacity
+    value: opacity,
   } = useAnimation({
     duration: 500,
     end: 1,
     start: 0,
-    timingFunction: easeOutCubic
+    timingFunction: easeOutCubic,
   });
 
   useEffect(() => {
@@ -138,7 +136,5 @@ function useTodayRaceWithAnimation(race) {
 const ItemImg = ({ height, race: todayRace, width }) => {
   const race = useTodayRaceWithAnimation(todayRace);
 
-  return (
-    <TrimmedImage height={height} loading={"lazy"} src={race ? race.image : ""} width={width} />
-  );
+  return <TrimmedImage height={height} loading={"lazy"} src={race ? race.image : ""} width={width} />;
 };

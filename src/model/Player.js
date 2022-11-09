@@ -6,23 +6,23 @@ class Player {
       id: {
         generated: "uuid",
         primary: true,
-        type: "uuid"
+        type: "uuid",
       },
       image: {
         nullable: false,
-        type: "text"
+        type: "text",
       },
       name: {
         nullable: false,
-        type: "varchar"
+        type: "varchar",
       },
       shortName: {
         nullable: false,
-        type: "varchar"
-      }
+        type: "varchar",
+      },
     },
     name: "Player",
-    target: Player
+    target: Player,
   });
 
   /** @param {Partial<Player>} [payload] */

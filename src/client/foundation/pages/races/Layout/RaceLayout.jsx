@@ -22,7 +22,6 @@ const LiveBadge = styled.span`
   text-transform: uppercase;
 `;
 
-
 /**
  * @type {React.VFC}
  */
@@ -36,16 +35,33 @@ export const RaceTabNavContents = ({ race, raceId }) => {
     <>
       <Section>
         <TabNav>
-          <TabNav.Item aria-current={currentPage === "race-card"} onClick={() => setCurrentPage("race-card")} to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>
-          <TabNav.Item aria-current={currentPage === "odds"} onClick={() => setCurrentPage("odds")} to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
-          <TabNav.Item aria-current={currentPage === "result"} onClick={() => setCurrentPage("result")} to={`/races/${raceId}/result`}>結果</TabNav.Item>
+          <TabNav.Item
+            aria-current={currentPage === "race-card"}
+            onClick={() => setCurrentPage("race-card")}
+            to={`/races/${raceId}/race-card`}
+          >
+            出走表
+          </TabNav.Item>
+          <TabNav.Item
+            aria-current={currentPage === "odds"}
+            onClick={() => setCurrentPage("odds")}
+            to={`/races/${raceId}/odds`}
+          >
+            オッズ
+          </TabNav.Item>
+          <TabNav.Item
+            aria-current={currentPage === "result"}
+            onClick={() => setCurrentPage("result")}
+            to={`/races/${raceId}/result`}
+          >
+            結果
+          </TabNav.Item>
         </TabNav>
         <Outlet context={{ race, raceId, setCurrentPage }} />
       </Section>
     </>
   );
 };
-
 
 /**
  * @type {React.VFC}

@@ -16,8 +16,7 @@ import { TicketVendingModal } from "./internal/TicketVendingModal";
 
 const Callout = styled.aside`
   align-items: center;
-  background: ${({ $closed }) =>
-  $closed ? Color.mono[200] : Color.green[100]};
+  background: ${({ $closed }) => $closed ? Color.mono[200] : Color.green[100]};
   color: ${({ $closed }) => ($closed ? Color.mono[600] : Color.green[500])};
   display: flex;
   font-weight: bold;
@@ -42,7 +41,7 @@ export const Odds = () => {
       setOddsKeyToBuy(odds.key);
       modalRef.current?.showModal();
     },
-    []
+    [],
   );
 
   const isRaceClosed = race === null || dayjs(race.closeAt).isBefore(new Date());
@@ -53,9 +52,7 @@ export const Odds = () => {
 
       <Callout $closed={isRaceClosed}>
         <FontAwesomeIcon icon={["fas", "circle-info"]} />
-        {isRaceClosed
-          ? "このレースの投票は締め切られています"
-          : "オッズをクリックすると拳券が購入できます"}
+        {isRaceClosed ? "このレースの投票は締め切られています" : "オッズをクリックすると拳券が購入できます"}
       </Callout>
 
       <Spacer mt={Space * 4} />

@@ -6,37 +6,37 @@ class BettingTicket {
       createdAt: {
         createDate: true,
         nullable: false,
-        type: "datetime"
+        type: "datetime",
       },
       id: {
         generated: "uuid",
         primary: true,
-        type: "uuid"
+        type: "uuid",
       },
       key: {
         nullable: false,
-        type: "simple-json"
+        type: "simple-json",
       },
       type: {
         nullable: false,
-        type: "varchar"
-      }
+        type: "varchar",
+      },
     },
     name: "BettingTicket",
     orderBy: {
-      createdAt: "ASC"
+      createdAt: "ASC",
     },
     relations: {
       race: {
         target: "Race",
-        type: "many-to-one"
+        type: "many-to-one",
       },
       user: {
         target: "User",
-        type: "many-to-one"
-      }
+        type: "many-to-one",
+      },
     },
-    target: BettingTicket
+    target: BettingTicket,
   });
 
   /** @param {Partial<BettingTicket>} [payload] */

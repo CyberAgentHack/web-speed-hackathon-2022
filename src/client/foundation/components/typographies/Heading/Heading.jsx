@@ -6,7 +6,7 @@ import { FontSize, Space } from "../../../styles/variables";
 const styles = {
   h1: `font-size: ${FontSize.XX_LARGE}`,
   h2: `font-size: ${FontSize.X_LARGE}`,
-  h3: `font-size: ${FontSize.LARGE}`
+  h3: `font-size: ${FontSize.LARGE}`,
 };
 
 const Wrapper = styled.h1`

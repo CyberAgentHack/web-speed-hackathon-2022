@@ -53,11 +53,7 @@ export const Header = () => {
         <Link to="/">CyberTicket</Link>
       </NameText>
 
-      {loggedIn ? (
-        <div>ログイン中です</div>
-      ) : (
-        <LoginButton onClick={handleClickLoginButton}>ログイン</LoginButton>
-      )}
+      {loggedIn ? <div>ログイン中です</div> : <LoginButton onClick={handleClickLoginButton}>ログイン</LoginButton>}
     </Wrapper>
   );
 };

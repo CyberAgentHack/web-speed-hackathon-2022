@@ -40,15 +40,17 @@ const ItemWrapper = styled.li`
 const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
   return (
     <ItemWrapper>
-      {ariaCurrent ? (
-        <a aria-current {...rest}>
-          {children}
-        </a>
-      ) : (
-        <Link aria-current={ariaCurrent} to={to} {...rest}>
-          {children}
-        </Link>
-      )}
+      {ariaCurrent
+        ? (
+          <a aria-current {...rest}>
+            {children}
+          </a>
+        )
+        : (
+          <Link aria-current={ariaCurrent} to={to} {...rest}>
+            {children}
+          </Link>
+        )}
     </ItemWrapper>
   );
 };

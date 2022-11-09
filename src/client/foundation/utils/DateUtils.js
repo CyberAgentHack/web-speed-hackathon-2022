@@ -10,7 +10,6 @@ export const isSameDay = (dateLeft, dateRight) => {
 };
 
 /**
- *
  * @param {string} ts
  * @returns {string}
  */

@@ -16,11 +16,7 @@ export const RaceCard = () => {
       <Spacer mt={Space * 2} />
 
       <PlayerPictureList>
-        {
-          (race?.entries ?? []).map((entry) => (
-            <PlayerPictureList.Item key={entry.id} entry={entry} />
-          ))
-        }
+        {(race?.entries ?? []).map((entry) => <PlayerPictureList.Item key={entry.id} entry={entry} />)}
       </PlayerPictureList>
 
       <Spacer mt={Space * 4} />

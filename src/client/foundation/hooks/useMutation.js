@@ -27,7 +27,7 @@ export function useMutation(apiPath, { auth, method }) {
   const [result, setResult] = useState({
     data: null,
     error: null,
-    loading: true
+    loading: true,
   });
   const { loggedIn, userId } = useAuth();
 
@@ -40,7 +40,7 @@ export function useMutation(apiPath, { auth, method }) {
       setResult(() => ({
         data: null,
         error: null,
-        loading: true
+        loading: true,
       }));
 
       try {
@@ -48,27 +48,27 @@ export function useMutation(apiPath, { auth, method }) {
           data,
           headers: auth
             ? {
-              "x-app-userid": userId
+              "x-app-userid": userId,
             }
             : {},
           method,
-          url: apiPath
+          url: apiPath,
         });
 
         setResult((cur) => ({
           ...cur,
           data: res.data,
-          loading: false
+          loading: false,
         }));
       } catch (error) {
         setResult((cur) => ({
           ...cur,
           error,
-          loading: false
+          loading: false,
         }));
       }
     },
-    [apiPath, auth, loggedIn, method, userId]
+    [apiPath, auth, loggedIn, method, userId],
   );
 
   return [mutate, result];

@@ -68,30 +68,32 @@ const RankNo = styled.div`
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
   const sortedOdds = take(
     sortBy(odds, (item) => item.odds),
-    50
+    50,
   );
 
   return (
     <Wrapper>
       {sortedOdds.map((item, i) => (
         <li key={item.id}>
-          {isRaceClosed ? (
-            <InactiveBuyButton>
-              <Stack horizontal alignItems="center" gap={Space * 2}>
-                <RankNo>{i + 1}.</RankNo>
-                <EntryCombination numbers={item.key} />
-                <OddsMarker as="div" odds={item.odds} />
-              </Stack>
-            </InactiveBuyButton>
-          ) : (
-            <BuyButton onClick={() => onClickOdds(item)}>
-              <Stack horizontal alignItems="center" gap={Space * 2}>
-                <RankNo>{i + 1}.</RankNo>
-                <EntryCombination numbers={item.key} />
-                <OddsMarker as="div" odds={item.odds} />
-              </Stack>
-            </BuyButton>
-          )}
+          {isRaceClosed
+            ? (
+              <InactiveBuyButton>
+                <Stack horizontal alignItems="center" gap={Space * 2}>
+                  <RankNo>{i + 1}.</RankNo>
+                  <EntryCombination numbers={item.key} />
+                  <OddsMarker as="div" odds={item.odds} />
+                </Stack>
+              </InactiveBuyButton>
+            )
+            : (
+              <BuyButton onClick={() => onClickOdds(item)}>
+                <Stack horizontal alignItems="center" gap={Space * 2}>
+                  <RankNo>{i + 1}.</RankNo>
+                  <EntryCombination numbers={item.key} />
+                  <OddsMarker as="div" odds={item.odds} />
+                </Stack>
+              </BuyButton>
+            )}
         </li>
       ))}
     </Wrapper>

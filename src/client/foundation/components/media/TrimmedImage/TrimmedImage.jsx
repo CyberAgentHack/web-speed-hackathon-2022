@@ -19,22 +19,20 @@ export const TrimmedImage = ({ height, loading, src, width }) => {
     aspect-ratio: ${width} / ${height};
     max-width: ${width}px;
     overflow: hidden;
-  `
+  `;
 
   const Img = styled.img`
     height: 100%;
     object-fit: cover;
     object-position: center center;
     width: ${width}px;
-  `
+  `;
 
   if (src === "") {
-    return (
-      <ImgContainer />
-    );
+    return <ImgContainer />;
   }
 
-  const srcUrl = src.replaceAll('.jpg', '.avif')
+  const srcUrl = src.replaceAll(".jpg", ".avif");
 
   return (
     <ImgContainer>

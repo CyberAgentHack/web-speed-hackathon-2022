@@ -5,53 +5,53 @@ class Race {
     columns: {
       closeAt: {
         nullable: false,
-        type: "datetime"
+        type: "datetime",
       },
       id: {
         generated: "uuid",
         primary: true,
-        type: "uuid"
+        type: "uuid",
       },
       image: {
         nullable: false,
-        type: "varchar"
+        type: "varchar",
       },
       name: {
         nullable: false,
-        type: "varchar"
+        type: "varchar",
       },
       startAt: {
         nullable: false,
-        type: "datetime"
-      }
+        type: "datetime",
+      },
     },
     indices: [
       {
         columns: ["startAt"],
-        unique: false
+        unique: false,
       },
       {
         columns: ["closeAt"],
-        unique: false
-      }
+        unique: false,
+      },
     ],
     name: "Race",
     orderBy: {
-      startAt: "ASC"
+      startAt: "ASC",
     },
     relations: {
       entries: {
         inverseSide: "race",
         target: "RaceEntry",
-        type: "one-to-many"
+        type: "one-to-many",
       },
       trifectaOdds: {
         inverseSide: "race",
         target: "OddsItem",
-        type: "one-to-many"
-      }
+        type: "one-to-many",
+      },
     },
-    target: Race
+    target: Race,
   });
 
   /** @param {Partial<Race>} [payload] */

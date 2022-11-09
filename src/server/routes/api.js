@@ -10,20 +10,19 @@ import { initialize } from "../typeorm/initialize.js";
  * @type {import("fastify").FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
-
   fastify.get("/zengin-code", async (_req, res) => {
-    const bankData = {}
+    const bankData = {};
     Object.entries(zenginCode).forEach(([code, { branches, name }]) => {
-      const branchData = {}
+      const branchData = {};
       Object.entries(branches).forEach(([code, { name }]) => {
-        branchData[code] = { code, name }
-      })
+        branchData[code] = { code, name };
+      });
 
       bankData[code] = {
         branches: branchData,
         code,
-        name
-      }
+        name,
+      };
     });
 
     res.send(bankData);
@@ -76,26 +75,26 @@ export const apiRoute = async (fastify) => {
       Object.assign(where, {
         startAt: Between(
           since.utc().format("YYYY-MM-DD HH:mm:ss"),
-          until.utc().format("YYYY-MM-DD HH:mm:ss")
-        )
+          until.utc().format("YYYY-MM-DD HH:mm:ss"),
+        ),
       });
     } else if (since != null) {
       Object.assign(where, {
-        startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss"))
+        startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
     } else if (until != null) {
       Object.assign(where, {
-        startAt: LessThanOrEqual(until.utc().format("YYYY-MM-DD HH:mm:ss"))
+        startAt: LessThanOrEqual(until.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
     }
 
     const order = {
-      'startAt': 1
-    }
+      "startAt": 1,
+    };
 
     const races = await repo.find({
       order,
-      where
+      where,
     });
 
     res.send({ races });
@@ -105,7 +104,7 @@ export const apiRoute = async (fastify) => {
     const repo = (await createConnection()).getRepository(Race);
 
     const race = await repo.findOne(req.params.raceId, {
-      relations: ["entries", "entries.player"]
+      relations: ["entries", "entries.player"],
     });
 
     if (race === undefined) {
@@ -120,13 +119,13 @@ export const apiRoute = async (fastify) => {
     const odds = await repo.find({
       where: {
         race: {
-          id: req.params.raceId
+          id: req.params.raceId,
         },
-      }
+      },
     });
 
     res.send({
-      odds
+      odds,
     });
   });
 
@@ -139,16 +138,16 @@ export const apiRoute = async (fastify) => {
     const bettingTickets = await repo.find({
       where: {
         race: {
-          id: req.params.raceId
+          id: req.params.raceId,
         },
         user: {
-          id: req.user.id
-        }
-      }
+          id: req.user.id,
+        },
+      },
     });
 
     res.send({
-      bettingTickets
+      bettingTickets,
     });
   });
 
@@ -173,19 +172,19 @@ export const apiRoute = async (fastify) => {
     }
 
     const bettingTicketRepo = (await createConnection()).getRepository(
-      BettingTicket
+      BettingTicket,
     );
     const bettingTicket = await bettingTicketRepo.save(
       new BettingTicket({
         key: req.body.key,
         race: {
-          id: req.params.raceId
+          id: req.params.raceId,
         },
         type: req.body.type,
         user: {
-          id: req.user.id
-        }
-      })
+          id: req.user.id,
+        },
+      }),
     );
 
     const userRepo = (await createConnection()).getRepository(User);

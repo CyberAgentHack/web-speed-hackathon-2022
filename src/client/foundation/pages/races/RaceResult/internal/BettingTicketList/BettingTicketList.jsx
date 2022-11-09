@@ -70,13 +70,13 @@ export const BettingTicketList = ({ children }) => {
   return (
     <Table>
       <thead>
-      <Header>
-        <Cell as="th">的中</Cell>
-        <Cell as="th">買い目</Cell>
-        <Cell $align="right" as="th" width="96px">
-          数量
-        </Cell>
-      </Header>
+        <Header>
+          <Cell as="th">的中</Cell>
+          <Cell as="th">買い目</Cell>
+          <Cell $align="right" as="th" width="96px">
+            数量
+          </Cell>
+        </Header>
       </thead>
       <tbody>{children}</tbody>
     </Table>

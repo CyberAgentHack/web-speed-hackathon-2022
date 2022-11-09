@@ -8,7 +8,7 @@ import fastifyStatic from "fastify-static";
 export const spaRoute = async (fastify) => {
   fastify.register(fastifyStatic, {
     root: join(__dirname, "public"),
-    wildcard: false
+    wildcard: false,
   });
 
   fastify.get("*", (_req, reply) => {
