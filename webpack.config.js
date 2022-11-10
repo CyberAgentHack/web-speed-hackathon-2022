@@ -38,6 +38,7 @@ module.exports = [
                   "@babel/preset-env",
                   {
                     modules: "cjs",
+                    spec: true,
                   },
                 ],
                 "@babel/preset-react",
@@ -78,6 +79,7 @@ module.exports = [
                   "@babel/preset-env",
                   {
                     modules: "cjs",
+                    spec: true,
                   },
                 ],
                 "@babel/preset-react",
