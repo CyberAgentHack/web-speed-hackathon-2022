@@ -65,7 +65,7 @@ module.exports = [
   {
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
-    mode: "production",
+    mode: "development",
     module: {
       rules: [
         {
@@ -79,7 +79,6 @@ module.exports = [
                   "@babel/preset-env",
                   {
                     modules: "cjs",
-                    spec: true,
                   },
                 ],
                 "@babel/preset-react",
