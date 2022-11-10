@@ -20,15 +20,18 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/model": ["src/model"],
-      "@/server/*": ["src/server/*"]
+      "@/database": ["./lib/database"],
+      "@/database/*": ["./lib/database/*"],
+      "@/foundation": ["./lib/foundation"],
+      "@/foundation/*": ["./lib/foundation/*"],
+      "@/model": ["./lib/model"],
+      "@/model/*": ["./lib/model/*"],
+      "@/typeorm": ["./lib/typeorm"],
+      "@/typeorm/*": ["./lib/typeorm/*"]
     }
   },
   "include": [
-    "**/*.js",
-    "**/*.jsx",
-    "**/*.ts",
-    "**/*.tsx"
+    "pages/**/*"
   ],
   "exclude": [
     "node_modules"

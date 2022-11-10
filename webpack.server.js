@@ -8,7 +8,7 @@ function abs(...args) {
 }
 
 const SRC_ROOT = abs("./src");
-const DIST_ROOT = abs("./dist");
+const DIST_ROOT = abs("./dist/server");
 
 module.exports = {
   devtool: "inline-source-map",

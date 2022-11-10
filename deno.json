@@ -1,7 +1,7 @@
 {
   "lint": {
     "files": {
-      "include": ["pages/", "public/", "src/"]
+      "include": ["lib/", "pages/", "public/", "src/"]
     },
     "rules": {
       "exclude": ["require-await", "no-unused-vars"]
@@ -9,7 +9,7 @@
   },
   "fmt": {
     "files": {
-      "include": ["pages/", "public/", "src/", "deno.json", "tsconfig.json"]
+      "include": ["lib/", "pages/", "public/", "src/", "deno.json", "tsconfig.json"]
     },
     "options": {
       "lineWidth": 120

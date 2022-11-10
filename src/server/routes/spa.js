@@ -10,8 +10,4 @@ export const spaRoute = async (fastify) => {
     root: join(__dirname, "public"),
     wildcard: false,
   });
-
-  fastify.get("*", (_req, reply) => {
-    return reply.sendFile("index.html", join(__dirname, "public"));
-  });
 };

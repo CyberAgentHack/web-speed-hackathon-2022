@@ -2,9 +2,9 @@ import dayjs from "dayjs";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import zenginCode from "zengin-code";
 
-import { BettingTicket, OddsItem, Race, User } from "../../model";
-import { createConnection } from "../typeorm/connection.js";
-import { initialize } from "../typeorm/initialize.js";
+import { BettingTicket, OddsItem, Race, User } from "../../../lib/model";
+import { createConnection } from "../../../lib/typeorm/connection.js";
+import { initialize } from "../../../lib/typeorm/initialize.js";
 
 /**
  * @type {import("fastify").FastifyPluginCallback}

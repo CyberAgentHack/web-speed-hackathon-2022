@@ -4,12 +4,12 @@ import fastify from "fastify";
 import fastifyCompress from "fastify-compress";
 import fastifySensible from "fastify-sensible";
 
-import { User } from "../model";
+import { User } from "../../lib/model";
 
 import { apiRoute } from "./routes/api.js";
 import { spaRoute } from "./routes/spa.js";
-import { createConnection } from "./typeorm/connection.js";
-import { initialize } from "./typeorm/initialize.js";
+import { createConnection } from "../../lib/typeorm/connection.js";
+import { initialize } from "../../lib/typeorm/initialize.js";
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
