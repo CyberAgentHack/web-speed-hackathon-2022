@@ -1,7 +1,7 @@
 import { copyFile, open, rm } from "fs/promises";
 
-import { DATABASE_PATH, INITIAL_DATABASE_PATH } from "../src/server/paths.js";
-import { createConnection } from "../src/server/typeorm/connection.js";
+import { DATABASE_PATH, INITIAL_DATABASE_PATH } from "src/server/paths.js";
+import { createConnection } from "src/server/typeorm/connection.js";
 
 import { insertOddsItems } from "./oddsItems";
 import { insertPlayers } from "./players";

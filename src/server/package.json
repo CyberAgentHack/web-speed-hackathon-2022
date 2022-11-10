@@ -1,0 +1,7 @@
+{
+  "name": "@wsh/server",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack --config ./webpack.server.js"
+  }
+}

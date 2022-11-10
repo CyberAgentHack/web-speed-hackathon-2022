@@ -6,7 +6,7 @@ node_modules
 !.yarn/sdks
 !.yarn/versions
 
-dist
+**/dist
 database.sqlite
 
 .idea/*

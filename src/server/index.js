@@ -4,12 +4,11 @@ import fastify from "fastify";
 import fastifyCompress from "fastify-compress";
 import fastifySensible from "fastify-sensible";
 
-import { User } from "../../lib/model";
+import { User } from "../model";
 
 import { apiRoute } from "./routes/api.js";
-import { spaRoute } from "./routes/spa.js";
-import { createConnection } from "../../lib/typeorm/connection.js";
-import { initialize } from "../../lib/typeorm/initialize.js";
+import { createConnection } from "./typeorm/connection.js";
+import { initialize } from "./typeorm/initialize.js";
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
@@ -21,10 +20,12 @@ const server = fastify({
     },
   },
 });
+
 server.register(fastifyCompress, {
   encodings: ["gzip"],
   requestEncodings: ["gzip"],
 });
+
 server.register(fastifySensible);
 
 server.addHook("onRequest", async (req, res) => {
@@ -47,12 +48,11 @@ server.addHook("onRequest", async (req, res) => {
 });
 
 server.register(apiRoute, { prefix: "/api" });
-server.register(spaRoute);
 
 const start = async () => {
   try {
     await initialize();
-    await server.listen(process.env.PORT || 3000, "0.0.0.0");
+    await server.listen(process.env.PORT || 8888, "0.0.0.0");
   } catch (err) {
     server.log.error(err);
     process.exit(1);

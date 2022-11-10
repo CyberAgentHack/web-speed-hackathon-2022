@@ -3,7 +3,7 @@ import { sample } from "lodash-es";
 import { v4 as uuid } from "uuid";
 
 import { Race } from "../src/model";
-import { createConnection } from "../src/server/typeorm/connection.js";
+import { createConnection } from "src/server/typeorm/connection.js";
 
 export async function insertRaces(startDate, endDate) {
   const connection = await createConnection();

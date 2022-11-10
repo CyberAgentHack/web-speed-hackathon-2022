@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 
 import { Player } from "../src/model";
-import { createConnection } from "../src/server/typeorm/connection.js";
+import { createConnection } from "src/server/typeorm/connection.js";
 
 export async function insertPlayers() {
   process.stdout.write("Creating players...");

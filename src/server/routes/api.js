@@ -2,9 +2,9 @@ import dayjs from "dayjs";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import zenginCode from "zengin-code";
 
-import { BettingTicket, OddsItem, Race, User } from "../../../lib/model";
-import { createConnection } from "../../../lib/typeorm/connection.js";
-import { initialize } from "../../../lib/typeorm/initialize.js";
+import { BettingTicket, OddsItem, Race, User } from "../../model";
+import { createConnection } from "../typeorm/connection.js";
+import { initialize } from "../typeorm/initialize.js";
 
 /**
  * @type {import("fastify").FastifyPluginCallback}
@@ -57,9 +57,15 @@ export const apiRoute = async (fastify) => {
     res.status(204).send();
   });
 
+  /**
+   @param {import("fastify").FastifyRequest} req
+   @param {import("fastify").FastifyReply} res
+   */
   fastify.get("/races", async (req, res) => {
     const since = req.query.since != null ? dayjs.unix(req.query.since) : undefined;
     const until = req.query.until != null ? dayjs.unix(req.query.until) : undefined;
+    const skip = req.query.skip != null ? req.query.skip : undefined;
+    const take = req.query.take != null ? req.query.take : undefined;
 
     if (since != null && !since.isValid()) {
       throw fastify.httpErrors.badRequest();
@@ -95,6 +101,8 @@ export const apiRoute = async (fastify) => {
     const races = await repo.find({
       order,
       where,
+      skip,
+      take,
     });
 
     res.send({ races });

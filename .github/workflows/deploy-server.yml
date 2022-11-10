@@ -3,11 +3,7 @@
 
 name: Deploy Server
 
-on:
-  push:
-    branches: [ "nextjs" ]
-  pull_request:
-    branches: [ "nextjs" ]
+on: push
 
 jobs:
   deploy:
@@ -21,8 +17,6 @@ jobs:
       # clone
       - name: Clone repository
         uses: actions/checkout@v3
-        with:
-          ref: nextjs
 
       # build
       - name: Use Node.js
@@ -36,6 +30,6 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "wsh2022-tsuyoshi-nishikawa"
-          entrypoint: "server.js"
-          root: dist
+          project: "wsh-tsuyoshi-nishikawa"
+          entrypoint: "main.js"
+          root: dist/server

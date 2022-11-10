@@ -18,20 +18,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
-    "paths": {
-      "@/database": ["./lib/database"],
-      "@/database/*": ["./lib/database/*"],
-      "@/foundation": ["./lib/foundation"],
-      "@/foundation/*": ["./lib/foundation/*"],
-      "@/model": ["./lib/model"],
-      "@/model/*": ["./lib/model/*"],
-      "@/typeorm": ["./lib/typeorm"],
-      "@/typeorm/*": ["./lib/typeorm/*"]
-    }
+    "incremental": true
   },
   "include": [
-    "pages/**/*"
+    "**/*.ts",
+    "**/*.tsx"
   ],
   "exclude": [
     "node_modules"
