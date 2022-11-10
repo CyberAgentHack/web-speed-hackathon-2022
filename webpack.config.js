@@ -19,6 +19,7 @@ module.exports = [
   {
     devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
+    mode: "production",
     module: {
       rules: [
         {
@@ -39,7 +40,6 @@ module.exports = [
                   "@babel/preset-env",
                   {
                     modules: "cjs",
-                    spec: true,
                   },
                 ],
                 "@babel/preset-react",
@@ -68,6 +68,7 @@ module.exports = [
     devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "server/index.js"),
     externals: [nodeExternals()],
+    mode: "production",
     module: {
       rules: [
         {
@@ -81,7 +82,6 @@ module.exports = [
                   "@babel/preset-env",
                   {
                     modules: "cjs",
-                    spec: true,
                   },
                 ],
                 "@babel/preset-react",
