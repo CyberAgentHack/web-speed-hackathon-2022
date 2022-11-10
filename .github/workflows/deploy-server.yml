@@ -1,13 +1,13 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Deploy
+name: Deploy Server
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "nextjs" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "nextjs" ]
 
 jobs:
   deploy:
@@ -21,6 +21,8 @@ jobs:
       # clone
       - name: Clone repository
         uses: actions/checkout@v3
+        with:
+          ref: nextjs
 
       # build
       - name: Use Node.js
