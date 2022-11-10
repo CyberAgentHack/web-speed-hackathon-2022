@@ -12,7 +12,7 @@ export default function HeroImage() {
     <Image
       alt=""
       height={735}
-      src={"/assets/images/hero.avif"}
+      src={"/assets/images/hero.webp"}
       width={1024}
       style={{ display: "block", margin: "0 auto", height: "auto" }}
     />

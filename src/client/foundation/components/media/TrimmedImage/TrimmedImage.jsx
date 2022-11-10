@@ -29,7 +29,7 @@ export const TrimmedImage = ({ height, loading, src, width }) => {
   const [srcUrl, setSrcUrl] = useState("");
 
   useEffect(() => {
-    setSrcUrl(src.replaceAll(".jpg", ".avif"));
+    setSrcUrl(src.replaceAll(".jpg", ".webp"));
   });
 
   if (srcUrl === "") {
