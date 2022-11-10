@@ -87,7 +87,7 @@ export const TopPage = ({ races }) => {
         <RecentRaceList races={races} />
       </section>
 
-      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      {/*<ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />*/}
     </Container>
   );
 };
