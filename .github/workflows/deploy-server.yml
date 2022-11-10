@@ -9,9 +9,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write # Needed for auth with Deno Deploy
-      contents: read # Needed to clone the repository
 
     steps:
       # clone
@@ -27,9 +24,10 @@ jobs:
       - run: yarn build:server
 
       # deploy
-      - name: Upload to Deno Deploy
-        uses: denoland/deployctl@v1
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          project: "wsh-tsuyoshi-nishikawa"
-          entrypoint: "main.js"
-          root: dist/server
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "wsh-tsuyoshi-nishikawa"
+          heroku_email: "cony.tn@gmail.com"
+          appdir: "dist/server"
