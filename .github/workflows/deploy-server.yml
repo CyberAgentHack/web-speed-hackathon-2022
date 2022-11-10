@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: 16.x.x
       - run: yarn install
-      - run: yarn build
+      - run: yarn build:server
 
       # deploy
       - name: Upload to Deno Deploy
