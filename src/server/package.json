@@ -1,7 +1,9 @@
 {
   "name": "@wsh/server",
   "version": "1.0.0",
+  "license": "MPL-2.0",
   "scripts": {
-    "build": "webpack --config ./webpack.server.js"
+    "build": "webpack --config ./webpack.server.js",
+    "serve": "node --enable-source-maps ./dist/main.js"
   }
 }

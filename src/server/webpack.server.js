@@ -11,8 +11,8 @@ function abs(...args) {
 
 const SRC_ROOT = abs("./");
 const PUBLIC_ROOT = abs("./public");
-const DIST_ROOT = abs("../../dist/server");
-const DIST_PUBLIC = abs("../../dist/server/public");
+const DIST_ROOT = abs("./dist");
+const DIST_PUBLIC = abs("./dist/public");
 
 module.exports = {
   devtool: "inline-source-map",
