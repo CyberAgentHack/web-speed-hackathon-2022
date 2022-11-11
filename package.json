@@ -70,7 +70,6 @@
     "framer-motion": "^6.2.8",
     "lodash-es": "^4.17.21",
     "modern-css-reset": "^1.4.0",
-    "next": "^13.0.2",
     "pino-pretty": "^7.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

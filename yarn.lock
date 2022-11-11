@@ -2302,6 +2302,8 @@ __metadata:
 "@wsh/client@workspace:src/client":
   version: 0.0.0-use.local
   resolution: "@wsh/client@workspace:src/client"
+  dependencies:
+    next: ^13.0.2
   languageName: unknown
   linkType: soft
 
@@ -8743,7 +8745,6 @@ __metadata:
     framer-motion: ^6.2.8
     lodash-es: ^4.17.21
     modern-css-reset: ^1.4.0
-    next: ^13.0.2
     nodemon: ^2.0.15
     npm-run-all: ^4.1.5
     pino-pretty: ^7.3.0
