@@ -1,4 +1,3 @@
-import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
 
@@ -6,6 +5,7 @@ import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Stack } from "../../../../../components/layouts/Stack";
 import { BreakPoint, Color, Space } from "../../../../../styles/variables";
+import { sortBy, take } from "../../../../../utils/loadsh";
 import { OddsMarker } from "../OddsMarker";
 
 const Wrapper = styled.ol`
@@ -66,10 +66,7 @@ const RankNo = styled.div`
 
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = _.take(
-    _.sortBy(odds, (item) => item.odds),
-    50,
-  );
+  const sortedOdds = take(sortBy(odds, "odds"), 50);
 
   return (
     <Wrapper>
