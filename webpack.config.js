@@ -34,6 +34,15 @@ module.exports = [
           use: {
             loader: "babel-loader",
             options: {
+              plugins: [
+                [
+                  "babel-plugin-styled-components",
+                  {
+                    displayName: false,
+                    ssr: false,
+                  },
+                ],
+              ],
               presets: [
                 [
                   "@babel/preset-env",
