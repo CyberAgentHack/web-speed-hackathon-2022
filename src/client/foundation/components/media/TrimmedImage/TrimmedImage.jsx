@@ -47,6 +47,7 @@ export const TrimmedImage = ({ height, loading, src, width }) => {
         loading={loading}
         style={{ objectFit: "cover", objectPosition: "center center" }}
         quality={50}
+        unoptimized
       >
       </Image>
     </ImgContainer>

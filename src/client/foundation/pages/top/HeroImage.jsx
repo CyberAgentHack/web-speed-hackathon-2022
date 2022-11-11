@@ -15,6 +15,8 @@ export default function HeroImage() {
       src={"/assets/images/hero.webp"}
       width={1024}
       style={{ display: "block", margin: "0 auto", height: "auto" }}
+      unoptimized
+      priority
     />
   );
 }
