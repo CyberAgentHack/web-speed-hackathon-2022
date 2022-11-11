@@ -24,7 +24,7 @@ CyberTicket のパフォーマンスを改善してください。
 - 参加資格 | **どなたでも自由に参加できます**
 
 1. **レギュレーション・注意事項をよく読んで、問題なければ同意します**
-   - [レギュレーション](./docs/REGULATION.md)
+   - [レギュレーション](https://github.com/CyberAgentHack/web-speed-hackathon-2022-leaderboard/blob/main/docs/REGULATION.md)
    - [注意事項](#注意事項)
 1. **課題のソースコードを fork します**
    - https://github.com/CyberAgentHack/web-speed-hackathon-2022
