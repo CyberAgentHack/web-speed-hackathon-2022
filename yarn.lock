@@ -2303,13 +2303,118 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@wsh/client@workspace:src/client"
   dependencies:
+    "@babel/core": ^7.16.7
+    "@babel/preset-env": ^7.16.7
+    "@babel/preset-react": ^7.16.7
+    "@babel/runtime": ^7.17.2
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-regular-svg-icons": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
+    "@fortawesome/react-fontawesome": ^0.2.0
+    "@types/lodash-es": ^4.17.6
+    "@types/node": ^16.11.68
+    "@types/react": ^18.0.25
+    "@types/react-dom": ^18.0.8
+    "@types/styled-components": ^5.1.19
+    "@types/zengin-code": ^1.0.0
+    axios: ^0.25.0
+    babel-loader: ^8.2.3
+    bezier-easing: ^2.1.0
+    copy-webpack-plugin: ^10.2.0
+    csstype: ^3.0.10
+    dayjs: ^1.11.6
+    fastify: ^3.25.3
+    fastify-compress: ^4.1.0
+    fastify-sensible: ^3.1.2
+    fastify-static: ^4.5.0
+    framer-motion: ^6.2.8
+    lodash-es: ^4.17.21
+    modern-css-reset: ^1.4.0
     next: ^13.0.2
+    nodemon: ^2.0.15
+    npm-run-all: ^4.1.5
+    pino-pretty: ^7.3.0
+    postcss: ^8.4.18
+    postcss-syntax: ^0.36.2
+    prettier: ^2.5.1
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    react-is: ^18.2.0
+    rimraf: ^3.0.2
+    scaffdog: ^1.1.0
+    sharp: ^0.31.2
+    sqlite3: ^5.1.2
+    styled-components: ^5.3.3
+    terser-webpack-plugin: ^5.3.6
+    ts-node: ^10.9.1
+    typeorm: ^0.2.44
+    typescript: ^4.6.2
+    uuid: ^8.3.2
+    wait-on: ^6.0.0
+    webpack: ^5.65.0
+    webpack-cli: ^4.9.1
+    webpack-merge: ^5.8.0
+    webpack-node-externals: ^3.0.0
+    zengin-code: ^1.0.0-p20220130
   languageName: unknown
   linkType: soft
 
 "@wsh/server@workspace:src/server":
   version: 0.0.0-use.local
   resolution: "@wsh/server@workspace:src/server"
+  dependencies:
+    "@babel/core": ^7.16.7
+    "@babel/preset-env": ^7.16.7
+    "@babel/preset-react": ^7.16.7
+    "@babel/runtime": ^7.17.2
+    "@fortawesome/fontawesome-svg-core": ^6.2.0
+    "@fortawesome/free-regular-svg-icons": ^6.2.0
+    "@fortawesome/free-solid-svg-icons": ^6.2.0
+    "@fortawesome/react-fontawesome": ^0.2.0
+    "@types/lodash-es": ^4.17.6
+    "@types/node": ^16.11.68
+    "@types/react": ^18.0.25
+    "@types/react-dom": ^18.0.8
+    "@types/styled-components": ^5.1.19
+    "@types/zengin-code": ^1.0.0
+    axios: ^0.25.0
+    babel-loader: ^8.2.3
+    bezier-easing: ^2.1.0
+    copy-webpack-plugin: ^10.2.0
+    csstype: ^3.0.10
+    dayjs: ^1.11.6
+    fastify: ^3.25.3
+    fastify-compress: ^4.1.0
+    fastify-sensible: ^3.1.2
+    fastify-static: ^4.5.0
+    framer-motion: ^6.2.8
+    lodash-es: ^4.17.21
+    modern-css-reset: ^1.4.0
+    nodemon: ^2.0.15
+    npm-run-all: ^4.1.5
+    pino-pretty: ^7.3.0
+    postcss: ^8.4.18
+    postcss-syntax: ^0.36.2
+    prettier: ^2.5.1
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    react-is: ^18.2.0
+    rimraf: ^3.0.2
+    scaffdog: ^1.1.0
+    sharp: ^0.31.2
+    sqlite3: ^5.1.2
+    styled-components: ^5.3.3
+    terser-webpack-plugin: ^5.3.6
+    ts-node: ^10.9.1
+    typeorm: ^0.2.44
+    typescript: ^4.6.2
+    uuid: ^8.3.2
+    wait-on: ^6.0.0
+    webpack: ^5.65.0
+    webpack-cli: ^4.9.1
+    webpack-merge: ^5.8.0
+    webpack-node-externals: ^3.0.0
+    zengin-code: ^1.0.0-p20220130
   languageName: unknown
   linkType: soft
 
@@ -3471,6 +3576,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dafo@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "dafo@npm:0.1.1"
+  dependencies:
+    noda: ^0.1.2
+  checksum: c1e68f707ca2c8aacf9264b378e2a4300b666d5706c049e4356876e00634528c4c0a0d303b12f67997c1ee1ae25c492691ce6af82d35d35a258f2baa2cc52cb6
+  languageName: node
+  linkType: hard
+
 "dateformat@npm:^4.6.3":
   version: 4.6.3
   resolution: "dateformat@npm:4.6.3"
@@ -3577,6 +3691,19 @@ __metadata:
   version: 1.0.0
   resolution: "delegates@npm:1.0.0"
   checksum: a51744d9b53c164ba9c0492471a1a2ffa0b6727451bdc89e31627fdf4adda9d51277cfcbfb20f0a6f08ccb3c436f341df3e92631a3440226d93a8971724771fd
+  languageName: node
+  linkType: hard
+
+"deno@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "deno@npm:0.1.1"
+  dependencies:
+    dafo: ^0.1.1
+    noda: ^0.6.0
+    qir: ^0.1.0
+  bin:
+    install.js: try-deno
+  checksum: 22db91792f0ab5575a7ae45e3500216ecf2e0de0220cfa120ac62019814a63e53c9e204bf695a20df1bc7350e90d3a6bd9d4073375078d54729fb907ca1df0b5
   languageName: node
   linkType: hard
 
@@ -6030,6 +6157,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"noda@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "noda@npm:0.1.2"
+  checksum: 1b98c30011269fc0f50900b3ccc0383038b6cf2d7d5b8b1da49be1130c3ba7accc6ba8361e05b839d71c2ef85bc92b84b42682512c868a8af9dc090022216063
+  languageName: node
+  linkType: hard
+
+"noda@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "noda@npm:0.6.0"
+  checksum: 3d336a2df0516daa2145ee5abf3644b5e3fc858d0fa4acc74f55ddbf2f2ad885fd877a1836b5f98160a810b1484da88b7b565189da57fc3e431fed1e97d17174
+  languageName: node
+  linkType: hard
+
 "node-abi@npm:^3.3.0":
   version: 3.28.0
   resolution: "node-abi@npm:3.28.0"
@@ -6839,6 +6980,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qir@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "qir@npm:0.1.0"
+  dependencies:
+    noda: ^0.6.0
+  checksum: 058befb2a10f967d629ba4fa3bdb723a8b0c60f280d7ce6706517e3daaaa4e05380b5d637dfeee7325e0144dbf2d235db567a24745573be16502d696fe36100c
+  languageName: node
+  linkType: hard
+
 "queue-microtask@npm:^1.1.2, queue-microtask@npm:^1.2.2":
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
@@ -6899,6 +7049,13 @@ __metadata:
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
+  languageName: node
+  linkType: hard
+
+"react-is@npm:^18.2.0":
+  version: 18.2.0
+  resolution: "react-is@npm:18.2.0"
+  checksum: e72d0ba81b5922759e4aff17e0252bd29988f9642ed817f56b25a3e217e13eea8a7f2322af99a06edb779da12d5d636e9fda473d620df9a3da0df2a74141d53e
   languageName: node
   linkType: hard
 
@@ -8718,57 +8875,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web-speed-hackathon-2022@workspace:."
   dependencies:
-    "@babel/core": ^7.16.7
-    "@babel/preset-env": ^7.16.7
-    "@babel/preset-react": ^7.16.7
-    "@babel/runtime": ^7.17.2
-    "@fortawesome/fontawesome-svg-core": ^6.2.0
-    "@fortawesome/free-regular-svg-icons": ^6.2.0
-    "@fortawesome/free-solid-svg-icons": ^6.2.0
-    "@fortawesome/react-fontawesome": ^0.2.0
-    "@types/lodash-es": ^4.17.6
     "@types/node": ^16.11.68
-    "@types/react": ^18.0.25
-    "@types/react-dom": ^18.0.8
-    "@types/styled-components": ^5.1.19
-    "@types/zengin-code": ^1.0.0
-    axios: ^0.25.0
-    babel-loader: ^8.2.3
-    bezier-easing: ^2.1.0
-    copy-webpack-plugin: ^10.2.0
-    csstype: ^3.0.10
-    dayjs: ^1.11.6
-    fastify: ^3.25.3
-    fastify-compress: ^4.1.0
-    fastify-sensible: ^3.1.2
-    fastify-static: ^4.5.0
-    framer-motion: ^6.2.8
-    lodash-es: ^4.17.21
-    modern-css-reset: ^1.4.0
-    nodemon: ^2.0.15
-    npm-run-all: ^4.1.5
-    pino-pretty: ^7.3.0
-    postcss: ^8.4.18
-    postcss-syntax: ^0.36.2
-    prettier: ^2.5.1
-    react: ^18.2.0
-    react-dom: ^18.2.0
+    deno: ^0.1.1
     rimraf: ^3.0.2
     scaffdog: ^1.1.0
-    sharp: ^0.31.2
-    sqlite3: ^5.1.2
-    styled-components: ^5.3.3
-    terser-webpack-plugin: ^5.3.6
     ts-node: ^10.9.1
-    typeorm: ^0.2.44
     typescript: ^4.6.2
-    uuid: ^8.3.2
-    wait-on: ^6.0.0
-    webpack: ^5.65.0
-    webpack-cli: ^4.9.1
-    webpack-merge: ^5.8.0
-    webpack-node-externals: ^3.0.0
-    zengin-code: ^1.0.0-p20220130
   languageName: unknown
   linkType: soft
 
