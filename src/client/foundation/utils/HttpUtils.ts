@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_HOST = process.env.NODE_ENV === "production"
+export const BASE_URL = process.env.NODE_ENV === "production"
   ? "https://wsh-tsuyoshi-nishikawa.herokuapp.com"
   : "http://0.0.0.0:8888";
 
@@ -18,7 +18,7 @@ export const authorizedJsonFetcher = async <T>(url: string, userId: string) => {
 };
 
 axios.interceptors.request.use((request) => {
-  request.url = API_HOST + request.url;
+  request.baseURL = BASE_URL
   return request;
 });
 
