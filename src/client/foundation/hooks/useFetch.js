@@ -11,10 +11,11 @@ import { useEffect, useState } from "react";
 /**
  * @template T
  * @param {string} apiPath
- * @param {(apiPath: string) => Promise<T>} fetcher
+ * @param {(apiPath: string,params:any) => Promise<T>} fetcher
  * @returns {ReturnValues<T>}
+ @param {any?} params
  */
-export function useFetch(apiPath, fetcher) {
+export function useFetch(apiPath, fetcher, params) {
   const [result, setResult] = useState({
     data: null,
     error: null,
@@ -28,7 +29,7 @@ export function useFetch(apiPath, fetcher) {
       loading: true,
     }));
 
-    const promise = fetcher(apiPath);
+    const promise = fetcher(apiPath, params);
 
     promise.then((data) => {
       setResult((cur) => ({
@@ -45,7 +46,7 @@ export function useFetch(apiPath, fetcher) {
         loading: false,
       }));
     });
-  }, [apiPath, fetcher]);
+  }, [params, apiPath, fetcher]);
 
   return result;
 }
