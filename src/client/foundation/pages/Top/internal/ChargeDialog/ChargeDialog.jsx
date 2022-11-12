@@ -6,6 +6,7 @@ import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { Heading } from "../../../../components/typographies/Heading";
+import { useRegister } from "../../../../contexts/AuthContext";
 import { useMutation } from "../../../../hooks/useMutation";
 import { Space } from "../../../../styles/variables";
 
@@ -17,8 +18,7 @@ const CHARGE = "charge";
  * @type {object}
  */
 
-/** @type {React.ForwardRefExoticComponent<{Props>} */
-export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
+export const ChargeDialog = forwardRef((_, ref) => {
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
@@ -52,7 +52,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const handleAmountChange = useCallback((e) => {
     setAmount(parseInt(e.currentTarget.value, 10));
   }, []);
-
+  const { update } = useRegister();
   const handleCloseDialog = useCallback(
     async (e) => {
       if (e.currentTarget.returnValue === CANCEL) {
@@ -62,9 +62,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
       await charge({ accountNo, amount, bankCode, branchCode });
       clearForm();
-      onComplete();
+      update();
     },
-    [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
+    [charge, bankCode, branchCode, accountNo, amount, update, clearForm],
   );
 
   const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
@@ -81,7 +81,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
         <Spacer mt={Space * 2} />
         <form method="dialog">
-          <Stack gap={Space * 1}>
+          <Stack gap={Space}>
             <label>
               銀行コード
               <input

@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useEffect, useState } from "react";
+import React, { forwardRef, useCallback, useState } from "react";
 import styled from "styled-components";
 
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
@@ -34,47 +34,39 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
     },
   );
   const { user: userData } = useAuth();
-  const register = useRegister();
+  const { update } = useRegister();
   const [error, setError] = useState(null);
 
   const handleCloseDialog = useCallback(
     async (e) => {
-      setError("");
-
-      if (e.currentTarget.returnValue === CANCEL) {
-        return;
+      try {
+        setError("");
+        if (e.currentTarget.returnValue === CANCEL) {
+          return;
+        }
+        await buyTicket({
+          key: odds,
+          type: "trifecta",
+        });
+        const err = buyTicketResult.error;
+        if (err === null) {
+          await update();
+          return;
+        }
+        if (!ref.current.hasAttribute("open")) {
+          ref.current.showModal();
+        }
+        if (err.response?.status === 412) {
+          setError("残高が不足しています");
+          return;
+        }
+        setError(err.message);
+      } catch (err) {
+        console.error(err);
       }
-
-      await buyTicket({
-        key: odds,
-        type: "trifecta",
-      });
     },
-    [odds, buyTicket],
+    [odds, buyTicket, ref, buyTicketResult.error],
   );
-
-  useEffect(() => {
-    if (buyTicketResult === null || buyTicketResult.loading === true) {
-      return;
-    }
-
-    const err = buyTicketResult.error;
-
-    if (err === null) {
-      register();
-      return;
-    }
-
-    ref.current?.showModal();
-
-    if (err.response?.status === 412) {
-      setError("残高が不足しています");
-      return;
-    }
-
-    setError(err.message);
-    console.error(err);
-  }, [buyTicketResult, register, ref]);
 
   const shouldShowForm = loggedIn && !!userData && odds !== null;
 
@@ -85,7 +77,7 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
       <Spacer mt={Space * 2} />
 
       <form method="dialog">
-        <Stack gap={Space * 1}>
+        <Stack gap={Space}>
           {!shouldShowForm ? (
             <>
               <ErrorText>購入するにはログインしてください</ErrorText>

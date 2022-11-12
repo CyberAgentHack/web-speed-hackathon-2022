@@ -31,7 +31,7 @@ const LoginButton = styled(BaseButton)`
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
   color: ${Color.mono[800]};
-  padding: ${Space * 1}px ${Space * 2}px;
+  padding: ${Space}px ${Space * 2}px;
 
   &:hover {
     background: ${Color.mono[200]};
@@ -41,7 +41,7 @@ const LoginButton = styled(BaseButton)`
 /** @type {React.VFC} */
 export const Header = () => {
   const { loggedIn } = useAuth();
-  const register = useRegister();
+  const { register } = useRegister();
 
   const handleClickLoginButton = useCallback(() => {
     register();

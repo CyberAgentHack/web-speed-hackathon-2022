@@ -114,7 +114,7 @@ export const Top = () => {
 
   const chargeDialogRef = useRef(null);
 
-  const { data: userData, revalidate } = useAuthorizedFetch(
+  const { data: userData } = useAuthorizedFetch(
     "/api/users/me",
     authorizedJsonFetcher,
   );
@@ -127,10 +127,6 @@ export const Top = () => {
 
     chargeDialogRef.current.showModal();
   }, []);
-
-  const handleCompleteCharge = useCallback(() => {
-    revalidate();
-  }, [revalidate]);
 
   const todayRaces =
     raceData != null
@@ -178,7 +174,7 @@ export const Top = () => {
         )}
       </section>
 
-      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      <ChargeDialog ref={chargeDialogRef} />
     </Container>
   );
 };
