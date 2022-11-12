@@ -13,9 +13,8 @@ import { useEffect, useState } from "react";
  * @param {string} apiPath
  * @param {(apiPath: string,params:any) => Promise<T>} fetcher
  * @returns {ReturnValues<T>}
- @param {any?} params
  */
-export function useFetch(apiPath, fetcher, params) {
+export function useFetch(apiPath, fetcher) {
   const [result, setResult] = useState({
     data: null,
     error: null,
@@ -29,7 +28,7 @@ export function useFetch(apiPath, fetcher, params) {
       loading: true,
     }));
 
-    const promise = fetcher(apiPath, params);
+    const promise = fetcher(apiPath);
 
     promise.then((data) => {
       setResult((cur) => ({
@@ -46,8 +45,7 @@ export function useFetch(apiPath, fetcher, params) {
         loading: false,
       }));
     });
-    // WARNING: paramsを入れると無限fetchになる
-  }, [params, apiPath, fetcher]);
+  }, [apiPath, fetcher]);
 
   return result;
 }
