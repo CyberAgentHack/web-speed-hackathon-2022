@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import zenginCode from "zengin-code";
 
-import { assets } from "../../client/foundation/utils/UrlUtils.js";
+// import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
@@ -39,11 +40,15 @@ export const apiRoute = async (fastify) => {
     res.status(204).send();
   });
 
-  fastify.get("/hero", async (_req, res) => {
-    const url = assets("/images/hero.jpg");
-    const hash = Math.random().toFixed(10).substring(2);
+  // fastify.get("/hero", async (_req, res) => {
+  //   const url = assets("/images/hero.jpg");
+  //   const hash = Math.random().toFixed(10).substring(2);
 
-    res.send({ hash, url });
+  //   res.send({ hash, url });
+  // });
+
+  fastify.get("/zenginCode", async (_req, res) => {
+    res.send({ zenginCode });
   });
 
   fastify.get("/races", async (req, res) => {
