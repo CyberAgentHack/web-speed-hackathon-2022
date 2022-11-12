@@ -12,3 +12,5 @@ database.sqlite
 .idea/*
 
 .next
+
+**/*.local
