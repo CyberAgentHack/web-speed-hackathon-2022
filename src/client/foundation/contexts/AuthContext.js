@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setupCache } from "axios-cache-adapter";
 import React, { useCallback, useContext, useMemo, useState } from "react";
 
 /**
@@ -43,16 +44,20 @@ export const useAuth = () => {
 
   return res;
 };
+const cache = setupCache({
+  maxAge: 5 * 1000,
+});
 
 export const useRegister = () => {
   const { setUser, user } = useContext(AuthContext);
   const register = useCallback(async () => {
-    const res = await axios.get("/api/users/me");
+    const res = await axios.get("/api/users/me", { adapter: cache.adapter });
     setUser(res.data);
   }, [setUser]);
 
   const update = useCallback(async () => {
     const { data } = await axios.get("/api/users/me", {
+      adapter: cache.adapter,
       headers: { "x-app-userid": user.id },
       responseType: "json",
     });
