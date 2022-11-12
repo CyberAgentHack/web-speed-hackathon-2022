@@ -6,11 +6,9 @@ import { Dialog } from "../../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
 import { Heading } from "../../../../../components/typographies/Heading";
-import { useAuth } from "../../../../../contexts/AuthContext";
-import { useAuthorizedFetch } from "../../../../../hooks/useAuthorizedFetch";
+import { useAuth, useRegister } from "../../../../../contexts/AuthContext";
 import { useMutation } from "../../../../../hooks/useMutation";
 import { Color, Space } from "../../../../../styles/variables";
-import { authorizedJsonFetcher } from "../../../../../utils/HttpUtils";
 
 const CANCEL = "cancel";
 const BUY = "buy";
@@ -26,7 +24,6 @@ const ErrorText = styled.p`
  * @property {number[]} odds
  */
 
-/** @type {React.ForwardRefExoticComponent<{Props>} */
 export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
   const { loggedIn } = useAuth();
   const [buyTicket, buyTicketResult] = useMutation(
@@ -36,10 +33,8 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
       method: "POST",
     },
   );
-  const { data: userData, revalidate } = useAuthorizedFetch(
-    "/api/users/me",
-    authorizedJsonFetcher,
-  );
+  const { user: userData } = useAuth();
+  const register = useRegister();
   const [error, setError] = useState(null);
 
   const handleCloseDialog = useCallback(
@@ -66,7 +61,7 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
     const err = buyTicketResult.error;
 
     if (err === null) {
-      revalidate();
+      register();
       return;
     }
 
@@ -79,9 +74,9 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
 
     setError(err.message);
     console.error(err);
-  }, [buyTicketResult, revalidate, ref]);
+  }, [buyTicketResult, register, ref]);
 
-  const shouldShowForm = loggedIn && userData !== null && odds !== null;
+  const shouldShowForm = loggedIn && !!userData && odds !== null;
 
   return (
     <Dialog ref={ref} onClose={handleCloseDialog}>

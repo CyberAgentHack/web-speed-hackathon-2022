@@ -29,7 +29,7 @@ export function useMutation(apiPath, { auth, method }) {
     error: null,
     loading: true,
   });
-  const { loggedIn, userId } = useAuth();
+  const { loggedIn, user } = useAuth();
 
   const mutate = useCallback(
     async (data) => {
@@ -48,7 +48,7 @@ export function useMutation(apiPath, { auth, method }) {
           data,
           headers: auth
             ? {
-                "x-app-userid": userId,
+                "x-app-userid": user.id,
               }
             : {},
           method,
@@ -68,7 +68,7 @@ export function useMutation(apiPath, { auth, method }) {
         }));
       }
     },
-    [apiPath, auth, loggedIn, method, userId],
+    [apiPath, auth, loggedIn, method, user],
   );
 
   return [mutate, result];

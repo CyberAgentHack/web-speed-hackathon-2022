@@ -45,7 +45,7 @@ const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
           {children}
         </a>
       ) : (
-        <Link aria-current={ariaCurrent} to={to} {...rest}>
+        <Link to={to} {...rest}>
           {children}
         </Link>
       )}

@@ -3,26 +3,26 @@ import React, { useCallback, useContext, useMemo, useState } from "react";
 
 /**
  * @typedef AuthContextValues
- * @property {string | null} userId
- * @property {(userId: string) => void} setUserId
+ * @property {object | null} user
+ * @property {(user: object) => void} setUser
  */
 
 /** @type {React.Context<AuthContextValues>} */
 const AuthContext = React.createContext({
-  setUserId: () => {
+  setUser: () => {
     throw new Error("AuthContext value is not set");
   },
-  userId: null,
+  user: null,
 });
 
 export const AuthContextProvider = ({ children }) => {
-  const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
 
   return (
     <AuthContext.Provider
       value={{
-        setUserId,
-        userId,
+        setUser,
+        user,
       }}
     >
       {children}
@@ -31,26 +31,25 @@ export const AuthContextProvider = ({ children }) => {
 };
 
 export const useAuth = () => {
-  const { userId } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const res = useMemo(
     () => ({
-      loggedIn: userId != null,
-      userId,
+      loggedIn: user != null,
+      user,
     }),
-    [userId],
+    [user],
   );
 
   return res;
 };
 
 export const useRegister = () => {
-  const { setUserId } = useContext(AuthContext);
-
+  const { setUser } = useContext(AuthContext);
   const register = useCallback(async () => {
     const res = await axios.get("/api/users/me");
-    setUserId(res.data.id);
-  }, [setUserId]);
+    setUser(res.data);
+  }, [setUser]);
 
   return register;
 };
