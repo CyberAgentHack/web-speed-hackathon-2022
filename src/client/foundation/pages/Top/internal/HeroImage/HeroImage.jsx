@@ -5,7 +5,7 @@ import styled from "styled-components";
 export const HeroImage = ({ url }) => {
   return (
     <>
-      <Img alt="" height="100" loading="lazy" src={url} width="200" />
+      <Img alt="" height="734" src={url} width="1024" />
     </>
   );
 };
