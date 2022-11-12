@@ -65,17 +65,17 @@ export const apiRoute = async (fastify) => {
     if (since != null && until != null) {
       Object.assign(where, {
         startAt: Between(
-          since.format("YYYY-MM-DD HH:mm:ss"),
-          until.format("YYYY-MM-DD HH:mm:ss"),
+          since.utc().format("YYYY-MM-DD HH:mm:ss"),
+          until.utc().format("YYYY-MM-DD HH:mm:ss"),
         ),
       });
     } else if (since != null) {
       Object.assign(where, {
-        startAt: MoreThanOrEqual(since.format("YYYY-MM-DD HH:mm:ss")),
+        startAt: MoreThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
     } else if (until != null) {
       Object.assign(where, {
-        startAt: LessThanOrEqual(until.format("YYYY-MM-DD HH:mm:ss")),
+        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
       });
     }
     const races = await repo.find({
