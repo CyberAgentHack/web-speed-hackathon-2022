@@ -130,8 +130,8 @@ export const TopPage = () => {
         {racesToShow.length > 0 && (
           <RecentRaceList>
             {racesToShow.map((race) => (
-              <Suspense fallback={<div>Loading...</div>}>
-                <RecentRaceList.Item key={race.id} race={race} />
+              <Suspense key={race.id} fallback={<div>Loading...</div>}>
+                <RecentRaceList.Item race={race} />
               </Suspense>
             ))}
           </RecentRaceList>
