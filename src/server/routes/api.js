@@ -100,7 +100,18 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.notFound();
     }
 
-    res.send(race);
+    const result = {
+      ...race,
+      entries: race.entries.map((entry) => ({
+        ...entry,
+        player: {
+          ...entry.player,
+          image: entry.player.image.replace("jpg", "webp"),
+        },
+      })),
+      image: race.image.replace("jpg", "webp"),
+    };
+    res.send(result);
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
@@ -119,7 +130,6 @@ export const apiRoute = async (fastify) => {
         },
       },
     });
-
     res.send({
       bettingTickets,
     });
