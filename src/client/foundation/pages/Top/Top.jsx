@@ -83,17 +83,12 @@ function useTodayRacesWithAnimation(races) {
  */
 function useHeroImage(todayRaces) {
   const firstRaceId = todayRaces[0]?.id;
-  const url =
-    firstRaceId !== undefined
-      ? `/api/hero?firstRaceId=${firstRaceId}`
-      : "/api/hero";
-  const { data } = useFetch(url, jsonFetcher);
 
-  if (firstRaceId === undefined || data === null) {
+  if (firstRaceId === undefined) {
     return null;
   }
 
-  const imageUrl = `${data.url}?${data.hash}`;
+  const imageUrl = '/assets/images/hero-1024.webp';
   return imageUrl;
 }
 
