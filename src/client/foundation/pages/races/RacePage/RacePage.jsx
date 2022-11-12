@@ -101,7 +101,9 @@ export const RacePage = () => {
               結果
             </TabNav.Item>
           </TabNav>
-          <Spacer mt={Space * 4} />
+          <Spacer
+            mt={Space * (isCurrentPath(currentPath, "race-card") ? 2 : 4)}
+          />
         </>
         {render}
       </Section>
