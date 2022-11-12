@@ -10,10 +10,11 @@ import styled from "styled-components";
  * @property {number} width
  * @property {number} height
  * @property {boolean} widthAuto
+ * @property {boolean?} isLazy
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, src, width, widthAuto }) => {
+export const TrimmedImage = ({ height, isLazy, src, width, widthAuto }) => {
   const el = useRef(null);
   const wrapperEl = useRef(null);
   const [currentSRC, setCurrentSRC] = useState("");
@@ -57,7 +58,7 @@ export const TrimmedImage = ({ height, src, width, widthAuto }) => {
       <Img
         ref={el}
         height={height}
-        loading="lazy"
+        loading={isLazy ? "lazy" : ""}
         src={currentSRC}
         width={width}
       />
