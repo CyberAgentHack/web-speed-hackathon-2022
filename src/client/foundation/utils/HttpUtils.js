@@ -1,8 +1,11 @@
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
 
-export const jsonFetcher = async (/** @type {string} */ url) => {
-  const res = await axios.get(url, { responseType: "json" });
+export const jsonFetcher = async (/** @type {string} */ url, params) => {
+  const res = await axios.get(url, {
+    params,
+    responseType: "json",
+  });
   return res.data;
 };
 const cache = setupCache({
