@@ -15,6 +15,7 @@ import RecentRaceList from "../foundation/pages/top/RecentRaceList";
 import {difference, slice} from "lodash-es";
 import {ChargeDialog} from "../foundation/pages/top/ChargeDialog";
 import { useFetch } from "../foundation/hooks/useFetch";
+import { useRouter } from "next/router";
 
 const ChargeButton = styled.button`
   background: ${Color.mono[700]};
@@ -27,26 +28,16 @@ const ChargeButton = styled.button`
   }
 `;
 
-export async function getServerSideProps({ query }) {
-  return fetchRaces({ query });
-}
-
-export const fetchRaces = async ({ query }) => {
-  const { date = dayjs().format("YYYY-MM-DD") } = query;
-
-  const sinceUnix = dayjs(`${date} 00:00:00`).unix();
-  const untilUnix = dayjs(`${date} 23:59:59`).unix();
-
-  return {
-    props: { sinceUnix, untilUnix },
-  };
-};
-
 export default function Index({ sinceUnix, untilUnix }) {
   return TopPage({ sinceUnix, untilUnix });
 }
 
-export const TopPage = ({ sinceUnix, untilUnix }) => {
+export const TopPage = () => {
+  const router = useRouter()
+  const { date = dayjs().format("YYYY-MM-DD") } = router.query;
+
+  const sinceUnix = dayjs(`${date} 00:00:00`).unix();
+  const untilUnix = dayjs(`${date} 23:59:59`).unix();
   const { data: races } = useFetch(`/api/races?since=${sinceUnix}&until=${untilUnix}`, jsonFetcher)
 
   const { data: userData, revalidate } = useAuthorizedFetch("/api/users/me", authorizedJsonFetcher);
