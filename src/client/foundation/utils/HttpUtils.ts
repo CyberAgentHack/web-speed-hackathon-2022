@@ -17,11 +17,10 @@ export const authorizedJsonFetcher = async <T>(url: string, userId: string) => {
   return res.data;
 };
 
-
-axios.interceptors.request.use(request => {
-  request.url = API_HOST + request.url
-  return request
-})
+axios.interceptors.request.use((request) => {
+  request.url = API_HOST + request.url;
+  return request;
+});
 
 axios.interceptors.response.use((response) => {
   if (process.env.AXIOS_LOGGING === "true") {

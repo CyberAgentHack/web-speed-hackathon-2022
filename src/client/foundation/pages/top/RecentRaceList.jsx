@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import {LinkButton} from "foundation/components/buttons/LinkButton";
-import {Spacer} from "foundation/components/layouts/Spacer";
-import {Stack} from "foundation/components/layouts/Stack";
-import {TrimmedImage} from "foundation/components/media/TrimmedImage";
-import {easeOutCubic, useAnimation} from "foundation/hooks/useAnimation";
-import {Color, FontSize, Radius, Space} from "foundation/styles/variables";
-import {formatCloseAt} from "foundation/utils/DateUtils";
+import { LinkButton } from "foundation/components/buttons/LinkButton";
+import { Spacer } from "foundation/components/layouts/Spacer";
+import { Stack } from "foundation/components/layouts/Stack";
+import { TrimmedImage } from "foundation/components/media/TrimmedImage";
+import { easeOutCubic, useAnimation } from "foundation/hooks/useAnimation";
+import { Color, FontSize, Radius, Space } from "foundation/styles/variables";
+import { formatCloseAt } from "foundation/utils/DateUtils";
 
 export default function RecentRaceList({ children }) {
   return (
     <Stack as="ul" gap={Space * 2}>
-      { children }
+      {children}
     </Stack>
   );
 }

@@ -1,19 +1,19 @@
 import dayjs from "dayjs";
-import React, {Suspense, useCallback, useEffect, useRef, useState} from "react";
+import React, { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
-import {Container} from "../foundation/components/layouts/Container";
-import {Spacer} from "../foundation/components/layouts/Spacer";
-import {Stack} from "../foundation/components/layouts/Stack";
-import {Heading} from "../foundation/components/typographies/Heading";
-import {useAuthorizedFetch} from "../foundation/hooks/useAuthorizedFetch";
-import {Color, Radius, Space} from "../foundation/styles/variables";
-import {authorizedJsonFetcher, jsonFetcher} from "../foundation/utils/HttpUtils";
+import { Container } from "../foundation/components/layouts/Container";
+import { Spacer } from "../foundation/components/layouts/Spacer";
+import { Stack } from "../foundation/components/layouts/Stack";
+import { Heading } from "../foundation/components/typographies/Heading";
+import { useAuthorizedFetch } from "../foundation/hooks/useAuthorizedFetch";
+import { Color, Radius, Space } from "../foundation/styles/variables";
+import { authorizedJsonFetcher, jsonFetcher } from "../foundation/utils/HttpUtils";
 
 import HeroImage from "../foundation/pages/top/HeroImage";
 import RecentRaceList from "../foundation/pages/top/RecentRaceList";
-import {difference, slice} from "lodash-es";
-import {ChargeDialog} from "../foundation/pages/top/ChargeDialog";
+import { difference, slice } from "lodash-es";
+import { ChargeDialog } from "../foundation/pages/top/ChargeDialog";
 import { useFetch } from "../foundation/hooks/useFetch";
 import { useRouter } from "next/router";
 
@@ -28,17 +28,17 @@ const ChargeButton = styled.button`
   }
 `;
 
-export default function Index({ sinceUnix, untilUnix }) {
-  return TopPage({ sinceUnix, untilUnix });
+export default function Index() {
+  return TopPage();
 }
 
 export const TopPage = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { date = dayjs().format("YYYY-MM-DD") } = router.query;
 
   const sinceUnix = dayjs(`${date} 00:00:00`).unix();
   const untilUnix = dayjs(`${date} 23:59:59`).unix();
-  const { data: races } = useFetch(`/api/races?since=${sinceUnix}&until=${untilUnix}`, jsonFetcher)
+  const { data: races } = useFetch(`/api/races?since=${sinceUnix}&until=${untilUnix}`, jsonFetcher);
 
   const { data: userData, revalidate } = useAuthorizedFetch("/api/users/me", authorizedJsonFetcher);
 

@@ -1,19 +1,19 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
-import React, {useCallback, useRef, useState} from "react";
+import React, { useCallback, useRef, useState } from "react";
 import styled from "styled-components";
 
-import {Spacer} from "foundation/components/layouts/Spacer";
-import {Heading} from "foundation/components/typographies/Heading";
-import {Color, Space} from "foundation/styles/variables";
-import {jsonFetcher} from "foundation/utils/HttpUtils";
+import { Spacer } from "foundation/components/layouts/Spacer";
+import { Heading } from "foundation/components/typographies/Heading";
+import { Color, Space } from "foundation/styles/variables";
+import { jsonFetcher } from "foundation/utils/HttpUtils";
 
 import OddsRankingList from "foundation/pages/races/Odds/OddsRankingList";
 import OddsTable from "foundation/pages/races/Odds/OddsTable";
-import {TicketVendingModal} from "foundation/pages/races/Odds/TicketVendingModal";
-import {useFetch} from "../../../foundation/hooks/useFetch";
-import {Container} from "../../../foundation/components/layouts/Container";
-import {RaceInfo, RaceTabNavContents} from "../../../foundation/pages/races/RaceLayout";
+import { TicketVendingModal } from "foundation/pages/races/Odds/TicketVendingModal";
+import { useFetch } from "../../../foundation/hooks/useFetch";
+import { Container } from "../../../foundation/components/layouts/Container";
+import { RaceInfo, RaceTabNavContents } from "../../../foundation/pages/races/RaceLayout";
 
 const Callout = styled.aside`
   align-items: center;
@@ -29,16 +29,15 @@ const Callout = styled.aside`
 export const getServerSideProps = async ({ query }) => {
   const { raceId } = query;
 
-  const race = await jsonFetcher(`/api/races/${raceId}`)
+  const race = await jsonFetcher(`/api/races/${raceId}`);
 
   return {
     props: { race },
   };
-}
+};
 
 export default function Odds({ race }) {
-
-  const { data: odds } = useFetch(`/api/races/${race.id}/trifectaOdds`, jsonFetcher)
+  const { data: odds } = useFetch(`/api/races/${race.id}/trifectaOdds`, jsonFetcher);
 
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
@@ -60,7 +59,6 @@ export default function Odds({ race }) {
     <Container>
       <RaceInfo race={race} />
       <RaceTabNavContents race={race}>
-
         <Spacer mt={Space * 4} />
 
         <Callout $closed={isRaceClosed}>
@@ -89,7 +87,6 @@ export default function Odds({ race }) {
           onClickOdds={handleClickOdds}
         />
         <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={race.id} />
-
       </RaceTabNavContents>
     </Container>
   );

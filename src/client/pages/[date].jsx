@@ -1,9 +1,5 @@
-import { fetchRaces, TopPage } from "./index";
+import { TopPage } from "./index";
 
-export async function getServerSideProps({ query }) {
-  return fetchRaces({ query });
-}
-
-export default function Date({ races }) {
-  return TopPage({ races });
+export default function Date() {
+  return TopPage();
 }

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import styled from "styled-components";
 
 /**
@@ -17,11 +17,11 @@ const Img = styled.img`
 `;
 
 type TrimmedImageProps = {
-  height: number,
-  loading?: "lazy" | "eager"
-  src: string
-  width: number
-}
+  height: number;
+  loading?: "lazy" | "eager";
+  src: string;
+  width: number;
+};
 
 export const TrimmedImage = ({ height, loading = "eager", src, width }: TrimmedImageProps) => {
   const [srcUrl, setSrcUrl] = useState("");
@@ -36,16 +36,19 @@ export const TrimmedImage = ({ height, loading = "eager", src, width }: TrimmedI
 
   return (
     <ImgContainer>
-      <Image
-        src={srcUrl}
-        alt={""}
-        height={height}
-        width={width}
-        loading={loading}
-        style={{ objectFit: "cover", objectPosition: "center center" }}
-        quality={50}
-      >
-      </Image>
+      <Suspense fallback={<div></div>}>
+        {srcUrl === "" ? <></> : (
+          <Image
+            src={srcUrl}
+            alt={""}
+            height={height}
+            width={width}
+            loading={loading}
+            style={{ objectFit: "cover", objectPosition: "center center" }}
+            quality={50}
+          />
+        )}
+      </Suspense>
     </ImgContainer>
   );
 };

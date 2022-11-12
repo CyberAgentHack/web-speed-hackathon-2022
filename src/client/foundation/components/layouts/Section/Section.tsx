@@ -5,9 +5,9 @@ import styled from "styled-components";
 import { BreakPoint, Color, Radius, Space } from "../../../styles/variables";
 
 type WrapperProps = {
-  $dark: boolean
-  $shrink: boolean
-}
+  $dark: boolean;
+  $shrink: boolean;
+};
 
 const Wrapper = styled.section<WrapperProps>`
   background: ${({ $dark }) => ($dark ? Color.mono[800] : Color.mono[0])};
@@ -26,9 +26,9 @@ const Wrapper = styled.section<WrapperProps>`
 `;
 
 type SectionProps = {
-  dark?: boolean
-  shrink?: boolean
-}
+  dark?: boolean;
+  shrink?: boolean;
+};
 
 export const Section: NextPageWithLayout<SectionProps> = ({ children, dark = false, shrink = false }) => {
   return (

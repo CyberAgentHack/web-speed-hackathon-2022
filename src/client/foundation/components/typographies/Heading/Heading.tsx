@@ -11,8 +11,8 @@ const styles = {
 };
 
 type WrapperProps = {
-  as: "h1" | "h2" | "h3"
-}
+  as: "h1" | "h2" | "h3";
+};
 
 const Wrapper = styled.h1<WrapperProps>`
   ${({ as }) => styles[as]}
@@ -21,8 +21,8 @@ const Wrapper = styled.h1<WrapperProps>`
 `;
 
 type HeadingProps = {
-  as: "h1" | "h2" | "h3"
-}
+  as: "h1" | "h2" | "h3";
+};
 
 export const Heading: NextPageWithLayout<HeadingProps> = ({ as, children }) => {
   return <Wrapper as={as}>{children}</Wrapper>;

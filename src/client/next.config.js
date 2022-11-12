@@ -20,6 +20,10 @@ const nextConfig = {
       },
     ];
   },
+  compiler: {
+    // @see https://nextjs.org/docs/advanced-features/compiler#styled-components
+    styledComponents: true,
+  },
 };
 
 module.exports = nextConfig;

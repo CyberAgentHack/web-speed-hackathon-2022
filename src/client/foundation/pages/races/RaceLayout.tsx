@@ -21,10 +21,10 @@ const LiveBadge = styled.span`
 `;
 
 type RaceLayoutProps = {
-  race: Race | null
-}
+  race: Race | null;
+};
 
-export const RaceInfo: NextPageWithLayout<RaceLayoutProps> = ({ children  , race }) => {
+export const RaceInfo: NextPageWithLayout<RaceLayoutProps> = ({ children, race }) => {
   return (
     <>
       <Spacer mt={Space * 2} />
@@ -45,8 +45,6 @@ export const RaceInfo: NextPageWithLayout<RaceLayoutProps> = ({ children  , race
     </>
   );
 };
-
-
 
 type RaceTabNavContentsProps = {
   race: Race | null;
