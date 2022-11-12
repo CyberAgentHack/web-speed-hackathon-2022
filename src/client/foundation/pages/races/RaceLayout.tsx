@@ -21,7 +21,7 @@ const LiveBadge = styled.span`
 `;
 
 type RaceLayoutProps = {
-  race: Race
+  race: Race | null
 }
 
 export const RaceInfo: NextPageWithLayout<RaceLayoutProps> = ({ children  , race }) => {
@@ -49,7 +49,7 @@ export const RaceInfo: NextPageWithLayout<RaceLayoutProps> = ({ children  , race
 
 
 type RaceTabNavContentsProps = {
-  race: Race;
+  race: Race | null;
 };
 
 export const RaceTabNavContents: NextPageWithLayout<RaceTabNavContentsProps> = ({ children, race }) => {
@@ -65,21 +65,21 @@ export const RaceTabNavContents: NextPageWithLayout<RaceTabNavContentsProps> = (
           <TabNav.Item
             aria-current={currentPage === "race-card"}
             onClick={() => setCurrentPage("race-card")}
-            href={`/races/${race.id}/race-card`}
+            href={`/races/${race?.id}/race-card`}
           >
             出走表
           </TabNav.Item>
           <TabNav.Item
             aria-current={currentPage === "odds"}
             onClick={() => setCurrentPage("odds")}
-            href={`/races/${race.id}/odds`}
+            href={`/races/${race?.id}/odds`}
           >
             オッズ
           </TabNav.Item>
           <TabNav.Item
             aria-current={currentPage === "result"}
             onClick={() => setCurrentPage("result")}
-            href={`/races/${race.id}/result`}
+            href={`/races/${race?.id}/result`}
           >
             結果
           </TabNav.Item>

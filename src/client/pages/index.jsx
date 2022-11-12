@@ -14,6 +14,7 @@ import HeroImage from "../foundation/pages/top/HeroImage";
 import RecentRaceList from "../foundation/pages/top/RecentRaceList";
 import {difference, slice} from "lodash-es";
 import {ChargeDialog} from "../foundation/pages/top/ChargeDialog";
+import { useFetch } from "../foundation/hooks/useFetch";
 
 const ChargeButton = styled.button`
   background: ${Color.mono[700]};
@@ -36,18 +37,18 @@ export const fetchRaces = async ({ query }) => {
   const sinceUnix = dayjs(`${date} 00:00:00`).unix();
   const untilUnix = dayjs(`${date} 23:59:59`).unix();
 
-  const { items: races = [] } = await jsonFetcher(`/api/races?since=${sinceUnix}&until=${untilUnix}`);
-
   return {
-    props: { races },
+    props: { sinceUnix, untilUnix },
   };
 };
 
-export default function Index({ races }) {
-  return TopPage({ races });
+export default function Index({ sinceUnix, untilUnix }) {
+  return TopPage({ sinceUnix, untilUnix });
 }
 
-export const TopPage = ({ races }) => {
+export const TopPage = ({ sinceUnix, untilUnix }) => {
+  const { data: races } = useFetch(`/api/races?since=${sinceUnix}&until=${untilUnix}`, jsonFetcher)
+
   const { data: userData, revalidate } = useAuthorizedFetch("/api/users/me", authorizedJsonFetcher);
 
   const chargeDialogRef = useRef(null);
@@ -112,7 +113,7 @@ export const TopPage = ({ races }) => {
     return racesToShow;
   }
 
-  const racesToShow = useTodayRacesWithAnimation(races);
+  const racesToShow = useTodayRacesWithAnimation(races?.items ?? []);
 
   return (
     <Container>

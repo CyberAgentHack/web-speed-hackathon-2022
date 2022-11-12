@@ -27,10 +27,10 @@ const ErrorText = styled.p`
  */
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
-export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
+export const TicketVendingModal = forwardRef(({ odds, race }, ref) => {
   const { loggedIn } = useAuth();
   const [buyTicket, buyTicketResult] = useMutation(
-    `/api/races/${raceId}/betting-tickets`,
+    `/api/races/${race?.id}/betting-tickets`,
     {
       auth: true,
       method: "POST",
