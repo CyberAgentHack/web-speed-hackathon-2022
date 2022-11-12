@@ -3,9 +3,8 @@
  */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   images: {
-    formats: ["image/webp"],
+    formats: ["image/avif"],
   },
   compiler: {
     // @see https://nextjs.org/docs/advanced-features/compiler#styled-components

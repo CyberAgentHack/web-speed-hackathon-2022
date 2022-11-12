@@ -18,16 +18,15 @@ const Img = styled.img`
 
 type TrimmedImageProps = {
   height: number;
-  loading?: "lazy" | "eager";
   src: string;
   width: number;
 };
 
-export const TrimmedImage = ({ height, loading = "eager", src, width }: TrimmedImageProps) => {
+export const TrimmedImage = ({ height, src, width }: TrimmedImageProps) => {
   const [srcUrl, setSrcUrl] = useState("");
 
   useEffect(() => {
-    setSrcUrl(src.replaceAll(".jpg", ".webp"));
+    setSrcUrl(src.replaceAll(".jpg", ".avif"));
   });
 
   if (srcUrl === "") {
@@ -43,7 +42,6 @@ export const TrimmedImage = ({ height, loading = "eager", src, width }: TrimmedI
             alt={""}
             height={height}
             width={width}
-            loading={loading}
             style={{ objectFit: "cover", objectPosition: "center center" }}
             quality={50}
           />

@@ -12,9 +12,10 @@ export default function HeroImage() {
     <Image
       alt=""
       height={735}
-      src={"/assets/images/hero.webp"}
+      src={"/assets/images/hero.avif"}
       width={1024}
       style={{ display: "block", margin: "0 auto", height: "auto" }}
+      quality={50}
       priority
     />
   );
