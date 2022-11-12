@@ -45,11 +45,19 @@ export const useAuth = () => {
 };
 
 export const useRegister = () => {
-  const { setUser } = useContext(AuthContext);
+  const { setUser, user } = useContext(AuthContext);
   const register = useCallback(async () => {
     const res = await axios.get("/api/users/me");
     setUser(res.data);
   }, [setUser]);
 
-  return register;
+  const update = useCallback(async () => {
+    const { data } = await axios.get("/api/users/me", {
+      headers: { "x-app-userid": user.id },
+      responseType: "json",
+    });
+    setUser(data);
+  }, [setUser, user]);
+
+  return { register, update };
 };

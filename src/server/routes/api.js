@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 
 import { assets } from "../../client/foundation/utils/UrlUtils.js";
-import { BettingTicket, Race, User } from "../../model/index.js";
+import { BettingTicket, Race, User } from "../../model";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
 
@@ -100,7 +100,18 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.notFound();
     }
 
-    res.send(race);
+    const result = {
+      ...race,
+      entries: race.entries.map((entry) => ({
+        ...entry,
+        player: {
+          ...entry.player,
+          image: entry.player.image.replace("jpg", "webp"),
+        },
+      })),
+      image: race.image.replace("jpg", "webp"),
+    };
+    res.send(result);
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
@@ -119,13 +130,13 @@ export const apiRoute = async (fastify) => {
         },
       },
     });
-
     res.send({
       bettingTickets,
     });
   });
 
   fastify.post("/races/:raceId/betting-tickets", async (req, res) => {
+    console.log(req.user);
     if (req.user == null) {
       throw fastify.httpErrors.unauthorized();
     }

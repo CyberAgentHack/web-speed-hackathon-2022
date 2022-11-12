@@ -21,7 +21,7 @@ const LiveBadge = styled.span`
   border-radius: ${Radius.SMALL};
   color: ${Color.mono[0]};
   font-weight: bold;
-  padding: ${Space * 1}px;
+  padding: ${Space}px;
   text-transform: uppercase;
 `;
 const LoadingWrapper = styled.div`
@@ -52,15 +52,15 @@ export const RacePage = () => {
   const isCurrentPath = (current, path) => current.indexOf(path) !== -1;
   const render = useMemo(() => {
     if (isCurrentPath(currentPath, PageType.ODDS)) {
-      return <Odds raceId data={data}></Odds>;
+      return <Odds data={data} raceId={raceId}></Odds>;
     }
     if (isCurrentPath(currentPath, PageType.RACE_CARD)) {
       return <RaceCard data={data}></RaceCard>;
     }
     if (isCurrentPath(currentPath, PageType.RACE_RESULT)) {
-      return <RaceResult raceId></RaceResult>;
+      return <RaceResult raceId={raceId}></RaceResult>;
     }
-  }, [currentPath, data]);
+  }, [currentPath, data, raceId]);
   if (loading) {
     return <LoadingWrapper>Loading...</LoadingWrapper>;
   }

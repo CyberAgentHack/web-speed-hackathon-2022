@@ -6,7 +6,7 @@ export const jsonFetcher = async (/** @type {string} */ url) => {
   return res.data;
 };
 const cache = setupCache({
-  maxAge: 10 * 1000,
+  maxAge: 5 * 1000,
 });
 
 /**
@@ -25,7 +25,6 @@ export const authorizedJsonFetcher = async (url, userId, useCache) => {
 
 /**
  * @param {string} url
- * @param {string} userId
  */
 export const raceFetcher = async (url) => {
   const res = await axios.get(url, {
