@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const API_HOST = process.env.NODE_ENV === "production"
-  ? "http://0.0.0.0:8888" //"https://wsh-tsuyoshi-nishikawa.herokuapp.com"
+  ? "https://wsh-tsuyoshi-nishikawa.herokuapp.com"
   : "http://0.0.0.0:8888";
 
 export const jsonFetcher = async <T>(url: string) => {
