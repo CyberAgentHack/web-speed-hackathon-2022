@@ -3,8 +3,8 @@ import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import zenginCode from "zengin-code";
 
 import { BettingTicket, OddsItem, Race, User } from "../../model";
-import { createConnection } from "../typeorm/connection.js";
-import { initialize } from "../typeorm/initialize.js";
+import { createConnection } from "../typeorm/connection";
+import { initialize } from "../typeorm/initialize";
 
 /**
  * @type {import("fastify").FastifyPluginCallback}
@@ -105,7 +105,9 @@ export const apiRoute = async (fastify) => {
       take,
     });
 
-    res.send({ races });
+    res.send({
+      items: races,
+    });
   });
 
   fastify.get("/races/:raceId", async (req, res) => {
@@ -125,6 +127,10 @@ export const apiRoute = async (fastify) => {
   fastify.get("/races/:raceId/trifectaOdds", async (req, res) => {
     const repo = (await createConnection()).getRepository(OddsItem);
     const odds = await repo.find({
+      select: [
+        "key",
+        "odds",
+      ],
       where: {
         race: {
           id: req.params.raceId,
@@ -133,7 +139,7 @@ export const apiRoute = async (fastify) => {
     });
 
     res.send({
-      odds,
+      items: odds,
     });
   });
 
@@ -155,7 +161,7 @@ export const apiRoute = async (fastify) => {
     });
 
     res.send({
-      bettingTickets,
+      items: bettingTickets,
     });
   });
 

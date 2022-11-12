@@ -2340,11 +2340,13 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-is: ^18.2.0
+    recoil: ^0.7.6
     rimraf: ^3.0.2
     scaffdog: ^1.1.0
     sharp: ^0.31.2
     sqlite3: ^5.1.2
     styled-components: ^5.3.3
+    swr: ^1.3.0
     terser-webpack-plugin: ^5.3.6
     ts-node: ^10.9.1
     typeorm: ^0.2.44
@@ -2385,6 +2387,7 @@ __metadata:
     dayjs: ^1.11.6
     fastify: ^3.25.3
     fastify-compress: ^4.1.0
+    fastify-cors: ^6.1.0
     fastify-sensible: ^3.1.2
     fastify-static: ^4.5.0
     framer-motion: ^6.2.8
@@ -4168,6 +4171,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fastify-cors-deprecated@npm:fastify-cors@6.0.3":
+  version: 6.0.3
+  resolution: "fastify-cors@npm:6.0.3"
+  dependencies:
+    fastify-plugin: ^3.0.0
+    vary: ^1.1.2
+  checksum: 054cf4e1cf0b20778ac24d9995a99f44e9b026ca9a028db0cbb6093922bcc931dff5f5bb185d19e881014392bb5886a8b5f9da6af3d3ab5e62b7a68f4eca33c4
+  languageName: node
+  linkType: hard
+
+"fastify-cors@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "fastify-cors@npm:6.1.0"
+  dependencies:
+    fastify-cors-deprecated: "npm:fastify-cors@6.0.3"
+    process-warning: ^1.0.0
+  checksum: dca7c39b4e515ea896aa07ad5c05c70100f427e4c92e3e0fae7cab7d8ccfc824c946723a7e90b4859a5802244932d0af5ee70d753f686092e8c47fca6700e370
+  languageName: node
+  linkType: hard
+
 "fastify-plugin@npm:^3.0.0":
   version: 3.0.1
   resolution: "fastify-plugin@npm:3.0.1"
@@ -4681,6 +4704,13 @@ __metadata:
   version: 4.2.10
   resolution: "graceful-fs@npm:4.2.10"
   checksum: 3f109d70ae123951905d85032ebeae3c2a5a7a997430df00ea30df0e3a6c60cf6689b109654d6fdacd28810a053348c4d14642da1d075049e6be1ba5216218da
+  languageName: node
+  linkType: hard
+
+"hamt_plus@npm:1.0.2":
+  version: 1.0.2
+  resolution: "hamt_plus@npm:1.0.2"
+  checksum: af26ea32db03009019cc83dfa9411521a2fa16079443de1a502c9be46d8b3c975acda8ed93fc5750ef08d3186d35901e2d8cfe717dd54bea67b358601fa74e4c
   languageName: node
   linkType: hard
 
@@ -7123,6 +7153,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"recoil@npm:^0.7.6":
+  version: 0.7.6
+  resolution: "recoil@npm:0.7.6"
+  dependencies:
+    hamt_plus: 1.0.2
+  peerDependencies:
+    react: ">=16.13.1"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 2b31dd29a7e0b369bc986a16f7253006776845144684c9e38bb6760e4ea954c5d7dc682aaf88e815e69098b8dea3ff62b6fa4e6c156157a29d2d9cb824db1779
+  languageName: node
+  linkType: hard
+
 "reflect-metadata@npm:^0.1.13":
   version: 0.1.13
   resolution: "reflect-metadata@npm:0.1.13"
@@ -8171,6 +8217,15 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 53b1e247e68e05db7b3808b99b892bd36fb096e6fba213a06da7fab22045e97597db425c724f2bbd6c99a3c295e1e73f3e4de78592289f38431049e1277ca0ae
+  languageName: node
+  linkType: hard
+
+"swr@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "swr@npm:1.3.0"
+  peerDependencies:
+    react: ^16.11.0 || ^17.0.0 || ^18.0.0
+  checksum: e7a184f0d560e9c8be85c023cc8e65e56a88a6ed46f9394b301b07f838edca23d2e303685319a4fcd620b81d447a7bcb489c7fa0a752c259f91764903c690cdb
   languageName: node
   linkType: hard
 

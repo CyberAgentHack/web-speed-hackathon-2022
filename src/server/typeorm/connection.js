@@ -1,7 +1,7 @@
 import * as typeorm from "typeorm";
 
 import { BettingTicket, OddsItem, Player, Race, RaceEntry, User } from "../../model";
-import { DATABASE_PATH } from "../paths.js";
+import { DATABASE_PATH } from "../paths";
 
 const connectionPromise = typeorm.createConnection({
   database: DATABASE_PATH,

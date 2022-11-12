@@ -2,13 +2,14 @@ import "./side-effects";
 import "regenerator-runtime/runtime";
 import fastify from "fastify";
 import fastifyCompress from "fastify-compress";
+import fastifyCors from "fastify-cors";
 import fastifySensible from "fastify-sensible";
 
 import { User } from "../model";
 
-import { apiRoute } from "./routes/api.js";
-import { createConnection } from "./typeorm/connection.js";
-import { initialize } from "./typeorm/initialize.js";
+import { apiRoute } from "./routes/api";
+import { createConnection } from "./typeorm/connection";
+import { initialize } from "./typeorm/initialize";
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
@@ -19,6 +20,10 @@ const server = fastify({
       translateTime: "SYS:HH:MM:ss",
     },
   },
+});
+
+server.register(fastifyCors, {
+  methods: ["GET"],
 });
 
 server.register(fastifyCompress, {

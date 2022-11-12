@@ -1,18 +1,15 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-
-import { Container } from "foundation/components/layouts/Container";
 import { Section } from "foundation/components/layouts/Section";
 import { Spacer } from "foundation/components/layouts/Spacer";
 import { TrimmedImage } from "foundation/components/media/TrimmedImage";
 import { TabNav } from "foundation/components/navs/TabNav";
 import { Heading } from "foundation/components/typographies/Heading";
-import { useFetch } from "foundation/hooks/useFetch";
 import { Color, Radius, Space } from "foundation/styles/variables";
 import { formatTime } from "foundation/utils/DateUtils";
-import { jsonFetcher } from "foundation/utils/HttpUtils";
+import { NextPageWithLayout } from "next";
 import { useRouter } from "next/router";
-import CommonLayout from "foundation/pages/CommonLayout";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Race } from "../../../../model";
 
 const LiveBadge = styled.span`
   background: ${Color.red};
@@ -23,10 +20,39 @@ const LiveBadge = styled.span`
   text-transform: uppercase;
 `;
 
-/**
- * @type {React.VFC}
- */
-export const RaceTabNavContents = ({ children, raceId }) => {
+type RaceLayoutProps = {
+  race: Race
+}
+
+export const RaceInfo: NextPageWithLayout<RaceLayoutProps> = ({ children  , race }) => {
+  return (
+    <>
+      <Spacer mt={Space * 2} />
+      <Heading as="h1">{race?.name}</Heading>
+      <p>
+        開始 {formatTime(race?.startAt ?? "")} 締切 {formatTime(race?.closeAt ?? "")}
+      </p>
+
+      <Spacer mt={Space * 2} />
+
+      <Section dark shrink>
+        <LiveBadge>Live</LiveBadge>
+        <Spacer mt={Space * 2} />
+        <TrimmedImage height={225} src={race?.image ?? ""} width={400} />
+      </Section>
+
+      <Spacer mt={Space * 2} />
+    </>
+  );
+};
+
+
+
+type RaceTabNavContentsProps = {
+  race: Race;
+};
+
+export const RaceTabNavContents: NextPageWithLayout<RaceTabNavContentsProps> = ({ children, race }) => {
   const router = useRouter();
   const paths = router.asPath.split("/");
 
@@ -39,21 +65,21 @@ export const RaceTabNavContents = ({ children, raceId }) => {
           <TabNav.Item
             aria-current={currentPage === "race-card"}
             onClick={() => setCurrentPage("race-card")}
-            href={`/races/${raceId}/race-card`}
+            href={`/races/${race.id}/race-card`}
           >
             出走表
           </TabNav.Item>
           <TabNav.Item
             aria-current={currentPage === "odds"}
             onClick={() => setCurrentPage("odds")}
-            href={`/races/${raceId}/odds`}
+            href={`/races/${race.id}/odds`}
           >
             オッズ
           </TabNav.Item>
           <TabNav.Item
             aria-current={currentPage === "result"}
             onClick={() => setCurrentPage("result")}
-            href={`/races/${raceId}/result`}
+            href={`/races/${race.id}/result`}
           >
             結果
           </TabNav.Item>
@@ -63,36 +89,3 @@ export const RaceTabNavContents = ({ children, raceId }) => {
     </>
   );
 };
-
-/**
- * @type {React.VFC}
- */
-export default function RaceLayout({ children }) {
-  const router = useRouter();
-  const { raceId } = router.query;
-  const { data: race } = useFetch(`/api/races/${raceId}`, jsonFetcher);
-
-  return (
-    <CommonLayout>
-      <Container>
-        <Spacer mt={Space * 2} />
-        <Heading as="h1">{race?.name}</Heading>
-        <p>
-          開始 {formatTime(race?.startAt)} 締切 {formatTime(race?.closeAt)}
-        </p>
-
-        <Spacer mt={Space * 2} />
-
-        <Section dark shrink>
-          <LiveBadge>Live</LiveBadge>
-          <Spacer mt={Space * 2} />
-          <TrimmedImage height={225} src={race ? race.image : ""} width={400} />
-        </Section>
-
-        <Spacer mt={Space * 2} />
-
-        <RaceTabNavContents children={children} raceId={raceId} />
-      </Container>
-    </CommonLayout>
-  );
-}

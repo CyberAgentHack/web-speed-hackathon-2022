@@ -1,19 +1,19 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
-import React, { useCallback, useRef, useState } from "react";
+import React, {useCallback, useRef, useState} from "react";
 import styled from "styled-components";
 
-import { Spacer } from "foundation/components/layouts/Spacer";
-import { Heading } from "foundation/components/typographies/Heading";
-import { useFetch } from "foundation/hooks/useFetch";
-import { Color, Space } from "foundation/styles/variables";
-import { jsonFetcher } from "foundation/utils/HttpUtils";
+import {Spacer} from "foundation/components/layouts/Spacer";
+import {Heading} from "foundation/components/typographies/Heading";
+import {Color, Space} from "foundation/styles/variables";
+import {jsonFetcher} from "foundation/utils/HttpUtils";
 
 import OddsRankingList from "foundation/pages/races/Odds/OddsRankingList";
 import OddsTable from "foundation/pages/races/Odds/OddsTable";
-import { TicketVendingModal } from "foundation/pages/races/Odds/TicketVendingModal";
-import { useRouter } from "next/router";
-import RaceLayout from "foundation/pages/races/RaceLayout";
+import {TicketVendingModal} from "foundation/pages/races/Odds/TicketVendingModal";
+import {useFetch} from "../../../foundation/hooks/useFetch";
+import {Container} from "../../../foundation/components/layouts/Container";
+import {RaceInfo, RaceTabNavContents} from "../../../foundation/pages/races/RaceLayout";
 
 const Callout = styled.aside`
   align-items: center;
@@ -26,15 +26,19 @@ const Callout = styled.aside`
   padding: ${Space * 1}px ${Space * 2}px;
 `;
 
-/** @type {React.VFC} */
-export default function Odds() {
-  const router = useRouter();
-  const { raceId } = router.query;
-  // TODO
-  // const { race } = useOutletContext();
-  const race = null;
+export const getServerSideProps = async ({ query }) => {
+  const { raceId } = query;
 
-  const { data } = useFetch(`/api/races/${raceId}/trifectaOdds`, jsonFetcher);
+  const race = await jsonFetcher(`/api/races/${raceId}`)
+
+  return {
+    props: { race },
+  };
+}
+
+export default function Odds({ race }) {
+
+  const { data: odds } = useFetch(`/api/races/${race.id}/trifectaOdds`, jsonFetcher)
 
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
@@ -50,46 +54,43 @@ export default function Odds() {
     [],
   );
 
-  const isRaceClosed = race === null || dayjs(race.closeAt).isBefore(new Date());
+  const isRaceClosed = dayjs(race.closeAt).isBefore(new Date());
 
   return (
-    <>
-      <Spacer mt={Space * 4} />
+    <Container>
+      <RaceInfo race={race} />
+      <RaceTabNavContents race={race}>
 
-      <Callout $closed={isRaceClosed}>
-        <FontAwesomeIcon icon={["fas", "circle-info"]} />
-        {isRaceClosed ? "このレースの投票は締め切られています" : "オッズをクリックすると拳券が購入できます"}
-      </Callout>
+        <Spacer mt={Space * 4} />
 
-      <Spacer mt={Space * 4} />
-      <Heading as="h2">オッズ表</Heading>
+        <Callout $closed={isRaceClosed}>
+          <FontAwesomeIcon icon={["fas", "circle-info"]} />
+          {isRaceClosed ? "このレースの投票は締め切られています" : "オッズをクリックすると拳券が購入できます"}
+        </Callout>
 
-      <Spacer mt={Space * 2} />
-      <OddsTable
-        entries={race?.entries ?? []}
-        isRaceClosed={isRaceClosed}
-        odds={data?.odds ?? []}
-        onClickOdds={handleClickOdds}
-      />
+        <Spacer mt={Space * 4} />
+        <Heading as="h2">オッズ表</Heading>
 
-      <Spacer mt={Space * 4} />
-      <Heading as="h2">人気順</Heading>
+        <Spacer mt={Space * 2} />
+        <OddsTable
+          entries={race?.entries ?? []}
+          isRaceClosed={isRaceClosed}
+          odds={odds?.items ?? []}
+          onClickOdds={handleClickOdds}
+        />
 
-      <Spacer mt={Space * 2} />
-      <OddsRankingList
-        isRaceClosed={isRaceClosed}
-        odds={data?.odds ?? []}
-        onClickOdds={handleClickOdds}
-      />
-      <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
-    </>
+        <Spacer mt={Space * 4} />
+        <Heading as="h2">人気順</Heading>
+
+        <Spacer mt={Space * 2} />
+        <OddsRankingList
+          isRaceClosed={isRaceClosed}
+          odds={odds?.items ?? []}
+          onClickOdds={handleClickOdds}
+        />
+        <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={race.id} />
+
+      </RaceTabNavContents>
+    </Container>
   );
 }
-
-Odds.getLayout = function getLayout(page) {
-  return (
-    <RaceLayout>
-      {page}
-    </RaceLayout>
-  );
-};

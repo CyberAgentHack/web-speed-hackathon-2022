@@ -1,3 +1,4 @@
+import { NextPageWithLayout } from "next";
 import React from "react";
 import styled from "styled-components";
 
@@ -17,7 +18,6 @@ const Wrapper = styled.div`
   }
 `;
 
-/** @type {React.FC} */
-export const Container = ({ children }) => {
+export const Container: NextPageWithLayout = ({ children }) => {
   return <Wrapper>{children}</Wrapper>;
 };

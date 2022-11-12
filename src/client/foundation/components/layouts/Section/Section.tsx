@@ -1,9 +1,15 @@
+import { NextPageWithLayout } from "next";
 import React from "react";
 import styled from "styled-components";
 
 import { BreakPoint, Color, Radius, Space } from "../../../styles/variables";
 
-const Wrapper = styled.section`
+type WrapperProps = {
+  $dark: boolean
+  $shrink: boolean
+}
+
+const Wrapper = styled.section<WrapperProps>`
   background: ${({ $dark }) => ($dark ? Color.mono[800] : Color.mono[0])};
   color: ${({ $dark }) => ($dark ? Color.mono[0] : Color.mono[1000])};
   display: ${({ $shrink }) => ($shrink ? "inline-block" : "block")};
@@ -19,14 +25,12 @@ const Wrapper = styled.section`
   }
 `;
 
-/**
- * @typedef Props
- * @property {boolean} dark
- * @property {boolean} shrink
- */
+type SectionProps = {
+  dark?: boolean
+  shrink?: boolean
+}
 
-/** @type {React.FC<Props>} */
-export const Section = ({ children, dark, shrink }) => {
+export const Section: NextPageWithLayout<SectionProps> = ({ children, dark = false, shrink = false }) => {
   return (
     <Wrapper $dark={dark} $shrink={shrink}>
       {children}

@@ -1,3 +1,4 @@
+import { NextPageWithLayout } from "next";
 import React from "react";
 import styled from "styled-components";
 
@@ -9,18 +10,20 @@ const styles = {
   h3: `font-size: ${FontSize.LARGE}`,
 };
 
-const Wrapper = styled.h1`
+type WrapperProps = {
+  as: "h1" | "h2" | "h3"
+}
+
+const Wrapper = styled.h1<WrapperProps>`
   ${({ as }) => styles[as]}
   font-weight: bold;
   margin-bottom: ${Space * 1}px;
 `;
 
-/**
- * @typedef Props
- * @property {'h1' | 'h2' | 'h3'} as
- */
+type HeadingProps = {
+  as: "h1" | "h2" | "h3"
+}
 
-/** @type {React.FC<Props>} */
-export const Heading = ({ as, children }) => {
+export const Heading: NextPageWithLayout<HeadingProps> = ({ as, children }) => {
   return <Wrapper as={as}>{children}</Wrapper>;
 };

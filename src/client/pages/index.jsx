@@ -1,18 +1,19 @@
 import dayjs from "dayjs";
-import React, { useCallback, useRef } from "react";
+import React, {Suspense, useCallback, useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 
-import { Container } from "../foundation/components/layouts/Container";
-import { Spacer } from "../foundation/components/layouts/Spacer";
-import { Stack } from "../foundation/components/layouts/Stack";
-import { Heading } from "../foundation/components/typographies/Heading";
-import { useAuthorizedFetch } from "../foundation/hooks/useAuthorizedFetch";
-import { Color, Radius, Space } from "../foundation/styles/variables";
-import { authorizedJsonFetcher, jsonFetcher } from "../foundation/utils/HttpUtils";
+import {Container} from "../foundation/components/layouts/Container";
+import {Spacer} from "../foundation/components/layouts/Spacer";
+import {Stack} from "../foundation/components/layouts/Stack";
+import {Heading} from "../foundation/components/typographies/Heading";
+import {useAuthorizedFetch} from "../foundation/hooks/useAuthorizedFetch";
+import {Color, Radius, Space} from "../foundation/styles/variables";
+import {authorizedJsonFetcher, jsonFetcher} from "../foundation/utils/HttpUtils";
 
-import { ChargeDialog } from "../foundation/pages/top/ChargeDialog";
 import HeroImage from "../foundation/pages/top/HeroImage";
 import RecentRaceList from "../foundation/pages/top/RecentRaceList";
+import {difference, slice} from "lodash-es";
+import {ChargeDialog} from "../foundation/pages/top/ChargeDialog";
 
 const ChargeButton = styled.button`
   background: ${Color.mono[700]};
@@ -35,7 +36,7 @@ export const fetchRaces = async ({ query }) => {
   const sinceUnix = dayjs(`${date} 00:00:00`).unix();
   const untilUnix = dayjs(`${date} 23:59:59`).unix();
 
-  const { races = [] } = await jsonFetcher(`/api/races?since=${sinceUnix}&until=${untilUnix}`);
+  const { items: races = [] } = await jsonFetcher(`/api/races?since=${sinceUnix}&until=${untilUnix}`);
 
   return {
     props: { races },
@@ -47,9 +48,9 @@ export default function Index({ races }) {
 }
 
 export const TopPage = ({ races }) => {
-  const chargeDialogRef = useRef(null);
-
   const { data: userData, revalidate } = useAuthorizedFetch("/api/users/me", authorizedJsonFetcher);
+
+  const chargeDialogRef = useRef(null);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -62,6 +63,56 @@ export const TopPage = ({ races }) => {
   const handleCompleteCharge = useCallback(() => {
     revalidate();
   }, [revalidate]);
+
+  function useTodayRacesWithAnimation(races) {
+    const [isRacesUpdate, setIsRacesUpdate] = useState(false);
+    const [racesToShow, setRacesToShow] = useState([]);
+    const numberOfRacesToShow = useRef(0);
+    const timer = useRef(null);
+
+    useEffect(() => {
+      const isRacesUpdate = difference(races.map((e) => e.id), racesToShow.map((e) => e.id)).length !== 0;
+      setIsRacesUpdate(isRacesUpdate);
+    }, [races]);
+
+    useEffect(() => {
+      if (!isRacesUpdate) {
+        return;
+      }
+      // 視覚効果 off のときはアニメーションしない
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setRacesToShow(races);
+        return;
+      }
+
+      numberOfRacesToShow.current = 0;
+      if (timer.current !== null) {
+        clearInterval(timer.current);
+      }
+
+      timer.current = setInterval(() => {
+        if (numberOfRacesToShow.current >= races.length) {
+          clearInterval(timer.current);
+          return;
+        }
+
+        numberOfRacesToShow.current++;
+        setRacesToShow(slice(races, 0, numberOfRacesToShow.current));
+      }, 100);
+    }, [isRacesUpdate, races]);
+
+    useEffect(() => {
+      return () => {
+        if (timer.current !== null) {
+          clearInterval(timer.current);
+        }
+      };
+    }, []);
+
+    return racesToShow;
+  }
+
+  const racesToShow = useTodayRacesWithAnimation(races);
 
   return (
     <Container>
@@ -84,10 +135,20 @@ export const TopPage = ({ races }) => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        <RecentRaceList races={races} />
+        {racesToShow.length > 0 && (
+          <RecentRaceList>
+            {racesToShow.map((race) => (
+              <Suspense fallback={<div>Loading...</div>}>
+                <RecentRaceList.Item key={race.id} race={race} />
+              </Suspense>
+            ))}
+          </RecentRaceList>
+        )}
       </section>
 
-      {/*<ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />*/}
+      <Suspense fallback={<div />}>
+        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      </Suspense>
     </Container>
   );
 };

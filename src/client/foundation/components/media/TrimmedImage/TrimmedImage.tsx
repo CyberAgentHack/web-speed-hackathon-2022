@@ -1,6 +1,6 @@
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Image from "next/image";
 
 /**
  * アスペクト比を維持したまま、要素のコンテンツボックス全体を埋めるように拡大縮小したサイズを返す
@@ -16,16 +16,14 @@ const Img = styled.img`
   object-position: center center;
 `;
 
-/**
- * @typedef Props
- * @property {string} src
- * @property {number} width
- * @property {number} height
- * @property {"eager" | "lazy" | undefined} loading
- */
+type TrimmedImageProps = {
+  height: number,
+  loading?: "lazy" | "eager"
+  src: string
+  width: number
+}
 
-/** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ height, loading, src, width }) => {
+export const TrimmedImage = ({ height, loading = "eager", src, width }: TrimmedImageProps) => {
   const [srcUrl, setSrcUrl] = useState("");
 
   useEffect(() => {
@@ -38,7 +36,6 @@ export const TrimmedImage = ({ height, loading, src, width }) => {
 
   return (
     <ImgContainer>
-      {/*<Img alt={""} height={0} loading={loading} src={srcUrl} width={width} />*/}
       <Image
         src={srcUrl}
         alt={""}

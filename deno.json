@@ -9,7 +9,8 @@
   },
   "fmt": {
     "files": {
-      "include": ["src/", "deno.json"]
+      "include": ["src/", "deno.json"],
+      "exclude": ["src/client/.next", "src/client/dist", "src/server/dist"]
     },
     "options": {
       "lineWidth": 120

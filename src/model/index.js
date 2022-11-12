@@ -1,8 +1,8 @@
-import { BettingTicket } from "./BettingTicket.js";
-import { OddsItem } from "./OddsItem.js";
-import { Player } from "./Player.js";
-import { Race } from "./Race.js";
-import { RaceEntry } from "./RaceEntry.js";
-import { User } from "./User.js";
+import { BettingTicket } from "./BettingTicket";
+import { OddsItem } from "./OddsItem";
+import { Player } from "./Player";
+import { Race } from "./Race";
+import { RaceEntry } from "./RaceEntry";
+import { User } from "./User";
 
 export { BettingTicket, OddsItem, Player, Race, RaceEntry, User };

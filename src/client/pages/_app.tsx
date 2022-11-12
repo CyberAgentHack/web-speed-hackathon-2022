@@ -1,13 +1,16 @@
-import "side-effects";
-import type { AppProps } from "next/app";
-import CommonLayout from "foundation/pages/CommonLayout";
-import Head from "next/head";
-import { StyleSheetManager } from "styled-components";
 import { AuthContextProvider } from "foundation/contexts/AuthContext";
+import CommonLayout from "foundation/pages/CommonLayout";
 import { GlobalStyle } from "foundation/styles/GlobalStyle";
+import { AppPropsWithLayout } from "next/app";
+import Head from "next/head";
 import React from "react";
+import { RecoilRoot } from "recoil";
+import "side-effects";
+import { StyleSheetManager } from "styled-components";
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <StyleSheetManager disableCSSOMInjection>
       <AuthContextProvider>
@@ -16,10 +19,13 @@ export default function App({ Component, pageProps }: AppProps) {
           <title>CyberTicket</title>
         </Head>
         <GlobalStyle />
-        <CommonLayout>
-          <Component {...pageProps} />
-        </CommonLayout>
+        <RecoilRoot>
+          <CommonLayout>
+            {getLayout(<Component {...pageProps} />)}
+          </CommonLayout>
+        </RecoilRoot>
       </AuthContextProvider>
     </StyleSheetManager>
   );
-}
+};
+export default App;

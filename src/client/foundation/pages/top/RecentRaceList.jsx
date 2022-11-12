@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 
-import { LinkButton } from "foundation/components/buttons/LinkButton";
-import { Spacer } from "foundation/components/layouts/Spacer";
-import { Stack } from "foundation/components/layouts/Stack";
-import { TrimmedImage } from "foundation/components/media/TrimmedImage";
-import { easeOutCubic, useAnimation } from "foundation/hooks/useAnimation";
-import { Color, FontSize, Radius, Space } from "foundation/styles/variables";
-import { formatCloseAt } from "foundation/utils/DateUtils";
+import {LinkButton} from "foundation/components/buttons/LinkButton";
+import {Spacer} from "foundation/components/layouts/Spacer";
+import {Stack} from "foundation/components/layouts/Stack";
+import {TrimmedImage} from "foundation/components/media/TrimmedImage";
+import {easeOutCubic, useAnimation} from "foundation/hooks/useAnimation";
+import {Color, FontSize, Radius, Space} from "foundation/styles/variables";
+import {formatCloseAt} from "foundation/utils/DateUtils";
 
-export default function RecentRaceList({ races }) {
+export default function RecentRaceList({ children }) {
   return (
     <Stack as="ul" gap={Space * 2}>
-      {races.map((race) => <RecentRaceList.Item key={race.id} race={race} />)}
+      { children }
     </Stack>
   );
 }
@@ -93,7 +93,7 @@ const Item = ({ race }) => {
 
         <Stack.Item grow={0} shrink={0}>
           <Stack horizontal alignItems="center" gap={Space * 2}>
-            <ItemImg height={100} race={race} width={100} />
+            <TrimmedImage height={100} loading={"lazy"} src={race ? race.image : ""} width={100} />
             <RaceButton href={`/races/${race.id}/race-card`}>投票</RaceButton>
           </Stack>
         </Stack.Item>
@@ -102,39 +102,3 @@ const Item = ({ race }) => {
   );
 };
 RecentRaceList.Item = Item;
-
-/**
- * @param {Model.Race} race
- * @returns {Model.Race}
- */
-function useTodayRaceWithAnimation(race) {
-  const [racesToShow, setRacesToShow] = useState(null);
-
-  useEffect(() => {
-    // 視覚効果 off のときはアニメーションしない
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRacesToShow(race);
-      return;
-    }
-
-    setTimeout(() => {
-      setRacesToShow(race);
-    }, 100);
-  }, [race]);
-
-  return racesToShow;
-}
-
-/**
- * @typedef ItemProps
- * @property {number} height
- * @property {Model.Race} race
- * @property {number} width
- */
-
-/** @type {React.VFC<ItemProps>} */
-const ItemImg = ({ height, race: todayRace, width }) => {
-  const race = useTodayRaceWithAnimation(todayRace);
-
-  return <TrimmedImage height={height} loading={"lazy"} src={race ? race.image : ""} width={width} />;
-};
