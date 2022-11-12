@@ -7,6 +7,13 @@ const nextConfig = {
   images: {
     formats: ["image/webp"],
   },
+  compiler: {
+    // @see https://nextjs.org/docs/advanced-features/compiler#styled-components
+    styledComponents: true,
+    removeConsole: {
+      exclude: ["error"],
+    },
+  },
   async headers() {
     return [
       {
@@ -19,10 +26,6 @@ const nextConfig = {
         ],
       },
     ];
-  },
-  compiler: {
-    // @see https://nextjs.org/docs/advanced-features/compiler#styled-components
-    styledComponents: true,
   },
 };
 

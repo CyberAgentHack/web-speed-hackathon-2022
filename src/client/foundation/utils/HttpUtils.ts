@@ -14,7 +14,7 @@ export const authorizedJsonFetcher = async <T>(url: string, userId: string) => {
 };
 
 axios.interceptors.request.use((request) => {
-  request.baseURL = process.env.NEXT_PUBLIC_BASE_URL
+  request.baseURL = process.env.NEXT_PUBLIC_BASE_URL;
   return request;
 });
 

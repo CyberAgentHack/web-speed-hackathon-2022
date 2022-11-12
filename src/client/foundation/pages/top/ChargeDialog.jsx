@@ -18,7 +18,7 @@ const CHARGE = "charge";
  */
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
-export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
+const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
@@ -168,5 +168,6 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     </Dialog>
   );
 });
+export default ChargeDialog;
 
 ChargeDialog.displayName = "ChargeDialog";

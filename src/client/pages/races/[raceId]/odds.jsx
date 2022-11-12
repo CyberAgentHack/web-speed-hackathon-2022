@@ -1,19 +1,25 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dayjs from "dayjs";
-import React, { useCallback, useRef, useState } from "react";
+import React, { Suspense, useCallback, useRef, useState } from "react";
 import styled from "styled-components";
+import dynamic from "next/dynamic";
 
 import { Spacer } from "foundation/components/layouts/Spacer";
 import { Heading } from "foundation/components/typographies/Heading";
 import { Color, Space } from "foundation/styles/variables";
 import { jsonFetcher } from "foundation/utils/HttpUtils";
-
-import OddsRankingList from "foundation/pages/races/Odds/OddsRankingList";
-import OddsTable from "foundation/pages/races/Odds/OddsTable";
 import { TicketVendingModal } from "foundation/pages/races/Odds/TicketVendingModal";
 import { useFetch } from "../../../foundation/hooks/useFetch";
 import { Container } from "../../../foundation/components/layouts/Container";
 import { RaceInfo, RaceTabNavContents } from "../../../foundation/pages/races/RaceLayout";
+
+const OddsRankingList = dynamic(() => import("foundation/pages/races/Odds/OddsRankingList"), {
+  suspense: true,
+});
+
+const OddsTable = dynamic(() => import("foundation/pages/races/Odds/OddsTable"), {
+  suspense: true,
+});
 
 const Callout = styled.aside`
   align-items: center;
@@ -70,22 +76,26 @@ export default function Odds({ race }) {
         <Heading as="h2">オッズ表</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsTable
-          entries={race?.entries ?? []}
-          isRaceClosed={isRaceClosed}
-          odds={odds?.items ?? []}
-          onClickOdds={handleClickOdds}
-        />
+        <Suspense fallback={""}>
+          <OddsTable
+            entries={race?.entries ?? []}
+            isRaceClosed={isRaceClosed}
+            odds={odds?.items ?? []}
+            onClickOdds={handleClickOdds}
+          />
+        </Suspense>
 
         <Spacer mt={Space * 4} />
         <Heading as="h2">人気順</Heading>
 
         <Spacer mt={Space * 2} />
-        <OddsRankingList
-          isRaceClosed={isRaceClosed}
-          odds={odds?.items ?? []}
-          onClickOdds={handleClickOdds}
-        />
+        <Suspense fallback={""}>
+          <OddsRankingList
+            isRaceClosed={isRaceClosed}
+            odds={odds?.items ?? []}
+            onClickOdds={handleClickOdds}
+          />
+        </Suspense>
         <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={race.id} />
       </RaceTabNavContents>
     </Container>

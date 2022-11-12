@@ -13,9 +13,13 @@ import { authorizedJsonFetcher, jsonFetcher } from "../foundation/utils/HttpUtil
 import HeroImage from "../foundation/pages/top/HeroImage";
 import RecentRaceList from "../foundation/pages/top/RecentRaceList";
 import { difference, slice } from "lodash-es";
-import { ChargeDialog } from "../foundation/pages/top/ChargeDialog";
 import { useFetch } from "../foundation/hooks/useFetch";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+
+const ChargeDialog = dynamic(() => import("../foundation/pages/top/ChargeDialog"), {
+  suspense: true,
+});
 
 const ChargeButton = styled.button`
   background: ${Color.mono[700]};
@@ -130,7 +134,7 @@ export const TopPage = () => {
         {racesToShow.length > 0 && (
           <RecentRaceList>
             {racesToShow.map((race) => (
-              <Suspense key={race.id} fallback={<div>Loading...</div>}>
+              <Suspense key={race.id} fallback={""}>
                 <RecentRaceList.Item race={race} />
               </Suspense>
             ))}
@@ -138,7 +142,7 @@ export const TopPage = () => {
         )}
       </section>
 
-      <Suspense fallback={<div />}>
+      <Suspense fallback={""}>
         <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
       </Suspense>
     </Container>
