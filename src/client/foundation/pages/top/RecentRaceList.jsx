@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { LinkButton } from "foundation/components/buttons/LinkButton";
@@ -8,11 +8,74 @@ import { TrimmedImage } from "foundation/components/media/TrimmedImage";
 import { easeOutCubic, useAnimation } from "foundation/hooks/useAnimation";
 import { Color, FontSize, Radius, Space } from "foundation/styles/variables";
 import { formatCloseAt } from "foundation/utils/DateUtils";
+import { difference, map, slice } from "lodash-es";
+import { useRouter } from "next/router";
+import dayjs from "dayjs";
+import { useFetch } from "../../hooks/useFetch";
+import { jsonFetcher } from "../../utils/HttpUtils";
 
-export default function RecentRaceList({ children }) {
+export default function RecentRaceList() {
+
+  const router = useRouter();
+  const { date = dayjs().format("YYYY-MM-DD") } = router.query;
+
+  const sinceUnix = dayjs(`${date} 00:00:00`).unix();
+  const untilUnix = dayjs(`${date} 23:59:59`).unix();
+  const { data: races } = useFetch(`/api/races?since=${sinceUnix}&until=${untilUnix}`, jsonFetcher);
+
+  function useTodayRacesWithAnimation(races) {
+    const [isRacesUpdate, setIsRacesUpdate] = useState(false);
+    const [racesToShow, setRacesToShow] = useState([]);
+    const numberOfRacesToShow = useRef(0);
+    const timer = useRef(null);
+
+    useEffect(() => {
+      const isRacesUpdate = difference(races.map((e) => e.id), racesToShow.map((e) => e.id)).length !== 0;
+      setIsRacesUpdate(isRacesUpdate);
+    }, [races]);
+
+    useEffect(() => {
+      if (!isRacesUpdate) {
+        return;
+      }
+      // 視覚効果 off のときはアニメーションしない
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setRacesToShow(races);
+        return;
+      }
+
+      numberOfRacesToShow.current = 0;
+      if (timer.current !== null) {
+        clearInterval(timer.current);
+      }
+
+      timer.current = setInterval(() => {
+        if (numberOfRacesToShow.current >= races.length) {
+          clearInterval(timer.current);
+          return;
+        }
+
+        numberOfRacesToShow.current++;
+        setRacesToShow(slice(races, 0, numberOfRacesToShow.current));
+      }, 100);
+    }, [isRacesUpdate, races]);
+
+    useEffect(() => {
+      return () => {
+        if (timer.current !== null) {
+          clearInterval(timer.current);
+        }
+      };
+    }, []);
+
+    return racesToShow;
+  }
+
+  const racesToShow = useTodayRacesWithAnimation(races?.items ?? []);
+
   return (
     <Stack as="ul" gap={Space * 2}>
-      {children}
+      {racesToShow.map((race) => <RecentRaceList.Item race={race} />)}
     </Stack>
   );
 }

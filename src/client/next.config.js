@@ -3,15 +3,16 @@
  */
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
   images: {
     formats: ["image/avif"],
   },
   compiler: {
-    // @see https://nextjs.org/docs/advanced-features/compiler#styled-components
-    styledComponents: true,
     removeConsole: {
       exclude: ["error"],
     },
+    // @see https://nextjs.org/docs/advanced-features/compiler#styled-components
+    styledComponents: true,
   },
   async headers() {
     return [
