@@ -47,7 +47,7 @@ export function useFetch(apiPath, fetcher, params) {
       }));
     });
     // WARNING: paramsを入れると無限fetchになる
-  }, [apiPath, fetcher]);
+  }, [params, apiPath, fetcher]);
 
   return result;
 }
