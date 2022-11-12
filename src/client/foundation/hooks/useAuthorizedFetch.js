@@ -15,10 +15,11 @@ import { useAuth } from "../contexts/AuthContext";
  * @template T
  * @param {string} apiPath
  * @param {(apiPath: string, userId: string) => Promise<T>} fetcher
+ * @param {boolean?} useCache
  * @returns {ReturnValues<T>}
  */
-export function useAuthorizedFetch(apiPath, fetcher) {
-  const { loggedIn, userId } = useAuth();
+export function useAuthorizedFetch(apiPath, fetcher, useCache) {
+  const { loggedIn, user } = useAuth();
 
   const [result, setResult] = useState({
     data: null,
@@ -37,7 +38,7 @@ export function useAuthorizedFetch(apiPath, fetcher) {
       loading: true,
     }));
 
-    const promise = fetcher(apiPath, userId);
+    const promise = fetcher(apiPath, user?.id, useCache);
 
     promise.then((data) => {
       setResult((cur) => ({
@@ -54,7 +55,7 @@ export function useAuthorizedFetch(apiPath, fetcher) {
         loading: false,
       }));
     });
-  }, [apiPath, fetcher, loggedIn, userId]);
+  }, [apiPath, fetcher, loggedIn, user, useCache]);
 
   useEffect(() => {
     fetch();
