@@ -15,7 +15,10 @@ import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
-import { RecentRaceList } from "./internal/RecentRaceList";
+import {
+  RecentRaceList,
+  RecentRacePlaceholderList,
+} from "./internal/RecentRaceList";
 
 /**
  * @param {Model.Race[]} races
@@ -102,7 +105,7 @@ export const Top = () => {
     background: ${Color.mono[700]};
     border-radius: ${Radius.MEDIUM};
     color: ${Color.mono[0]};
-    padding: ${Space * 1}px ${Space * 2}px;
+    padding: ${Space}px ${Space * 2}px;
 
     &:hover {
       background: ${Color.mono[800]};
@@ -142,11 +145,9 @@ export const Top = () => {
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
   const heroImageUrl = useHeroImage(todayRaces);
-
   return (
     <Container>
-      {heroImageUrl !== null && <HeroImage url={heroImageUrl} />}
-
+      <HeroImage url={heroImageUrl} />
       <Spacer mt={Space * 2} />
       {userData && (
         <Stack horizontal alignItems="center" justifyContent="space-between">
@@ -164,12 +165,16 @@ export const Top = () => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        {todayRacesToShow.length > 0 && (
+        {todayRacesToShow.length > 0 ? (
           <RecentRaceList>
             {todayRacesToShow.map((race) => (
               <RecentRaceList.Item key={race.id} race={race} />
             ))}
           </RecentRaceList>
+        ) : (
+          <RecentRacePlaceholderList>
+            <RecentRacePlaceholderList.Item />
+          </RecentRacePlaceholderList>
         )}
       </section>
 
