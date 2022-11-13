@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import React, { Suspense, useCallback, useRef } from "react";
 import styled from "styled-components";
 
@@ -10,11 +11,10 @@ import { Color, Radius, Space } from "../foundation/styles/variables";
 import { authorizedJsonFetcher, jsonFetcher } from "../foundation/utils/HttpUtils";
 
 import HeroImage from "../foundation/pages/top/HeroImage";
+import RecentRaceList from "../foundation/pages/top/RecentRaceList";
+import { useFetch } from "../foundation/hooks/useFetch";
+import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-
-const RecentRaceList = dynamic(() => import("../foundation/pages/top/RecentRaceList"), {
-  suspense: true,
-});
 
 const ChargeDialog = dynamic(() => import("../foundation/pages/top/ChargeDialog"), {
   suspense: true,
@@ -36,6 +36,13 @@ export default function Index() {
 }
 
 export const TopPage = () => {
+  const router = useRouter();
+  const { date = dayjs().format("YYYY-MM-DD") } = router.query;
+
+  const sinceUnix = dayjs(`${date} 00:00:00`).unix();
+  const untilUnix = dayjs(`${date} 23:59:59`).unix();
+  const { data: races } = useFetch(`/api/races?since=${sinceUnix}&until=${untilUnix}`, jsonFetcher);
+
   const { data: userData, revalidate } = useAuthorizedFetch("/api/users/me", authorizedJsonFetcher);
 
   const chargeDialogRef = useRef(null);
@@ -73,9 +80,7 @@ export const TopPage = () => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        <Suspense fallback={""}>
-          <RecentRaceList />
-        </Suspense>
+        <RecentRaceList races={races} />
       </section>
       {
         userData && (

@@ -14,14 +14,7 @@ import dayjs from "dayjs";
 import { useFetch } from "../../hooks/useFetch";
 import { jsonFetcher } from "../../utils/HttpUtils";
 
-export default function RecentRaceList() {
-
-  const router = useRouter();
-  const { date = dayjs().format("YYYY-MM-DD") } = router.query;
-
-  const sinceUnix = dayjs(`${date} 00:00:00`).unix();
-  const untilUnix = dayjs(`${date} 23:59:59`).unix();
-  const { data: races } = useFetch(`/api/races?since=${sinceUnix}&until=${untilUnix}`, jsonFetcher);
+export default function RecentRaceList({ races }) {
 
   function useTodayRacesWithAnimation(races) {
     const [isRacesUpdate, setIsRacesUpdate] = useState(false);
