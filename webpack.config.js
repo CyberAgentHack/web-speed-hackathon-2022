@@ -2,7 +2,9 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
+const RemoveEmptyScriptsPlugin = require("webpack-remove-empty-scripts");
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -50,6 +52,10 @@ module.exports = [
       ],
     },
     name: "client",
+    optimization: {
+      minimize: true,
+      minimizer: ["...", new CssMinimizerPlugin()],
+    },
     output: {
       path: DIST_PUBLIC,
     },
@@ -57,6 +63,7 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
+      new RemoveEmptyScriptsPlugin(),
     ],
     resolve: {
       extensions: [".js", ".jsx"],
