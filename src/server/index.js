@@ -1,9 +1,9 @@
 import "./side-effects";
 import "regenerator-runtime/runtime";
 import fastify from "fastify";
-import fastifyCompress from "fastify-compress";
-import fastifyCors from "fastify-cors";
-import fastifySensible from "fastify-sensible";
+import fastifyCompress from "@fastify/compress";
+import fastifyCors from "@fastify/cors";
+import fastifySensible from "@fastify/sensible";
 
 import { User } from "../model";
 
@@ -14,12 +14,7 @@ import { initialize } from "./typeorm/initialize";
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 const server = fastify({
-  logger: IS_PRODUCTION ? false : {
-    prettyPrint: {
-      ignore: "pid,hostname",
-      translateTime: "SYS:HH:MM:ss",
-    },
-  },
+  logger: IS_PRODUCTION ? false : {},
 });
 
 server.register(fastifyCors, {
@@ -28,7 +23,6 @@ server.register(fastifyCors, {
 
 server.register(fastifyCompress, {
   encodings: ["gzip"],
-  requestEncodings: ["gzip"],
 });
 
 server.register(fastifySensible);
@@ -57,7 +51,7 @@ server.register(apiRoute, { prefix: "/api" });
 const start = async () => {
   try {
     await initialize();
-    await server.listen(process.env.PORT || 8888, "0.0.0.0");
+    await server.listen({ port: process.env.PORT || 8888, host: "0.0.0.0" });
   } catch (err) {
     server.log.error(err);
     process.exit(1);

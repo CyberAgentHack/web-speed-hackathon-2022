@@ -25,17 +25,17 @@ export const apiRoute = async (fastify) => {
       };
     });
 
-    res.send(bankData);
+    return res.send(bankData);
   });
 
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
     if (req.user != null) {
-      res.send(req.user);
+      return res.send(req.user);
     } else {
       const user = await repo.save(new User());
-      res.send(user);
+      return res.send(user);
     }
   });
 
@@ -64,8 +64,6 @@ export const apiRoute = async (fastify) => {
   fastify.get("/races", async (req, res) => {
     const since = req.query.since != null ? dayjs.unix(req.query.since) : undefined;
     const until = req.query.until != null ? dayjs.unix(req.query.until) : undefined;
-    const skip = req.query.skip != null ? req.query.skip : undefined;
-    const take = req.query.take != null ? req.query.take : undefined;
 
     if (since != null && !since.isValid()) {
       throw fastify.httpErrors.badRequest();
@@ -101,11 +99,9 @@ export const apiRoute = async (fastify) => {
     const races = await repo.find({
       order,
       where,
-      skip,
-      take,
     });
 
-    res.send({
+    return res.send({
       items: races,
     });
   });
@@ -121,7 +117,7 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.notFound();
     }
 
-    res.send(race);
+    return res.send(race);
   });
 
   fastify.get("/races/:raceId/trifectaOdds", async (req, res) => {
@@ -138,7 +134,7 @@ export const apiRoute = async (fastify) => {
       },
     });
 
-    res.send({
+    return res.send({
       items: odds,
     });
   });
@@ -160,7 +156,7 @@ export const apiRoute = async (fastify) => {
       },
     });
 
-    res.send({
+    return res.send({
       items: bettingTickets,
     });
   });
@@ -205,7 +201,7 @@ export const apiRoute = async (fastify) => {
     req.user.balance -= 100;
     await userRepo.save(req.user);
 
-    res.send(bettingTicket);
+    return res.send(bettingTicket);
   });
 
   fastify.post("/initialize", async (_req, res) => {
