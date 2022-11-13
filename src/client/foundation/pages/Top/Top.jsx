@@ -12,90 +12,10 @@ import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
-// import { difference, slice } from "../../utils/loadsh";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
-
-// /**
-//  * @param {Model.Race[]} races
-//  * @returns {Model.Race[]}
-//  */
-// function useTodayRacesWithAnimation(races) {
-//   const [isRacesUpdate, setIsRacesUpdate] = useState(false);
-//   const [racesToShow, setRacesToShow] = useState([]);
-//   const numberOfRacesToShow = useRef(0);
-//   const prevRaces = useRef(races);
-//   const timer = useRef(null);
-
-//   useEffect(() => {
-//     const isRacesUpdate =
-//       difference(
-//         races.map((e) => e.id),
-//         prevRaces.current.map((e) => e.id),
-//       ).length !== 0;
-
-//     prevRaces.current = races;
-//     setIsRacesUpdate(isRacesUpdate);
-//   }, [races]);
-
-//   useEffect(() => {
-//     if (!isRacesUpdate) {
-//       return;
-//     }
-//     // 視覚効果 off のときはアニメーションしない
-//     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-//       setRacesToShow(races);
-//       return;
-//     }
-
-//     numberOfRacesToShow.current = 0;
-//     if (timer.current !== null) {
-//       clearInterval(timer.current);
-//     }
-
-//     timer.current = setInterval(() => {
-//       if (numberOfRacesToShow.current >= races.length) {
-//         clearInterval(timer.current);
-//         return;
-//       }
-
-//       numberOfRacesToShow.current++;
-//       setRacesToShow(slice(races, 0, numberOfRacesToShow.current));
-//     }, 100);
-//   }, [isRacesUpdate, races]);
-
-//   useEffect(() => {
-//     return () => {
-//       if (timer.current !== null) {
-//         clearInterval(timer.current);
-//       }
-//     };
-//   }, []);
-
-//   return racesToShow;
-// }
-
-// /**
-//  * @param {Model.Race[]} todayRaces
-//  * @returns {string | null}
-//  */
-// function useHeroImage(todayRaces) {
-//   const firstRaceId = todayRaces[0]?.id;
-//   const url =
-//     firstRaceId !== undefined
-//       ? `/api/hero?firstRaceId=${firstRaceId}`
-//       : "/api/hero";
-//   const { data } = useFetch(url, jsonFetcher);
-
-//   if (firstRaceId === undefined || data === null) {
-//     return null;
-//   }
-
-//   const imageUrl = `${data.url}?${data.hash}`;
-//   return imageUrl;
-// }
 
 /** @type {React.VFC} */
 export const Top = () => {
@@ -144,8 +64,6 @@ export const Top = () => {
             isSameDay(race.startAt, date),
           )
       : [];
-  // const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
-  // const heroImageUrl = useHeroImage(todayRaces);
 
   return (
     <Container>

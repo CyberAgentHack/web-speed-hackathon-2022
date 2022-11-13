@@ -35,32 +35,34 @@ export const RaceResult = () => {
     authorizedJsonFetcher,
   );
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
-      <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
-      </p>
-
+      {data ? (
+        <Heading as="h1">{data.name}</Heading>
+      ) : (
+        <h1 style={{ height: "3rem", marginBottom: "8px", width: "100%" }} />
+      )}
+      {data ? (
+        <p>
+          開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        </p>
+      ) : (
+        <p style={{ height: "1.5rem", width: "100%" }} />
+      )}
       <Spacer mt={Space * 2} />
-
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage
-          height={225}
-          src={`${data.image.slice(0, -4)}-400-225.webp`}
-          width={400}
-        />
+        {data && (
+          <TrimmedImage
+            height={225}
+            src={`${data.image.slice(0, -4)}-400-225.webp`}
+            width={400}
+          />
+        )}
       </Section>
-
       <Spacer mt={Space * 2} />
-
       <Section>
         <TabNav>
           <TabNav.Item to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>

@@ -58,30 +58,36 @@ export const Odds = () => {
     [],
   );
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
-  }
-
-  const isRaceClosed = dayjs(data.closeAt).isBefore(new Date());
+  const isRaceClosed = data ? dayjs(data.closeAt).isBefore(new Date()) : null;
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
-      <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
-      </p>
+      {data ? (
+        <Heading as="h1">{data.name}</Heading>
+      ) : (
+        <h1 style={{ height: "3rem", marginBottom: "8px", width: "100%" }} />
+      )}
+      {data ? (
+        <p>
+          開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
+        </p>
+      ) : (
+        <p style={{ height: "1.5rem", width: "100%" }} />
+      )}
 
       <Spacer mt={Space * 2} />
 
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage
-          height={225}
-          src={`${data.image.slice(0, -4)}-400-225.webp`}
-          width={400}
-        />
+        {data && (
+          <TrimmedImage
+            height={225}
+            src={`${data.image.slice(0, -4)}-400-225.webp`}
+            width={400}
+          />
+        )}
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -97,33 +103,36 @@ export const Odds = () => {
 
         <Spacer mt={Space * 4} />
 
-        <Callout $closed={isRaceClosed}>
-          <FaInfoCircle />
-          {isRaceClosed
-            ? "このレースの投票は締め切られています"
-            : "オッズをクリックすると拳券が購入できます"}
-        </Callout>
+        {data && (
+          <>
+            <Callout $closed={isRaceClosed}>
+              <FaInfoCircle />
+              {isRaceClosed
+                ? "このレースの投票は締め切られています"
+                : "オッズをクリックすると拳券が購入できます"}
+            </Callout>
 
-        <Spacer mt={Space * 4} />
-        <Heading as="h2">オッズ表</Heading>
+            <Spacer mt={Space * 4} />
+            <Heading as="h2">オッズ表</Heading>
 
-        <Spacer mt={Space * 2} />
-        <OddsTable
-          entries={data.entries}
-          isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
-          onClickOdds={handleClickOdds}
-        />
+            <Spacer mt={Space * 2} />
+            <OddsTable
+              entries={data.entries}
+              isRaceClosed={isRaceClosed}
+              odds={data.trifectaOdds}
+              onClickOdds={handleClickOdds}
+            />
+            <Spacer mt={Space * 4} />
+            <Heading as="h2">人気順</Heading>
 
-        <Spacer mt={Space * 4} />
-        <Heading as="h2">人気順</Heading>
-
-        <Spacer mt={Space * 2} />
-        <OddsRankingList
-          isRaceClosed={isRaceClosed}
-          odds={data.trifectaOdds}
-          onClickOdds={handleClickOdds}
-        />
+            <Spacer mt={Space * 2} />
+            <OddsRankingList
+              isRaceClosed={isRaceClosed}
+              odds={data.trifectaOdds}
+              onClickOdds={handleClickOdds}
+            />
+          </>
+        )}
       </Section>
 
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
