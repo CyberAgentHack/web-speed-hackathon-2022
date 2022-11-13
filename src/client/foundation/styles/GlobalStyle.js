@@ -12,6 +12,11 @@ export const GlobalStyle = createGlobalStyle`
     font-family: sans-serif;
   }
 
+  img {
+    width: 100%;
+    height: auto;
+  }
+
   a {
     color: inherit;
     text-decoration: none;
