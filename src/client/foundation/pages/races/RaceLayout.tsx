@@ -38,7 +38,7 @@ export const RaceInfo: NextPageWithLayout<RaceLayoutProps> = ({ children, race }
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={race?.image ?? ""} width={400} />
+        <TrimmedImage height={225} src={race?.image ?? ""} width={400} priority />
       </Section>
 
       <Spacer mt={Space * 2} />

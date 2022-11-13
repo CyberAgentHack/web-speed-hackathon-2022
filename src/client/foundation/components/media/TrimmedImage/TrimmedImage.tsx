@@ -14,9 +14,10 @@ type TrimmedImageProps = {
   height: number;
   src: string;
   width: number;
+  priority?: boolean;
 };
 
-export const TrimmedImage = ({ height, src, width }: TrimmedImageProps) => {
+export const TrimmedImage = ({ height, src, width, priority = false }: TrimmedImageProps) => {
   const [srcUrl, setSrcUrl] = useState("");
 
   useEffect(() => {
@@ -36,7 +37,8 @@ export const TrimmedImage = ({ height, src, width }: TrimmedImageProps) => {
           height={height}
           width={width}
           style={{ objectFit: "cover", objectPosition: "center center", height: "100%" }}
-          quality={50}
+          quality={30}
+          priority={priority}
         />
       )}
     </ImgContainer>
