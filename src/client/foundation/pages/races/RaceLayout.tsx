@@ -30,7 +30,7 @@ export const RaceInfo: NextPageWithLayout<RaceLayoutProps> = ({ children, race }
       <Spacer mt={Space * 2} />
       <Heading as="h1">{race?.name}</Heading>
       <p>
-        開始 {formatTime(race?.startAt ?? "")} 締切 {formatTime(race?.closeAt ?? "")}
+        開始 {race ? formatTime(race.startAt) : ""} 締切 {race ? formatTime(race.closeAt) : ""}
       </p>
 
       <Spacer mt={Space * 2} />

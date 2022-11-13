@@ -77,10 +77,13 @@ export const TopPage = () => {
           <RecentRaceList />
         </Suspense>
       </section>
-
-      <Suspense fallback={""}>
-        <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
-      </Suspense>
+      {
+        userData && (
+          <Suspense fallback={""}>
+            <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+          </Suspense>
+        )
+      }
     </Container>
   );
 };
