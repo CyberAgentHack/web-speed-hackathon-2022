@@ -113,6 +113,25 @@ export const apiRoute = async (fastify) => {
     res.send(result);
   });
 
+  fastify.get("/races/:raceId/lank-list", async (req, res) => {
+    const repo = (await createConnection()).getRepository(Race);
+    const LIST_LENGTH = 50;
+    const race = await repo
+      .createQueryBuilder("race")
+      .leftJoinAndSelect("race.trifectaOdds", "trifectaOdds")
+      .where({ id: req.params.raceId })
+      .orderBy({
+        "trifectaOdds.odds": "ASC",
+      })
+      .limit(LIST_LENGTH)
+      .getOne();
+
+    if (race === undefined) {
+      throw fastify.httpErrors.notFound();
+    }
+    res.send(race.trifectaOdds);
+  });
+
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
     if (req.user == null) {
       throw fastify.httpErrors.unauthorized();

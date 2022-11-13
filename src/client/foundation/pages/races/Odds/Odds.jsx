@@ -66,8 +66,9 @@ export const Odds = ({ data, raceId, ticketData }) => {
       <Spacer mt={Space * 2} />
       <OddsRankingList
         isRaceClosed={isRaceClosed}
-        odds={data.trifectaOdds}
+        odds={[]}
         onClickOdds={handleClickOdds}
+        raceId={raceId}
       />
       <TicketVendingModal
         ref={modalRef}

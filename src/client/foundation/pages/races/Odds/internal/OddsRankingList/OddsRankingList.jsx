@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { BaseButton } from "../../../../../components/buttons/BaseButton";
@@ -64,14 +65,48 @@ const RankNo = styled.div`
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
-  const sortedOdds = odds
-    .sort((a, b) => (a.odds < b.odds ? -1 : 1))
-    .slice(0, 50);
+export const OddsRankingList = ({
+  isRaceClosed,
+  odds,
+  onClickOdds,
+  raceId,
+}) => {
+  // FIXME: 本来ならばここにfetch書きたくない、、、API依存になるので
+  const fetch = async () => {
+    try {
+      const { data } = await axios.get(`/api/races/${raceId}/lank-list`);
+      set0ddsItems(data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const [oddsItems, set0ddsItems] = useState(odds);
 
+  const el = useRef(null);
+  useEffect(() => {
+    if (el.current == null) {
+      return;
+    }
+    const observer = new IntersectionObserver(
+      async ([entry]) => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+        await fetch();
+        observer.disconnect();
+      },
+      {
+        rootMargin: "200px",
+      },
+    );
+    observer.observe(el.current);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
   return (
-    <Wrapper>
-      {sortedOdds.map((item, i) => (
+    <Wrapper ref={el}>
+      {oddsItems.map((item, i) => (
         <li key={item.id}>
           {isRaceClosed ? (
             <InactiveBuyButton>
