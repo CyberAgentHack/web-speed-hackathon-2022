@@ -1,8 +1,9 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<void>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<void>) {
   if (req.method === "POST") {
-    return axios.post("/api/initialize");
+    await axios.post("/api/initialize", req.body);
   }
+  return res.status(204).send();
 }
