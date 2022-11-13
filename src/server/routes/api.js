@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import zenginCode from "zengin-code";
 
-// import { assets } from "../../client/foundation/utils/UrlUtils.js";
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
@@ -48,6 +47,7 @@ export const apiRoute = async (fastify) => {
   // });
 
   fastify.get("/zenginCode", async (_req, res) => {
+    res.header("Cache-Control", "public, max-age=604800, immutable");
     res.send({ zenginCode });
   });
 
