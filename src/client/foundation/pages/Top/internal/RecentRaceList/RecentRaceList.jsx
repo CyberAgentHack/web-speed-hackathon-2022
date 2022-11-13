@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../components/media/TrimmedImage";
-import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
+// import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
 import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 
@@ -17,10 +17,20 @@ export const RecentRaceList = ({ children }) => {
   );
 };
 
+const fadIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 const ItemWrapper = styled.li`
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
-  opacity: ${({ $opacity }) => $opacity};
+  animation: ${fadIn} 0.5s ease-out;
+  animation-delay: ${({ index }) => index * 0.1}s;
   padding: ${Space * 3}px;
 `;
 
@@ -43,46 +53,47 @@ const RaceTitle = styled.h2`
 /**
  * @typedef ItemProps
  * @property {Model.Race} race
+ * @property {number} index
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ race }) => {
+const Item = ({ index, race }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
 
   // 締切はリアルタイムで表示したい
   useEffect(() => {
     const timer = setInterval(() => {
       setCloseAtText(formatCloseAt(race.closeAt));
-    }, 0);
+    }, 0.1 * index);
 
     return () => {
       clearInterval(timer);
     };
-  }, [race.closeAt]);
+  }, [index, race.closeAt]);
 
-  const {
-    abortAnimation,
-    resetAnimation,
-    startAnimation,
-    value: opacity,
-  } = useAnimation({
-    duration: 500,
-    end: 1,
-    start: 0,
-    timingFunction: easeOutCubic,
-  });
+  // const {
+  //   abortAnimation,
+  //   resetAnimation,
+  //   startAnimation,
+  //   value: opacity,
+  // } = useAnimation({
+  //   duration: 500,
+  //   end: 1,
+  //   start: 0,
+  //   timingFunction: easeOutCubic,
+  // });
 
-  useEffect(() => {
-    resetAnimation();
-    startAnimation();
+  // useEffect(() => {
+  //   resetAnimation();
+  //   startAnimation();
 
-    return () => {
-      abortAnimation();
-    };
-  }, [race.id, startAnimation, abortAnimation, resetAnimation]);
+  //   return () => {
+  //     abortAnimation();
+  //   };
+  // }, [race.id, startAnimation, abortAnimation, resetAnimation]);
 
   return (
-    <ItemWrapper $opacity={opacity}>
+    <ItemWrapper index={index}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
