@@ -7464,6 +7464,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"preact@npm:^10.11.2":
+  version: 10.11.2
+  resolution: "preact@npm:10.11.2"
+  checksum: 92b4087a4048595e43fc5c005e9a1f3c890ec83657689de9b40b1894e26f8c2b6b071c63e08941a44044d1612532f8313483b62e3d6e1aa3c39bde27614ed790
+  languageName: node
+  linkType: hard
+
 "prebuild-install@npm:^7.1.1":
   version: 7.1.1
   resolution: "prebuild-install@npm:7.1.1"
@@ -9917,6 +9924,7 @@ __metadata:
     pino-pretty: ^7.3.0
     postcss: ^8.4.18
     postcss-syntax: ^0.36.2
+    preact: ^10.11.2
     prettier: ^2.5.1
     react: ^17.0.2
     react-dom: ^17.0.2
