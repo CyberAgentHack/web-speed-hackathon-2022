@@ -23,7 +23,11 @@ const server = fastify({
       },
 });
 server.register(fastifySensible);
-server.register(fastifyCompress);
+
+// brotliにしたかったが重すぎたのでgzipに変更
+server.register(fastifyCompress, {
+  encodings: ['gzip', 'deflate'],
+});
 
 server.addHook("onRequest", async (req, res) => {
   const repo = (await createConnection()).getRepository(User);
