@@ -79,7 +79,7 @@ export const Odds = () => {
         <Spacer mt={Space * 2} />
         <TrimmedImage
           height={225}
-          src={`${data.image.slice(0, -4)}.webp`}
+          src={`${data.image.slice(0, -4)}-400-225.webp`}
           width={400}
         />
       </Section>

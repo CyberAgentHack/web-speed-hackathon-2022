@@ -58,18 +58,18 @@ const RaceTitle = styled.h2`
 
 /** @type {React.VFC<ItemProps>} */
 const Item = ({ index, race }) => {
-  const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
+  // const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
 
   // 締切はリアルタイムで表示したい
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCloseAtText(formatCloseAt(race.closeAt));
-    }, 0.1 * index);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setCloseAtText(formatCloseAt(race.closeAt));
+  //   }, 0.1 * index);
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, [index, race.closeAt]);
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, [index, race.closeAt]);
 
   // const {
   //   abortAnimation,
@@ -97,7 +97,7 @@ const Item = ({ index, race }) => {
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
-          <p>{closeAtText}</p>
+          <p>{formatCloseAt(race.closeAt)}</p>
         </Stack>
 
         <Spacer mr={Space * 2} />
@@ -107,7 +107,7 @@ const Item = ({ index, race }) => {
             <TrimmedImage
               lazy
               height={100}
-              src={`${race.image.slice(0, -4)}.webp`}
+              src={`${race.image.slice(0, -4)}-100-100.webp`}
               width={100}
             />
             <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>
