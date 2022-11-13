@@ -2,6 +2,8 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const CompressionPlugin = require('compression-webpack-plugin');
+const zlib = require("zlib");
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -47,6 +49,19 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
+    }),
+    new CompressionPlugin({
+      filename: '[path][base].br',
+      algorithm: 'brotliCompress',
+      test: /\.(js|css)$/,
+      compressionOptions: {
+        params: {
+          [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+        },
+      },
+      threshold: 10240,
+      minRatio: 0.8,
+      deleteOriginalAssets: false,
     }),
   ],
   resolve: {
