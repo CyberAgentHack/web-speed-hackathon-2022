@@ -95,7 +95,6 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
     acc[mapKey(second, third)] = cur;
     return acc;
   }, {});
-
   return (
     <div>
       <Stack horizontal>

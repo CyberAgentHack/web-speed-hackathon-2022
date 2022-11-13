@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -6,6 +5,7 @@ import { BaseButton } from "../../../../../components/buttons/BaseButton";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Stack } from "../../../../../components/layouts/Stack";
 import { BreakPoint, Color, Space } from "../../../../../styles/variables";
+import { raceFetcher } from "../../../../../utils/HttpUtils";
 import { OddsMarker } from "../OddsMarker";
 
 const Wrapper = styled.ol`
@@ -74,8 +74,8 @@ export const OddsRankingList = ({
   // FIXME: 本来ならばここにfetch書きたくない、、、API依存になるので
   const fetch = async () => {
     try {
-      const { data } = await axios.get(`/api/races/${raceId}/lank-list`);
-      set0ddsItems(data);
+      const res = await raceFetcher(`/api/races/${raceId}/lank-list`);
+      set0ddsItems(res);
     } catch (e) {
       console.error(e);
     }

@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { Spacer } from "../../../components/layouts/Spacer";
@@ -21,9 +21,13 @@ const Callout = styled.aside`
   justify-content: left;
   padding: ${Space * 1}px ${Space * 2}px;
 `;
+const Placeholder = styled.div`
+  height: 337px;
+  width: 100%;
+`;
 
 /** @type {React.VFC} */
-export const Odds = ({ data, raceId, ticketData }) => {
+export const Odds = ({ data, fetch, raceId, ticketData }) => {
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 
@@ -37,6 +41,15 @@ export const Odds = ({ data, raceId, ticketData }) => {
     },
     [],
   );
+
+  const [trifectaOdds, setTrifectaOdds] = useState([]);
+  useEffect(() => {
+    const f = async () => {
+      const { trifectaOdds: response } = await fetch();
+      setTrifectaOdds(response);
+    };
+    f();
+  }, [fetch]);
 
   const isRaceClosed = dayjs(data.closeAt).isBefore(new Date());
 
@@ -53,12 +66,16 @@ export const Odds = ({ data, raceId, ticketData }) => {
       <Heading as="h2">オッズ表</Heading>
 
       <Spacer mt={Space * 2} />
-      <OddsTable
-        entries={data.entries}
-        isRaceClosed={isRaceClosed}
-        odds={data.trifectaOdds}
-        onClickOdds={handleClickOdds}
-      />
+      {trifectaOdds.length === 0 ? (
+        <Placeholder></Placeholder>
+      ) : (
+        <OddsTable
+          entries={data.entries}
+          isRaceClosed={isRaceClosed}
+          odds={trifectaOdds}
+          onClickOdds={handleClickOdds}
+        />
+      )}
 
       <Spacer mt={Space * 4} />
       <Heading as="h2">人気順</Heading>
