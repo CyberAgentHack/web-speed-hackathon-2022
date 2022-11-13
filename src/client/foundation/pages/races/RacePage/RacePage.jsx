@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -48,11 +48,21 @@ const PageType = {
 export const RacePage = () => {
   const currentPath = useLocation().pathname;
   const { raceId } = useParams();
-  const { data, loading } = useFetch(`/api/races/${raceId}`, raceFetcher);
+  const { data, loading } = useFetch(`/api/races/${raceId}/entry`, raceFetcher);
+
+  const fetchTrifectaOdds = useCallback(async () => {
+    try {
+      return await raceFetcher(`/api/races/${raceId}/trifectaOdds`);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [raceId]);
   const isCurrentPath = (current, path) => current.indexOf(path) !== -1;
   const render = useMemo(() => {
     if (isCurrentPath(currentPath, PageType.ODDS)) {
-      return <Odds data={data} raceId={raceId}></Odds>;
+      return (
+        <Odds data={data} fetch={fetchTrifectaOdds} raceId={raceId}></Odds>
+      );
     }
     if (isCurrentPath(currentPath, PageType.RACE_CARD)) {
       return <RaceCard data={data}></RaceCard>;
