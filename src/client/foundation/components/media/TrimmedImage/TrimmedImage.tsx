@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 /**
@@ -8,12 +8,6 @@ import styled from "styled-components";
 
 const ImgContainer = styled.div`
   overflow: hidden;
-`;
-
-const Img = styled.img`
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
 `;
 
 type TrimmedImageProps = {
@@ -34,19 +28,17 @@ export const TrimmedImage = ({ height, src, width }: TrimmedImageProps) => {
   }
 
   return (
-    <ImgContainer>
-      <Suspense fallback={<div></div>}>
-        {srcUrl === "" ? <></> : (
-          <Image
-            src={srcUrl}
-            alt={""}
-            height={height}
-            width={width}
-            style={{ objectFit: "cover", objectPosition: "center center" }}
-            quality={50}
-          />
-        )}
-      </Suspense>
+    <ImgContainer style={{ aspectRatio: `${width}/${height}` }}>
+      {srcUrl === "" ? <></> : (
+        <Image
+          src={srcUrl}
+          alt={""}
+          height={height}
+          width={width}
+          style={{ objectFit: "cover", objectPosition: "center center", height: "100%" }}
+          quality={50}
+        />
+      )}
     </ImgContainer>
   );
 };
