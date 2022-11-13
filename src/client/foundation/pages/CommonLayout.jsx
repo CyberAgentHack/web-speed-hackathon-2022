@@ -9,7 +9,7 @@ const DynamicFooter = dynamic(() => import("foundation/components/navs/Footer"),
 
 export default function CommonLayout({ children }) {
   return (
-    <div>
+    <>
       <Header />
       <main>
         {children}
@@ -17,6 +17,6 @@ export default function CommonLayout({ children }) {
       <Suspense fallback={""}>
         <DynamicFooter />
       </Suspense>
-    </div>
+    </>
   );
 }

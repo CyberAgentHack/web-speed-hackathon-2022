@@ -35,15 +35,15 @@ const Callout = styled.aside`
 export const getServerSideProps = async ({ query }) => {
   const { raceId } = query;
 
-  const race = await jsonFetcher(`/api/races/${raceId}`);
-
   return {
-    props: { race },
+    props: { raceId },
   };
 };
 
-export default function Odds({ race }) {
-  const { data: odds } = useFetch(`/api/races/${race.id}/trifectaOdds`, jsonFetcher);
+export default function Odds({ raceId }) {
+
+  const { data: race } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data: odds } = useFetch(`/api/races/${raceId}/trifectaOdds`, jsonFetcher);
 
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
@@ -59,7 +59,7 @@ export default function Odds({ race }) {
     [],
   );
 
-  const isRaceClosed = dayjs(race.closeAt).isBefore(new Date());
+  const isRaceClosed = race && dayjs(race.closeAt).isBefore(new Date());
 
   return (
     <Container>
@@ -96,7 +96,7 @@ export default function Odds({ race }) {
             onClickOdds={handleClickOdds}
           />
         </Suspense>
-        <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={race.id} />
+        <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} race={race} />
       </RaceTabNavContents>
     </Container>
   );

@@ -10,20 +10,21 @@ import RaceResultSection from "foundation/pages/races/RaceResult/RaceResultSecti
 import { RaceInfo, RaceTabNavContents } from "foundation/pages/races/RaceLayout";
 import { useAuthorizedFetch } from "../../../foundation/hooks/useAuthorizedFetch";
 import { Container } from "../../../foundation/components/layouts/Container";
+import { useFetch } from "../../../foundation/hooks/useFetch";
 
 export const getServerSideProps = async ({ query }) => {
   const { raceId } = query;
 
-  const race = await jsonFetcher(`/api/races/${raceId}`);
-
   return {
-    props: { race },
+    props: { raceId },
   };
 };
 
 /** @type {NextPageWithLayout} */
-export default function Result({ race }) {
-  const { data: bettingTickets } = useAuthorizedFetch(`/api/races/${race.id}/betting-tickets`, authorizedJsonFetcher);
+export default function Result({ raceId }) {
+
+  const { data: race } = useFetch(`/api/races/${raceId}`, jsonFetcher);
+  const { data: bettingTickets } = useAuthorizedFetch(`/api/races/${raceId}/betting-tickets`, authorizedJsonFetcher);
 
   return (
     <Container>
