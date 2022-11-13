@@ -24,7 +24,7 @@ type RaceLayoutProps = {
   race: Race | null;
 };
 
-export const RaceInfo: NextPageWithLayout<RaceLayoutProps> = ({ children, race }) => {
+export const RaceInfo: NextPageWithLayout<RaceLayoutProps> = ({ race }) => {
   return (
     <>
       <Spacer mt={Space * 2} />
@@ -57,33 +57,31 @@ export const RaceTabNavContents: NextPageWithLayout<RaceTabNavContentsProps> = (
   const [currentPage, setCurrentPage] = useState(paths[paths.length - 1]);
 
   return (
-    <>
-      <Section>
-        <TabNav>
-          <TabNav.Item
-            aria-current={currentPage === "race-card"}
-            onClick={() => setCurrentPage("race-card")}
-            href={`/races/${race?.id}/race-card`}
-          >
-            出走表
-          </TabNav.Item>
-          <TabNav.Item
-            aria-current={currentPage === "odds"}
-            onClick={() => setCurrentPage("odds")}
-            href={`/races/${race?.id}/odds`}
-          >
-            オッズ
-          </TabNav.Item>
-          <TabNav.Item
-            aria-current={currentPage === "result"}
-            onClick={() => setCurrentPage("result")}
-            href={`/races/${race?.id}/result`}
-          >
-            結果
-          </TabNav.Item>
-        </TabNav>
-        {children}
-      </Section>
-    </>
+    <Section>
+      <TabNav>
+        <TabNav.Item
+          aria-current={currentPage === "race-card"}
+          onClick={() => setCurrentPage("race-card")}
+          href={`/races/${race?.id}/race-card`}
+        >
+          出走表
+        </TabNav.Item>
+        <TabNav.Item
+          aria-current={currentPage === "odds"}
+          onClick={() => setCurrentPage("odds")}
+          href={`/races/${race?.id}/odds`}
+        >
+          オッズ
+        </TabNav.Item>
+        <TabNav.Item
+          aria-current={currentPage === "result"}
+          onClick={() => setCurrentPage("result")}
+          href={`/races/${race?.id}/result`}
+        >
+          結果
+        </TabNav.Item>
+      </TabNav>
+      {children}
+    </Section>
   );
 };

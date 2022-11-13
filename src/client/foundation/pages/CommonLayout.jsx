@@ -1,11 +1,6 @@
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
-
 import { Header } from "foundation/components/navs/Header";
+import { Footer } from "foundation/components/navs/Footer";
 
-const DynamicFooter = dynamic(() => import("foundation/components/navs/Footer"), {
-  suspense: true,
-});
 
 export default function CommonLayout({ children }) {
   return (
@@ -14,9 +9,7 @@ export default function CommonLayout({ children }) {
       <main>
         {children}
       </main>
-      <Suspense fallback={""}>
-        <DynamicFooter />
-      </Suspense>
+      <Footer />
     </>
   );
 }
