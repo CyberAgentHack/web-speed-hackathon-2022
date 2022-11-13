@@ -14,6 +14,14 @@ const nextConfig = {
     // @see https://nextjs.org/docs/advanced-features/compiler#styled-components
     styledComponents: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: `${process.env.NEXT_API_HOST}/api/:path*`,
+      },
+    ];
+  },
   async headers() {
     return [
       {

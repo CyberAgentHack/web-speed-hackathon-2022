@@ -15,7 +15,7 @@ dayjs.extend(utc);
 
 // axios
 axios.interceptors.request.use((request) => {
-  request.baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+  request.baseURL = process.env.NEXT_API_HOST;
   return request;
 });
 
