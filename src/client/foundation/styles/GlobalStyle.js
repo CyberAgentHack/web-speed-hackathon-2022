@@ -1,10 +1,14 @@
 import resetCss from "modern-css-reset?raw";
+import { config, dom as fontawesomeDom } from "@fortawesome/fontawesome-svg-core";
 import { createGlobalStyle } from "styled-components";
 
 import { Color } from "./variables";
 
+config.autoAddCss = false;
+
 export const GlobalStyle = createGlobalStyle`
  ${resetCss}
+ ${fontawesomeDom.css()}
 
   body {
     color: ${Color.mono[900]};
