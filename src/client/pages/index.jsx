@@ -41,8 +41,8 @@ export const TopPage = () => {
 
   const sinceUnix = dayjs(`${date} 00:00:00`).unix();
   const untilUnix = dayjs(`${date} 23:59:59`).unix();
-  const { data: races } = useFetch(`/api/races?since=${sinceUnix}&until=${untilUnix}`, jsonFetcher);
 
+  const { data: races } = useFetch(`/api/races?since=${sinceUnix}&until=${untilUnix}`, jsonFetcher);
   const { data: userData, revalidate } = useAuthorizedFetch("/api/users/me", authorizedJsonFetcher);
 
   const chargeDialogRef = useRef(null);
@@ -80,7 +80,9 @@ export const TopPage = () => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        <RecentRaceList races={races} />
+        {
+          races && <RecentRaceList races={races} />
+        }
       </section>
       {
         userData && (

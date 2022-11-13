@@ -12,20 +12,24 @@ import React from "react";
 import { Race } from "../../../../model";
 
 type RaceCardProps = {
-  raceId: string;
+  race: Race;
 };
 
-export const getServerSideProps: GetServerSideProps<RaceCardProps> = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps<RaceCardProps> = (async ({ res, query }) => {
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=31536000, stale-while-revalidate'
+  )
+
   const { raceId } = query;
+  const race = await jsonFetcher<Race>(`/api/races/${raceId}`);
 
   return {
-    props: { raceId : raceId as string },
+    props: { race },
   };
-};
+})
 
-const RaceCard: NextPageWithLayout<RaceCardProps> = ({ raceId }) => {
-  const { data: race } = useFetch<Race>(`/api/races/${raceId}`, jsonFetcher);
-
+const RaceCard: NextPageWithLayout<RaceCardProps> = ({ race }) => {
   return (
     <Container>
       <RaceInfo race={race} />

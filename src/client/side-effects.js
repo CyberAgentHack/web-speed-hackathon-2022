@@ -16,6 +16,8 @@ dayjs.extend(utc);
 // axios
 axios.interceptors.request.use((request) => {
   request.baseURL = process.env.NEXT_API_HOST;
+  request.headers["Access-Control-Allow-Origin"] = "*"
+  request.headers["Cache-Control"] = "public, s-maxage=31536000, stale-while-revalidate"
   return request;
 });
 

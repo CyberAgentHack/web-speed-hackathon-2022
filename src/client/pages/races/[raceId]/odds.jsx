@@ -32,18 +32,23 @@ const Callout = styled.aside`
   padding: ${Space * 1}px ${Space * 2}px;
 `;
 
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = (async ({ res, query }) => {
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=31536000, stale-while-revalidate'
+  )
+
   const { raceId } = query;
+  const race = await jsonFetcher(`/api/races/${raceId}`);
 
   return {
-    props: { raceId },
+    props: { race },
   };
-};
+})
 
-export default function Odds({ raceId }) {
+export default function Odds({ race }) {
 
-  const { data: race } = useFetch(`/api/races/${raceId}`, jsonFetcher);
-  const { data: odds } = useFetch(`/api/races/${raceId}/trifectaOdds`, jsonFetcher);
+  const { data: odds } = useFetch(`/api/races/${race.id}/trifectaOdds`, jsonFetcher);
 
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
