@@ -8,11 +8,7 @@ import { TrimmedImage } from "foundation/components/media/TrimmedImage";
 import { easeOutCubic, useAnimation } from "foundation/hooks/useAnimation";
 import { Color, FontSize, Radius, Space } from "foundation/styles/variables";
 import { formatCloseAt } from "foundation/utils/DateUtils";
-import { difference, map, slice } from "lodash-es";
-import { useRouter } from "next/router";
-import dayjs from "dayjs";
-import { useFetch } from "../../hooks/useFetch";
-import { jsonFetcher } from "../../utils/HttpUtils";
+import { difference, slice } from "lodash-es";
 
 export default function RecentRaceList({ races }) {
 
@@ -68,7 +64,7 @@ export default function RecentRaceList({ races }) {
 
   return (
     <Stack as="ul" gap={Space * 2}>
-      {racesToShow.map((race) => <RecentRaceList.Item race={race} />)}
+      {racesToShow.map((race) => <RecentRaceList.Item key={race.id} race={race} />)}
     </Stack>
   );
 }
