@@ -87,7 +87,7 @@ function useHeroImage(todayRaces) {
     firstRaceId !== undefined
       ? `/api/hero?firstRaceId=${firstRaceId}`
       : "/api/hero";
-  const { data } = useFetch(url, jsonFetcher);
+  const { data } = useFetch(url, jsonFetcher, 3600 * 1000);
 
   if (firstRaceId === undefined || data === null) {
     return null;
@@ -118,7 +118,16 @@ export const Top = () => {
     authorizedJsonFetcher,
   );
   const { data: raceData } = useFetch("/api/races", jsonFetcher);
-  const handleClickChargeButton = useCallback(() => {
+  const [zenginCode, setZenginCode] = useState([]);
+  const fetchZenginCode = async () => {
+    return await jsonFetcher(
+      " https://zengin-code.github.io/api/banks.json",
+      3600 * 1000,
+    );
+  };
+  const handleClickChargeButton = useCallback(async () => {
+    const data = await fetchZenginCode();
+    setZenginCode(data);
     if (chargeDialogRef.current === null) {
       return;
     }
@@ -171,8 +180,7 @@ export const Top = () => {
           </RecentRacePlaceholderList>
         )}
       </section>
-
-      <ChargeDialog ref={chargeDialogRef} />
+      <ChargeDialog ref={chargeDialogRef} zenginCode={zenginCode} />
     </Container>
   );
 };

@@ -12,9 +12,10 @@ import { useEffect, useState } from "react";
  * @template T
  * @param {string} apiPath
  * @param {(apiPath: string,params:any) => Promise<T>} fetcher
+ * @param {number?} maxAge
  * @returns {ReturnValues<T>}
  */
-export function useFetch(apiPath, fetcher) {
+export function useFetch(apiPath, fetcher, maxAge) {
   const [result, setResult] = useState({
     data: null,
     error: null,
@@ -28,7 +29,7 @@ export function useFetch(apiPath, fetcher) {
       loading: true,
     }));
 
-    const promise = fetcher(apiPath);
+    const promise = fetcher(apiPath, maxAge);
 
     promise.then((data) => {
       setResult((cur) => ({
@@ -45,7 +46,7 @@ export function useFetch(apiPath, fetcher) {
         loading: false,
       }));
     });
-  }, [apiPath, fetcher]);
+  }, [apiPath, fetcher, maxAge]);
 
   return result;
 }

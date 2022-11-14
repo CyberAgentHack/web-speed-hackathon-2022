@@ -5,6 +5,8 @@ const CopyPlugin = require("copy-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 const RemoveEmptyScriptsPlugin = require("webpack-remove-empty-scripts");
+// const BundleAnalyzerPlugin =
+//   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -64,6 +66,9 @@ module.exports = [
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
       new RemoveEmptyScriptsPlugin(),
+      // new BundleAnalyzerPlugin({
+      //   analyzerMode: "static",
+      // }),
     ],
     resolve: {
       extensions: [".js", ".jsx"],
