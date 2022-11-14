@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import React, { forwardRef, useCallback, useState } from "react";
-import zenginCode from "zengin-code";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -18,7 +17,7 @@ const CHARGE = "charge";
  * @type {object}
  */
 
-export const ChargeDialog = forwardRef((_, ref) => {
+export const ChargeDialog = forwardRef(({ zenginCode }, ref) => {
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");

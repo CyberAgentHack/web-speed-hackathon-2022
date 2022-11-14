@@ -1,12 +1,11 @@
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
 
-export const jsonFetcher = async (/** @type {string} */ url) => {
-  const res = await axios.get(url, { responseType: "json" });
-  return res.data;
-};
 const cache = setupCache({
   maxAge: 5 * 1000,
+});
+const api = axios.create({
+  adapter: cache.adapter,
 });
 
 /**
@@ -25,10 +24,13 @@ export const authorizedJsonFetcher = async (url, userId, useCache) => {
 
 /**
  * @param {string} url
+ * @param {number} maxAge
  */
-export const raceFetcher = async (url) => {
-  const res = await axios.get(url, {
-    adapter: cache.adapter,
+export const jsonFetcher = async (url, maxAge = 5 * 1000) => {
+  const res = await api.get(url, {
+    cache: {
+      maxAge: maxAge,
+    },
     responseType: "json",
   });
   return res.data;

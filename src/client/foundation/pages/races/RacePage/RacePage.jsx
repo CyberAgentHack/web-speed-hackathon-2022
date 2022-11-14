@@ -11,7 +11,7 @@ import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
 import { BreakPoint, Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
-import { raceFetcher } from "../../../utils/HttpUtils";
+import { jsonFetcher } from "../../../utils/HttpUtils";
 import { Odds } from "../Odds";
 import { RaceCard } from "../RaceCard";
 import { RaceResult } from "../RaceResult";
@@ -48,7 +48,7 @@ const PageType = {
 export const RacePage = () => {
   const currentPath = useLocation().pathname;
   const { raceId } = useParams();
-  const { data, loading } = useFetch(`/api/races/${raceId}`, raceFetcher);
+  const { data, loading } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const isCurrentPath = (current, path) => current.indexOf(path) !== -1;
   const render = useMemo(() => {
     if (isCurrentPath(currentPath, PageType.ODDS)) {
