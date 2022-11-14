@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: sans-serif;
   }
 
-  img {
+  .hero-image {
     width: 100%;
     height: auto;
   }
