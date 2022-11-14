@@ -3,22 +3,14 @@ import { Spacer } from "foundation/components/layouts/Spacer";
 import { TrimmedImage } from "foundation/components/media/TrimmedImage";
 import { TabNav } from "foundation/components/navs/TabNav";
 import { Heading } from "foundation/components/typographies/Heading";
-import { Color, Radius, Space } from "foundation/styles/variables";
+import { Space } from "foundation/styles/variables";
 import { formatTime } from "foundation/utils/DateUtils";
 import { NextPageWithLayout } from "next";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import styled from "styled-components";
 import { Race } from "../../../../model";
 
-const LiveBadge = styled.span`
-  background: ${Color.red};
-  border-radius: ${Radius.SMALL};
-  color: ${Color.mono[0]};
-  font-weight: bold;
-  padding: ${Space * 1}px;
-  text-transform: uppercase;
-`;
+import styles from "./RaceLayout.module.scss"
 
 type RaceLayoutProps = {
   race: Race | null;
@@ -36,7 +28,7 @@ export const RaceInfo: NextPageWithLayout<RaceLayoutProps> = ({ race }) => {
       <Spacer mt={Space * 2} />
 
       <Section dark shrink>
-        <LiveBadge>Live</LiveBadge>
+        <span className={styles.LiveBadge}>Live</span>
         <Spacer mt={Space * 2} />
         <TrimmedImage height={225} src={race?.image ?? ""} width={400} priority />
       </Section>

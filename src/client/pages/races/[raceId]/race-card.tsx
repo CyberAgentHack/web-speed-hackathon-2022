@@ -6,10 +6,11 @@ import EntryTable from "foundation/pages/races/RaceCard/EntryTable";
 import PlayerPictureList from "foundation/pages/races/RaceCard/PlayerPictureList";
 import { RaceInfo, RaceTabNavContents } from "foundation/pages/races/RaceLayout";
 import { Space } from "foundation/styles/variables";
+import { ArrayResponse } from "foundation/types";
 import { jsonFetcher } from "foundation/utils/HttpUtils";
 import { GetServerSideProps, NextPageWithLayout } from "next";
 import React from "react";
-import { Race } from "../../../../model";
+import { Race, RaceEntry } from "../../../../model";
 
 type RaceCardProps = {
   race: Race;
@@ -30,6 +31,9 @@ export const getServerSideProps: GetServerSideProps<RaceCardProps> = (async ({ r
 })
 
 const RaceCard: NextPageWithLayout<RaceCardProps> = ({ race }) => {
+
+  const { data: entries } = useFetch<ArrayResponse<RaceEntry>>(`/api/races/${race.id}/entries`, jsonFetcher)
+
   return (
     <Container>
       <RaceInfo race={race} />
@@ -37,11 +41,11 @@ const RaceCard: NextPageWithLayout<RaceCardProps> = ({ race }) => {
         <Spacer mt={Space * 2} />
 
         <PlayerPictureList>
-          {(race?.entries ?? []).map((entry) => <PlayerPictureList.Item key={entry.id} entry={entry} />)}
+          {(entries?.items ?? []).map((entry) => <PlayerPictureList.Item key={entry.id} entry={entry} />)}
         </PlayerPictureList>
 
         <Spacer mt={Space * 4} />
-        <EntryTable race={race} />
+        <EntryTable entries={entries?.items ?? []} />
       </RaceTabNavContents>
     </Container>
   );

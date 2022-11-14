@@ -1,0 +1,10 @@
+@import "styles/variables";
+
+.LiveBadge {
+  background: $color-red;
+  border-radius: map-get($radius, SMALL);
+  color: map-get($color-mono, 0);
+  font-weight: bold;
+  padding: $space;
+  text-transform: uppercase;
+}

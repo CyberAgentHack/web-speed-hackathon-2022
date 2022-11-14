@@ -1,0 +1,14 @@
+.Wrapper {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+
+  &:disabled {
+    cursor: initial;
+  }
+}

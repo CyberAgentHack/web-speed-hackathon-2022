@@ -1,0 +1,38 @@
+@import "styles/variables";
+@import "foundation/components/buttons/BaseButton/BaseButton.module";
+
+.Wrapper {
+  align-items: center;
+  background: map-get($color-mono, 600);
+  color: map-get($color-mono, 0);
+  display: flex;
+  height: 80px;
+  justify-content: space-between;
+  padding: 0 calc($space * 2);
+}
+
+.NameText {
+  color: map-get($color-green, 400);
+  //font-size: map-get($font-sizes, LARGE);
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.NameTextLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.LoginButton {
+  @extend .BaseButton !optional;
+
+  background: map-get($color-mono, 0);
+  border: none;
+  border-radius: map-get($radius, MEDIUM);
+  color: map-get($color-mono, 800);
+  padding: $space calc($space * 2);
+  
+  &:hover {
+    background: map-get($color-mono, 200);
+  }
+}

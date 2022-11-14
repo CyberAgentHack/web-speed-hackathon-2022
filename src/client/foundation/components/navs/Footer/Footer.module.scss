@@ -1,0 +1,47 @@
+@import "styles/variables";
+
+.Wrapper {
+  background: map-get($color-mono, 600);
+  color: map-get($color-mono, 0);
+  font-size: map-get($font-sizes, SMALL);
+  margin-top: calc($space * 5);
+  padding: calc($space * 5) calc($space * 5);
+}
+
+.List {
+  @media (min-width: map-get($break-points, TABLET)) {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+
+.ListItem {
+  cursor: pointer;
+  margin-top: calc($space * 2);
+
+  @media (min-width: map-get($break-points, TABLET)) {
+    margin-right: calc($space * 2);
+    margin-top: 0;
+  }
+
+  &:hover {
+    color: map-get($color-mono, 300);
+  }
+}
+
+.NameText {
+  color: map-get($color-green, 400);
+  font-size: map-get($font-sizes, XX_LARGE);
+  font-weight: bold;
+  margin: calc($space * 4) 0;
+}
+
+.NameTextLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.WarningText {
+  color: map-get($color-mono, 300);
+  font-size: map-get($font-sizes, X_SMALL);
+}

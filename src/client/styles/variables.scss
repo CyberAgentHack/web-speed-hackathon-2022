@@ -1,0 +1,52 @@
+$space: 8px;
+
+$font-sizes: (
+  LARGE: 1.25rem,
+  MEDIUM: 1rem,
+  SMALL: 0.875rem,
+  X_LARGE: 1.5rem,
+  X_SMALL: 0.75rem,
+  XX_LARGE: 2rem,
+);
+
+$break-points: (
+  DESKTOP: 1216px,
+  MOBILE: 560px,
+  TABLET: 1024px,
+);
+
+$radius: (
+  LARGE: 24px,
+  MEDIUM: 12px,
+  SMALL: 4px,
+);
+
+$color-red: #ff0000;
+
+$color-green: (
+        100: #dcfce7,
+        200: #bbf7d0,
+        300: #86efac,
+        400: #4ade80,
+        50: #f0fdf4,
+        500: #22c55e,
+        600: #16a34a,
+        700: #15803d,
+        800: #166534,
+        900: #14532d,
+);
+
+$color-mono: (
+        0: #fff,
+        100: #f5f5f4,
+        1000: #000,
+        200: #e7e5e4,
+        300: #d6d3d1,
+        400: #a8a29e,
+        50: #fafaf9,
+        500: #78716c,
+        600: #57534e,
+        700: #44403c,
+        800: #292524,
+        900: #1c1917,
+);

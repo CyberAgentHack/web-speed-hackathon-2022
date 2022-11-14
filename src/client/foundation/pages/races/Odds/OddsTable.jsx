@@ -44,6 +44,7 @@ const Table = styled.table`
 `;
 
 const BuyButton = styled(BaseButton)`
+  border-width: 0;
   height: 100%;
   padding: ${Space * 2}px;
   width: 100%;

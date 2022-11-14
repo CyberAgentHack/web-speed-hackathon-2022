@@ -37,7 +37,7 @@ export const TrimmedImage = ({ height, src, width, priority = false }: TrimmedIm
           height={height}
           width={width}
           style={{ objectFit: "cover", objectPosition: "center center", height: "100%" }}
-          quality={30}
+          quality={50}
           priority={priority}
         />
       )}

@@ -1,0 +1,16 @@
+@import "styles/variables";
+
+.Wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: calc($space * 2);
+    padding-right: calc($space * 2);
+    width: 100%;
+
+    @media (min-width: map-get($break-points, TABLET)) {
+        max-width: calc(1024px + calc($space * 5) * 2);
+        padding-left: calc($space * 5);
+        padding-right: calc($space * 5);
+    }
+
+}

@@ -57,7 +57,7 @@ const TableCell = styled.td`
  */
 
 /** @type {React.VFC<Props>} */
-export default function EntryTable({ race }) {
+export default function EntryTable({ entries }) {
   return (
     <Wrapper>
       <Table>
@@ -105,7 +105,7 @@ export default function EntryTable({ race }) {
           </tr>
         </thead>
         <tbody>
-          {(race?.entries ?? []).map((entry) => <EntryTableRow key={entry.id} entry={entry} />)}
+          {entries.map((entry) => <EntryTableRow key={entry.id} entry={entry} />)}
         </tbody>
       </Table>
     </Wrapper>

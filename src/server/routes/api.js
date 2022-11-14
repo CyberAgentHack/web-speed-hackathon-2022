@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import zenginCode from "zengin-code";
 
-import { BettingTicket, OddsItem, Race, User } from "../../model";
+import { BettingTicket, OddsItem, Race, RaceEntry, User } from "../../model";
 import { createConnection } from "../typeorm/connection";
 import { initialize } from "../typeorm/initialize";
 
@@ -109,15 +109,30 @@ export const apiRoute = async (fastify) => {
   fastify.get("/races/:raceId", async (req, res) => {
     const repo = (await createConnection()).getRepository(Race);
 
-    const race = await repo.findOne(req.params.raceId, {
-      relations: ["entries", "entries.player"],
-    });
+    const race = await repo.findOne(req.params.raceId);
 
     if (race === undefined) {
       throw fastify.httpErrors.notFound();
     }
 
     return res.send(race);
+  });
+
+  fastify.get("/races/:raceId/entries", async (req, res) => {
+    const repo = (await createConnection()).getRepository(RaceEntry);
+
+    const entries = await repo.find({
+      relations: ["player"],
+      where: {
+        race: {
+          id: req.params.raceId,
+        },
+      },
+    });
+
+    return res.send({
+      items: entries
+    });
   });
 
   fastify.get("/races/:raceId/trifectaOdds", async (req, res) => {

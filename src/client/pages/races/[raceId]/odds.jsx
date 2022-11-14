@@ -12,6 +12,7 @@ import { TicketVendingModal } from "foundation/pages/races/Odds/TicketVendingMod
 import { useFetch } from "../../../foundation/hooks/useFetch";
 import { Container } from "../../../foundation/components/layouts/Container";
 import { RaceInfo, RaceTabNavContents } from "../../../foundation/pages/races/RaceLayout";
+import { ArrayResponse } from "../../../foundation/types";
 
 const OddsRankingList = dynamic(() => import("foundation/pages/races/Odds/OddsRankingList"), {
   suspense: true,
@@ -48,6 +49,7 @@ export const getServerSideProps = (async ({ res, query }) => {
 
 export default function Odds({ race }) {
 
+  const { data: entries } = useFetch(`/api/races/${race.id}/entries`, jsonFetcher)
   const { data: odds } = useFetch(`/api/races/${race.id}/trifectaOdds`, jsonFetcher);
 
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
@@ -83,7 +85,7 @@ export default function Odds({ race }) {
         <Spacer mt={Space * 2} />
         <Suspense fallback={""}>
           <OddsTable
-            entries={race?.entries ?? []}
+            entries={entries?.items ?? []}
             isRaceClosed={isRaceClosed}
             odds={odds?.items ?? []}
             onClickOdds={handleClickOdds}

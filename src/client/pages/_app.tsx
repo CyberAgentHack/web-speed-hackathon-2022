@@ -12,13 +12,13 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   return (
     <>
-      <GlobalStyle />
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>CyberTicket</title>
       </Head>
       <StyleSheetManager disableCSSOMInjection>
         <AuthContextProvider>
+          <GlobalStyle />
           <CommonLayout>
             {getLayout(<Component {...pageProps} />)}
           </CommonLayout>
