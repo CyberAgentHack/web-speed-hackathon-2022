@@ -57,16 +57,14 @@ const Placeholder = styled.div`
   padding: ${Space * 2}px;
 `;
 
-export const BettingTicketList = ({ children }) => {
-  if (React.Children.count(children) === 0) {
-    return (
-      <Placeholder>
-        <FaTicket />
-        <div>購入した拳券はありません</div>
-      </Placeholder>
-    );
-  }
+export const BettingTicketListPlaceholder = () => (
+  <Placeholder>
+    <FaTicket />
+    <div>購入した拳券はありません</div>
+  </Placeholder>
+);
 
+export const BettingTicketList = ({ children }) => {
   return (
     <Table>
       <thead>

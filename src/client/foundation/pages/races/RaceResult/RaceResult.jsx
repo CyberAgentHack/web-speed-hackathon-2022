@@ -3,7 +3,10 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { Container } from "../../../components/layouts/Container";
-import { Section } from "../../../components/layouts/Section";
+import {
+  PlaceholderSection,
+  Section,
+} from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
@@ -14,7 +17,10 @@ import { Color, Radius, Space } from "../../../styles/variables";
 import { formatTime } from "../../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../../utils/HttpUtils";
 
-import { BettingTicketList } from "./internal/BettingTicketList";
+import {
+  BettingTicketList,
+  BettingTicketListPlaceholder,
+} from "./internal/BettingTicketList";
 import { RaceResultSection } from "./internal/RaceResultSection";
 
 const LiveBadge = styled.span`
@@ -34,34 +40,28 @@ export const RaceResult = () => {
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher,
   );
+  const bettingTicketList = ticketData?.bettingTickets ?? [];
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      {data ? (
-        <Heading as="h1">{data.name}</Heading>
-      ) : (
-        <h1 style={{ height: "3rem", marginBottom: "8px", width: "100%" }} />
-      )}
-      {data ? (
-        <p>
-          開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
-        </p>
-      ) : (
-        <p style={{ height: "1.5rem", width: "100%" }} />
-      )}
+      <Heading as="h1" style={{ height: "3rem", width: "100%" }}>
+        {data ? data.name : ""}
+      </Heading>
+      <p style={{ height: "1.5rem", width: "100%" }}>
+        開始 {data ? formatTime(data.startAt) : ""} 締切{" "}
+        {data ? formatTime(data.closeAt) : ""}
+      </p>
       <Spacer mt={Space * 2} />
-      <Section dark shrink>
+      <PlaceholderSection dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        {data && (
-          <TrimmedImage
-            height={225}
-            src={`${data.image.slice(0, -4)}-400-225.webp`}
-            width={400}
-          />
-        )}
-      </Section>
+        <TrimmedImage
+          height={225}
+          src={data ? `${data.image.slice(0, -4)}-400-225.webp` : undefined}
+          width={400}
+        />
+      </PlaceholderSection>
       <Spacer mt={Space * 2} />
       <Section>
         <TabNav>
@@ -76,11 +76,15 @@ export const RaceResult = () => {
         <Heading as="h2">購入した買い目</Heading>
 
         <Spacer mt={Space * 2} />
-        <BettingTicketList>
-          {(ticketData?.bettingTickets ?? []).map((ticket) => (
-            <BettingTicketList.Item key={ticket.id} ticket={ticket} />
-          ))}
-        </BettingTicketList>
+        {bettingTicketList.length > 0 ? (
+          <BettingTicketList>
+            {bettingTicketList.map((ticket) => (
+              <BettingTicketList.Item key={ticket.id} ticket={ticket} />
+            ))}
+          </BettingTicketList>
+        ) : (
+          <BettingTicketListPlaceholder />
+        )}
 
         <Spacer mt={Space * 4} />
         <Heading as="h2">勝負結果</Heading>

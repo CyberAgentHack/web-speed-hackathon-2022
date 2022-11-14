@@ -3,7 +3,10 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { Container } from "../../../components/layouts/Container";
-import { Section } from "../../../components/layouts/Section";
+import {
+  PlaceholderSection,
+  Section,
+} from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
@@ -33,32 +36,24 @@ export const RaceCard = () => {
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      {data ? (
-        <Heading as="h1">{data.name}</Heading>
-      ) : (
-        <h1 style={{ height: "3rem", marginBottom: "8px", width: "100%" }} />
-      )}
-      {data ? (
-        <p>
-          開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
-        </p>
-      ) : (
-        <p style={{ height: "1.5rem", width: "100%" }} />
-      )}
+      <Heading as="h1" style={{ height: "3rem", width: "100%" }}>
+        {data ? data.name : ""}
+      </Heading>
+      <p style={{ height: "1.5rem", width: "100%" }}>
+        開始 {data ? formatTime(data.startAt) : ""} 締切{" "}
+        {data ? formatTime(data.closeAt) : ""}
+      </p>
 
       <Spacer mt={Space * 2} />
-
-      <Section dark shrink>
+      <PlaceholderSection dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        {data && (
-          <TrimmedImage
-            height={225}
-            src={`${data.image.slice(0, -4)}-400-225.webp`}
-            width={400}
-          />
-        )}
-      </Section>
+        <TrimmedImage
+          height={225}
+          src={data ? `${data.image.slice(0, -4)}-400-225.webp` : undefined}
+          width={400}
+        />
+      </PlaceholderSection>
 
       <Spacer mt={Space * 2} />
 
@@ -71,9 +66,9 @@ export const RaceCard = () => {
           <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
         </TabNav>
 
-        <Spacer mt={Space * 2} />
         {data && (
           <>
+            <Spacer mt={Space * 2} />
             <PlayerPictureList>
               {data.entries.map((entry) => (
                 <PlayerPictureList.Item

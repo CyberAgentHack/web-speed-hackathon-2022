@@ -21,6 +21,10 @@ const Wrapper = styled.h1`
  */
 
 /** @type {React.FC<Props>} */
-export const Heading = ({ as, children }) => {
-  return <Wrapper as={as}>{children}</Wrapper>;
+export const Heading = ({ as, children, style }) => {
+  return (
+    <Wrapper as={as} style={style}>
+      {children}
+    </Wrapper>
+  );
 };
