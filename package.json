@@ -66,6 +66,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-regular-svg-icons": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/react-fontawesome": "latest",
     "axios": "^0.25.0",
     "axios-cache-adapter": "^2.7.3",
     "bezier-easing": "^2.1.0",
