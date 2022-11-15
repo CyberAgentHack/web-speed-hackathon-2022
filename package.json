@@ -73,7 +73,6 @@
     "axios": "^0.25.0",
     "axios-cache-adapter": "^2.7.3",
     "bezier-easing": "^2.1.0",
-    "core-js": "^3.21.1",
     "dayjs": "^1.11.6",
     "fastify": "^3.25.3",
     "fastify-sensible": "^3.1.2",
