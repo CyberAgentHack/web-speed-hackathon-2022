@@ -14,9 +14,11 @@ export const apiRoute = async (fastify) => {
     const repo = (await createConnection()).getRepository(User);
 
     if (req.user != null) {
+      res.header("Cache-Control", "private, no-store");
       res.send(req.user);
     } else {
       const user = await repo.save(new User());
+      res.header("Cache-Control", "private, no-store");
       res.send(user);
     }
   });
@@ -36,6 +38,7 @@ export const apiRoute = async (fastify) => {
     req.user.balance += amount;
     await repo.save(req.user);
 
+    res.header("Cache-Control", "private, no-store");
     res.status(204).send();
   });
 
