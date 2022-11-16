@@ -106,7 +106,7 @@ export const Odds = () => {
         <Spacer mt={Space * 4} />
         <Heading as="h2">オッズ表</Heading>
 
-        {data && (
+        {data ? (
           <>
             <Spacer mt={Space * 2} />
             <OddsTable
@@ -125,6 +125,8 @@ export const Odds = () => {
               onClickOdds={handleClickOdds}
             />
           </>
+        ) : (
+          <div style={{ minHeight: "100vh" }}></div>
         )}
       </Section>
 

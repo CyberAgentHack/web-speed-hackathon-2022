@@ -66,7 +66,7 @@ export const RaceCard = () => {
           <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
         </TabNav>
 
-        {data && (
+        {data ? (
           <>
             <Spacer mt={Space * 2} />
             <PlayerPictureList>
@@ -83,6 +83,8 @@ export const RaceCard = () => {
             <Spacer mt={Space * 4} />
             <EntryTable entries={data.entries} />
           </>
+        ) : (
+          <div style={{ minHeight: "100vh" }}></div>
         )}
       </Section>
     </Container>

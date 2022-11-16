@@ -86,12 +86,14 @@ export const Top = () => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
-        {todayRaces.length > 0 && (
+        {todayRaces.length > 0 ? (
           <RecentRaceList>
             {todayRaces.map((race, index) => (
               <RecentRaceList.Item key={race.id} index={index} race={race} />
             ))}
           </RecentRaceList>
+        ) : (
+          <div style={{ minHeight: "100vh" }}></div>
         )}
       </section>
 
