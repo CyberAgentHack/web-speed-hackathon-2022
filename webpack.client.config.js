@@ -55,17 +55,4 @@ module.exports = {
     extensions: [".js", ".jsx"],
   },
   target: "web",
-  optimization: {
-    chunkIds: "named",
-    splitChunks: {
-      cacheGroups: {
-        zengin: {
-          chunks: 'all',
-          name: 'zengin',
-          test: /[\\/]node_modules[\\/](zengin-code)[\\/]/,
-        },
-      },
-      minSize: 2440,
-    },
-  },
 };

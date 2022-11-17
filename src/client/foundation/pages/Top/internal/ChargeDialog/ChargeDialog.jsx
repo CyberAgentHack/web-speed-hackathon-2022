@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import React, { forwardRef, useCallback, useState } from "react";
-import zenginCode from "zengin-code";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -8,6 +7,7 @@ import { Stack } from "../../../../components/layouts/Stack";
 import { Heading } from "../../../../components/typographies/Heading";
 import { useMutation } from "../../../../hooks/useMutation";
 import { Space } from "../../../../styles/variables";
+import { jsonFetcher } from "../../../../utils/HttpUtils";
 
 const CANCEL = "cancel";
 const CHARGE = "charge";
@@ -18,8 +18,9 @@ const CHARGE = "charge";
  */
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
-export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
+export const ChargeDialog = forwardRef(({ onComplete, zenginCode }, ref) => {
   const [bankCode, setBankCode] = useState("");
+  const [branches, setBranches] = useState("");
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
   const [amount, setAmount] = useState(0);
@@ -36,9 +37,19 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     method: "POST",
   });
 
-  const handleCodeChange = useCallback((e) => {
+  const fetchZenginBranches = async (code) => {
+    // if (bank == undefined) return;
+    return await jsonFetcher(
+      `https://zengin-code.github.io/api/branches/${code}.json`
+    );
+  };
+
+  const handleCodeChange = useCallback(async (e) => {
     setBankCode(e.currentTarget.value);
     setBranchCode("");
+
+    const data = await fetchZenginBranches(e.currentTarget.value);
+    setBranches(data);
   }, []);
 
   const handleBranchChange = useCallback((e) => {
@@ -72,7 +83,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     name,
   }));
   const bank = zenginCode[bankCode];
-  const branch = bank?.branches[branchCode];
+  const branch = branches?.[branchCode];
 
   return (
     <Dialog ref={ref} onClose={handleCloseDialog}>
@@ -114,7 +125,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 
             <datalist id="ChargeDialog-branch-list">
               {bank != null &&
-                Object.values(bank.branches).map((branch) => (
+                Object.values(branches).map((branch) => (
                   <option key={branch.code} value={branch.code}>
                     {branch.name}
                   </option>
