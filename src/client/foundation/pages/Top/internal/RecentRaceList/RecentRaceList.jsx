@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled, { keyframes } from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../components/media/TrimmedImage";
-// import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
 import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 
@@ -58,40 +57,6 @@ const RaceTitle = styled.h2`
 
 /** @type {React.VFC<ItemProps>} */
 const Item = ({ index, race }) => {
-  // const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
-
-  // 締切はリアルタイムで表示したい
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setCloseAtText(formatCloseAt(race.closeAt));
-  //   }, 0.1 * index);
-
-  //   return () => {
-  //     clearInterval(timer);
-  //   };
-  // }, [index, race.closeAt]);
-
-  // const {
-  //   abortAnimation,
-  //   resetAnimation,
-  //   startAnimation,
-  //   value: opacity,
-  // } = useAnimation({
-  //   duration: 500,
-  //   end: 1,
-  //   start: 0,
-  //   timingFunction: easeOutCubic,
-  // });
-
-  // useEffect(() => {
-  //   resetAnimation();
-  //   startAnimation();
-
-  //   return () => {
-  //     abortAnimation();
-  //   };
-  // }, [race.id, startAnimation, abortAnimation, resetAnimation]);
-
   return (
     <ItemWrapper index={index}>
       <Stack horizontal alignItems="center" justifyContent="space-between">

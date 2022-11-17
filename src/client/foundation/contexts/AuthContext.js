@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useCallback, useContext, useMemo, useState } from "react";
 
 /**
@@ -48,8 +47,9 @@ export const useRegister = () => {
   const { setUserId } = useContext(AuthContext);
 
   const register = useCallback(async () => {
-    const res = await axios.get("/api/users/me");
-    setUserId(res.data.id);
+    const res = await fetch("/api/users/me");
+    const data = await res.json();
+    setUserId(data.id);
   }, [setUserId]);
 
   return register;

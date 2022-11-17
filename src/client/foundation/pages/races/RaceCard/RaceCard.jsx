@@ -84,7 +84,7 @@ export const RaceCard = () => {
             <EntryTable entries={data.entries} />
           </>
         ) : (
-          <div style={{ minHeight: "100vh" }}></div>
+          <div style={{ minHeight: "100vh" }} />
         )}
       </Section>
     </Container>

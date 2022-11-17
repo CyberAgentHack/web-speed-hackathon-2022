@@ -4,6 +4,8 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -71,6 +73,7 @@ module.exports = [
       new CopyPlugin({
         patterns: [{ from: abs("./public/assets"), to: "assets" }],
       }),
+      // new BundleAnalyzerPlugin(),
     ],
     resolve: {
       alias: {

@@ -28,7 +28,7 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.unauthorized();
     }
 
-    const { amount } = req.body;
+    const { amount } = JSON.parse(req.body);
     if (typeof amount !== "number" || amount <= 0) {
       throw fastify.httpErrors.badRequest();
     }

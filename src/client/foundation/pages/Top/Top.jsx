@@ -93,7 +93,7 @@ export const Top = () => {
             ))}
           </RecentRaceList>
         ) : (
-          <div style={{ minHeight: "100vh" }}></div>
+          <div style={{ minHeight: "100vh" }} />
         )}
       </section>
 
