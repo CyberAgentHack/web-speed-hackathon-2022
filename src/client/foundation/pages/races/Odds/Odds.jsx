@@ -3,6 +3,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import { SvgCircle } from "../../../components/icons/icons";
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
@@ -97,7 +98,7 @@ export const Odds = () => {
         <Spacer mt={Space * 4} />
 
         <Callout $closed={isRaceClosed}>
-          <i className="fas fa-info-circle" />
+          <SvgCircle />
           {isRaceClosed
             ? "このレースの投票は締め切られています"
             : "オッズをクリックすると拳券が購入できます"}
