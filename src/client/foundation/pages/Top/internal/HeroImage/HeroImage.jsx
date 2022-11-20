@@ -14,5 +14,11 @@ const Image = styled.img`
 
 /** @type {React.VFC<Props>} */
 export const HeroImage = ({ url }) => {
-  return <Image alt="" src={url} width="1024" height="735" className="hero-image" />;
+  return <Image
+           alt=""
+           className="hero-image"
+           height="735" 
+           src={url}
+           width="1024"
+          />;
 };
