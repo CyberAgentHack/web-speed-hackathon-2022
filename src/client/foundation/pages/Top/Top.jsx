@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import _ from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
@@ -13,6 +12,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
+import { difference } from "../../utils/LodashUtils";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
@@ -31,7 +31,7 @@ function useTodayRacesWithAnimation(races) {
 
   useEffect(() => {
     const isRacesUpdate =
-      _.difference(
+      difference(
         races.map((e) => e.id),
         prevRaces.current.map((e) => e.id),
       ).length !== 0;
@@ -62,7 +62,7 @@ function useTodayRacesWithAnimation(races) {
       }
 
       numberOfRacesToShow.current++;
-      setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
+      setRacesToShow(races.slice(0, numberOfRacesToShow.current));
     }, 100);
   }, [isRacesUpdate, races]);
 
