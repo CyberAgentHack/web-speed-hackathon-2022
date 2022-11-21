@@ -59,7 +59,12 @@ export const Odds = () => {
   );
 
   if (data == null) {
-    return <Container>Loading...</Container>;
+    return (
+      <div>
+        <Container>Loading...</Container>
+        <div style={{ minHeight: "100vh" }} />
+      </div>
+    );
   }
 
   const isRaceClosed = dayjs(data.closeAt).isBefore(new Date());

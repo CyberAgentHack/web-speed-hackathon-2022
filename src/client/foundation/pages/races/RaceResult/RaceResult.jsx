@@ -36,7 +36,12 @@ export const RaceResult = () => {
   );
 
   if (data == null) {
-    return <Container>Loading...</Container>;
+    return (
+      <div>
+        <Container>Loading...</Container>
+        <div style={{ minHeight: "100vh" }} />
+      </div>
+    );
   }
 
   return (
