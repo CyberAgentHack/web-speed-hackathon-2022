@@ -219,7 +219,7 @@ export async function insertPlayers() {
       image: `/assets/images/players/${`${(index % 20) + 1}`.padStart(
         3,
         "0",
-      )}.jpg`,
+      )}.webp`,
       name,
       shortName: name.substring(0, 3),
     });
