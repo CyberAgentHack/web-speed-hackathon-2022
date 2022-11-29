@@ -20,6 +20,7 @@ const connectionPromise = typeorm.createConnection({
     Race.schema,
     BettingTicket.schema,
   ],
+  logging: ["query", "error"],
   synchronize: false,
   type: "sqlite",
 });

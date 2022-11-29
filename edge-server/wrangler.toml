@@ -1,0 +1,9 @@
+name = "edge-server"
+main = "src/index.ts"
+compatibility_date = "2022-11-27"
+
+[[ d1_databases ]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "web-speed-hackathon"
+preview_database_id = "39074e7f-9519-4d19-9840-58ef91a88fb1"
+database_id = "39074e7f-9519-4d19-9840-58ef91a88fb1"

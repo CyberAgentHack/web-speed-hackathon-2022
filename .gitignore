@@ -9,3 +9,4 @@ node_modules
 dist
 database.sqlite
 images_
+.wrangler
