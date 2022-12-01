@@ -19,10 +19,7 @@ type User = {
 
 const app = new Hono<{ Bindings: Env }>();
 
-app.use(
-  "/api/*",
-  cors({ origin: "https://web-speed-hackathon-2022-nissy.pages.dev" }),
-);
+app.use("/api/*", cors({ origin: "*" }));
 app.use("*", prettyJSON());
 
 app.use("/api/*", async (c, next) => {
@@ -32,8 +29,14 @@ app.use("/api/*", async (c, next) => {
 
 app.use("/api/*", async (c, next) => {
   const userId = c.req.header("x-app-userid");
+  console.log(userId);
+  const test = c.env.DB.prepare("select * from user");
+  console.log(await test.all());
+
   if (userId !== undefined) {
-    const stmt = c.env.DB.prepare("select * from user where id=?").bind(userId);
+    const stmt = c.env.DB.prepare("select * from user where id = ?").bind(
+      userId,
+    );
     const user = await stmt.first();
     if (user === undefined) {
       return c.json({ message: "Unauthorized", ok: false }, 401);
@@ -51,12 +54,13 @@ app.get("/api/users/me", async (c) => {
   } else {
     const uuid = crypto.randomUUID();
     const insertStmt = c.env.DB.prepare(
-      "insert into user (id) values (?)",
+      "insert into user values (?, DEFAULT, DEFAULT)",
     ).bind(uuid);
     await insertStmt.run();
     const selectStmt = c.env.DB.prepare("select * from user where id = ?").bind(
       uuid,
     );
+
     const user = await selectStmt.first();
     return c.json(user);
   }
@@ -107,6 +111,53 @@ app.get("/api/races", async (c) => {
 
   const { results } = await stmt.all();
   return c.json({ races: results });
+});
+
+app.get("/api/races/:raceId", async (c) => {
+  const raceId = c.req.param().raceId;
+  const stmt = c.env.DB.prepare(
+    "select * from race where id = ? order by startAt asc",
+  ).bind(raceId);
+  const race = await stmt.first();
+
+  const oddsItemsStmt = c.env.DB.prepare(
+    "select * from odds_item where raceId = ?",
+  ).bind(raceId);
+  const { results: oddsItemsResult } = await oddsItemsStmt.all<any>();
+
+  const raceEntryStmt = c.env.DB.prepare(
+    "select * from race_entry left join player on race_entry.playerId = player.id where raceId = ?",
+  ).bind(raceId);
+  const { results: raceEntryResult } = await raceEntryStmt.all<any>();
+
+  if (
+    race === undefined ||
+    race === null ||
+    oddsItemsResult === undefined ||
+    raceEntryResult === undefined
+  ) {
+    return c.json({ message: "Not Found", ok: false }, 404);
+  }
+
+  const oddItems = oddsItemsResult.map((element) => ({
+    ...element,
+    key: JSON.parse(element.key),
+  }));
+  const raceEntries = raceEntryResult?.map((element) => ({
+    ...element,
+    player: {
+      id: element.playerId,
+      image: element.image,
+      name: element.name,
+      shortName: element.shortName,
+    },
+  }));
+
+  return c.json({
+    ...race,
+    trifectaOdds: oddItems,
+    entries: raceEntries,
+  });
 });
 
 app.get("/api/races/:raceId/betting-tickets", async (c) => {
@@ -161,14 +212,17 @@ app.post("/api/races/:raceId/betting-tickets", async (c) => {
   return c.json(bettingTicket);
 });
 
-app.get("/api/initialize", async (c) => {
+app.post("/api/initialize", async (c) => {
   const stmt = c.env.DB.prepare(
     "select name from sqlite_master where type = 'table'",
   );
   const { results } = await stmt.all<{ name: string }>();
-  const dropStmt = c.env.DB.prepare("drop table if exists ?");
   if (results !== undefined) {
-    await c.env.DB.batch(results.map((result) => dropStmt.bind(result.name)));
+    await c.env.DB.batch(
+      results.map((result) =>
+        c.env.DB.prepare(`drop table if exists ${result.name}`),
+      ),
+    );
   }
 
   const object = await c.env.BUCKET.get("dump.sql");
