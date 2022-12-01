@@ -168,11 +168,14 @@ app.get("/api/initialize", async (c) => {
   const { results } = await stmt.all<{ name: string }>();
   const dropStmt = c.env.DB.prepare("drop table if exists ?");
   if (results !== undefined) {
-    await c.env.DB.batch(results?.map((result) => dropStmt.bind(result.name)));
+    await c.env.DB.batch(results.map((result) => dropStmt.bind(result.name)));
   }
 
-  // const migrationFile = await fetch("/migration.sql");
-  // await c.env.DB.exec(migrationFile.text());
+  const object = await c.env.BUCKET.get("dump.sql");
+  if (object !== null) {
+    const migrationSql = await object.text();
+    await c.env.DB.exec(migrationSql);
+  }
 });
 
 export default app;
