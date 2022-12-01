@@ -8,6 +8,7 @@ dayjs.extend(utc);
 
 type Env = {
   DB: D1Database;
+  BUCKET: R2Bucket;
 };
 
 type User = {
@@ -18,7 +19,10 @@ type User = {
 
 const app = new Hono<{ Bindings: Env }>();
 
-app.use("/api/*", cors({ origin: "*" }));
+app.use(
+  "/api/*",
+  cors({ origin: "https://web-speed-hackathon-2022-nissy.pages.dev" }),
+);
 app.use("*", prettyJSON());
 
 app.use("/api/*", async (c, next) => {

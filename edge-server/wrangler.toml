@@ -7,3 +7,8 @@ binding = "DB" # i.e. available in your Worker on env.DB
 database_name = "web-speed-hackathon"
 preview_database_id = "39074e7f-9519-4d19-9840-58ef91a88fb1"
 database_id = "39074e7f-9519-4d19-9840-58ef91a88fb1"
+
+[[ r2_buckets ]]
+binding = 'BUCKET'
+bucket_name = 'web-speed-hackathon'
+preview_bucket_name = 'web-speed-hackathon'

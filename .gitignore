@@ -10,3 +10,4 @@ dist
 database.sqlite
 images_
 .wrangler
+dump.sql
