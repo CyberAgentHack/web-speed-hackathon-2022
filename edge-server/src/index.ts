@@ -157,4 +157,18 @@ app.post("/api/races/:raceId/betting-tickets", async (c) => {
   return c.json(bettingTicket);
 });
 
+app.get("/api/initialize", async (c) => {
+  const stmt = c.env.DB.prepare(
+    "select name from sqlite_master where type = 'table'",
+  );
+  const { results } = await stmt.all<{ name: string }>();
+  const dropStmt = c.env.DB.prepare("drop table if exists ?");
+  if (results !== undefined) {
+    await c.env.DB.batch(results?.map((result) => dropStmt.bind(result.name)));
+  }
+
+  // const migrationFile = await fetch("/migration.sql");
+  // await c.env.DB.exec(migrationFile.text());
+});
+
 export default app;
