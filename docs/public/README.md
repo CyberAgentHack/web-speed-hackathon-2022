@@ -13,30 +13,36 @@ CyberTicket のパフォーマンスを改善してください。
 
 **なお、このアプリケーションは日本国内の法律に基づく実際の運用を意図していない架空のサービスであり、実在する団体・会社とは一切関係ありません。**
 
-- デモサイト: https://web-speed-hackathon-2022.fly.dev/
+- デモサイト: https://web-speed-hackathon-2022.herokuapp.com/
 - リーダーボード (順位表): https://github.com/CyberAgentHack/web-speed-hackathon-2022-leaderboard
-  - 利用する際は併せて fork してください
 
-過去に開催した際の内容については以下からご覧いただけます。
-
-- [学生向け / 社内向け Web Speed Hackathon 2022](./docs/internal/README.md)
-- [一般向け Web Speed Hackathon 2022](./docs/public/README.md)
+[過去に開催した学生向け / 社内向け Web Speed Hackathon 2022 についてはこちら](./docs/internal/README.md)
 
 ## 参加方法
 
+- 開催期間 | **2022/11/1 (火) – 2022/11/27 (日)**
+- 参加資格 | **どなたでも自由に参加できます**
+
+1. **レギュレーション・注意事項をよく読んで、問題なければ同意します**
+   - [レギュレーション](https://github.com/CyberAgentHack/web-speed-hackathon-2022-leaderboard/blob/main/docs/REGULATION.md)
+   - [注意事項](#注意事項)
 1. **課題のソースコードを fork します**
    - https://github.com/CyberAgentHack/web-speed-hackathon-2022
-1. **データベースを初期化し、必要に応じてリーダーボードも fork して設定します**
-   - [./docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md)を参考に、取り組む日時に合わせたデータを生成してください
-1. **参加記事や解説記事、大歓迎です！**
+1. **アプリケーションをデプロイして、URL を提出します**
+   - [提出フォーム](https://github.com/CyberAgentHack/web-speed-hackathon-2022-leaderboard/issues/new/choose)
+1. **自動で計測されて、リーダーボードに反映されます**
+   - よければ、採点結果を **#WebSpeedHackathon** で Twitter に投稿してください
+1. **開催期間中の参加記事や解説記事、大歓迎です！**
    - 他の人の解説記事や参加記事を読んで、更に高速なアプリを目指しましょう
 
 ### 以前の Web Speed Hackathon 2022 参加者のかたへ
 
-以前の Web Speed Hackathon 2022 から、いくつかの変更点があります。
+開催形式の変更に伴い、以前の Web Speed Hackathon 2022 から、いくつかの変更点があります。
+
+:warning: **以前の Web Speed Hackathon 2022 のコードでは参加いただけません。ご了承ください。**
 
 <details>
-<summary>学生向け / 社内向けからの変更点</summary>
+<summary>主な変更点</summary>
 
 - Node.js 、ライブラリのバージョンをアップデートしました
 - 開催期間に合わせてデータの再生成を行いました
@@ -46,17 +52,11 @@ CyberTicket のパフォーマンスを改善してください。
 
 </details>
 
-<details>
-<summary>一般向けからの変更点</summary>
-
-- Dockerfile を追加しました
-- fly.io へのデプロイに対応しました
-
-</details>
-
 ## 注意事項
 
-- 既に開催が終了している都合上、サポートは原則行いません
+- **GitHub issue による参加登録フローであるため、GitHub アカウント名が一般に公開されます**
+- 既に学生採用イベント・社内イベントで開催している都合上、優勝賞品はありません
+- 開催期間が長期間であるため、計測がうまく行かない場合の対応は、ベストエフォートになります
 
 ## 採点
 
