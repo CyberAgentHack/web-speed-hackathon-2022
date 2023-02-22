@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack",
     "build:watch": "yarn build --watch --progress",
+    "build:analyze": "ANALYZE=true webpack",
     "serve": "node --enable-source-maps dist/server.js",
     "serve:dev": "wait-on dist/server.js && NODE_OPTIONS=--enable-source-maps nodemon dist/server.js",
     "serve:test": "cross-env TEST=enable node --enable-source-maps dist/server.js",
@@ -62,6 +63,7 @@
     "typescript": "^4.6.2",
     "wait-on": "^7.0.1",
     "webpack": "^5.65.0",
+    "webpack-bundle-analyzer": "^4.8.0",
     "webpack-cli": "^4.9.1",
     "webpack-node-externals": "^3.0.0"
   },
