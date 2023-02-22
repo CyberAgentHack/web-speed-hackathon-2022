@@ -15,13 +15,14 @@ const DIST_ROOT = abs("./dist");
 const DIST_PUBLIC = abs("./dist/public");
 
 const IS_ANALYZE = process.env.ANALYZE === "true"
+const IS_PROD = process.env.NODE_ENV === "production"
 
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = [
   {
     devtool: "inline-source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: "development",
+    mode: IS_PROD ? "production" : "development",
     module: {
       rules: [
         {
@@ -62,9 +63,9 @@ module.exports = [
       }),
       IS_ANALYZE && new BundleAnalyzerPlugin({
         analyzerMode: "static",
-        reportFilename: "../dist/report.html",
-      }),
-    ],
+        reportFilename: abs("dist/report.html"),
+      })
+    ].filter(Boolean),
     resolve: {
       extensions: [".js", ".jsx"],
     },
