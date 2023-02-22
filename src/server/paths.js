@@ -5,6 +5,8 @@ const INITIAL_DATABASE_PATH = path.resolve(
   "./database/seeds.sqlite",
 );
 
-const DATABASE_PATH = path.resolve(process.cwd(), "./database/database.sqlite");
+const IS_TEST = process.env.TEST === "enable"
+
+const DATABASE_PATH = path.resolve(process.cwd(), `./database/database${IS_TEST && "_test"}.sqlite`);
 
 export { DATABASE_PATH, INITIAL_DATABASE_PATH };
