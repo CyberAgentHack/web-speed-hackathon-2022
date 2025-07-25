@@ -75,7 +75,7 @@ export const apiRoute = async (fastify) => {
       });
     } else if (until != null) {
       Object.assign(where, {
-        startAt: LessThanOrEqual(since.utc().format("YYYY-MM-DD HH:mm:ss")),
+        startAt: LessThanOrEqual(until.utc().format("YYYY-MM-DD HH:mm:ss")), // Fixed the incorrect variable name
       });
     }
 
@@ -89,7 +89,8 @@ export const apiRoute = async (fastify) => {
   fastify.get("/races/:raceId", async (req, res) => {
     const repo = (await createConnection()).getRepository(Race);
 
-    const race = await repo.findOne(req.params.raceId, {
+    const raceId = req.params.raceId.replace(/[^0-9]/g, ""); // Sanitize raceId
+    const race = await repo.findOne(raceId, {
       relations: ["entries", "entries.player", "trifectaOdds"],
     });
 
@@ -106,10 +107,11 @@ export const apiRoute = async (fastify) => {
     }
 
     const repo = (await createConnection()).getRepository(BettingTicket);
+    const raceId = req.params.raceId.replace(/[^0-9]/g, ""); // Sanitize raceId
     const bettingTickets = await repo.find({
       where: {
         race: {
-          id: req.params.raceId,
+          id: raceId,
         },
         user: {
           id: req.user.id,
@@ -145,11 +147,12 @@ export const apiRoute = async (fastify) => {
     const bettingTicketRepo = (await createConnection()).getRepository(
       BettingTicket,
     );
+    const raceId = req.params.raceId.replace(/[^0-9]/g, ""); // Sanitize raceId
     const bettingTicket = await bettingTicketRepo.save(
       new BettingTicket({
         key: req.body.key,
         race: {
-          id: req.params.raceId,
+          id: raceId,
         },
         type: req.body.type,
         user: {
